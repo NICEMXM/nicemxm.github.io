@@ -1,0 +1,14 @@
+---
+title: 多标签文本分类中长尾分布的平衡策略
+---
+论文链接：[arxiv](https://arxiv.org/pdf/2109.04712.pdf)
+
+文章源码：[github](https://github.com/Roche/BalancedLossNLP)
+
+## 摘要
+
+
+
+``` bash
+$ hexo new "My New Post"
+```
