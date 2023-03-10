@@ -541,8 +541,8 @@ if __name__ == 'main':
 本项工作中，我们使用了两个不同数据量和领域的多标签文本分类数据集（表 1）。**Reuters-21578 数据集**包含1987 年刊登在路透社的一万多份新闻文章（Hayes and Weinstein, 1990）。我们按照（Yang and Liu, 1999）使用的训练-测试分割数据，并将 90 个标签平均分为头部（30 个标签，各含 ≥35 个实例）、中部（31 个标签，各含 8-35 个实例）和尾部（30 个标签，各含 ≤8 个实例）标签的子集。**PubMed 数据集**则来自 BioASQ 竞赛（Licence：8283NLM123），包含PubMed 文章的标题、摘要及对应的生物医学主题词标记 (MeSH)（Tsatsaronis et al.，2015; Coordinators, 2017）。类似地，18211个标签按分位数分为头部（6018 个标签，各含≥50 个实例）、中部（5581 个标签，各含 15-50 个实例）和尾部（6612 个标签，各含 ≤15 个实例）标签的子集。
 
 ## 实验
-我们比较了不同损失函数与经典 SVM one-vs-rest 模型的表现。对于各个数据集和模型，我们计算了标签集整体以及头部、中部、尾部标签子集的micro-F1 和 macro-F1 得分（Wu et al., 2019；Lipton et al., 2014 ）。表 2 汇总了不同损失函数的实验结果。Reuters-21578 结果中，BCE 的表现最差。依次对比 micro-F1 和 macro-F1之间、及不同组间的得分可以看出长尾分布的影响。PubMed 数据由于不平衡更明显，长尾分布的影响更大。
-![这是图片](paper_image/mulit-label-imbalance_classifcation/img.png "实验结果")
+我们比较了不同损失函数与经典 SVM one-vs-rest 模型的表现。对于各个数据集和模型，我们计算了标签集整体以及头部、中部、尾部标签子集的micro-F1 和 macro-F1 得分（Wu et al., 2019；Lipton et al., 2014 ）。表 2 汇总了不同损失函数的实验结果。Reuters-21578 结果中，BCE 的表现最差。依次对比 micro-F1 和 macro-F1之间、及不同组间的得分可以看出长尾分布的影响。PubMed 数据由于不平衡更明显，长尾分布的影响更大。  
+![这是图片](source/_posts/paper_image/mulit-label-imbalance_classifcation/img.png "实验结果")
 
 对于 Reuters-21578 数据集，损失函数 FL、CB、R-FL 和 NTR-FL 在头部标签中的表现与 BCE 相似，但在中部和尾部标签中的表现优于 BCE，说明它们对于不平衡问题的改进。DB 在尾部标签改进最明显，整体表现也优于先前使用相同数据集的解决方案，例如 Binary Relevance、EncDec、CNN、CNN-RNN、Optimal Completion Distillation和 GNN 等（Nam et al., 2017 ; Pal et al., 2020；Tsai and Lee et al., 2020）。对于PubMed 数据集，由于BCE 中部和尾部标签已失效，我们使用 FL 作为更强的基线。其他损失函数在中部和尾部标签中的表现均优于 FL。DB 再次证明了其在整体、中部和尾部标签的良好效果。
 
