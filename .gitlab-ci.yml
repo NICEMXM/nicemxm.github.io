@@ -1,21 +1,19 @@
-before_script:
-  - apt-get update -qq && apt-get install -y -qq pandoc
-image: node:4.2.2
-pages:
-  cache:
-    paths:
+image: node:10-alpine # use nodejs v10 LTS
+
+cache:
+  paths:
     - node_modules/
-  script:
+
+before_script:
+  - ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   - npm install hexo-cli -g
   - npm install
-  - npm uninstall hexo-renderer-marked --save
-  - npm install hexo-renderer-pandoc --save
-  - npm install hexo-generator-sitemap --save
-  - npm install hexo-generator-baidu-sitemap --save
-  - npm install hexo-util --save
-  - hexo deploy
+
+pages:
+  script:
+    - hexo generate
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master
