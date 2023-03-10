@@ -542,7 +542,7 @@ if __name__ == 'main':
 
 ## 实验
 我们比较了不同损失函数与经典 SVM one-vs-rest 模型的表现。对于各个数据集和模型，我们计算了标签集整体以及头部、中部、尾部标签子集的micro-F1 和 macro-F1 得分（Wu et al., 2019；Lipton et al., 2014 ）。表 2 汇总了不同损失函数的实验结果。Reuters-21578 结果中，BCE 的表现最差。依次对比 micro-F1 和 macro-F1之间、及不同组间的得分可以看出长尾分布的影响。PubMed 数据由于不平衡更明显，长尾分布的影响更大。
-
+![这是图片](paper_image/mulit-label-imbalance_classifcation/img.png "实验结果")
 
 对于 Reuters-21578 数据集，损失函数 FL、CB、R-FL 和 NTR-FL 在头部标签中的表现与 BCE 相似，但在中部和尾部标签中的表现优于 BCE，说明它们对于不平衡问题的改进。DB 在尾部标签改进最明显，整体表现也优于先前使用相同数据集的解决方案，例如 Binary Relevance、EncDec、CNN、CNN-RNN、Optimal Completion Distillation和 GNN 等（Nam et al., 2017 ; Pal et al., 2020；Tsai and Lee et al., 2020）。对于PubMed 数据集，由于BCE 中部和尾部标签已失效，我们使用 FL 作为更强的基线。其他损失函数在中部和尾部标签中的表现均优于 FL。DB 再次证明了其在整体、中部和尾部标签的良好效果。
 
