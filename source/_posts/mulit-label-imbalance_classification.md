@@ -45,6 +45,7 @@ Li et al., 2020a）等。平衡损失函数，如 [**Focal loss (Lin et al., 201
 通过模型对数据实例标记标签的“难易程度”为 BCE 设计权重 (Lin et al., 2017)。对于同一数据实例，相比可轻松分类（p值接近真实值）的标签，难以标记（p值远离真实值）的标签将获得比 BCE 更高的权重。
 
 $$
+FL=
 \begin{cases}
     -(1-p_{i}^{k})^{y}log(p_{i}^{k})  if y_{i}^{k}=1\\
      -(p_{i}^{k})^{y}log(1-p_{i}^{k})  otherwise
