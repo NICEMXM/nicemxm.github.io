@@ -47,7 +47,7 @@ Li et al., 2020a）等。平衡损失函数，如 [**Focal loss (Lin et al., 201
 $$
 FL=
 \begin{cases}
-    -(1-p_{i}^{k})^{y}log(p_{i}^{k})  & if y_{i}^{k}=1\\
+    -(1-p_{i}^{k})^{y}log(p_{i}^{k})  & if & y_{i}^{k}=1\\
      -(p_{i}^{k})^{y}log(1-p_{i}^{k}) & otherwise
 \end{cases}
 $$
