@@ -93,6 +93,18 @@ if __name__ == '__main__':
 ### Class-balanced focal loss (CB)
 Clas-balanced focal loss对FL基础上进行一步改进，通过估计数据采样的有效数量，将每个标签增量训练数据的边际效用纳入考虑，在不同训练数据支持的标签间调节权重 (Cui et al., 2019)
 
+$$
+RCB = -(1-\beta)/log(1-\beta^{n_i})
+$$
+
+$$
+FL=
+\begin{cases}
+    -RCB(1-p_{i}^{k})^{y}log(p_{i}^{k})  & if y_{i}^{k}=1\\
+    -RCB(p_{i}^{k})^{y}log(1-p_{i}^{k}) & otherwise
+\end{cases}
+$$
+
 ``` bash
 import numpy as np
 import torch
