@@ -33,7 +33,7 @@ image.png
 近年来，计算机视觉（CV）领域也有不少关于多标签分类的研究。其中，优化损失函数的策略已被用于多种 CV 任务，如
 对象识别（Durand et al., 2019; Milletari et al., 2016）、语义分割（Ge et al., 2018）与医学影像（
 Li et al., 2020a）等。平衡损失函数，如 [**Focal loss (Lin et al., 2017)**](https://arxiv.org/abs/1708.02002)、
-[**Class-balanced loss (Cui et al., 2019) **](https://arxiv.org/abs/1901.05555)和 [**Distribution-balanced loss (Wu et al., 2020)**]
+[**Class-balanced loss (Cui et al., 2019)**](https://arxiv.org/abs/1901.05555)和 [**Distribution-balanced loss (Wu et al., 2020)**]
 (https://arxiv.org/abs/2007.09654) 等，提供了针对多标签图像分类的长尾分布和标签连锁问题的解决方案。
 由于损失函数的调整可以独立于模型架构地灵活嵌入常见模型，NLP 中也逐步有类似的优化损失函数的策略探索
 （Li et al., 2020b; Cohan et al., 2020）。例如，(Li et al., 2020b) 将医学图像分割任务中的 
