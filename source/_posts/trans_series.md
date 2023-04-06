@@ -43,9 +43,9 @@ $$
 min \sum _{(h,r,t)} \sum _{(h^{\prime},r^{\prime},t^{\prime})}[\gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}  
 $$  
 
-其中[x]_{+}=max{0, x}  
-\delta^{prime}代表负样本  
-\delta代表正样本  
+其中$$[x]_{+}=max{0, x}$$  
+$$\delta^{prime}$$代表负样本  
+$$\delta$$代表正样本  
 
 通常为了方便训练并避免过拟合，会加上约束条件：
 ||h||<1, ||r||<1, ||t||<2  
