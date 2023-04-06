@@ -40,7 +40,7 @@ TransE模型的基本思想就是把relation看做是head到tail的翻译，认�
 于是我们定义一个距离d(\vec{x}, \vec{y})来表示两个向量之间的距离，一般情况下我们取L1或L2范数。那么我们需要对一个正确的三元组(h,r,t)来说，d(h+r, t)越小越好；错误的三元组(h,r,t)，d(h+r, t)越大越好。目标函数如下：  
 
 $$
-min \sum _{(h,r,t)} \sum _{h^{\prime},r^{\prime},t^{\prime}}[\Gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}  
+min \sum _{(h,r,t)} \sum _{(h^{\prime},r^{\prime},t^{\prime})}[\gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}  
 $$  
 
 其中[x]_{+}=max{0, x}  
