@@ -52,3 +52,69 @@ $$\Delta$$代表正样本
 
 论文中算法训练流程描述如下：  
 ![这个图片](source/_posts/paper_image/trans_series/image2.png "训练过程")
+
+
+```bash
+class TransE(nn.Module):
+
+    def __init__(self, entity_num, relation_num, norm=1, dim=100):
+        super(TransE, self).__init__()
+        self.norm = norm
+        self.dim = dim
+        self.entity_num = entity_num
+        self.entities_emb = self._init_emb(entity_num)
+        self.relations_emb = self._init_emb(relation_num)
+
+    def _init_emb(self, num_embeddings):
+        embedding = nn.Embedding(num_embeddings=num_embeddings, embedding_dim=self.dim)
+        uniform_range = 6 / np.sqrt(self.dim)
+        embedding.weight.data.uniform_(-uniform_range, uniform_range)
+        embedding.weight.data = torch.div(embedding.weight.data, embedding.weight.data.norm(p=2, dim=1, keepdim=True))
+        return embedding
+
+    def forward(self, positive_triplets: torch.LongTensor, negative_triplets: torch.LongTensor):
+        positive_distances = self._distance(positive_triplets)
+        negative_distances = self._distance(negative_triplets)
+        return positive_distances, negative_distances
+
+    def _distance(self, triplets):
+        heads = self.entities_emb(triplets[:, 0])
+        relations = self.relations_emb(triplets[:, 1])
+        tails = self.entities_emb(triplets[:, 2])
+        return (heads + relations - tails).norm(p=self.norm, dim=1)
+
+    def link_predict(self, head, relation, tail=None, k=10):
+        # h_add_r: [batch size, embed size] -> [batch size, 1, embed size] -> [batch size, entity num, embed size]
+        h_add_r = self.entities_emb(head) + self.relations_emb(relation)
+        h_add_r = torch.unsqueeze(h_add_r, dim=1)
+        h_add_r = h_add_r.expand(h_add_r.shape[0], self.entity_num, self.dim)
+        # embed_tail: [batch size, embed size] -> [batch size, entity num, embed size]
+        embed_tail = self.entities_emb.weight.data.expand(h_add_r.shape[0], self.entity_num, self.dim)
+        # values: [batch size, k] scores, the smaller, the better
+        # indices: [batch size, k] indices of entities ranked by scores
+        values, indices = torch.topk(torch.norm(h_add_r - embed_tail, dim=2), k=self.entity_num, dim=1, largest=False)
+        if tail is not None:
+            tail = tail.view(-1, 1)
+            rank_num = torch.eq(indices, tail).nonzero().permute(1, 0)[1]+1
+            rank_num[rank_num > 9] = 10000
+            mrr = torch.sum(1/rank_num)
+            hits_1_num = torch.sum(torch.eq(indices[:, :1], tail)).item()
+            hits_3_num = torch.sum(torch.eq(indices[:, :3], tail)).item()
+            hits_10_num = torch.sum(torch.eq(indices[:, :10], tail)).item()
+            return mrr, hits_1_num, hits_3_num, hits_10_num     # 返回一个batchsize, mrr的和，hit@k的和
+        return indices[:, :k]
+    
+    def evaluate(self, data_loader, dev_num=5000):
+        mrr_sum = hits_1_nums = hits_3_nums = hits_10_nums = 0
+        for heads, relations, tails in tqdm.tqdm(data_loader):
+            mrr_sum_batch, hits_1_num, hits_3_num, hits_10_num = self.link_predict(heads.cuda(), relations.cuda(), tails.cuda())
+            mrr_sum += mrr_sum_batch
+            hits_1_nums += hits_1_num
+            hits_3_nums += hits_3_num
+            hits_10_nums += hits_10_num
+        return mrr_sum/dev_num, hits_1_nums/dev_num, hits_3_nums/dev_num, hits_10_nums/dev_num
+
+
+```
+
+## 
