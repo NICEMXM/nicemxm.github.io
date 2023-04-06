@@ -35,11 +35,11 @@ t表示尾实体
 
 **翻译模型**从TransE开始，并衍生出一系列模型。  
 TransE模型的基本思想就是把relation看做是head到tail的翻译，认为一个正确的知识三元组应该满足 h + r =(约等于) t，而错误的则不满足，通俗来讲就是头实体 embedding 加上关系 embedding 近似等于尾实embedding ，见下图，思想就是这么的简单但却高效。  
-![这个图片](source\_posts\paper_image\trans_series\image1.png "向量关系")
+![这个图片](source/_posts/paper_image/trans_series/image1.png "向量关系")
 
 于是我们定义一个距离d(\vec{x}, \vec{y})来表示两个向量之间的距离，一般情况下我们取L1或L2范数。那么我们需要对一个正确的三元组(h,r,t)来说，d(h+r, t)越小越好；错误的三元组(h,r,t)，d(h+r, t)越大越好。目标函数如下：  
 
-min \sum_{(h,r,t)} \sum_{h^{\prime},r^{\prime},t^{\prime}}[\Gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}  
+min \sum {(h,r,t)} \sum {h^{\prime},r^{\prime},t^{\prime}}[\Gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}  
 其中[x]_{+}=max{0, x}  
 \delta^{prime}代表负样本  
 \delta代表正样本  
@@ -48,4 +48,4 @@ min \sum_{(h,r,t)} \sum_{h^{\prime},r^{\prime},t^{\prime}}[\Gamma + d(h+r,t) - d
 ||h||<1, ||r||<1, ||t||<2  
 
 论文中算法训练流程描述如下：  
-![这个图片](source\_posts\paper_image\trans_series\image2.png "训练过程")
+![这个图片](source/_posts/paper_image/trans_series/image2.png "训练过程")
