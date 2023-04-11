@@ -37,7 +37,7 @@ t表示尾实体
 TransE模型的基本思想就是把relation看做是head到tail的翻译，认为一个正确的知识三元组应该满足 h + r =(约等于) t，而错误的则不满足，通俗来讲就是头实体 embedding 加上关系 embedding 近似等于尾实embedding ，见下图，思想就是这么的简单但却高效。  
 ![这个图片](source/_posts/paper_image/trans_series/image1.png "向量关系")
 
-于是我们定义一个距离d(\vec{x}, \vec{y})来表示两个向量之间的距离，一般情况下我们取L1或L2范数。那么我们需要对一个正确的三元组(h,r,t)来说，d(h+r, t)越小越好；错误的三元组(h,r,t)，d(h+r, t)越大越好。目标函数如下：  
+于是我们定义一个距离$d(\vec{x}, \vec{y})$来表示两个向量之间的距离，一般情况下我们取L1或L2范数。那么我们需要对一个正确的三元组(h,r,t)来说，d(h+r, t)越小越好；错误的三元组(h,r,t)，d(h+r, t)越大越好。目标函数如下：  
 
 $$
 min \sum _{(h,r,t)} \sum _{(h^{\prime},r^{\prime},t^{\prime})}[\gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}  
@@ -133,7 +133,7 @@ $$
 t_\perp = t - w_r^{T}*t*w_r  
 $$  
 
-其中简单说明下$w_r^{T}*h*w_r$的含义，这里$w_r^{T}*h=|w||h|\cos$表示h在$w_r$方向上投影的长度(带正负号)，乘以$w_r$即h在$w_r$的投影。  
+其中简单说明下$w_r^{T}h w_r$的含义，这里$w_r^{T}*h=|w||h|\cos$表示h在$w_r$方向上投影的长度(带正负号)，乘以$w_r$即h在$w_r$的投影。  
 得到投影之后我们就可以根据下面的score function来求得三元组的差值:  
 
 $$ 
