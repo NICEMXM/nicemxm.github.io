@@ -1,4 +1,5 @@
 ![这是图片](source/_posts/paper_image/mind/image1.png "llm模型发展历程")
+[llm模型发展历程](https://mp.weixin.qq.com/s/-HWYRFdk1rwrKzYa0k5wZQ)
 # 1、chatgpt
 - chatgpt 和 mindshow结合，利用markdown语法快速生成ppt。
 - chatgpt提示词：参考网友总结-[chatgpt shotcut](https://www.aishort.top/?tags=favorite)
