@@ -18,3 +18,4 @@ chatgpt
 - [类chatgpt的github实现](https://github.com/lucidrains/PaLM-rlhf-pytorch)
 # 4、LLaMA模型
 - [论文](https://arxiv.org/pdf/2302.13971.pdf)
+- 权重：[hugging face](https://huggingface.co/decapoda-research)
