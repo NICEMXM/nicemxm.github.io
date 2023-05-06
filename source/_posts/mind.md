@@ -10,3 +10,5 @@
 # 4、LLaMA模型
 - [论文](https://arxiv.org/pdf/2302.13971.pdf)
 - 权重：[hugging face](https://huggingface.co/decapoda-research)
+# 5、chatllama模型
+-[github](https://github.com/juncongmoo/chatllama)
