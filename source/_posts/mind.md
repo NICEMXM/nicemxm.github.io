@@ -10,8 +10,9 @@
 # 4、LLaMA模型
 - [论文](https://arxiv.org/pdf/2302.13971.pdf)
 - 权重：[hugging face](https://huggingface.co/decapoda-research)
+- 中文增量训练LLaMa模型：[github](https://github.com/CVI-SZU/Linly)
 # 5、chatllama模型
 -[github](https://github.com/juncongmoo/chatllama)
-# 其它
+# 6、其它
 预训练已经成为自然语言处理任务的重要组成部分，为大量自然语言处理任务带来了显著提升。UER-py（Universal Encoder Representations）是一个用于对通用语料进行预训练并对下游任务进行微调的工具包。UER-py遵循模块化的设计原则。通过模块的组合，用户能迅速精准的复现已有的预训练模型，并利用已有的接口进一步开发更多的预训练模型。通过UER-py，我们建立了一个模型仓库，其中包含不同性质的预训练模型（例如基于不同语料、编码器、目标任务）。用户可以根据具体任务的要求，从中选择合适的预训练模型使用。
 - [github](https://github.com/dbiir/UER-py/wiki/%E4%B8%BB%E9%A1%B5)
