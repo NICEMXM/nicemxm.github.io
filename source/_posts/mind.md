@@ -28,3 +28,5 @@ Image Mixer：https://huggingface.co/spaces/lambdalabs/image-mixer-demo
 # 8、图文检索
 CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-query-search
 
+https://zhuanlan.zhihu.com/p/626748008
+
