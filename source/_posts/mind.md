@@ -30,3 +30,4 @@ CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-quer
 
 https://zhuanlan.zhihu.com/p/626748008
 
+https://zhuanlan.zhihu.com/p/619120794
