@@ -19,7 +19,12 @@
 6.1 UER-py（Universal Encoder Representations）是一个用于对通用语料进行预训练并对下游任务进行微调的工具包。UER-py遵循模块化的设计原则。通过模块的组合，用户能迅速精准的复现已有的预训练模型，并利用已有的接口进一步开发更多的预训练模型。通过UER-py，我们建立了一个模型仓库，其中包含不同性质的预训练模型（例如基于不同语料、编码器、目标任务）。用户可以根据具体任务的要求，从中选择合适的预训练模型使用。
 - [github](https://github.com/dbiir/UER-py/wiki/%E4%B8%BB%E9%A1%B5)
 
-7、图文生成
-Image Mixer：https://huggingface.co/spaces/lambdalabs/image-mixer-demo
 
 6.2 [Fine-tuning 20B LLMs with RLHF on a 24GB consumer GPU](https://huggingface.co/blog/trl-peft)
+
+# 7、图文生成
+Image Mixer：https://huggingface.co/spaces/lambdalabs/image-mixer-demo
+
+# 8、图文检索
+CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-query-search
+
