@@ -34,3 +34,6 @@ https://zhuanlan.zhihu.com/p/619120794
 
 # 9、fastapi
 https://fastapi.tiangolo.com/zh/
+
+# CLIP
+https://zhuanlan.zhihu.com/p/493489688
