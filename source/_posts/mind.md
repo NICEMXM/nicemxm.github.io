@@ -37,3 +37,5 @@ https://fastapi.tiangolo.com/zh/
 
 # CLIP
 https://zhuanlan.zhihu.com/p/493489688
+
+[styleClip](https://github.com/orpatashnik/StyleCLIP)
