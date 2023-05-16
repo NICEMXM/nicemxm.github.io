@@ -23,7 +23,12 @@
 6.2 [Fine-tuning 20B LLMs with RLHF on a 24GB consumer GPU](https://huggingface.co/blog/trl-peft)
 
 # 7、图文生成
-Image Mixer：https://huggingface.co/spaces/lambdalabs/image-mixer-demo
+
+[CLIP](https://zhuanlan.zhihu.com/p/493489688)
+
+[styleClip](https://github.com/orpatashnik/StyleCLIP)
+
+[Image Mixer](https://huggingface.co/spaces/lambdalabs/image-mixer-demo)
 
 7.1 stable diffusion
 
@@ -42,9 +47,5 @@ https://zhuanlan.zhihu.com/p/619120794
 # 9、fastapi
 https://fastapi.tiangolo.com/zh/
 
-# CLIP
-https://zhuanlan.zhihu.com/p/493489688
 
-[styleClip](https://github.com/orpatashnik/StyleCLIP)
-
-# LangChain
+# 10、LangChain
