@@ -25,6 +25,12 @@
 # 7、图文生成
 Image Mixer：https://huggingface.co/spaces/lambdalabs/image-mixer-demo
 
+7.1 stable diffusion
+[stable-diffusion-web使用教程1](https://mp.weixin.qq.com/s?__biz=Mzg5ODkxMDIxMw==&mid=2247484040&idx=1&sn=58d81026ade26b46943aa2bd247a1502&chksm=c05a13e2f72d9af47c50df141a60cdcd50adc8a211c1ac60eb2d07f68aa564501c29daffd5fd&scene=21#wechat_redirect) 
+
+[stable-diffusion-web使用教程2](https://mp.weixin.qq.com/s/M4SY8XtWqRm1qdzBrNSZkQ)
+
+
 # 8、图文检索
 CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-query-search
 
