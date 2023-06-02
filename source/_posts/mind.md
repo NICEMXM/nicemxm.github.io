@@ -36,6 +36,8 @@
 
 [stable-diffusion-web使用教程2](https://mp.weixin.qq.com/s/M4SY8XtWqRm1qdzBrNSZkQ)
 
+[指令微调stable-diffusion](https://huggingface.co/blog/instruction-tuning-sd)
+
 
 # 8、图文检索
 CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-query-search
