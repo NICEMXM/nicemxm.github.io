@@ -55,3 +55,7 @@ https://fastapi.tiangolo.com/zh/
 # 11、pix2struct
 
 [论文](https://arxiv.org/pdf/2210.03347.pdf)
+
+# 12、deploy
+
+[论文](https://arxiv.org/pdf/2212.10505.pdf)
