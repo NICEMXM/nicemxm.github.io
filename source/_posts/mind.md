@@ -52,6 +52,6 @@ https://fastapi.tiangolo.com/zh/
 
 # 10、LangChain
 
-# pix2struct
+# 11、pix2struct
 
 [论文](https://arxiv.org/pdf/2210.03347.pdf)
