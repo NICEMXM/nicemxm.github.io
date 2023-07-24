@@ -59,3 +59,14 @@ https://fastapi.tiangolo.com/zh/
 # 12、deploy
 
 [论文](https://arxiv.org/pdf/2212.10505.pdf)
+
+训练过程
+
+第一个阶段：初始化MATCHAT架构和权重
+
+第二个阶段：微调matchat，表格数据被表示成markdown格式，训练语料：
+
+https://aclanthology.org/2022.acl-long.277/
+
+https://github.com/vis-nlp/chart-to-text
+
