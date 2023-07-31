@@ -70,3 +70,11 @@ https://aclanthology.org/2022.acl-long.277/
 
 https://github.com/vis-nlp/chart-to-text
 
+# 13、优化器
+
+1) adafactor
+
+2) lion  
+
+两者对比：https://zhuanlan.zhihu.com/p/609462814
+
