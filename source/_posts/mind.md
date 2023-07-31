@@ -78,3 +78,7 @@ https://github.com/vis-nlp/chart-to-text
 
 两者对比：https://zhuanlan.zhihu.com/p/609462814
 
+# python
+
+python：https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html
+
