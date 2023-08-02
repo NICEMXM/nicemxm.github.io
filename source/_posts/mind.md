@@ -70,6 +70,9 @@ https://aclanthology.org/2022.acl-long.277/
 
 https://github.com/vis-nlp/chart-to-text
 
+kaggle比赛：https://www.kaggle.com/competitions/benetech-making-graphs-accessible/overview  
+
+
 # 13、优化器
 
 1) adafactor
