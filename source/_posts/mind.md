@@ -52,6 +52,8 @@ https://fastapi.tiangolo.com/zh/
 
 # 10、LangChain
 
+LangChain+embedding构建知识问答系统： https://zhuanlan.zhihu.com/p/641132245
+
 # 11、pix2struct
 
 [论文](https://arxiv.org/pdf/2210.03347.pdf)
@@ -83,5 +85,7 @@ kaggle比赛：https://www.kaggle.com/competitions/benetech-making-graphs-access
 
 # python
 
-python：https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html
+python：https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html  
+
+
 
