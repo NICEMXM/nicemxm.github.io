@@ -87,5 +87,9 @@ kaggle比赛：https://www.kaggle.com/competitions/benetech-making-graphs-access
 
 python：https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html  
 
+# 14、推理
 
+1、vllm：https://github.com/vllm-project/vllm
+
+2、inference中的sharding
 
