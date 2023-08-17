@@ -100,6 +100,8 @@ https://docusaurus.io/docs
 
 https://github.com/outerbounds/nbdoc
 
-# TorchScale
+# 16、TorchScale
 
 高效训练transformer
+
+Magneto
