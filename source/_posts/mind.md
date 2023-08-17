@@ -81,6 +81,7 @@ kaggle比赛：https://www.kaggle.com/competitions/benetech-making-graphs-access
 
 2) lion  
 
+
 两者对比：https://zhuanlan.zhihu.com/p/609462814
 
 # python
@@ -92,4 +93,11 @@ python：https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html
 1、vllm：https://github.com/vllm-project/vllm
 
 2、inference中的sharding
+
+# 15、生成站点文档
+
+https://docusaurus.io/docs
+
+https://github.com/outerbounds/nbdoc
+
 
