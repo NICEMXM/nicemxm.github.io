@@ -38,6 +38,7 @@
 
 [指令微调stable-diffusion](https://huggingface.co/blog/instruction-tuning-sd)
 
+https://stable-diffusion-art.com/how-stable-diffusion-work/
 
 # 8、图文检索
 CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-query-search
