@@ -40,6 +40,8 @@
 
 https://stable-diffusion-art.com/how-stable-diffusion-work/
 
+[Attend-and-Excite: Attention-Based Semantic Guidance for Text-to-Image Diffusion Models](https://yuval-alaluf.github.io/Attend-and-Excite/)
+
 # 8、图文检索
 CLIP 预训练模型：https://github.com/haofanwang/natural-language-joint-query-search
 
