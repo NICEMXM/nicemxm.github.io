@@ -109,12 +109,17 @@ https://github.com/outerbounds/nbdoc
 
 Magneto
 
-# API性能测试工具
+# 17、API性能测试工具
 
 1、jmeter
 
 2、webbench
 
-# agent
+# 19、agent
 
 引入SOP：https://github.com/aiwaves-cn/agents
+
+# 20、kaggle比赛
+
+1）LLM语言模型-科学问题检索：[Kaggle - LLM Science Exam](https://www.kaggle.com/competitions/kaggle-llm-science-exam/discussion/446422)
+
