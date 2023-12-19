@@ -124,3 +124,5 @@ Magneto
 1）LLM语言模型-科学问题检索：[Kaggle - LLM Science Exam](https://www.kaggle.com/competitions/kaggle-llm-science-exam/discussion/446422)
 
 2）机器学习发展专题报告比赛-生成式ai:[2023 Kaggle AI Report](https://www.kaggle.com/code/trushk/2023-kaggle-ai-report-generative-ai)
+
+3）stabe diffusion prompt:[Stable Diffusion - Image to Prompts](https://www.kaggle.com/competitions/stable-diffusion-image-to-prompts)
