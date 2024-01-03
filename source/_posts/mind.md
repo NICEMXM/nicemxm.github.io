@@ -126,3 +126,8 @@ Magneto
 2）机器学习发展专题报告比赛-生成式ai:[2023 Kaggle AI Report](https://www.kaggle.com/code/trushk/2023-kaggle-ai-report-generative-ai)
 
 3）stabe diffusion prompt:[Stable Diffusion - Image to Prompts](https://www.kaggle.com/competitions/stable-diffusion-image-to-prompts)
+
+# Flip(fast language image pre-training)
+
+[paper](https://arxiv.org/pdf/2212.00794.pdf)
+
