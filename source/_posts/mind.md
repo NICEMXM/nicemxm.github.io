@@ -127,7 +127,9 @@ Magneto
 
 3）stabe diffusion prompt:[Stable Diffusion - Image to Prompts](https://www.kaggle.com/competitions/stable-diffusion-image-to-prompts)
 
-# Flip(fast language image pre-training)
+# path-dropout
+
+1) Flip(fast language image pre-training)
 
 [paper](https://arxiv.org/pdf/2212.00794.pdf)
 
