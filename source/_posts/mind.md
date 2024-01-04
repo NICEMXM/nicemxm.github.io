@@ -137,5 +137,15 @@ Magneto
 
 1）[kosmos](https://arxiv.org/pdf/2302.14045.pdf)
 
+* 数据集，模型输入格式
 
+
+
+* 模型架构
+
+优化点，相比传统transform
+
+（1）MAGNETO，经典transform变体
+
+（2）xpos, 位置编码
 
