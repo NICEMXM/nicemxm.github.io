@@ -141,9 +141,9 @@ Magneto
 
 | datasets | Format Examples |
 | ----------- | ----------- |
-| Text | <s> KOSMOS-1 can perceive multimodal input, learn in context, and generate output. </s> |
-| Image-Caption | <s> <image> Image Embedding </image> WALL-E giving potted plant to EVE. </s> | 
-| Multimodal | <s> <image> Image Embedding </image> This is WALL-E. <image>Image Embedding </image> This is EVE. </s> |
+| Text | ``` <s> KOSMOS-1 can perceive multimodal input, learn in context, and generate output. </s> ```|
+| Image-Caption | ``` <s> <image> Image Embedding </image> WALL-E giving potted plant to EVE. </s> ``` | 
+| Multimodal | ``` <s> <image> Image Embedding </image> This is WALL-E. <image>Image Embedding </image> This is EVE. </s> ``` |
 
 * 模型架构
 
