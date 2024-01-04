@@ -143,7 +143,7 @@ Magneto
 | ----------- | ----------- |
 | Text | ``` <s> KOSMOS-1 can perceive multimodal input, learn in context, and generate output. </s> ```|
 | Image-Caption | ``` <s> <image> Image Embedding </image> WALL-E giving potted plant to EVE. </s> ``` | 
-| Multimodal | ``` <s> <image> Image Embedding </image> This is WALL-E. <image>Image Embedding </image> This is EVE. </s> ``` |
+| Multimodal | ``` <s> <image> Image Embedding </image> This is WALL-E. <image> Image Embedding </image> This is EVE. </s> ``` |
 
 * 模型架构
 
@@ -153,3 +153,4 @@ Magneto
 
 （2）xpos, 位置编码
 
+# Lanfuse 大模型日志监控
