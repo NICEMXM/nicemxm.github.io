@@ -139,7 +139,13 @@ Magneto
 
 * 数据集，模型输入格式
 
-
+| datasets | Format Examples |
+| ----------- | ----------- |
+| Text | <s> KOSMOS-1 can perceive multimodal input, learn in context, and generate output. </s> |
+| Image-Caption | <s> <image> Image Embedding </image> WALL-E giving potted plant to 
+EVE. </s> | 
+| Multimodal | <s> <image> Image Embedding </image> This is WALL-E. <image>
+Image Embedding </image> This is EVE. </s> |
 
 * 模型架构
 
