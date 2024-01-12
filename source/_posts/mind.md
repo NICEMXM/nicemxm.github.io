@@ -119,6 +119,7 @@ Magneto
 
 引入SOP：https://github.com/aiwaves-cn/agents
 
+
 # 20、kaggle比赛
 
 1）LLM语言模型-科学问题检索：[Kaggle - LLM Science Exam](https://www.kaggle.com/competitions/kaggle-llm-science-exam/discussion/446422)
@@ -154,3 +155,10 @@ Magneto
 （2）xpos, 位置编码
 
 # Lanfuse 大模型日志监控
+
+# Agent 框架
+
+1）TaskWeaver
+
+2）OpenAgents
+
