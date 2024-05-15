@@ -1,19 +1,17 @@
-image: node:10-alpine # use nodejs v10 LTS
-
+image: node:20.13.1 # use nodejs v16 LTS
 cache:
   paths:
     - node_modules/
 
 before_script:
-  - ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   - npm install hexo-cli -g
   - npm install
 
 pages:
   script:
-    - hexo generate
+    - npm run build
   artifacts:
     paths:
       - public
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
