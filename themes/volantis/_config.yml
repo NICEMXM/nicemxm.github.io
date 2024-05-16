@@ -168,9 +168,9 @@ cover:
   background: https://gcore.jsdelivr.net/gh/MHG-LAB/cron@gh-pages/bing/bing.jpg
   # background: https://bing.ioliu.cn/v1/rand?w=1920&h=1200
   logo: # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-Cover@3x.png
-  title: 'Volantis'
+  title: 'OpenAI'
   subtitle: ''
-  search: A Wonderful Theme for Hexo # search bar placeholder
+  search: A Wonderful journey  # search bar placeholder
   features:
     - name: 文档
       icon: #
@@ -195,7 +195,7 @@ cover:
     - name: 源码
       icon: #
       img: volantis-static/media/twemoji/assets/svg/1f9ec.svg #  https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f9ec.svg
-      url: https://github.com/volantis-x/hexo-theme-volantis/
+      url: https://github.com/
 ############################### Cover ############################### > end
 
 pages:
@@ -1362,7 +1362,7 @@ structured_data:
   data:
     person:
       sns:
-        - https://github.com/volantis-x
+        - https://github.com/
     logo:
       path: volantis-static/media/org.volantis/blog/favicon/android-chrome-192x192.png # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/favicon/android-chrome-192x192.png
       width: 192
