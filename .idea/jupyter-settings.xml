@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JupyterPersistentConnectionParameters">
+    <option name="knownRemoteServers">
+      <list>
+        <JupyterConnectionParameters>
+          <option name="authType" value="notebook" />
+          <option name="token" value="0ed01cdde74d388674a89a3effc830721c77c505dcaa1ac5" />
+          <option name="urlString" value="http://10.0.11.118:8888/" />
+          <authParams2>
+            <map>
+              <entry key="token" value="0ed01cdde74d388674a89a3effc830721c77c505dcaa1ac5" />
+            </map>
+          </authParams2>
+        </JupyterConnectionParameters>
+      </list>
+    </option>
+    <option name="moduleParameters">
+      <map>
+        <entry key="$PROJECT_DIR$/../tianchi_nl2sql/.idea/tianchi_nl2sql.iml">
+          <value>
+            <JupyterConnectionParameters>
+              <option name="authType" value="notebook" />
+              <option name="token" value="0ed01cdde74d388674a89a3effc830721c77c505dcaa1ac5" />
+              <option name="urlString" value="http://10.0.11.118:8888/" />
+              <authParams2>
+                <map>
+                  <entry key="token" value="0ed01cdde74d388674a89a3effc830721c77c505dcaa1ac5" />
+                </map>
+              </authParams2>
+            </JupyterConnectionParameters>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
