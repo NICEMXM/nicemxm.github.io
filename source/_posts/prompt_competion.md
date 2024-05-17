@@ -33,7 +33,7 @@ LLM 切实完成你想完成的任务并做到更多！
 
 其工作方式为：
 
-![](CO-STAR.png)
+![](source/images/2024/05/16/prompt_competion/CO-STAR.png)
 
 (C) 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。  
 (O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。  
