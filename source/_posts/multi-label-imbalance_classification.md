@@ -8,12 +8,12 @@ tags:
   - 文本分类
   - 损失函数
 ---
-
 论文链接：[arxiv](https://arxiv.org/pdf/2109.04712.pdf)
 
 文章源码：[github](https://github.com/Roche/BalancedLossNLP)
 
 ## 摘要
+
 多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，
 各类别标签的训练数据量往往差异较大（不平衡分类问题），甚至是**长尾分布**，影响了所获得模型的效果。**重采样（Resampling）和重加权（Reweighting）常用于应对不平衡分类问题**，但由于多标签文本分类的场景下类别标签间
 存在关联，现有方法会导致对高频标签的过采样。
@@ -22,12 +22,12 @@ tags:
 分布平衡损失函数的表现整体优于常用损失函数。研究人员近期发现该类损失函数对图像识别模型的效果提升，而我
 们的工作进一步证明其在自然语言处理中的有效性。
 
-
 ## 引言
+
 多标签文本分类是自然语言处理（NLP）的核心任务之一，旨在为给定文本从标签库中找到多个相关标签，可应用于搜索
 （Prabhu et al., 2018）和产品分类（Agrawal et al., 2013）等诸多场景。图 1 展示了通用多标签文本分类
 数据集 Reuters-21578 的样例数据（Hayes and Weinstein, 1990）。
-image.png 
+image.png
 图1 Reuters-21578 的样例数据（仅展示文章标题）标签后面的数字代表数据集中带有该标签的数据实例个数。
 
 当标签数据存在长尾分布（不平衡分类）和标签连锁（类别共现）时，多标签文本分类会变得更加复杂（图2）。长尾分布，
@@ -44,16 +44,18 @@ Li et al., 2020a）等。平衡损失函数，如 [**Focal loss (Lin et al., 201
 本项工作中，我们将一类新的平衡损失函数引入 NLP，用于多标签文本分类任务，并使用 Reuters-21578（一个通用的小型数据集）和 PubMed（一个生物医学领域的大型数据集）数据集进行了实验。对于这两个数据集，分布平衡损失函数在总指标上优于其他损失函数，并且显著改善了尾部标签的模型表现。我们认为，平衡损失函数为多标签文本分类的应用提供了一个有效策略。
 
 ## 损失函数
+
 多标签文本分类中，[二值交叉熵（Binary Cross Entropy, BCE）](https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss)
 是较常用的损失函数 (Bengio et al., 2013)。原始的 BCE 容易被大量头部标签或负样本干扰。近年来，一些新的损失函数通过
 调节 BCE 的权重，实现了模型训练过程的相对平衡。我们在此回顾了三类损失函数设计。
 
 ### Focal loss (FL)
+
 通过模型对数据实例标记标签的“难易程度”为 BCE 设计权重 (Lin et al., 2017)。对于同一数据实例，相比可轻松分类（p值接近真实值）的标签，难以标记（p值远离真实值）的标签将获得比 BCE 更高的权重。
 
-Focal loss 损失函数pytorch实现如下：  
+Focal loss 损失函数pytorch实现如下：
 
-``` bash
+```bash
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -89,9 +91,10 @@ if __name__ == '__main__':
 ```
 
 ### Class-balanced focal loss (CB)
+
 Clas-balanced focal loss对FL基础上进行一步改进，通过估计数据采样的有效数量，将每个标签增量训练数据的边际效用纳入考虑，在不同训练数据支持的标签间调节权重 (Cui et al., 2019)
 
-``` bash
+```python
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -275,11 +278,12 @@ if __name__ == '__main__':
     test_standard_losses()
 
 ```
+
 ### Distribution-balanced loss (DB)
+
 Distribution-balanced loss（DB，分布平衡损失函数）则是在 FL 基础上添加了两部分组件 (Wu et al., 2020)。其一为 Rebalancing 组件，减少了标签连锁带来的冗余信息，其二为 Negative Tolerant Regularization （NTR）组件，在不同正负样本数目的标签间调节权重，降低尾部标签的阈值。
 
-
-``` bash
+```python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -466,7 +470,7 @@ class ResampleLoss(nn.Module):
             sum_ = torch.sum(weight * gt_labels, dim=1, keepdim=True)
             weight = sum_ / torch.sum(gt_labels, dim=1, keepdim=True)
         return weight
-    
+  
 
 def reduce_loss(loss, reduction):
     """Reduce loss as specified.
@@ -545,15 +549,17 @@ if __name__ == 'main':
 ```
 
 ## 数据集
+
 本项工作中，我们使用了两个不同数据量和领域的多标签文本分类数据集（表 1）。**Reuters-21578 数据集**包含1987 年刊登在路透社的一万多份新闻文章（Hayes and Weinstein, 1990）。我们按照（Yang and Liu, 1999）使用的训练-测试分割数据，并将 90 个标签平均分为头部（30 个标签，各含 ≥35 个实例）、中部（31 个标签，各含 8-35 个实例）和尾部（30 个标签，各含 ≤8 个实例）标签的子集。**PubMed 数据集**则来自 BioASQ 竞赛（Licence：8283NLM123），包含PubMed 文章的标题、摘要及对应的生物医学主题词标记 (MeSH)（Tsatsaronis et al.，2015; Coordinators, 2017）。类似地，18211个标签按分位数分为头部（6018 个标签，各含≥50 个实例）、中部（5581 个标签，各含 15-50 个实例）和尾部（6612 个标签，各含 ≤15 个实例）标签的子集。
 
 ## 实验
-我们比较了不同损失函数与经典 SVM one-vs-rest 模型的表现。对于各个数据集和模型，我们计算了标签集整体以及头部、中部、尾部标签子集的micro-F1 和 macro-F1 得分（Wu et al., 2019；Lipton et al., 2014 ）。表 2 汇总了不同损失函数的实验结果。Reuters-21578 结果中，BCE 的表现最差。依次对比 micro-F1 和 macro-F1之间、及不同组间的得分可以看出长尾分布的影响。PubMed 数据由于不平衡更明显，长尾分布的影响更大。
 
+我们比较了不同损失函数与经典 SVM one-vs-rest 模型的表现。对于各个数据集和模型，我们计算了标签集整体以及头部、中部、尾部标签子集的micro-F1 和 macro-F1 得分（Wu et al., 2019；Lipton et al., 2014 ）。表 2 汇总了不同损失函数的实验结果。Reuters-21578 结果中，BCE 的表现最差。依次对比 micro-F1 和 macro-F1之间、及不同组间的得分可以看出长尾分布的影响。PubMed 数据由于不平衡更明显，长尾分布的影响更大。
 
 对于 Reuters-21578 数据集，损失函数 FL、CB、R-FL 和 NTR-FL 在头部标签中的表现与 BCE 相似，但在中部和尾部标签中的表现优于 BCE，说明它们对于不平衡问题的改进。DB 在尾部标签改进最明显，整体表现也优于先前使用相同数据集的解决方案，例如 Binary Relevance、EncDec、CNN、CNN-RNN、Optimal Completion Distillation和 GNN 等（Nam et al., 2017 ; Pal et al., 2020；Tsai and Lee et al., 2020）。对于PubMed 数据集，由于BCE 中部和尾部标签已失效，我们使用 FL 作为更强的基线。其他损失函数在中部和尾部标签中的表现均优于 FL。DB 再次证明了其在整体、中部和尾部标签的良好效果。
 
 我们进一步尝试从 DB 中去除一个组件，即移除 NTR 组件得到 R-FL、移除 Rebalancing 组件得到 NTR-FL，移除 FL 组件得到 DB-0FL，通过比较三个残缺模型探索对应三个组件的效果。如表 2 所示，对于两个数据集，移除 NTR 组件 (R-FL) 或 FL 组件 (DB-0FL) 会降低所有亚组的模型效果。移除 Rebalancing 组件 (NTR-FL) 产生相似的整体 micro-F1，但整体 macro-F1 及中部和尾部标签 F1 得分不如 DB，显示增加Rebalancing 组件的作用。最终，我们还尝试将 NTR-FL 与 CB 集成，从而得到一个全新的损失函数 CB-NTR，它在两个数据集上得到的所有 F1 值均优于 CB。CB-NTR 和 DB 间的唯一区别是使用 CB 权重替换了 Rebalancing 权重，而 DB 在中部和尾部标签中的表现优于或非常接近 CB-NTR，可能来自于通过 Rebalancing 权重处理标签连锁对模型效果的提升。
 
 ## 总结
+
 针对多标签文本分类中的不平衡分类问题，我们研究了优化损失函数的策略，并系统比较了各种平衡损失函数的效果。我们首次**将 DB 引入 NLP**，并设计了**全新的平衡损失函数 CB-NTR**。在开放数据集 Reuters-21578（90 类标签，通用领域）和 PubMed（18211 类标签，生物医学领域）的实验表明，DB 的模型效果优于其他损失函数。这项研究证明，优化损失函数的策略可以有效解决多标签文本分类时不平衡分类的问题。该策略由于仅需调整损失函数，可以灵活兼容各种基于神经网络的模型框架，也适用于其他受到长尾分布影响的 NLP 任务。

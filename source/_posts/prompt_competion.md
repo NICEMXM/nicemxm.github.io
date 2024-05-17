@@ -7,7 +7,6 @@ categories:
 tags:
   - prompt
 ---
-
 去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo
 最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4
 提示工程赛》的博客文章，慷慨分享了其获胜法门。
@@ -31,16 +30,16 @@ LLM 切实完成你想完成的任务并做到更多！
 为了让 LLM 给出最优响应，为 prompt 设置有效的结构至关重要。CO-STAR 框架是一种可以方便用于设计 prompt
 结构的模板，这是新加坡政府科技局的数据科学与 AI 团队的创意成果。该模板考虑了会影响 LLM 响应的有效性和相关性的方方面面，从而有助于得到更优的响应。
 
-其工作方式为：  
-![这是图片](source/images/2024/05/16/prompt_competion/CO-STAR.png "CO-STAR架构")
+其工作方式为：
+![这是图片](../images/2024/05/16/prompt_competion/CO-STAR.png "CO-STAR架构")
 
-(C) 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。  
-(O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。  
+(C) 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。
+(O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。
 (S) 风格（Style）：指定你希望 LLM 使用的写作风格。这可能是一位具体名人的写作风格，也可以是某种职业专家（比如商业分析师或
-CEO）的风格。这能引导 LLM 使用符合你需求的方式和词语给出响应。  
-(T) 语气（Tone）：设定响应的态度。这能确保 LLM 的响应符合所需的情感或情绪上下文，比如正式、幽默、善解人意等。  
+CEO）的风格。这能引导 LLM 使用符合你需求的方式和词语给出响应。
+(T) 语气（Tone）：设定响应的态度。这能确保 LLM 的响应符合所需的情感或情绪上下文，比如正式、幽默、善解人意等。
 (A) 受众（Audience）：确定响应的目标受众。针对具体受众（比如领域专家、初学者、孩童）定制 LLM
-的响应，确保其在你所需的上下文中是适当的和可被理解的。  
+的响应，确保其在你所需的上下文中是适当的和可被理解的。
 (R) 响应（Response）：提供响应的格式。这能确保 LLM 输出你的下游任务所需的格式，比如列表、JSON、专业报告等。对于大多数通过程序化方法将
 LLM 响应用于下游任务的 LLM 应用而言，理想的输出格式是 JSON。
 
@@ -385,3 +384,279 @@ LLM 擅长识别模式和趋势。这种能力源自 LLM 训练时使用的大�
 
 为了方便后面验证 LLM 的分析结果，这里仅取用一个子集，其中包含 50 行和最相关的列。之后，用于分析的数据集如下所示，其中每一行都代表一个客户，列则描述了客户信息：
 
+
+| year-of-birth | marital-status | income | num-children | days-since-last-purchase | spend-amount |
+| ------------- | -------------- | ------ | ------------ | ------------------------ | ------------ |
+| 1957          | single         | 58138  | 0            | 58                       | 635          |
+| 1954          | together       | 71613  | 1            | 26                       | 423          |
+
+假设你在该公司的宣传团队工作。你的任务使用这个客户信息数据集来指导营销工作。这个任务分为两步：第一步，使用数据集生成有意义的细分客户群。第二步，针对每个细分群生成最好的营销策略。现在，这个问题就成了模式发现（第一步）的实际业务问题，这也正是 LLM 擅长的能力。
+
+下面针对这个任务草拟一个 prompt，这里用到了 4 种提示工程技术（后面还有更多！）：
+
+1. 将复杂任务分解为简单步骤
+2. 索引每一步的中间输出
+3. 设置 LLM 的响应的格式
+4. 将指令与数据集分离开
+
+> System Prompt:
+>
+> I want you to act as a data scientist to analyze datasets. Do not make up information that is not in the dataset. For each analysis I ask for, provide me with the exact and definitive answer and do not provide me with code or instructions to do the analysis on other platforms.
+
+> Prompt:
+>
+> #CONTEXT#
+>
+> I sell wine. I have a dataset of information on my customers: [year of birth, marital status, income, number of children, days since last purchase, amount spent].
+>
+> #############
+
+> #OBJECTIVE#
+>
+> I want you use the dataset to cluster my customers into groups and then give me ideas on how to target my marketing efforts towards each group. Use this step-by-step process and do not use code:
+
+> 1. CLUSTERS: Use the columns of the dataset to cluster the rows of the dataset, such that customers within the same cluster have similar column values while customers in different clusters have distinctly different column values. Ensure that each row only belongs to 1 cluster.
+
+> For each cluster found,
+>
+> 2. CLUSTER\_INFORMATION: Describe the cluster in terms of the dataset columns.
+> 3. CLUSTER\_NAME: Interpret [CLUSTER\_INFORMATION] to obtain a short name for the customer group in this cluster.
+
+> 4. MARKETING\_IDEAS: Generate ideas to market my product to this customer group.
+> 5. RATIONALE: Explain why [MARKETING\_IDEAS] is relevant and effective for this customer group.
+>
+> #############
+
+> #STYLE#
+>
+> Business analytics report
+>
+> #############
+>
+> #TONE#
+>
+> Professional, technical
+>
+> #############
+
+> #AUDIENCE#
+>
+> My business partners. Convince them that your marketing strategy is well thought-out and fully backed by data.
+>
+> #############
+
+> #RESPONSE: MARKDOWN REPORT#
+>
+> <For each cluster in [CLUSTERS]>
+>
+> — Customer Group: [CLUSTER\_NAME]
+>
+> — Profile: [CLUSTER\_INFORMATION]
+>
+> — Marketing Ideas: [MARKETING\_IDEAS]
+>
+> — Rationale: [RATIONALE]
+
+> Give a table of the list of row numbers belonging to each cluster, in order to back up your analysis. Use these table headers: [[CLUSTER\_NAME], List of Rows].
+>
+> #############
+
+> #START ANALYSIS#
+>
+> If you understand, ask me for my dataset.
+
+GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据集。
+
+![image.png](../images/2024/05/16/prompt_competion/image.png)
+
+之后，GPT-4 以我们要求的 markdown 报告格式回复其分析结果：
+
+![image.png](../images/2024/05/16/prompt_competion/image1.png)
+
+
+**验证 LLM 的分析结果**
+
+为了简单起见，我们将选取 LLM 生成的 2 个客户群来进行验证，即年轻家庭（Young Families）和高品位爱好者（Discerning Enthusiasts）。
+
+年轻家庭
+
+* LLM 分析出的人群画像：1980 年后出生，已婚或同居，中低收入，频繁进行小额购买。
+* 被 LLM 聚类到这一分组的行：3, 4, 7, 10, 16, 20
+* 深入研究这些数据集，这些行的完整数据为：
+
+  ![image.png](../images/2024/05/16/prompt_competion/image3.png)
+
+这同样与 LLM 识别出的人群画像非常符合！
+
+这个例子彰显了 LLM 发现模式的能力，其能从多维度的数据集中解读和提炼出有意义的见解，这能确保其分析深深植根于数据集的事实真相。
+
+**如果使用 ChatGPT 的高级数据分析插件呢？**
+
+为了完整比较，我使用同样的 prompt 尝试了同样的任务，但是让 ChatGPT 使用代码执行分析，这会激活其高级数据分析插件。这里的思路是让插件直接在数据集上运行 k - 均值聚类等聚类算法的代码，从而得到每个客户群，之后再合成每个聚类的人群画像，以提供营销策略。
+
+但是，多次尝试都得到了以下报错信息，并没有输出，尽管这个数据集只有 50 行：
+
+![image.png](../images/2024/05/16/prompt_competion/image4.png)
+
+目前而言，使用高级数据分析插件只能执行更简单的数据集任务，比如计算描述性统计信息或创建图表，但需要算法的更高级任务有时可能会遭遇报错，无法得到输出结果，原因可能是计算限制等问题。
+
+
+**那么 LLM 适合在什么时候用来分析数据集？**
+
+答案是取决于分析的类型。
+
+对于需要精准数学计算或基于规则的复杂处理的任务，常规的编程方法依然更优。
+
+对于基于模式识别的任务，使用常规的编程和算法方法可能很困难且非常耗时。而 LLM 擅长这些任务，而且甚至还能提供额外的输出，比如用于支撑其分析结果的附加说明，以 markdown 格式编写完整的分析报告。
+
+最终，决定是否使用 LLM，取决于当前任务的性质以及 LLM 的模式识别能力与传统编程技术提供的精确性和针对性之间的权衡。
+
+
+**现在回到提示工程！**
+
+本章节最后，我们回到用于生成数据集分析的 prompt，分解一下其中使用的关键性提示工程技术：
+
+
+> Prompt:
+>
+> #CONTEXT#
+>
+> I sell wine. I have a dataset of information on my customers: [year of birth, marital status, income, number of children, days since last purchase, amount spent].
+>
+> #############
+
+> #OBJECTIVE#
+>
+> I want you use the dataset to cluster my customers into groups and then give me ideas on how to target my marketing efforts towards each group. Use this step-by-step process and do not use code:
+
+> 1. CLUSTERS: Use the columns of the dataset to cluster the rows of the dataset, such that customers within the same cluster have similar column values while customers in different clusters have distinctly different column values. Ensure that each row only belongs to 1 cluster.
+
+> For each cluster found,
+>
+> 2. CLUSTER\_INFORMATION: Describe the cluster in terms of the dataset columns.
+> 3. CLUSTER\_NAME: Interpret [CLUSTER\_INFORMATION] to obtain a short name for the customer group in this cluster.
+
+> 4. MARKETING\_IDEAS: Generate ideas to market my product to this customer group.
+> 5. RATIONALE: Explain why [MARKETING\_IDEAS] is relevant and effective for this customer group.
+>
+> #############
+
+> #STYLE#
+>
+> Business analytics report
+>
+> #############
+>
+> #TONE#
+>
+> Professional, technical
+>
+> #############
+
+> #AUDIENCE#
+>
+> My business partners. Convince them that your marketing strategy is well thought-out and fully backed by data.
+>
+> #############
+
+> #RESPONSE: MARKDOWN REPORT#
+>
+> <For each cluster in [CLUSTERS]>
+>
+> — Customer Group: [CLUSTER\_NAME]
+>
+> — Profile: [CLUSTER\_INFORMATION]
+>
+> — Marketing Ideas: [MARKETING\_IDEAS]
+>
+> — Rationale: [RATIONALE]
+
+>
+> Give a table of the list of row numbers belonging to each cluster, in order to back up your analysis. Use these table headers: [[CLUSTER\_NAME], List of Rows].
+>
+> #############
+>
+> #START ANALYSIS#
+>
+> If you understand, ask me for my dataset.
+
+
+
+**技术 1**：将复杂任务分解为简单步骤
+
+LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这样的复杂任务，一种很好的做法是将其分解成简单的逐步指示，以便 LLM 遵从。这里的思路是为 LLM 提供你希望采取的步骤。
+
+在这个案例中，给出步骤的方式为：
+
+
+> Use this step-by-step process and do not use code:
+
+> 1. CLUSTERS: Use the columns of the dataset to cluster the rows of the dataset, such that customers within the same cluster have similar column values while customers in different clusters have distinctly different column values. Ensure that each row only belongs to 1 cluster.
+
+> For each cluster found,
+>
+> 2. CLUSTER\_INFORMATION: Describe the cluster in terms of the dataset columns.
+> 3. CLUSTER\_NAME: Interpret [CLUSTER\_INFORMATION] to obtain a short name for the customer group in this cluster.
+
+> 4. MARKETING\_IDEAS: Generate ideas to market my product to this customer group.
+> 5. RATIONALE: Explain why [MARKETING\_IDEAS] is relevant and effective for this customer group.
+
+
+
+这里并没有直接简单地给 LLM 提供一个整体的任务描述，比如「将客户聚类成不同的客户群，然后针对每个客户群给出营销见解。」
+
+通过使用逐步指示，LLM 更有可能给出正确结果。
+
+
+**技术 2**：索引每一步的中间输出
+
+在为 LLM 提供逐步过程时，我们给出了每一步的中间输出结果，其中用的大写变量名指代，即 CLUSTERS、CLUSTER\_INFORMATION、CLUSTER\_NAME、MARKETING\_IDEAS 和 RATIONALE。
+
+使用大写可以将这些变量名与指令主体区分开。然后，可以通过加方括号的形式 [变量名] 索引这些中间输出。
+
+**技术 3**：设置 LLM 的响应的格式
+
+这里我们要求输出 markdown 报告格式，这能美化 LLM 的响应结果。在这里，中间输出的变量名再次派上用场，可以更方便地指定报告的结构。
+
+> #RESPONSE: MARKDOWN REPORT#
+>
+> <For each cluster in [CLUSTERS]>
+>
+> — Customer Group: [CLUSTER\_NAME]
+>
+> — Profile: [CLUSTER\_INFORMATION]
+>
+> — Marketing Ideas: [MARKETING\_IDEAS]
+>
+> — Rationale: [RATIONALE]
+
+> <Annex>
+>
+> Give a table of the list of row numbers belonging to each cluster, in order to back up your analysis. Use these table headers: [[CLUSTER\_NAME], List of Rows].
+
+事实上，你之后也可以让 ChatGPT 提供可下载的报告文件，让其直接完成你的最终报告。
+
+![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/KmXPKA19gWicf9u8ddDb0dKib5OsdydyCzcPCeSYRFnUwO7uPgogbhBSOpLp88eo1Pb9ApWqwkibbRcYwGcDJ5lng/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+
+**技术 4**：将任务指令与数据集分离开
+
+可以看到，我们从未在第一个 prompt 中向 LLM 提供数据集。相反，该 prompt 只给出了数据集分析的任务指令，最后再加上了以下内容：
+
+> #START ANALYSIS#
+>
+> If you understand, ask me for my dataset.
+
+然后，ChatGPT 答复它理解了，然后我们再在下一个 prompt 中以 CSV 字符串的形式将数据集传递给它。
+
+![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/KmXPKA19gWicf9u8ddDb0dKib5OsdydyCzZWFo7XibMn96HwrPKZmqO4aLsriaXAJvNCggaAVVs2xBl1KrxicibxvicvA/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+*GPT-4 的响应*
+
+但为什么要将任务指令与数据集分离开？
+
+这样做有助于 LLM 清晰理解每一部分，降低遗漏信息的可能性；尤其是当任务更复杂时，例如例子中这个指令较长的任务。你可能经历过 LLM「意外遗忘」长 prompt 中某个特定指令的情况，举个例子，如果你让 LLM 给出 100 词的响应，但其反馈的结果却长得多。而如果让 LLM 先接收指令，然后再接收指令处理的数据集，就能让 LLM 先消化其应当做的事情，之后再基于后面提供的数据集来执行它。
+
+请注意，这种指令与数据集分离的操作仅适用于有对话记忆的聊天式 LLM，不适用于没有对话记忆的任务完成式 LLM。
+
+*原文链接：https://towardsdatascience.com/how-i-won-singapores-gpt-4-prompt-engineering-competition-34c195a93d41*
