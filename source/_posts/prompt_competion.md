@@ -31,9 +31,8 @@ LLM 切实完成你想完成的任务并做到更多！
 为了让 LLM 给出最优响应，为 prompt 设置有效的结构至关重要。CO-STAR 框架是一种可以方便用于设计 prompt
 结构的模板，这是新加坡政府科技局的数据科学与 AI 团队的创意成果。该模板考虑了会影响 LLM 响应的有效性和相关性的方方面面，从而有助于得到更优的响应。
 
-其工作方式为：
-
-![](source/images/2024/05/16/prompt_competion/CO-STAR.png)
+其工作方式为：  
+![这是图片](source/images/2024/05/16/prompt_competion/CO-STAR.png "CO-STAR架构")
 
 (C) 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。  
 (O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。  
