@@ -1,8 +1,10 @@
 ---
 title: GPT-4提示工程师竞赛-冠军心得
 date: 2024-05-16
-tags:
+author: mxm
+categories:
   - gpt
+tags:
   - prompt
 ---
 
