@@ -636,7 +636,7 @@ LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这�
 
 事实上，你之后也可以让 ChatGPT 提供可下载的报告文件，让其直接完成你的最终报告。
 
-![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/KmXPKA19gWicf9u8ddDb0dKib5OsdydyCzcPCeSYRFnUwO7uPgogbhBSOpLp88eo1Pb9ApWqwkibbRcYwGcDJ5lng/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![image.png](../images/2024/05/16/prompt_competion/image6.png)
 
 
 **技术 4**：将任务指令与数据集分离开
@@ -649,7 +649,7 @@ LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这�
 
 然后，ChatGPT 答复它理解了，然后我们再在下一个 prompt 中以 CSV 字符串的形式将数据集传递给它。
 
-![图片](https://mmbiz.qpic.cn/sz_mmbiz_png/KmXPKA19gWicf9u8ddDb0dKib5OsdydyCzZWFo7XibMn96HwrPKZmqO4aLsriaXAJvNCggaAVVs2xBl1KrxicibxvicvA/640?wx_fmt=png&from=appmsg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![image.png](../images/2024/05/16/prompt_competion/image7.png)
 
 *GPT-4 的响应*
 
