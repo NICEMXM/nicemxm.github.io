@@ -116,6 +116,13 @@ markdown_it_plus:
     quotes: “”‘’
     pre_class: highlight
 
+math:
+  engine: 'mathjax'
+  mathjax:
+    src: custom_mathjax_source
+    config:
+      # MathJax config
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:

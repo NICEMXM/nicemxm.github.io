@@ -1380,7 +1380,8 @@ math:
   mathjax:
     enable: true
     # Available values: none | ams | all
-    tags: none
+    tags: all
+    cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML
 
   katex:
     enable: false

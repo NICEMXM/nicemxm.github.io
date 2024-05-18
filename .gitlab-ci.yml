@@ -27,9 +27,9 @@ cache:
 
 before_script:
   - npm install hexo-cli -g
-  - npm install
   - npm install hexo-renderer-markdown-it-plus --save  # 新增
   - npm install hexo-math --save # 新增
+  - npm install
 
 pages:
   script:
