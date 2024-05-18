@@ -408,6 +408,7 @@ comments:
   # https://github.com/laymonage/giscus
   giscus:
     # 以下配置按照 yml 格式增删填写即可
+#    enable: true
     # repo: xxx/xxx
     # repo-id: xxx
     # category: xxx
@@ -575,7 +576,7 @@ sidebar:
         - icon: fa-solid fa-envelope
           url: mailto:me@xxx.com
         - icon: fab fa-github
-          url: https://github.com/volantis-x/
+          url: https://github.com/
         - icon: fa-solid fa-headphones-alt
           url: /
     # ---------------------------------------
@@ -1387,3 +1388,6 @@ math:
     enable: false
     # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
     copy_tex: false
+
+# RSS订阅
+rss: /atom.xml
