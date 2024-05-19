@@ -7,15 +7,16 @@ categories:
 tags:
   - prompt
 ---
+
 论文链接：[2404.15758 (arxiv.org)](https://arxiv.org/pdf/2404.15758)
 
 github仓库:[github](https://github.com/JacobPfau/fillerTokens)
 
-# 摘要
+## 摘要
 
 来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“......”）代替思维链来解决两个困难的算法任务，这些任务在没有中间token的情况下无法解决。然而，我们从经验上发现，学习使用 filler token是困难的。我们还提供了一类问题的理论表征，其中filler token在一阶公式的量词深度方面很有用。对于满足此特征的问题，思维链tokens不需要提供有关多token计算中涉及的中间计算步骤的信息。总之，我们的结果表明，额外的token可以提供独立于token选择的计算优势。中间token可以充当填充token这一事实，引发了人们对大型语言模型进行不可审计的隐藏计算的担忧，这些计算越来越脱离观察到的思维链token。
 
-# 引言
+## 引言
 
 与没有思维链的prompt相比，思维链推理提高了语言模型 （LM） 的性能（Wei 等人，2023 年;Suzgun 等人，2022 年;Lanham 等人，2023 年）。然而，最近的实证研究表明，通过思维链得出的答案往往不忠实于链中采取的中间推理步骤（Lanham et al.， 2023;Turpin 等人，2023 年）。对于不忠实的极限情况，filler token设置将思维链替换为任意的重复token，例如“......”，如图 1 所示。通过比较给定filler token而不是思维链来对比语言模型性能，我们可以评估给定的 LM 是否能够执行未反映在思维链中的cross-token计算。
 
@@ -40,7 +41,7 @@ github仓库:[github](https://github.com/JacobPfau/fillerTokens)
 
 综上所述，这些发现表明，尽管当前的 LLM 不太可能从filler token中受益，但这并不是当前架构的原则限制。鉴于可并行化任务分解的演示，我们预计当前的 LLM 也将从filler token中获益。
 
-# 相关工作
+## 相关工作
 
 Transformer 表达性和filler tokens
 
