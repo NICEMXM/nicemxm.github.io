@@ -324,7 +324,7 @@ article:
       # https://volantis.js.org/advanced-settings/#多人协同
       author:
         avatar: volantis-static/media/org.volantis/blog/favicon/apple-touch-icon.png # https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/favicon/apple-touch-icon.png
-        name: 请设置文章作者
+        name: mxm
         url: /
       # 文章创建日期
       date:
@@ -343,7 +343,7 @@ article:
       counter:
         icon: fa-solid fa-eye
         unit: '次浏览'
-      # waline 文章评论数量
+#       waline 文章评论数量
       walinecount:
         icon: fa-solid fa-comment-dots
         desc: '条评论' # 条评论
@@ -366,10 +366,10 @@ article:
           img: volantis-static/media/org.volantis/logo/128/qzone.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png
         - id: weibo
           img: volantis-static/media/org.volantis/logo/128/weibo.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png
-        - id: # qrcode # 当id为qrcode时需要安装插件  npm i hexo-helper-qrcode
-          img: # volantis-static/media/org.volantis/logo/128/wechat.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/wechat.png
-        - id: # telegram
-          img: # volantis-static/media/org.volantis/logo/128/telegram.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png
+        - id: qrcode # 当id为qrcode时需要安装插件  npm i hexo-helper-qrcode
+          img: volantis-static/media/org.volantis/logo/128/wechat.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/wechat.png
+        - id: telegram
+          img: volantis-static/media/org.volantis/logo/128/telegram.png #  https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png
 ############################### Article Layout ############################### > end
 
 
@@ -408,7 +408,6 @@ comments:
   # https://github.com/laymonage/giscus
   giscus:
     # 以下配置按照 yml 格式增删填写即可
-#    enable: true
     # repo: xxx/xxx
     # repo-id: xxx
     # category: xxx
@@ -642,12 +641,12 @@ sidebar:
           text: '文章数目：'
           unit: '篇'
         runtime:
-          enable: false
-          data: '2020/01/01'    # 填写建站日期
+          enable: true
+          data: '2024/05/14'    # 填写建站日期
           text: '已运行时间：'
           unit: '天'
         wordcount:
-          enable: false
+          enable: true
           text: '本站总字数：'   # 需要启用 wordcount
           unit: '字'
         visitcounter:
@@ -690,6 +689,7 @@ sidebar:
       limit: '10' # 展示数量限制
       creatorId: '1' # 替换成自己的用户的ID
       tag: '' # 要展示的内容的标签
+
       image: 'fa-solid fa-image' # 图片替换成图标
       link: 'fa-solid fa-link' # 链接替换成图标
       placeholder: '说说加载中...' # 占位符
@@ -1391,3 +1391,4 @@ math:
 
 # RSS订阅
 rss: /atom.xml
+
