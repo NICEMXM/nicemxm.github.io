@@ -7,9 +7,9 @@ categories:
 tags:
   - MiniCPM
 ---
-Github: [OpenBMB/MiniCPM: MiniCPM-2B: An end-side LLM outperforms Llama2-13B. (github.com)](https://github.com/OpenBMB/MiniCPM)
+Github: [OpenBMB/MiniCPM: MiniCPM-2B](https://github.com/OpenBMB/MiniCPM)
 
-论文：[[2404.06395] MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies (arxiv.org)](https://arxiv.org/abs/2404.06395)
+论文：[2404.06395](https://arxiv.org/abs/2404.06395)
 
 ## 摘要
 
