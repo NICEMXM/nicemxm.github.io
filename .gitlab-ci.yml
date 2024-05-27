@@ -26,11 +26,11 @@ cache:
     - node_modules/
 
 before_script:
-  - npm install hexo-cli -g
-  - npm install hexo-renderer-markdown-it-plus --save  # 新增
-  - npm install hexo-math --save # 新增
-  - npm install hexo-generator-feed --save # 新增
-  - npm install hexo-next-giscus --save # 新增
+#  - npm install hexo-cli -g
+#  - npm install hexo-renderer-markdown-it-plus --save  # 新增
+#  - npm install hexo-math --save # 新增
+#  - npm install hexo-generator-feed --save # 新增
+#  - npm install hexo-next-giscus --save # 新增
   - npm install
 
 pages:
