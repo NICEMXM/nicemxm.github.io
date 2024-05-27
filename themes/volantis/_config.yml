@@ -813,7 +813,7 @@ plugins:
 
   # https://scrollrevealjs.org/api/reveal.html
   scrollreveal:
-    enable: #true
+    enable: true #true
     distance: 32px
     duration: 800 # ms
     interval: 20 # ms
@@ -822,10 +822,10 @@ plugins:
   ######## Plugins for Count:
   # npm i hexo-wordcount
   wordcount:
-    enable: #true
+    enable: true #true
 
   busuanzi:
-    enable: #true
+    enable: true #true
 
   ######## Plugins for ...
   # Button Ripple Effect
@@ -843,7 +843,7 @@ plugins:
  
   # 视差滚动效果 Slide Background
   parallax:
-    enable: #true
+    enable: true #true
     position: cover       # cover: sticky on the cover.   fixed: Fixed as background for the site.
     shuffle: true         # shuffle playlist
     duration: 10000       # Duration (ms)
@@ -875,7 +875,7 @@ plugins:
   # https://aplayer.js.org/#/zh-Hans/
   # APlayer config: https://github.com/metowolf/MetingJS
   aplayer:
-    enable: #true
+    enable: true #true
     source: meting # meting：从 MetingJS API 获取音乐数据（API经常不稳定） / local：本地音乐数据
     # ============= meting begin =============
     # Required
