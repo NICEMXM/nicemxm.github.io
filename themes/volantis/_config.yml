@@ -595,6 +595,7 @@ sidebar:
     music:
       class: music
       display: [desktop, mobile] # [desktop, mobile]
+      pjaxReload: false
     # ---------------------------------------
     # category widget
     category:
@@ -694,6 +695,17 @@ sidebar:
       link: 'fa-solid fa-link' # 链接替换成图标
       placeholder: '说说加载中...' # 占位符
 
+    # 新增
+    text:
+      class: text
+      display: [ desktop ] # [desktop, mobile]
+      header:
+        icon: fab fa-github
+        title: 点个赞吧
+        url: https://github.com/
+        content:
+          - '您的赞对我来说很重要，如果您喜欢本主题，希望能够给下面的项目点个赞来支持一下。'
+
 ############################### Sidebar ############################### > end
 
 
@@ -735,7 +747,7 @@ site_footer:
     <span>本站总访问量为 <span id='busuanzi_value_site_pv'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span> 次</span>
     <span>访客数为 <span id='busuanzi_value_site_uv'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span> 人</span>
   # site copyright
-  copyright: '[Copyright © since 2017 XXX](/)'
+  copyright: '[Copyright © since 2024 05](/)'
   # You can add your own property here. (Support markdown, for example: br: '<br>')
   br: '<br>'
 ############################### Site Footer ############################### > end
