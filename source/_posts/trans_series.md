@@ -6,6 +6,8 @@ categories:
   - 知识表示学习
 tags:
   - Trans系列
+plugins:
+  - mathjax
 mathjax: true
 ---
 本文将简短梳理知识表示学习Trans系列方法，包含TransE、TransH、TransR、TransD、TransA、TransG、TranSparse以及KG2E，并且结合Github清华开源的高星代码了解一下实现过程，以便能通过代码看出他们之间的联系和区别。
