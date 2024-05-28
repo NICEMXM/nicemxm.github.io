@@ -108,55 +108,41 @@ ignore:
 #theme: landscape
 theme: volantis
 
-# plugins
-# 新增
-markdown_it_plus:
-    highlight: true
-    html: true
-    xhtmlOut: true
-    breaks: true
-    langPrefix:
-    linkify: true
-    typographer: false # 改为false解决“英文的引号会被渲染为中文的引号”的问题
-    quotes: “”‘’
-    pre_class: highlight
-
-math:
-  engine: 'mathjax'
-  mathjax:
-    src: custom_mathjax_source
-    config:
-      # MathJax config
-
-plugins:
-  #Feed Atom
-  feed:
-    enable: true
-    type: atom
-    path: atom.xml
-    limit: 20
-    hub:
-    content:
-    content_limit: 140
-    content_limit_delim: ' '
-    order_by: -date
-    icon: icon.png
-    autodiscovery: true
-    template:
-
-  wordcount:
-    enable: true #true
-
-# 文章布局
-article:
-  # 文章详情页面的文章卡片本体布局方案
-  body:
-    # 文章顶部信息
-    # 从 meta_library 中取
-    top_meta: [..., wordcount, ...]
-    # 文章底部信息
-    # 从 meta_library 中取
-    bottom_meta: [..., wordcount, ...]
+## plugins
+## 新增
+#markdown_it_plus:
+#    highlight: true
+#    html: true
+#    xhtmlOut: true
+#    breaks: true
+#    langPrefix:
+#    linkify: true
+#    typographer: false # 改为false解决“英文的引号会被渲染为中文的引号”的问题
+#    quotes: “”‘’
+#    pre_class: highlight
+#
+#math:
+#  engine: 'mathjax'
+#  mathjax:
+#    src: custom_mathjax_source
+#    config:
+#      # MathJax config
+#
+#plugins:
+#  #Feed Atom
+#  feed:
+#    enable: true
+#    type: atom
+#    path: atom.xml
+#    limit: 20
+#    hub:
+#    content:
+#    content_limit: 140
+#    content_limit_delim: ' '
+#    order_by: -date
+#    icon: icon.png
+#    autodiscovery: true
+#    template:
 
 
 # Deployment

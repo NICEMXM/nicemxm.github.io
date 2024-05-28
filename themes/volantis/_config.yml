@@ -201,7 +201,7 @@ cover:
 pages:
   # 友链页面配置
   friends:
-    layout_scheme: traditional # simple: 简单布局, traditional: 传统布局
+    layout_scheme: simple # simple: 简单布局, traditional: 传统布局
 
 ############################### Article Layout ############################### > start
 # 文章布局
@@ -227,7 +227,7 @@ article:
   body:
     # 文章顶部信息
     # 从 meta_library 中取
-    top_meta: [author, category, date, counter] #启用评论数量需在此添加
+    top_meta: [author, category, date, counter, wordcount] #启用评论数量需在此添加
     # 文章底部信息
     # 从 meta_library 中取
     bottom_meta: [updated, tags, share]
@@ -1039,6 +1039,41 @@ plugins:
     key: 5Q5mpqRK5DkwT1X9Gi5e
     wordLimit: 1000 # 摘要字数限制 (⚠️危险：更改此变量损失已消耗过的key，因为你提交的内容发生了变化。)
     typewriter: true # 打字机效果
+
+  # 新增
+  #Feed Atom
+  feed:
+    enable: true
+    type: atom
+    path: atom.xml
+    limit: 20
+    hub:
+    content:
+    content_limit: 140
+    content_limit_delim: ' '
+    order_by: -date
+    icon: icon.png
+    autodiscovery: true
+    template:
+
+  markdown_it_plus:
+    highlight: true
+    html: true
+    xhtmlOut: true
+    breaks: true
+    langPrefix:
+    linkify: true
+    typographer: false # 改为false解决“英文的引号会被渲染为中文的引号”的问题
+    quotes: “”‘’
+    pre_class: highlight
+
+  math:
+    engine: 'mathjax'
+    mathjax:
+      src: custom_mathjax_source
+      config:
+      # MathJax config
+
 
 ############################### Plugins ############################### > end
 
