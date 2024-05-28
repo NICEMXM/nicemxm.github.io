@@ -7,6 +7,7 @@ categories:
 tags:
   - 推理
 ---
+![](https://cdn.jsdelivr.net/gh/hexojs/hexo-theme-unit-test@master/source/assets/wallpaper-2572384.jpg)
 ## vllm是什么？
 
 vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。
