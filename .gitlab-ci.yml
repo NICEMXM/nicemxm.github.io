@@ -20,7 +20,7 @@
 #  only:
 #  - master
 
-image: node:20.13.1 # use nodejs v16 LTS
+image: node:20.9.0 # use nodejs v20 LTS 20.13.1
 cache:
   paths:
     - node_modules/
