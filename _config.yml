@@ -46,7 +46,7 @@ post_asset_folder: true
 marked:
   prependRoot: true
   postAsset: true
-relative_link: true   # false
+relative_link: false   # false
 future: true
 syntax_highlighter: highlight.js
 highlight:
