@@ -32,6 +32,7 @@ LLM 切实完成你想完成的任务并做到更多！
 
 其工作方式为：
 ![这是图片](../images/2024/05/16/prompt_competion/CO-STAR.png "CO-STAR架构")
+{% ../images/2024/05/16/prompt_competion CO-STAR.png 这是图片 %}
 
 (C) 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。
 (O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。
@@ -473,7 +474,6 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 
 ![image.png](../images/2024/05/16/prompt_competion/image1.png)
 
-
 **验证 LLM 的分析结果**
 
 为了简单起见，我们将选取 LLM 生成的 2 个客户群来进行验证，即年轻家庭（Young Families）和高品位爱好者（Discerning Enthusiasts）。
@@ -500,7 +500,6 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 
 目前而言，使用高级数据分析插件只能执行更简单的数据集任务，比如计算描述性统计信息或创建图表，但需要算法的更高级任务有时可能会遭遇报错，无法得到输出结果，原因可能是计算限制等问题。
 
-
 **那么 LLM 适合在什么时候用来分析数据集？**
 
 答案是取决于分析的类型。
@@ -511,11 +510,9 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 
 最终，决定是否使用 LLM，取决于当前任务的性质以及 LLM 的模式识别能力与传统编程技术提供的精确性和针对性之间的权衡。
 
-
 **现在回到提示工程！**
 
 本章节最后，我们回到用于生成数据集分析的 prompt，分解一下其中使用的关键性提示工程技术：
-
 
 > Prompt:
 >
@@ -571,7 +568,6 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 >
 > — Rationale: [RATIONALE]
 
->
 > Give a table of the list of row numbers belonging to each cluster, in order to back up your analysis. Use these table headers: [[CLUSTER\_NAME], List of Rows].
 >
 > #############
@@ -580,14 +576,11 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 >
 > If you understand, ask me for my dataset.
 
-
-
 **技术 1**：将复杂任务分解为简单步骤
 
 LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这样的复杂任务，一种很好的做法是将其分解成简单的逐步指示，以便 LLM 遵从。这里的思路是为 LLM 提供你希望采取的步骤。
 
 在这个案例中，给出步骤的方式为：
-
 
 > Use this step-by-step process and do not use code:
 
@@ -601,12 +594,9 @@ LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这�
 > 4. MARKETING\_IDEAS: Generate ideas to market my product to this customer group.
 > 5. RATIONALE: Explain why [MARKETING\_IDEAS] is relevant and effective for this customer group.
 
-
-
 这里并没有直接简单地给 LLM 提供一个整体的任务描述，比如「将客户聚类成不同的客户群，然后针对每个客户群给出营销见解。」
 
 通过使用逐步指示，LLM 更有可能给出正确结果。
-
 
 **技术 2**：索引每一步的中间输出
 
@@ -637,7 +627,6 @@ LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这�
 事实上，你之后也可以让 ChatGPT 提供可下载的报告文件，让其直接完成你的最终报告。
 
 ![image.png](../images/2024/05/16/prompt_competion/image6.png)
-
 
 **技术 4**：将任务指令与数据集分离开
 
