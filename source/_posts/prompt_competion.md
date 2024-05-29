@@ -56,7 +56,7 @@ Write a facebook post to advertise my company’s new product. My company’s na
 GPT-4 的输出如下：
 
 ```chatinput
-ntroducing the Revolutionary Beta Hairdryer by Alpha!
+introducing the Revolutionary Beta Hairdryer by Alpha!
 - Say goodbye to long, tedious hair drying sessions! Alpha is proud to unveil the Beta, our latest innovation in haircare technology.
 - Ultra-Fast Drying: The Beta is designed to cut your drying time in half, thanks to its advanced, powerful motor. Get ready faster and enjoy more time doing what you love!
 Shop Now: [Link to product page]
