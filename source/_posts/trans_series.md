@@ -49,7 +49,7 @@ TransE模型的基本思想就是把relation看做是head到tail的翻译，认�
 于是我们定义一个距离$d(\vec{x}, \vec{y})$来表示两个向量之间的距离，一般情况下我们取L1或L2范数。那么我们需要对一个正确的三元组(h,r,t)来说，d(h+r, t)越小越好；错误的三元组(h,r,t)，d(h+r, t)越大越好。目标函数如下：
 
 $$
-min \sum _{(h,r,t)} \sum _{(h^{\prime},r^{\prime},t^{\prime})}[\gamma + d(h+r,t) - d(h^{\prime}+r^{\prime},t^{\prime})]_{+}
+min\sum_{(h,r,t)}\sum_{(h^{\prime},r^{\prime},t^{\prime})}[\gamma+d(h+r,t)-d(h^{\prime}+r^{\prime},t^{\prime})]_{+}
 $$
 
 其中$[x]_{+}=max \{0, x\}$， $\Delta^{\prime}$代表负样本，$\Delta$代表正样本
@@ -135,11 +135,11 @@ TransH 是Zhen Wang 等人在2014年提出的一种对于TransE模型的改进�
 $w_r$ 以及平面上的平移向量 $d_r$表示。具体的算法实现，对于一个三元组，我们首先需要将h和t映射到我们的超平面上，从而得到映射向量$h_\perp$和$t_\perp$, 具体公式如下：
 
 $$
-h_\perp = h - w_r^{T}*h*w_r
+h_\perp=h-w_r^{T}*h*w_r
 $$
 
 $$
-t_\perp = t - w_r^{T}*t*w_r
+t_\perp=t-w_r^{T}*t*w_r
 $$
 
 其中简单说明下$w_r^{T}h w_r$的含义，这里$w_r^{T}*h=|w||h|\cos$表示h在$w_r$方向上投影的长度(带正负号)，乘以$w_r$即h在$w_r$的投影。
@@ -152,7 +152,7 @@ $$
 这个公式中所期望的结果为，如果三元组关系是正确的，则结果数值较小，反之则结果数值较大。为了实现上述所期望的结果，作者引入了margin-base ranking function 作为损失函数来训练模型。
 
 $$
-min \sum _{(h,r,t)} \sum _{(h^{\prime},r^{\prime},t^{\prime})}[\gamma + f_r(h,t) - f_r(h^{\prime},t^{\prime})]_{+}
+min\sum_{(h,r,t)}\sum_{(h^{\prime},r^{\prime},t^{\prime})}[\gamma+f_r(h,t)-f_r(h^{\prime},t^{\prime})]_{+}
 $$
 
 TransH与TransE还有一点不同之处，在于负例的生成。现实中的知识图谱不完整，需要减少假负例（即替换了一个节点后的三元组，恰好是整个知识图谱中存在的另一个三元组）的出现，因此需要根据头尾节点关系，进行节点替换。比如对于一对多的关系，我们更多的替换头结点而不是尾节点，这样才能避免假负例出现的情况，具体的标准如下。
