@@ -18,7 +18,7 @@ github仓库:[github](https://github.com/JacobPfau/fillerTokens)
 ## 引言
 
 与没有思维链的prompt相比，思维链推理提高了语言模型 （LM） 的性能（Wei 等人，2023 年;Suzgun 等人，2022 年;Lanham 等人，2023 年）。然而，最近的实证研究表明，通过思维链得出的答案往往不忠实于链中采取的中间推理步骤（Lanham et al.， 2023;Turpin 等人，2023 年）。对于不忠实的极限情况，filler token设置将思维链替换为任意的重复token，例如“......”，如图 1 所示。通过比较给定filler token而不是思维链来对比语言模型性能，我们可以评估给定的 LM 是否能够执行未反映在思维链中的cross-token计算。
-![这个图片](../images/2024/05/19/prompt_dot/image1.png "数据图")
+![图片](../images/2024/05/19/prompt_dot/image1.png "数据图")
 
 最广泛使用的LM对齐方法是纯粹的行为对齐方法。从人类反馈、强化学习、指令微调都依赖于判断或比较模型输出token。能够使用filler token的 LM 破坏了这种依赖性，因为无法从token本身判断交叉filler token进行的推理过程。
 
@@ -27,7 +27,7 @@ github仓库:[github](https://github.com/JacobPfau/fillerTokens)
 从经验上讲，商业大型语言模型 （LLM） 不会从常见 QA 和数学基准上的填充标记中受益;Claude 2 和 GPT-3.5 使用filler token在没有中间token的情况下性能相同（Sachan，2023 年;Lanham 等人，2023 年）。
 
 以上这些结果也为filler token如何扩展transformers的表现力提供了有趣的见解。作为single-token预测器，transformers只能解决称为 TC0 的复杂度类中的问题，这意味着transformers无法表达排列组合或图连通性等问题（Merrill & Sabharwal，2023a;Strobl 等人，2023 年）。虽然线性或多项式思维链步骤可以对TC0 之外问题，提高性能（Merrill & Sabharwal，2023a）。因此，与思维链不同，我们不能指望填充token让 transformer 解决 TC0 之外的问题，例如图连接。然而，我们的结果表明，填充token可能会扩展 TC0 中transform的表达能力。特别是，我们的研究结果表明，对于具有填充token的transformers，需要许多嵌套量词的推理变得可表达，而推测无中间标记、即时transformers无法解决这些问题。我们提出了没有思维链的transformers被推测为不够充分的合成任务。
-![这个图片](../images/2024/05/19/prompt_dot/image2.png "数据图")
+![图片](../images/2024/05/19/prompt_dot/image2.png "数据图")
 
 我们的贡献如下：
 
@@ -101,12 +101,12 @@ B75 C22 D13 : . . . . . . . . . . . . ANS True」。
 实验设置了三组对照：
 
 思维链通过编写所有相关的中间求和，将3SUM问题简化为一系列2SUM问题（如下图所示）。这种方法将问题的计算量降低到了N的2次方——Transformer可以搞定，而且可以并行。
-![这个图片](../images/2024/05/19/prompt_dot/image3.png "数据图")
+![图片](../images/2024/05/19/prompt_dot/image3.png "数据图")
 
 **3. 自适应CoT解决方案**，序列的形式为：「A15 B75 C22 D13 : A B C 15 75 22 2 B C D 75 22 13 0 ANS True」。
 
 与上面方案中，将3SUM巧妙地分解为可并行化的子问题不同，这里希望使用启发式方法来产生灵活的思维链，以模仿人类的推理。这种实例自适应计算，与填充token计算的并行结构不兼容。
-![这个图片](../images/2024/05/19/prompt_dot/image5.png "数据图")
+![图片](../images/2024/05/19/prompt_dot/image5.png "数据图")
 
 从上图的结果可以看出，不输出填充token的情况下，模型的准确率总体上随着序列变长而下降，而使用填充token时，准确率一直保持在100%。
 
@@ -116,7 +116,7 @@ B75 C22 D13 : . . . . . . . . . . . . ANS True」。
 第二个任务是2SUM-Transform，只需要判断两个数字的和是否满足要求，计算量在Transformer的掌控之中。
 
 不过为了防止模型「作弊」，对输入token就地计算，这里将输入的每个数字移动一个随机偏移量。
-![这个图片](../images/2024/05/19/prompt_dot/image6.png "数据图")
+![图片](../images/2024/05/19/prompt_dot/image6.png "数据图")
 
 
 结果如上表所示：filler token方法的精度达到了93.6%，非常接近于Chain-of-Thought，而不使用中间填充的情况下，精度只有78.7%。
@@ -125,7 +125,7 @@ B75 C22 D13 : . . . . . . . . . . . . ANS True」。
 
 
 为了验证填充token是否带来了与最终预测相关的隐藏计算，研究人员冻结了模型权重，仅微调最后一层注意力层。
-![这个图片](../images/2024/05/19/prompt_dot/image7.png "数据图")
+![图片](../images/2024/05/19/prompt_dot/image7.png "数据图")
 
 上面的结果表明，随着可用的填充token增多，模型的准确性也不断提高，这表明填充token确实正在执行与3SUM预测任务相关的隐藏计算。
 
