@@ -9,6 +9,7 @@ tags:
 ---
 ![这个图片](https://cdn.jsdelivr.net/gh/hexojs/hexo-theme-unit-test@master/source/assets/wallpaper-2572384.jpg)
 ## vllm是什么？
+![这个图片](../images/2024/05/14/trans_series/image3.png "TransE和TransH对比")
 
 vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。
 

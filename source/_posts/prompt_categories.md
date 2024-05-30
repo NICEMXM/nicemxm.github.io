@@ -1,6 +1,6 @@
 ---
 title: prompt写法
-date: 2024-05-16
+date: 2024-05-30
 author: mxm
 categories:
   - gpt
