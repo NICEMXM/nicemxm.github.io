@@ -25,7 +25,7 @@ t表示尾实体
 
 知识表示学习的前提是表示学习，那么何为表示学习？就是把图像、文本、语音等的语义信息表示为低维稠密的实体向量，即Embedding。Embedding是大家都熟知的，自从13年出现的word2vec，Embedding成为NLP任务的标配。
 
-在这里便是将**知识图谱中的实体和关系向量化**，具体的说，我们的目标是将知识库中所有的实体、关系表示成一个低纬度的向量。(h, r, t)\rightarrow(h^{\rightarrow}, r^{\rightarrow}, t^{\rightarrow})
+在这里便是将**知识图谱中的实体和关系向量化**，具体的说，我们的目标是将知识库中所有的实体、关系表示成一个低纬度的向量。$(h, r, t)\rightarrow(h^{\rightarrow}, r^{\rightarrow}, t^{\rightarrow})$
 
 知识表示学习目前的一些主要方法包括以下几个：
 
