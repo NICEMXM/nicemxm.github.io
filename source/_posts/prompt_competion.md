@@ -466,10 +466,10 @@ LLM 擅长识别模式和趋势。这种能力源自 LLM 训练时使用的大�
 > If you understand, ask me for my dataset.
 
 GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据集。
-![这个图片](../images/2024/05/16/prompt_competion/image.png)
+![这个图片](../images/2024/05/16/prompt_competion/image.png "数据图")
 
 之后，GPT-4 以我们要求的 markdown 报告格式回复其分析结果：
-![这个图片](../images/2024/05/16/prompt_competion/image1.png)
+![这个图片](../images/2024/05/16/prompt_competion/image1.png "数据图")
 
 **验证 LLM 的分析结果**
 
@@ -480,7 +480,7 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 * LLM 分析出的人群画像：1980 年后出生，已婚或同居，中低收入，频繁进行小额购买。
 * 被 LLM 聚类到这一分组的行：3, 4, 7, 10, 16, 20
 * 深入研究这些数据集，这些行的完整数据为：
-![这个图片](../images/2024/05/16/prompt_competion/image3.png)
+![这个图片](../images/2024/05/16/prompt_competion/image3.png "数据图")
 
 这同样与 LLM 识别出的人群画像非常符合！
 
@@ -491,7 +491,7 @@ GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据
 为了完整比较，我使用同样的 prompt 尝试了同样的任务，但是让 ChatGPT 使用代码执行分析，这会激活其高级数据分析插件。这里的思路是让插件直接在数据集上运行 k - 均值聚类等聚类算法的代码，从而得到每个客户群，之后再合成每个聚类的人群画像，以提供营销策略。
 
 但是，多次尝试都得到了以下报错信息，并没有输出，尽管这个数据集只有 50 行：
-![这个图片](../images/2024/05/16/prompt_competion/image4.png)
+![这个图片](../images/2024/05/16/prompt_competion/image4.png "数据图")
 
 目前而言，使用高级数据分析插件只能执行更简单的数据集任务，比如计算描述性统计信息或创建图表，但需要算法的更高级任务有时可能会遭遇报错，无法得到输出结果，原因可能是计算限制等问题。
 
@@ -620,7 +620,7 @@ LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这�
 > Give a table of the list of row numbers belonging to each cluster, in order to back up your analysis. Use these table headers: [[CLUSTER\_NAME], List of Rows].
 
 事实上，你之后也可以让 ChatGPT 提供可下载的报告文件，让其直接完成你的最终报告。
-![这个图片](../images/2024/05/16/prompt_competion/image6.png)
+![这个图片](../images/2024/05/16/prompt_competion/image6.png "数据图")
 
 **技术 4**：将任务指令与数据集分离开
 
@@ -631,7 +631,7 @@ LLM 擅于执行简单任务，并不很擅长复杂任务。因此，对于这�
 > If you understand, ask me for my dataset.
 
 然后，ChatGPT 答复它理解了，然后我们再在下一个 prompt 中以 CSV 字符串的形式将数据集传递给它。
-![这个图片](../images/2024/05/16/prompt_competion/image7.png)
+![这个图片](../images/2024/05/16/prompt_competion/image7.png "数据图")
 
 *GPT-4 的响应*
 
