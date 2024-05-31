@@ -604,7 +604,7 @@ sidebar:
       header:
         icon: fa-solid fa-folder-open
         title: 文章分类
-        url: /blog/categories/
+        url: /categories/
     # ---------------------------------------
     # tagcloud widget
     tagcloud:
@@ -613,7 +613,7 @@ sidebar:
       header:
         icon: fa-solid fa-tags
         title: 热门标签
-        url: /blog/tags/
+        url: /tags/
       min_font: 14
       max_font: 24
       color: true
