@@ -1,6 +1,6 @@
 ---
 title: 大型语言模型综述
-date: 2024-06-04
+date: 2024-06-17
 author: mxm
 categories:
   - gpt
