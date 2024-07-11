@@ -47,3 +47,23 @@ prompt：
 ## 回答: 
 小明 12 岁[1]，小红比小明大两岁，所以小红 14 岁[3]
 ```
+
+
+### 评估答案
+```python
+_ANSWER_EVAL_TEMPLATE = (
+    "你是一个改卷大师，在对同一个问题的解答中，给两个考生(`Ground Truth`和`Answer`)的回答打分，并且对比两个回答说出回答的更好的理由\n"
+    "请根据以下文本\n"
+    "Question: {question}\n"    
+    "Ground Truth: {ground_truth}\n"
+    "Answer: {answer}\n"
+    "输出两个考生对应的分数和理由，按下面的格式:\n"
+    "Ground_Truth_score: ,Answer: , Reason: "
+)
+
+EVAL_EXTRACTION_PROMPT = PromptTemplate(
+    input_variables=["question", "ground_truth", "answer"],
+    template=_ANSWER_EVAL_TEMPLATE,
+)
+
+```
