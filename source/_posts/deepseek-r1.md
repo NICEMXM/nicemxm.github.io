@@ -114,6 +114,7 @@ DeepSeek-R1-Zero的“顿悟时刻”在训练DeepSeek-R1-Zero期间观察到的
 在这项工作中，我们收集了数千个冷启动数据，以微调DeepSeek-V3-Base作为RL的起点。与DeepSeek-R1-Zero相比，冷启动数据的优势包括：
 
 - **可读性**：DeepSeek-R1-Zero的一个关键限制是其内容通常不适合阅读。响应可能混合多种语言或缺乏Markdown格式来突出显示答案。相比之下，在为DeepSeek-R1创建冷启动数据时，我们设计了一种可读模式，包括在每个响应末尾的摘要，并过滤掉不适合阅读的响应。这里，我们定义输出格式为|special_token|<reasoning_process>|special_token|<summary>，其中推理过程是查询的CoT，摘要用于总结推理结果。
+  
 - **潜力**：通过精心设计具有人工先验的冷启动数据模式，我们观察到相对于DeepSeek-R1-Zero的更好性能。我们相信迭代训练是推理模型的更好方法。
 
 #### 2.3.2. 推理导向的强化学习
