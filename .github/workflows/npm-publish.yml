@@ -38,7 +38,7 @@ jobs:
           # npm install hexo-math --save
           # npm install hexo-generator-feed --save
           # npm install hexo-next-giscus --save
-
+      
       - name: Build site
         run: npm run build
 
@@ -52,5 +52,14 @@ jobs:
         if: github.ref == 'refs/heads/main'  # 确保只在默认分支上部署
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: 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
           publish_dir: ./nicemxm.github.io/public
+          
+      - name: Deploy NICEMXM's Blog # 设置 git 信息并推送静态博客文件
+        run: |
+          git config --global user.name "NICEMXM"
+          git config --global user.email "1204192242@qq.com"
+          hexo deploy
+
+      - run: echo "Deploy Successful!"
+  
