@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: node:20.9.0
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
       - name: Install additional plugins (if needed)
         run: |
           # 下面的插件安装可以根据需要启用
-          # npm install hexo-cli -g
+          npm install hexo-cli -g
           # npm install hexo-renderer-markdown-it-plus --save
           # npm install hexo-math --save
           # npm install hexo-generator-feed --save
@@ -53,4 +53,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./nicemxm.github.io/public
