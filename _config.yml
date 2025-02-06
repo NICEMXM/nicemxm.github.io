@@ -17,7 +17,7 @@ favicon: https://gcore.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://nicemxm.gitlab.io
+url: https://nicemxm.github.io
 permalink: :year/:month/:day/:title/
 #permalink: :year/:title/
 permalink_defaults:
@@ -148,6 +148,8 @@ theme: volantis
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: 'git'
+  repo: https://github.com/NICEMXM/nicemxm.github.io.git
+  branch: main
 
 
