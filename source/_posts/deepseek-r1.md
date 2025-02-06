@@ -1,5 +1,5 @@
 ---
-title: DeepSeek-R1: 通过强化学习激励LLM的推理能力
+title: DeepSeek-R1：通过强化学习激励LLM的推理能力
 date: 2025-02-06
 author: mxm
 categories:
