@@ -3,9 +3,9 @@ title: deepseek-v3
 date: 2025-02-07
 author: mxm
 categories:
-  - llm
+  - LLM
 tags:
-  - 模型
+  - generate
 ---
 
 ## 摘要
