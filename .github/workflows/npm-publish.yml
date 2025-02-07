@@ -1,65 +1,38 @@
-name: Build and Deploy Hexo Site
+name: HEXO CI
 
-on:
-  push:
-    branches:
-      - main  # 替换为你的默认分支名称，如果不同的话
+on: [push]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v1
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          node-version: '20.9.0'  # 使用 Node.js v20 LTS 版本
+          node-version: ${{ matrix.node-version }}
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        id: cache
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Configuration environment
+        env:
+          HEXO_DEPLOY_PRI: ${{secrets.HEXO_DEPLOY_PRI}}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global user.name "yourname"
+          git config --global user.email "your@email.com"
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Install additional plugins (if needed)
         run: |
-          # 下面的插件安装可以根据需要启用
-          npm install hexo-cli -g
-          # npm install hexo-renderer-markdown-it-plus --save
-          # npm install hexo-math --save
-          # npm install hexo-generator-feed --save
-          # npm install hexo-next-giscus --save
-      
-      - name: Build site
-        run: npm run build
+          npm i -g hexo-cli
+          npm i
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: public
-          path: public
-          
-      - name: Deploy NICEMXM's Blog # 设置 git 信息并推送静态博客文件
+      - name: Deploy hexo
         run: |
-          git config --global user.name "NICEMXM"
-          git config --global user.email "1204192242@qq.com"
-          hexo deploy
-          
-      - run: echo "Deploy Successful!"
-
-      - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'  # 确保只在默认分支上部署
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./nicemxm.github.io/public
-  
+          hexo g -d
