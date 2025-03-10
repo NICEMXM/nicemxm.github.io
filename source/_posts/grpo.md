@@ -34,13 +34,13 @@ $$D_{KL} [\pi_{\theta} \parallel \pi_{ref}] = \frac{\pi_{\theta}(o_{i,t} \mid q,
 
 目标是最大化得分，同时确保模型保持接近参考策略。因此，损失定义如下：
 
-$$\[ L_{GRPO}(\theta) = -\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \left[ \frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{[\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})]_{\text{no grad}}} \hat{A}_{i,t} - \beta D_{KL}[\pi_\theta \| \pi_{\text{ref}}] \right], \]$$
+$$L_{GRPO}(\theta) = -\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \left[ \frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{[\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})]_{\text{no grad}}} \hat{A}_{i,t} - \beta D_{KL}[\pi_\theta \| \pi_{\text{ref}}] \right],$$
 
 其中第一项代表缩放后的优势，第二项通过KL散度惩罚与参考策略的偏差。
 
 在原始论文中，为了在每次生成后进行多次更新，利用了裁剪代理目标来推广这种表述方式：
 
-$$\[ L_{GRPO}(\theta) = -\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \left[\min\left(\frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{\pi_{\theta_{\text{old}}}(o_{i,t}|\mathbf{q}, o_{i,<t})} \hat{A}_{i,t}, \text{clip}\left(\frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{\pi_{\theta_{\text{old}}}(o_{i,t}|\mathbf{q}, o_{i,<t})}, 1-\epsilon, 1+\epsilon\right) \hat{A}_{i,t}\right) - \beta D_{KL}[\pi_\theta \| \pi_{\text{ref}}]\right], \]$$
+$$L_{GRPO}(\theta) = -\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \left[\min\left(\frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{\pi_{\theta_{\text{old}}}(o_{i,t}|\mathbf{q}, o_{i,<t})} \hat{A}_{i,t}, \text{clip}\left(\frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{\pi_{\theta_{\text{old}}}(o_{i,t}|\mathbf{q}, o_{i,<t})}, 1-\epsilon, 1+\epsilon\right) \hat{A}_{i,t}\right) - \beta D_{KL}[\pi_\theta \| \pi_{\text{ref}}]\right],$$
 
 这里的 $$\(\text{clip}(\cdot, 1-\epsilon, 1+\epsilon)\)$$ 确保更新不会过度偏离参考策略，通过将策略比率限制在$$\(1-\epsilon\)$$ 到 $$\(1+\epsilon\)$$ 之间。然而，在TRL中，如同原始论文一样，我们每次生成只做一次更新，因此可以简化损失至第一种形式。
 
