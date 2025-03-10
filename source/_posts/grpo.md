@@ -25,11 +25,13 @@ GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身
 $$ \hat{A}_{i,t} = \frac{r_i - \text{mean}(r)}{\text{std}(r)} $$
 
 **估计KL散度**
+
 KL散度是通过Schulman等人（2020）提出的近似器来估计的。近似器的定义如下：
 
 $$D_{KL} [\pi_{\theta} \parallel \pi_{ref}] = \frac{\pi_{\theta}(o_{i,t} \mid q,o_{i,<t})}{\pi_{ref}(o_{i,t} \mid q,o_{i,<t})} - \log \left( \frac{\pi_{\theta}(o_{i,t} \mid q,o_{i,<t})}{\pi_{ref}(o_{i,t} \mid q,o_{i,<t})} \right) - 1,$$
 
 **计算损失**
+
 目标是最大化得分，同时确保模型保持接近参考策略。因此，损失定义如下：
 
 $$\[ L_{GRPO}(\theta) = -\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \left[ \frac{\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})}{[\pi_\theta(o_{i,t}|\mathbf{q}, o_{i,<t})]_{\text{no grad}}} \hat{A}_{i,t} - \beta D_{KL}[\pi_\theta \| \pi_{\text{ref}}] \right], \]$$
