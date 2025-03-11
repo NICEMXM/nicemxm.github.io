@@ -24,7 +24,7 @@ GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身
 
 $$ \hat{A}_{i,t} = \frac{r_i - \text{mean}(r)}{\text{std}(r)} $$
 
-这里的 $\text{clip}(\cdot, 1-\epsilon, 1+\epsilon)$ 确保更新不会过度偏离参考策略，通过将策略比率限制在$1-\epsilon$ 到 $1+\epsilon$ 之间。然而，在TRL中，如同原始论文一样，我们每次生成只做一次更新，因此可以简化损失至第一种形式。
+这里的 $\text{clip}(\cdot, 1-\epsilon, 1+\epsilon)$ 确保更新不会过度偏离参考策略，通过将策略比率限制在$(1-\epsilon)$ 到 $(1+\epsilon)$ 之间。然而，在TRL中，如同原始论文一样，我们每次生成只做一次更新，因此可以简化损失至第一种形式。
 
 
 
