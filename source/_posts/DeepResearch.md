@@ -1,5 +1,5 @@
 ---
-title: CoMat：DeepResearch：搜索代理
+title: DeepResearch：搜索代理
 date: 2024-08-01
 author: mxm
 categories:
