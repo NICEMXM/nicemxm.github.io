@@ -1,6 +1,6 @@
 ---
 title: Qwen_onmi_7B
-date: 2024-05-30
+date: 2025-05-30
 author: mxm
 categories:
   - gpt
