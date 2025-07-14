@@ -1,6 +1,6 @@
 ---
 title: SigLIP2：更好的多语言视觉语言编码器
-date: 2024-08-07
+date: 2025-04-07
 author: mxm
 categories:
   - LLM
