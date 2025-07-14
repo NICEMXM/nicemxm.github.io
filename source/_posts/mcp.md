@@ -1,6 +1,6 @@
 ---
 title: 什么是MCP
-date: 2024-05-20
+date: 2025-05-20
 author: mxm
 categories:
   - gpt
