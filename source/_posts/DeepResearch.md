@@ -1,6 +1,6 @@
 ---
 title: DeepResearch：搜索代理
-date: 2024-08-01
+date: 2025-06-11
 author: mxm
 categories:
   - agent
