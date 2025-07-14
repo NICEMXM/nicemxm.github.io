@@ -1,6 +1,6 @@
 ---
 title: SmolVLA：让机器人更懂'看听说做'的轻量化解决方案
-date: 2024-08-07
+date: 2025-06-07
 author: mxm
 categories:
   - VLA
