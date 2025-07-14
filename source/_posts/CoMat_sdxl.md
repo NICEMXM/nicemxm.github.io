@@ -1,6 +1,6 @@
 ---
 title: CoMat：将文本到图像扩散模型与图像到文本概念匹配对齐
-date: 2024-08-01
+date: 2025-04-01
 author: mxm
 categories:
   - 文生图
