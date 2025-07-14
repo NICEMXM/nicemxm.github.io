@@ -1,6 +1,6 @@
 ---
 title: MiniCPM：揭示端侧大语言模型的无限潜力
-date: 2024-05-20
+date: 2025-02-20
 author: mxm
 categories:
   - gpt
