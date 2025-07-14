@@ -1,6 +1,6 @@
 ---
 title: VITA1.5
-date: 2024-08-01
+date: 2025-05-01
 author: mxm
 categories:
   - LLM
