@@ -1,50 +1,83 @@
-name: Build and Deploy Hexo Site
+# name: Build and Deploy Hexo Site
+
+# on:
+#   push:
+#     branches:
+#       - main  # 替换为你的默认分支名称，如果不同的话
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20.x'  # 根据需要调整Node.js版本
+
+#       - name: Cache dependencies
+#         uses: actions/cache@v4
+#         id: cache
+#         with:
+#           path: node_modules
+#           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Generate SSH Key
+#         env:
+#           DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
+#         run: |
+#           mkdir -p ~/.ssh/
+#           echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+#           chmod 600 ~/.ssh/id_rsa
+#           ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+#       - name: Build site
+#         run: npm run build
+
+#       - name: Deploy to GitHub Pages
+#         if: github.ref == 'refs/heads/main'
+#         uses: peaceiris/actions-gh-pages@v4
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./public
+
+name: Deploy Hexo Site
 
 on:
   push:
-    branches:
-      - main  # 替换为你的默认分支名称，如果不同的话
+    branches: [ main ]  # 当推送到 main 分支时触发
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+        
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x'  # 根据需要调整Node.js版本
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        id: cache
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
+          node-version: '18'
+          
       - name: Install dependencies
-        run: npm ci
-
-      - name: Generate SSH Key
-        env:
-          DEPLOY_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
         run: |
-          mkdir -p ~/.ssh/
-          echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-      - name: Build site
-        run: npm run build
-
+          npm install -g hexo-cli
+          npm install
+      
+      - name: Generate site
+        run: hexo generate
+        
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          commit_message: ${{ github.event.head_commit.message }}
