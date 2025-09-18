@@ -5,7 +5,7 @@ author: mxm
 categories:
   - LLM
 tags:
-  - LLM
+  - 选型
 ---
 
 ## 引言
