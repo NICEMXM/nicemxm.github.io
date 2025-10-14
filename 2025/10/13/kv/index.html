@@ -5,8 +5,8 @@
   <meta name="Volantis" content="6.0.0-alpha.1">
   <meta charset="utf-8">
   <!-- SEO相关 -->
-  <meta name="robots" content="noindex,follow">
-  <link rel="canonical" href="https://nicemxm.github.io/archives/2025/03/"/>
+  
+  <link rel="canonical" href="https://nicemxm.github.io/2025/10/13/kv/"/>
   <!-- 渲染优化 -->
     <meta http-equiv='x-dns-prefetch-control' content='on' />
       <link rel='dns-prefetch' href='https://unpkg.com'>
@@ -35,16 +35,21 @@
   <!-- feed -->
       <link rel="alternate" href="/atom.xml" title="hello deeplearning" type="application/atom+xml">
   <!-- 页面元数据 -->
-  <title>归档：2025/3 - hello deeplearning</title>
-  <meta name="keywords" content="null">
+  <title>KV 缓存解释：优化 Transformer 推理效率 - hello deeplearning</title>
+  <meta name="keywords" content="generate,null">
   <meta desc name="description" content="hello deeplearning - mxm - hello deeplearning">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="hello deeplearning">
-<meta property="og:url" content="https://nicemxm.github.io/archives/2025/03/index.html">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="KV 缓存解释：优化 Transformer 推理效率">
+<meta property="og:url" content="https://nicemxm.github.io/2025/10/13/kv/index.html">
 <meta property="og:site_name" content="hello deeplearning">
+<meta property="og:description" content="介绍当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它已经计算过的内容，从而使文本生成更快、更高效。 在这篇博文中，我们将以易于理解的方式分解 KV 缓存，解释它为什么有用，并展示它如何帮助 AI 模型更快地工作。   先决条件要充分掌握内容，读者应该熟悉：  T">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2025-10-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-14T11:22:39.367Z">
 <meta property="article:author" content="mxm">
+<meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
   <style>
@@ -1953,7 +1958,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
+  pdata.ispage=true;
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   pdata.commentConfig={};
@@ -2295,7 +2300,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div id="l_cover">
   
     
-      <div class="cover-wrapper  search" id='half'>
+      <div class="cover-wrapper post search" id='half'>
         
   <div id="parallax-window"></div>
 
@@ -2377,22 +2382,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         <div class="body-wrapper">
           
 <div id="l_main" class=''>
-	
-		
-  <section class="post-list">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="https://schema.org.cn/Article" >
-  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2025/03/31/CoMat_sdxl/">
+  <article itemscope itemtype="https://schema.org.cn/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2025/10/13/kv/">
   <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
     <meta itemprop="name" content="hello deeplearning">
   </span>
@@ -2401,67 +2392,372 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <meta itemprop="description" content="">
   </span>
   
-  
+
+
   
     <span hidden>
       <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
     </span>
   
-  
+  <div class="article-meta" id="top">
     
-    <h2 class="article-title"  itemprop="name headline">
-      <a href="/2025/03/31/CoMat_sdxl/"  itemprop="url">
-        CoMat：将文本到图像扩散模型与图像到文本概念匹配对齐
-      </a>
-    </h2>
-  
-  <div class='md article-desc' itemprop="articleBody">
     
-      
-        GitHub
-论文
-摘要扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑战，我们提出了CoMat，这是一种具有图像到文本概念匹配机制的端到端扩散模型微调策略。首先，我们引入了一种新颖的图文转换概念激活模块，以指导扩散模型重新审视被忽视的概念。此外，该文还提出了一种属性集中模块...
-      
+    
+      <h1 class="title" itemprop="name headline">
+        KV 缓存解释：优化 Transformer 推理效率
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="https://schema.org.cn/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/apple-touch-icon.png">
+    <p itemprop="name">mxm</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  
+  
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/LLM/">LLM</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+        <a href="/categories/LLM/" itemprop="url"><span itemprop="name">LLM</span></a>
+      </span>
     
   </div>
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time itemprop="dateCreated datePublished" datetime="2025-04-01T00:00:00+08:00">2025-04-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/">文生图</a>
-          
-            <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
-              <a href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" itemprop="url"><span itemprop="name">文生图</span></a>
-            </span>
+
+
+
           
         
-      </div>
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2025-10-13T16:00:00+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2025年10月14日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+<div class="new-meta-item browse">
+  <a class='notlink'>
+    <p>
+      <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i>
       
-        <div>
-          <a class='readmore' href='/2025/03/31/CoMat_sdxl/' itemprop="url">
-            阅读全文
-          </a>
-        </div>
+      <span id="busuanzi_value_page_pv">
+        <i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i>
+      </span>
+        
+      <span>次浏览</span>
+    </p>
+  </a>
+</div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fa-solid fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：1.3k 字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fa-solid fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：5 分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它已经计算过的内容，从而使文本生成更快、更高效。</p>
+<p>在这篇博文中，我们将以易于理解的方式分解 KV 缓存，解释它为什么有用，并展示它如何帮助 AI 模型更快地工作。</p>
+<img width="1401" height="739" alt="image" src="https://github.com/user-attachments/assets/74c829c7-f546-41bb-ba8a-714f159e14d6">
+
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p>要充分掌握内容，读者应该熟悉：</p>
+<ul>
+<li>Transformer 架构：熟悉注意力机制等组件。</li>
+<li>自回归建模：了解 GPT 等模型如何生成序列。</li>
+<li>线性代数基础知识：矩阵乘法和转置等概念，对于理解注意力计算至关重要。</li>
+</ul>
+<ul>
+<li>注意力权重的形状为[batch,h,Seq len ,Seq len ]]  </li>
+<li>掩码多头注意力允许每个令牌由自身和所有先前的令牌表示。  </li>
+<li>要生成一个新标记，模型需要查看所有以前的标记及其前面标记的表示</li>
+</ul>
+<img width="996" height="847" alt="image" src="https://github.com/user-attachments/assets/b97838a1-18e4-47bd-a354-18fa5f7a1182">
+<img width="1214" height="763" alt="image" src="https://github.com/user-attachments/assets/91650a3c-d7fe-4896-9412-08c8f811e764">
+
+<p><a target="_blank" rel="noopener" href="https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/RsRm-SLIpIXdRwALshIB-.mp4">https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/RsRm-SLIpIXdRwALshIB-.mp4</a></p>
+<h2 id="标准推理和-KV-缓存的兴起"><a href="#标准推理和-KV-缓存的兴起" class="headerlink" title="标准推理和 KV 缓存的兴起"></a>标准推理和 KV 缓存的兴起</h2><p>当模型生成文本时，它会查看所有先前的标记以预测下一个标记。通常，它会对每个新代币重复相同的计算，这可能会减慢速度。</p>
+<p><a target="_blank" rel="noopener" href="https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/PWI-EwqizVLInztmiI7Eo.mp4">https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/PWI-EwqizVLInztmiI7Eo.mp4</a></p>
+<ul>
+<li>KV 缓存通过记住前面步骤中的这些计算来解决计算重叠问题，这可以通过在推理过程中存储注意力层的中间状态来实现。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/HnzDhoJdAbJhSassYjzEy.mp4">https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/HnzDhoJdAbJhSassYjzEy.mp4</a></p>
+<p>KV 缓存如何工作？<br>分步过程</p>
+<ul>
+<li>第一步：当模型看到第一个输入时，它会计算并将其键和值存储在缓存中。</li>
+<li>Next Words：对于每个新单词，模型都会检索存储的键和值并添加新键和值，而不是重新开始。</li>
+<li>高效的注意力计算：使用缓存的K和V与新的Q（query） 来计算输出。</li>
+<li>更新输入：将新生成的令牌添加到输入中，并去返回自步2返回步骤 2直到我们完成生成。<img width="3322" height="1320" alt="image" src="https://github.com/user-attachments/assets/c479814c-58ab-4ec4-b9f1-6bdd6228aee7"></li>
+</ul>
+<p>该过程如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Token 1: [K1, V1] ➔ Cache: [K1, V1]</span><br><span class="line">Token 2: [K2, V2] ➔ Cache: [K1, K2], [V1, V2]</span><br><span class="line">...</span><br><span class="line">Token n: [Kn, Vn] ➔ Cache: [K1, K2, ..., Kn], [V1, V2, ..., Vn]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/DP2zDJTAU-yHrxVRh5GUt.mp4">https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/DP2zDJTAU-yHrxVRh5GUt.mp4</a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/x0L80MqTJ4VPovbRY4yb2.mp4">https://cdn-uploads.huggingface.co/production/uploads/6527e89a8808d80ccff88b7a/x0L80MqTJ4VPovbRY4yb2.mp4</a></p>
+<p>在上表中，我们使用了dk&#x3D;5为了获得更好的视觉效果，请注意，这个数字可能比我们展示的要大得多。</p>
+<h2 id="比较：KV-缓存与标准推理"><a href="#比较：KV-缓存与标准推理" class="headerlink" title="比较：KV 缓存与标准推理"></a>比较：KV 缓存与标准推理</h2><p>以下是 KV 缓存与常规的比较：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>标准推理</th>
+<th>KV 缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每字计算</td>
+<td>该模型对每个单词重复相同的计算。</td>
+<td>该模型重用过去的计算以获得更快的结果。</td>
+</tr>
+<tr>
+<td>内存使用情况</td>
+<td>每一步使用更少的内存，但内存会随着文本的延长而增加。</td>
+<td>使用额外的内存来存储过去的信息，但保持高效。</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>随着文本变长而变慢，因为它重复工作。</td>
+<td>避免重复工作，即使处理较长的文本也能保持快速。</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>计算成本高，响应时间慢。</td>
+<td>更快、更高效，因为模型会记住过去的工作。</td>
+</tr>
+<tr>
+<td>处理长文本</td>
+<td>由于重复计算，难以处理长文本。</td>
+<td>非常适合长文本，因为它会记住过去的步骤。</td>
+</tr>
+</tbody></table>
+<p>KV 缓存在速度和效率方面有很大差异，尤其是对于长文本。通过保存和重用过去的计算，它避免了每次都重新开始的需要，使其比生成文本的常规方式快得多。</p>
+<h2 id="实际实施"><a href="#实际实施" class="headerlink" title="实际实施"></a>实际实施</h2><p>这是在 PyTorch 中实现 KV 缓存的简化示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># Pseudocode for KV Caching in PyTorch</span><br><span class="line">class KVCache:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.cache = &#123;&quot;key&quot;: None, &quot;value&quot;: None&#125;</span><br><span class="line"></span><br><span class="line">    def update(self, key, value):</span><br><span class="line">        if self.cache[&quot;key&quot;] is None:</span><br><span class="line">            self.cache[&quot;key&quot;] = key</span><br><span class="line">            self.cache[&quot;value&quot;] = value</span><br><span class="line">        else:</span><br><span class="line">            self.cache[&quot;key&quot;] = torch.cat([self.cache[&quot;key&quot;], key], dim=1)</span><br><span class="line">            self.cache[&quot;value&quot;] = torch.cat([self.cache[&quot;value&quot;], value], dim=1)</span><br><span class="line"></span><br><span class="line">    def get_cache(self):</span><br><span class="line">        return self.cache</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用 transformers 库时，默认情况下通过参数启用此行为，您还可以通过 cache_implementation 参数访问多种缓存方法，下面是一个极简的代码：use_cache</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from transformers import AutoModelForCausalLM, AutoTokenizer</span><br><span class="line"></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(&#x27;HuggingFaceTB/SmolLM2-1.7B&#x27;)</span><br><span class="line">model = AutoModelForCausalLM.from_pretrained(&#x27;HuggingFaceTB/SmolLM2-1.7B&#x27;).cuda()</span><br><span class="line"></span><br><span class="line">tokens = tokenizer.encode(&quot;The red cat was&quot;, return_tensors=&quot;pt&quot;).cuda()</span><br><span class="line">output = model.generate(</span><br><span class="line">    tokens, max_new_tokens=300, use_cache = True # by default is set to True</span><br><span class="line">)</span><br><span class="line">output_text = tokenizer.batch_decode(output, skip_special_tokens=True)[0]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们在 T4 GPU 上使用&#x2F;不使用 kv 缓存对上面的代码进行了基准测试，我们得到了以下结果：</p>
+<table>
+<thead>
+<tr>
+<th>使用 KV 缓存</th>
+<th>标准推理</th>
+<th>加速</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11.7 秒</td>
+<td>1 分钟 1 秒</td>
+<td>速度提高 ~5.21 倍</td>
+</tr>
+</tbody></table>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>KV 缓存是一种简单但功能强大的技术，可帮助 AI 模型更快、更高效地生成文本。通过记住过去的计算而不是重复它们，它可以减少预测新单词所需的时间和精力。虽然它确实需要额外的内存，但此方法对于长时间对话特别有用，可确保快速高效的生成。</p>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+      <!-- 打赏组件 -->
       
     </div>
   
+  
+    
 
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2025-10-14T11:22:39+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2025年10月14日</p>
+  </a>
 </div>
 
-          </div>
         
       
-    
-  </section>
+        
+          
   
-    
+  
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/generate/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>generate</p></a></div>
+  <span hidden itemprop="keywords">generate</span>
   
 
 
-	
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nicemxm.github.io/2025/10/13/kv/&title=KV 缓存解释：优化 Transformer 推理效率 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://nicemxm.github.io/2025/10/13/kv/&title=KV 缓存解释：优化 Transformer 推理效率 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://nicemxm.github.io/2025/10/13/kv/&title=KV 缓存解释：优化 Transformer 推理效率 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADDElEQVR42u3aS3LbQAwFQN3/0sneDsvzADAi5J4dJX6Gzc0rAK8/1j/XCwEYMGDAgAGzBuZVXF+v//aAi9+v/r+6/0/7PD3v+H3AgAEDBgwYMOtgjgPQ4fnd+6bXjz0XDBgwYMCAAbMWphvo7gqC1cAZnw8GDBgwYMCA+TUwXcD0PtVjMGDAgAEDBgyYLlQ30KWBEQwYMGDAgAHze2CqjbE00KUQ6zqRYMCAAQMGDJj/BjM1AP2U47EBaDBgwIABAwbMY2G6qxqo0kA3HQQvnwMGDBgwYMCAWQNzuqG0gdVtiFUbeSlguYIHBgwYMGDAgHk7zGmDLG2oTW20WrA6DYjHyRcMGDBgwIABswYmDXzp/boFp2qhq1zBAwMGDBgwYMA8DqYanNJC0lTwSweZxhpuYMCAAQMGDJjHwhwHoOJ51SCWNuLaDTwwYMCAAQMGzDqYNNBNBa80GE4dt5MvGDBgwIABA+btMHcHrakgmBbATht1YMCAAQMGDJi9MNWNTBe67ipQtZMvGDBgwIABA+axMN2gdRqkqoHw9P+p9wADBgwYMGDA7IFJG2lpoy1tsHUBqgUqMGDAgAEDBsx+mOkX6w4MpYWp8QoeGDBgwIABA+axMFMb7hasqtdXB5fiiSowYMCAAQMGzDqYKlA3eFWvT4Pnt9/BgAEDBgwYMGtguoGo2ti6uxBVHkQCAwYMGDBgwKyBOYVIB3uqgSuFrH4QMGDAgAEDBsznwXQbV9UgeFpQ6ga7H/cPBgwYMGDAgFkDkwa3tMFVbYhNFbJua7iBAQMGDBgwYN4O012ngTA9r1qw6gZQMGDAgAEDBswemLuCUgpTHvQZCpBgwIABAwYMmL0w3UA1NciTAqUBL67ggQEDBgwYMGDWwHQHdaoDR939pME0DnhgwIABAwYMmI+D6TbU0o2fBr5yIAQDBgwYMGDAgAmvSwd9wIABAwYMGDBgphtu1UJROpjU/QBgwIABAwYMmM+BqTau0gZYWrDq7if90GDAgAEDBgyYPTDWRcCzwIABAwYMmKeuv0rQoYrJi7DeAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://nicemxm.github.io/2025/10/13/kv/&text=KV 缓存解释：优化 Transformer 推理效率 - hello deeplearning"
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2025/10/12/vlm_visual/'>
+          <p class='title'>可视化 VLM 的工作原理<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>介绍视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉...</p>
+        </a>
+      
+    </div>
+  
+  <!-- 文章推荐 -->
+  
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/2025/10/13/kv/index.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
 </div>
 <aside id='l_side' itemscope itemtype="https://schema.org.cn/WPSideBar">
   
@@ -2470,189 +2766,31 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
     
       
-<section class="widget blogger desktop mobile ">
-  <div class='content'>
     
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">hello deeplearning</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fa-solid fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fa-solid fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fa-solid fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
-
-    
-  
-
-  
-    
-    
-      
-  
-  <section class="widget category desktop mobile">
-    
-  <header>
-    
-      <a href='/categories/'><i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Diffusers/" href="/categories/Diffusers/"
-            active-action="action-categoriesDiffusers"
-            ><div class='name'>Diffusers</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/LLM/" href="/categories/LLM/"
-            active-action="action-categoriesLLM"
-            ><div class='name'>LLM</div><div class='badge'>(20)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/MLLM/" href="/categories/MLLM/"
-            active-action="action-categoriesMLLM"
-            ><div class='name'>MLLM</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/TRL/" href="/categories/TRL/"
-            active-action="action-categoriesTRL"
-            ><div class='name'>TRL</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/VLA/" href="/categories/VLA/"
-            active-action="action-categoriesVLA"
-            ><div class='name'>VLA</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/VLM/" href="/categories/VLM/"
-            active-action="action-categoriesVLM"
-            ><div class='name'>VLM</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/agent/" href="/categories/agent/"
-            active-action="action-categoriesagent"
-            ><div class='name'>agent</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/gpt/" href="/categories/gpt/"
-            active-action="action-categoriesgpt"
-            ><div class='name'>gpt</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/llm%E6%8E%A8%E7%90%86/" href="/categories/llm%E6%8E%A8%E7%90%86/"
-            active-action="action-categoriesllmE68EA8E79086"
-            ><div class='name'>llm推理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%8E%A8%E7%90%86/" href="/categories/%E6%8E%A8%E7%90%86/"
-            active-action="action-categoriesE68EA8E79086"
-            ><div class='name'>推理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/"
-            active-action="action-categoriesE69687E7949FE59BBE"
-            ><div class='name'>文生图</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"
-            active-action="action-categoriesE6B7B1E5BAA6E5ADA6E4B9A0"
-            ><div class='name'>深度学习</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%9F%A5%E8%AF%86%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" href="/categories/%E7%9F%A5%E8%AF%86%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/"
-            active-action="action-categoriesE79FA5E8AF86E8A1A8E7A4BAE5ADA6E4B9A0"
-            ><div class='name'>知识表示学习</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
-    </div>
-  </section>
-
-
-    
-  
-
-  
-    
-    
-      
-  
-  <section class="widget tagcloud desktop mobile">
-    
-  <header>
-    
-      <a href='/tags/'><i class="fa-solid fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/LLM/" style="font-size: 14px; color: #999">LLM</a> <a href="/tags/MARS/" style="font-size: 14px; color: #999">MARS</a> <a href="/tags/MLLM/" style="font-size: 14px; color: #999">MLLM</a> <a href="/tags/MiniCPM/" style="font-size: 14px; color: #999">MiniCPM</a> <a href="/tags/RAG/" style="font-size: 17.33px; color: #828282">RAG</a> <a href="/tags/RL/" style="font-size: 14px; color: #999">RL</a> <a href="/tags/Trans%E7%B3%BB%E5%88%97/" style="font-size: 14px; color: #999">Trans系列</a> <a href="/tags/VLM/" style="font-size: 14px; color: #999">VLM</a> <a href="/tags/agent/" style="font-size: 17.33px; color: #828282">agent</a> <a href="/tags/attention/" style="font-size: 14px; color: #999">attention</a> <a href="/tags/datasets/" style="font-size: 14px; color: #999">datasets</a> <a href="/tags/docqa/" style="font-size: 14px; color: #999">docqa</a> <a href="/tags/document/" style="font-size: 14px; color: #999">document</a> <a href="/tags/embedding/" style="font-size: 14px; color: #999">embedding</a> <a href="/tags/generate/" style="font-size: 24px; color: #555">generate</a> <a href="/tags/llama/" style="font-size: 14px; color: #999">llama</a> <a href="/tags/llm/" style="font-size: 17.33px; color: #828282">llm</a> <a href="/tags/prompt/" style="font-size: 20.67px; color: #6c6c6c">prompt</a> <a href="/tags/sd3/" style="font-size: 14px; color: #999">sd3</a> <a href="/tags/sdxl/" style="font-size: 14px; color: #999">sdxl</a> <a href="/tags/torchserve/" style="font-size: 14px; color: #999">torchserve</a> <a href="/tags/transformers/" style="font-size: 14px; color: #999">transformers</a> <a href="/tags/%E4%B8%8D%E5%B9%B3%E8%A1%A1%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" style="font-size: 14px; color: #999">不平衡文本分类</a> <a href="/tags/%E5%9B%BE%E8%BD%AC%E8%A1%A8/" style="font-size: 14px; color: #999">图转表</a> <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">强化学习</a> <a href="/tags/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" style="font-size: 14px; color: #999">损失函数</a> <a href="/tags/%E6%8E%A8%E7%90%86/" style="font-size: 14px; color: #999">推理</a> <a href="/tags/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" style="font-size: 14px; color: #999">文本分类</a> <a href="/tags/%E8%AF%AD%E9%9F%B3%E5%A4%A7%E6%A8%A1%E5%9E%8B/" style="font-size: 14px; color: #999">语音大模型</a> <a href="/tags/%E9%80%89%E5%9E%8B/" style="font-size: 14px; color: #999">选型</a>
-    </div>
-  </section>
-
-
-    
-  
-
   
 
 
 <div class="widget-sticky">
+
+  
+  
+
+
+<section class="widget toc-wrapper desktop mobile" id="toc-div" >
+  
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="toc-text">先决条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E6%8E%A8%E7%90%86%E5%92%8C-KV-%E7%BC%93%E5%AD%98%E7%9A%84%E5%85%B4%E8%B5%B7"><span class="toc-text">标准推理和 KV 缓存的兴起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%EF%BC%9AKV-%E7%BC%93%E5%AD%98%E4%B8%8E%E6%A0%87%E5%87%86%E6%8E%A8%E7%90%86"><span class="toc-text">比较：KV 缓存与标准推理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%AE%9E%E6%96%BD"><span class="toc-text">实际实施</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol>
+  </div>
+</section>
+
+  
 
 </div>
 
@@ -2660,6 +2798,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
   <!-- Custom Files side end -->
 </aside>
+
 
 
         </div>
@@ -3289,7 +3428,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/archives/","name":"Archive"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/archives/2025/","name":"2025年"}},{"@type":"ListItem","position":4,"item":{"@id":"https://nicemxm.github.io/archives/2025/3/","name":"3月"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"wordCount":0,"image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/10/13/kv/","name":"KV 缓存解释：优化 Transformer 推理效率"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"KV 缓存解释：优化 Transformer 推理效率","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/10/13/kv/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/10/13/kv/","wordCount":0,"datePublished":"2025-10-13T16:00:00.000Z","dateModified":"2025-10-14T11:22:39.367Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
