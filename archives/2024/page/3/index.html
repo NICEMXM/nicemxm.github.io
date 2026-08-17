@@ -1961,7 +1961,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2412,7 +2412,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要现代 LVLM 仍然难以实现细粒度的文档理解，例如用户感兴趣的区域的 OCR&#x2F;翻译&#x2F;标题、需要整个页面上下文的任务，甚至是多个页面。因此，本文提出了 Fox，这是一种有效的流水线、混合数据和调优策略，可促进 LVLM 专注于单页&#x2F;多页文档。我们引入了一项新任务，通过使 LVLM 将注意力集中在文档级区域来促进文档理解，例如将整页 OCR 重新定义为前景焦点。...
+         摘要
+现代 LVLM 仍然难以实现细粒度的文档理解，例如用户感兴趣的区域的 OCR/翻译/标题、需要整个页面上下文的任务，甚至是多个页面。因此，本文提出了 Fox，这是一种有效的流水线、混合数据和调优策略，可促进 LVLM 专注于单页/多页文档。我们引入了一项新任务，通过使 LVLM 将注意力集中在文档级区域来促进文档理解，例如将整页 OCR 重新定义为前景焦点。我们使用多种视觉词汇来提取...
       
     
   </div>
@@ -2476,19 +2477,20 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       
         
-vllm是什么？vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。
+ vllm是什么？
+vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。
 vLLM 速度很快：
 
 最先进的服务吞吐量
 使用 PagedAttention 高效管理注意力键和值内存
 传入请求的连续批处理
-使用 CUDA&#x2F;HIP 图快速执行模型
+使用 CUDA/HIP 图快速执行模型
 量化：GPTQ、AWQ、SqueezeLLM、FP8 KV 缓存
 优化的 CUDA 内核
 
 vLLM 灵活且易于使用：
 
-与流行的 H...
+与流行的 Hugg...
       
     
   </div>
@@ -2551,8 +2553,10 @@ vLLM 灵活且易于使用：
   <div class='md article-desc' itemprop="articleBody">
     
       
-        论文：arixcode：github
-1.摘要大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （RAG） 方法通过整合外部知识来解决这个问题。该模型可以通过检索与查询相关的知识来回答以前无法回答的问题。此方法可提高特定任务在某些方案中的性能。但是，如果检索到不相关的文本，则可能会损害模型性能。在...
+        论文：arix
+code：github
+ 1.摘要
+大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （RAG） 方法通过整合外部知识来解决这个问题。该模型可以通过检索与查询相关的知识来回答以前无法回答的问题。此方法可提高特定任务在某些方案中的性能。但是，如果检索到不相关的文本，则可能会损害模型性...
       
     
   </div>
@@ -2617,7 +2621,8 @@ vLLM 灵活且易于使用：
       
         论文链接：2404.15758 (arxiv.org)
 github仓库:github
-摘要来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“……”）代替思维链来解决两个困难的算法任务，这些...
+ 摘要
+来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“…”）代替思维链来解决两个困难的算法任务，这...
       
     
   </div>
@@ -2680,9 +2685,11 @@ github仓库:github
   <div class='md article-desc' itemprop="articleBody">
     
       
-        去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4提示工程赛》的博客文章，慷慨分享了其获胜法门。
+        去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo
+最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4
+提示工程赛》的博客文章，慷慨分享了其获胜法门。
 博文原文：
-上个月，我非常荣幸地赢得了新加坡首届 GPT...
+上个月，我非常荣幸地赢得了新加坡首届 G...
       
     
   </div>
@@ -2747,7 +2754,10 @@ github仓库:github
       
         论文链接：arxiv
 文章源码：github
-摘要多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，各类别标签的训练数据量往往差异较大（不平衡分类问题），甚至是长尾分布，影响了所获得模型的效果。重采样（Resampling）和重加权（Reweighting）常用于应对不平衡分类问题，但由于多标签文本分类的场景下类别标签间存在关联，现有方...
+ 摘要
+多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，
+各类别标签的训练数据量往往差异较大（不平衡分类问题），甚至是长尾分布，影响了所获得模型的效果。重采样（Resampling）和重加权（Reweighting）常用于应对不平衡分类问题，但由于多标签文本分类的场景下类别标签间
+存在关联...
       
     
   </div>
@@ -2811,7 +2821,8 @@ github仓库:github
     
       
         本文将简短梳理知识表示学习Trans系列方法，包含TransE、TransH、TransR、TransD、TransA、TransG、TranSparse以及KG2E，并且结合Github清华开源的高星代码了解一下实现过程，以便能通过代码看出他们之间的联系和区别。
-知识图谱是什么？知识图谱可以表示为一个三元组(sub,rel,obj)。举个例子：熊大的弟弟是熊二，表示成三元组是（熊大，弟弟，...
+ 知识图谱是什么？
+知识图谱可以表示为一个三元组(sub,rel,obj)。举个例子：熊大的弟弟是熊二，表示成三元组是（熊大，弟...
       
     
   </div>
@@ -3460,7 +3471,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 

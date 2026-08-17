@@ -1961,7 +1961,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2411,7 +2411,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        像 Flux（一种基于流的文本到图像生成模型）这样的大型扩散模型可以创建令人惊叹的图像，但它们的大小可能是一个障碍，需要大量的内存和计算资源。Quantization 提供了一个强大的解决方案，缩小了这些模型，使其更易于访问，而不会严重影响性能。但最大的问题始终是：您真的能分辨出最终图像中的差异吗？在我们深入研究 Hugging Face Diffusers 中各种量化后端如何工作的技术细节...
+        像 Flux（一种基于流的文本到图像生成模型）这样的大型扩散模型可以创建令人惊叹的图像，但它们的大小可能是一个障碍，需要大量的内存和计算资源。Quantization 提供了一个强大的解决方案，缩小了这些模型，使其更易于访问，而不会严重影响性能。但最大的问题始终是：您真的能分辨出最终图像中的差异吗？
+在我们深入研究 Hugging Face Diffusers 中各种量化后端如何工作的技术细...
       
     
   </div>
@@ -2475,7 +2476,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       
         DR Liger 通过将内存使用量削减 40% 且模型质量零下降，增强了 TRL 的组相对策略优化 GRPO Trainer。我们还增加了对 FSDP 和 PEFT 的支持，使跨多个 GPU 扩展 GRPO 变得比以往任何时候都更容易。
-动机使用强化学习 （RL） 微调语言模型是模型训练生命周期中的关键步骤，用于引导模型朝着理想的行为发展，这些行为比通过典型的监督微调所能实现的要复杂。RL ...
+ 动机
+使用强化学习 （RL） 微调语言模型是模型训练生命周期中的关键步骤，用于引导模型朝着理想的行为发展，这些行为比通过典型的监督微调所能实现的要复杂。R...
       
     
   </div>
@@ -2538,8 +2540,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根据摘要回答问题的系统。该系统令人印象深刻，当我们第一次尝试时，它让我们大吃一惊。
-博文中的主要结果之一是通用 AI 助手基准测试 （GAIA） 的性能有了很大的提高，我们最近也在玩这个基准测试，他们在 1 次射击中成功达到了接近 67% 的正确答案，在涉及多个推理和工具使用的特别具有挑战性的“3 级”问题上达...
+         引言
+OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根据摘要回答问题的系统。该系统令人印象深刻，当我们第一次尝试时，它让我们大吃一惊。
+博文中的主要结果之一是通用 AI 助手基准测试 （GAIA） 的性能有了很大的提高，我们最近也在玩这个基准测试，他们在 1 次射击中成功达到了接近 67% 的正确答案，在涉及多个推理和工具使用的特别具有挑战性的“3 级”问题...
       
     
   </div>
@@ -2602,10 +2605,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言今天，我们介绍了SmolVLA，这是一个轻量级（450M参数）的开源视觉-语言-动作（VLA）模型，专为机器人领域设计，并且可以在消费级硬件上运行。
+         引言
+今天，我们介绍了SmolVLA，这是一个轻量级（450M参数）的开源视觉-语言-动作（VLA）模型，专为机器人领域设计，并且可以在消费级硬件上运行。
 
 仅使用开源社区共享的数据集进行预训练，数据集标签为lerobot。
-SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（LIBERO，Meta-World）和实际任务（SO100, SO101）上超过了强基线模型，...
+SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（LIBERO，Meta-World）和实际任务（SO100, SO101）上超过了强基线模...
       
     
   </div>
@@ -2668,7 +2672,8 @@ SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要本篇论文介绍了一种名为Qwen2.5-Omni的端到端多模态模型，该模型可以感知包括文本、图像、音频和视频在内的多种模态，并在流式处理中同时生成文本和自然语音响应。为了实现多模态信息输入的流式传输，音频和视觉编码器采用了块状处理方法。这种分工策略增强了不同模态之间的融合，通过共享注意力机制将感知责任分配给多模态编码器，将扩展序列建模任务委托给大型语言模型。此外，论文还提出了一个名为Thi...
+         摘要
+本篇论文介绍了一种名为Qwen2.5-Omni的端到端多模态模型，该模型可以感知包括文本、图像、音频和视频在内的多种模态，并在流式处理中同时生成文本和自然语音响应。为了实现多模态信息输入的流式传输，音频和视觉编码器采用了块状处理方法。这种分工策略增强了不同模态之间的融合，通过共享注意力机制将感知责任分配给多模态编码器，将扩展序列建模任务委托给大型语言模型。此外，论文还提出了一个名为T...
       
     
   </div>
@@ -2731,7 +2736,8 @@ SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言如今的大型语言模型 （LLM） 在现实当中非常智能，但一旦它们需要超出冻结训练数据中的信息，它们就会陷入困境。要使 AI 代理真正有用，它们必须在正确的时间访问正确的上下文（无论是您的文件、知识库还是工具），甚至根据该上下文执行更新文档或发送电子邮件等作。从历史上看，将 AI 模型连接到所有这些外部来源一直是一件混乱的临时工作。开发人员必须为每个数据源或 API 编写自定义代码或使用专用...
+         引言
+如今的大型语言模型 （LLM） 在现实当中非常智能，但一旦它们需要超出冻结训练数据中的信息，它们就会陷入困境。要使 AI 代理真正有用，它们必须在正确的时间访问正确的上下文（无论是您的文件、知识库还是工具），甚至根据该上下文执行更新文档或发送电子邮件等作。从历史上看，将 AI 模型连接到所有这些外部来源一直是一件混乱的临时工作。开发人员必须为每个数据源或 API 编写自定义代码或使用...
       
     
   </div>
@@ -2796,7 +2802,8 @@ SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（
       
         GitHub
 论文
-摘要近年来，多模态大型语言模型（MLLMs）主要集中在整合视觉和文本模态，而较少关注语音在增强交互中的作用。然而，语音在多模态对话系统中起着至关重要的作用，并且由于模态差异，实现在视觉和语音任务中的高性能仍然是一个重大挑战。本文提出了一种精心设计的多阶段训练方法，逐步训练LLM理解视觉和语音信息，最终实现流畅的视觉和语音交互。我们的方法不仅保留了强大的视觉-语言能力，还实...
+ 摘要
+近年来，多模态大型语言模型（MLLMs）主要集中在整合视觉和文本模态，而较少关注语音在增强交互中的作用。然而，语音在多模态对话系统中起着至关重要的作用，并且由于模态差异，实现在视觉和语音任务中的高性能仍然是一个重大挑战。本文提出了一种精心设计的多阶段训练方法，逐步训练LLM理解视觉和语音信息，最终实现流畅的视觉和语音交互。我们的方法不仅保留了强大的视觉-语言能力，...
       
     
   </div>
@@ -2926,7 +2933,8 @@ SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（
       
         GitHub
 论文
-摘要扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑战，我们提出了CoMat，这是一种具有图像到文本概念匹配机制的端到端扩散模型微调策略。首先，我们引入了一种新颖的图文转换概念激活模块，以指导扩散模型重新审视被忽视的概念。此外，该文还提出了一种属性集中模块...
+ 摘要
+扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑战，我们提出了CoMat，这是一种具有图像到文本概念匹配机制的端到端扩散模型微调策略。首先，我们引入了一种新颖的图文转换概念激活模块，以指导扩散模型重新审视被忽视的概念。此外，该文还提出了一种属性集中...
       
     
   </div>
@@ -2989,9 +2997,10 @@ SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（
   <div class='md article-desc' itemprop="articleBody">
     
       
-        Github: OpenBMB&#x2F;MiniCPM: MiniCPM-2B
+        Github: OpenBMB/MiniCPM: MiniCPM-2B
 论文：2404.06395
-摘要对开发具有多达万亿个参数的大型语言模型 （LLM） 的兴趣日益浓厚，但对资源效率和实际费用的担忧也得到了满足，特别是考虑到实验的巨大成本。这种情况强调了探索小语言模型 （SLM） 作为资源节约型替代方案的潜力的重要性。在此背景下，我们引入了MiniCPM，特别是1.2B和2.4B...
+ 摘要
+对开发具有多达万亿个参数的大型语言模型 （LLM） 的兴趣日益浓厚，但对资源效率和实际费用的担忧也得到了满足，特别是考虑到实验的巨大成本。这种情况强调了探索小语言模型 （SLM） 作为资源节约型替代方案的潜力的重要性。在此背景下，我们引入了MiniCPM，特别是1.2B和2.4B非嵌入...
       
     
   </div>
@@ -3646,7 +3655,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 

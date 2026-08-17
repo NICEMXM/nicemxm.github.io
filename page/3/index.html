@@ -1961,7 +1961,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2411,8 +2411,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言直接偏好优化 （DPO） 提供了一种简化的方法，使语言模型与人类偏好保持一致。与需要单独的奖励模型和复杂的强化学习的传统 RLHF 方法不同，DPO 使用偏好数据直接优化模型。
-了解 DPODPO 将偏好对齐重新构建为人类偏好数据的分类问题。传统的 RLHF 方法需要训练单独的奖励模型，并使用复杂的强化学习算法（如 PPO）来调整模型输出。DPO 通过定义一个损失函数来简化此过程，该损失...
+         引言
+直接偏好优化 （DPO） 提供了一种简化的方法，使语言模型与人类偏好保持一致。与需要单独的奖励模型和复杂的强化学习的传统 RLHF 方法不同，DPO 使用偏好数据直接优化模型。
+ 了解 DPO
+DPO 将偏好对齐重新构建为人类偏好数据的分类问题。传统的 RLHF 方法需要训练单独的奖励模型，并使用复杂的强化学习算法（如 PPO）来调整模型输出。DPO 通过定义一个损失函数来简化此过程...
       
     
   </div>
@@ -2475,9 +2477,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言深度学习模型已经彻底改变了人工智能领域，但其庞大的规模和计算需求可能成为实际应用的瓶颈。模型蒸馏是一种强大的技术，它通过将知识从大型复杂模型（教师）转移到更小、更高效的模型（学生）来解决这一挑战。
+         引言
+深度学习模型已经彻底改变了人工智能领域，但其庞大的规模和计算需求可能成为实际应用的瓶颈。模型蒸馏是一种强大的技术，它通过将知识从大型复杂模型（教师）转移到更小、更高效的模型（学生）来解决这一挑战。
 在这篇博客中，我们将介绍如何使用 LoRA（低秩适应）等专业技术，将 DeepSeek-R1 的推理能力提炼成一个更小的模型，比如 Microsoft 的 Phi-3-Mini。
-什么是蒸馏？...
+ 什么是...
       
     
   </div>
@@ -2540,7 +2543,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要我们介绍了DeepSeek-V3，这是一种强大的专家混合（MoE）语言模型，总参数为671B，每个标记激活37B。为了实现高效推理和经济高效的训练，DeepSeek-V3采用了多头潜在注意力（MLA）和DeepSeekMoE架构，这些架构在DeepSeek-V2中得到了充分验证。此外，DeepSeek-V3开创了一种无辅助损失的负载平衡策略，并设置了多标记预测训练目标以提高性能。我们在1...
+         摘要
+我们介绍了DeepSeek-V3，这是一种强大的专家混合（MoE）语言模型，总参数为671B，每个标记激活37B。为了实现高效推理和经济高效的训练，DeepSeek-V3采用了多头潜在注意力（MLA）和DeepSeekMoE架构，这些架构在DeepSeek-V2中得到了充分验证。此外，DeepSeek-V3开创了一种无辅助损失的负载平衡策略，并设置了多标记预测训练目标以提高性能。我们...
       
     
   </div>
@@ -2603,9 +2607,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要deepSeek-AI推出了两款第一代推理模型：DeepSeek-R1-Zero和DeepSeek-R1。
+         摘要
+deepSeek-AI推出了两款第一代推理模型：DeepSeek-R1-Zero和DeepSeek-R1。
 DeepSeek-R1-Zero通过大规模强化学习（RL）训练，而没有进行监督微调（SFT）作为初步步骤。该模型展示了显著的推理能力，并自然地表现出许多强大且有趣的推理行为。然而，它也面临一些挑战，如可读性差和语言混杂。
-DeepSeek-R1通过引入多阶段训练和冷启动数据来解决这...
+DeepSeek-R1通过引入多阶段训练和冷启动数据来解...
       
     
   </div>
@@ -2668,10 +2673,12 @@ DeepSeek-R1通过引入多阶段训练和冷启动数据来解决这...
   <div class='md article-desc' itemprop="articleBody">
     
       
-        中文地址pytorch官方
-简介TorchServe 是一款高性能、灵活且易于使用的工具，用于在生产环境中提供 PyTorch 模型。
+        中文地址
+pytorch官方
+ 简介
+TorchServe 是一款高性能、灵活且易于使用的工具，用于在生产环境中提供 PyTorch 模型。
 TorchServe 可用于在生产环境中进行多种类型的推理。它提供了一个易于使用的命令行界面，并利用 基于 REST 的 API 来处理状态预测请求。
-例如，您想制作一个应用程序，让用户可以拍照，它会告诉用户在场景中检测到的对象以及对这些对象可能是什么的预测...
+例如，您想制作一个应用程序，让用户可以拍照，它会告诉用户在场景中检测到的对象以及对这些对象可能是什么...
       
     
   </div>
@@ -2736,7 +2743,10 @@ TorchServe 可用于在生产环境中进行多种类型的推理。它提供了
       
         论文链接：arxiv
 文章源码：github
-摘要多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，各类别标签的训练数据量往往差异较大（不平衡分类问题），甚至是长尾分布，影响了所获得模型的效果。重采样（Resampling）和重加权（Reweighting）常用于应对不平衡分类问题，但由于多标签文本分类的场景下类别标签间存在关联，现有方...
+ 摘要
+多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，
+各类别标签的训练数据量往往差异较大（不平衡分类问题），甚至是长尾分布，影响了所获得模型的效果。重采样（Resampling）和重加权（Reweighting）常用于应对不平衡分类问题，但由于多标签文本分类的场景下类别标签间
+存在关联...
       
     
   </div>
@@ -2800,7 +2810,8 @@ TorchServe 可用于在生产环境中进行多种类型的推理。它提供了
     
       
         论文
-摘要我们介绍了 Yi 模型系列，这是一系列语言和多模态模型，展示了强大的多维能力。Yi 模型系列基于 6B 和 34B 预训练语言模型，然后我们将其扩展到聊天模型、200K 长上下文模型、深度放大模型和视觉语言模型。我们的基础模型在 MMLU 等各种基准测试中取得了出色的性能，我们经过微调的聊天模型在 AlpacaEval 和 Chatbot Arena 等主要评估平台上提供了强大的人...
+ 摘要
+我们介绍了 Yi 模型系列，这是一系列语言和多模态模型，展示了强大的多维能力。Yi 模型系列基于 6B 和 34B 预训练语言模型，然后我们将其扩展到聊天模型、200K 长上下文模型、深度放大模型和视觉语言模型。我们的基础模型在 MMLU 等各种基准测试中取得了出色的性能，我们经过微调的聊天模型在 AlpacaEval 和 Chatbot Arena 等主要评估平台上提供了强大...
       
     
   </div>
@@ -2863,7 +2874,9 @@ TorchServe 可用于在生产环境中进行多种类型的推理。它提供了
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言大型语言模型如今风靡一时，许多公司投入大量资源来扩展它们规模并解锁新功能。然而，作为注意力持续时间不断缩短的人类，我们并不喜欢大模型缓慢的响应时间。由于延迟对于良好的用户体验至关重要，人们通常使用较小的模型来完成任务，尽管它们的质量较低 (例如 代码补全任务)。为什么文本生成这么慢？是什么阻止你在不破产的情况下部署低延迟大型语言模型？在这篇博文中，我们将重新审视自回归文本生成的瓶颈，并介...
+         引言
+大型语言模型如今风靡一时，许多公司投入大量资源来扩展它们规模并解锁新功能。然而，作为注意力持续时间不断缩短的人类，我们并不喜欢大模型缓慢的响应时间。由于延迟对于良好的用户体验至关重要，人们通常使用较小的模型来完成任务，尽管它们的质量较低 (例如 代码补全任务)。
+为什么文本生成这么慢？是什么阻止你在不破产的情况下部署低延迟大型语言模型？在这篇博文中，我们将重新审视自回归文本生成的瓶颈...
       
     
   </div>
@@ -2926,11 +2939,13 @@ TorchServe 可用于在生产环境中进行多种类型的推理。它提供了
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身在训练期间生成的数据进行迭代改进。GRPO 目标背后的直觉是最大限度地利用生成的完成，同时确保模型始终接近参考策略。要了解 GRPO 的工作原理，可以分为四个主要步骤：采样生成、计算优势、估计 KL 散度和计算损失。
+         引言
+GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身在训练期间生成的数据进行迭代改进。GRPO 目标背后的直觉是最大限度地利用生成的完成，同时确保模型始终接近参考策略。要了解 GRPO 的工作原理，
+可以分为四个主要步骤：采样生成、计算优势、估计 KL 散度和计算损失。
+
 采样生成
 在每个训练步骤中，我们都会对一批提示进行采样，并生成一组G每个提示的完成次数（表示为Oi）
-计算优势
-...
+计...
       
     
   </div>
@@ -2993,8 +3008,9 @@ TorchServe 可用于在生产环境中进行多种类型的推理。它提供了
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言本文将带你一步步探究 Transformer 模型中先进的位置编码技术。我们将通过迭代改进编码位置的方法，最终得出 旋转位置编码 (Rotary Postional Encoding, RoPE)，这也是最新发布的 LLama 3.2 和大多数现代 transformer 模型所采用的方法。本文旨在尽量减少所需的数学知识，但理解一些基本的线性代数、三角学和自注意力机制是有帮助的。
-问题陈...
+         引言
+本文将带你一步步探究 Transformer 模型中先进的位置编码技术。我们将通过迭代改进编码位置的方法，最终得出 旋转位置编码 (Rotary Postional Encoding, RoPE)，这也是最新发布的 LLama 3.2 和大多数现代 transformer 模型所采用的方法。本文旨在尽量减少所需的数学知识，但理解一些基本的线性代数、三角学和自注意力机制是有帮助的。
+ ...
       
     
   </div>
@@ -3649,7 +3665,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 

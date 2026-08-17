@@ -47,7 +47,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-04-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.899Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.960Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2504,7 +2504,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>CLIP 和 ALIGN 是通过联合训练将图像编码器和文本编码器对齐在一起的第一个示例。这种方法开辟了训练视觉模型的新方法。SigLIP 更进一步，用 sigmoid 损失取代了 CLIP 的对比损失，以获得更好的编码器。</p>
 <p>凭借更智能的训练目标，我们不断构建更结构化、更精细、更强大的视觉编码器。SigLIP 2 就是这样，在 SigLIP 的基础上应用了一系列非常有趣和智能的训练目标，以提供更好、更强的视觉语言编码器。</p>
 <p>我们将在这篇博文中尝试一些新的东西。我们不会说明什么是新的以及在哪里可以找到它，而是一起进行一些练习。我们从 SigLIP 开始，然后集思广益，提出一系列问题和答案（新标题），以逐渐涵盖 SigLIP 2 中的所有更新。听上去很好？</p>
-<h2 id="问题-1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？"><a href="#问题-1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？" class="headerlink" title="问题 1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？"></a>问题 1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？</h2><p>添加一个解码器（就是这么简单）</p>
+<h2 id="问题-1我们可以使用什么低成本辅助训练目标来学习更好的视觉表征在位置感知和局部性方面"><a class="markdownIt-Anchor" href="#问题-1我们可以使用什么低成本辅助训练目标来学习更好的视觉表征在位置感知和局部性方面"></a> 问题 1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？</h2>
+<p>添加一个解码器（就是这么简单）</p>
 <p>让我们在系统中加入一个解码器。现在我们有一个图像编码器、一个文本编码器和一个文本解码器。文本解码器将有三个目标：</p>
 <ul>
 <li>预测整体图像标题</li>
@@ -2512,21 +2513,26 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>根据边界框坐标预测区域特定的字幕</li>
 </ul>
 <p>解码器为视觉编码器提供了额外的信号，使其具备位置感知能力。这标志着 SigLIP 2 训练方案的首次改进。</p>
-<h2 id="问题-2：如何改进图像表征的细粒度局部语义？"><a href="#问题-2：如何改进图像表征的细粒度局部语义？" class="headerlink" title="问题 2：如何改进图像表征的细粒度局部语义？"></a>问题 2：如何改进图像表征的细粒度局部语义？</h2><p><strong>使用全局-局部损失和掩码预测进行自蒸馏</strong></p>
+<h2 id="问题-2如何改进图像表征的细粒度局部语义"><a class="markdownIt-Anchor" href="#问题-2如何改进图像表征的细粒度局部语义"></a> 问题 2：如何改进图像表征的细粒度局部语义？</h2>
+<p><strong>使用全局-局部损失和掩码预测进行自蒸馏</strong></p>
 <p>为了改进图像表征中的细粒度局部语义，我们引入了两个关键训练目标：<strong>全局-局部损失（Global-Local Loss）</strong> 和 <strong>掩码预测损失（Masked Prediction Loss）</strong>。借鉴自监督学习的相关研究，我们采用<strong>自蒸馏（Self-Distillation）</strong>。我们可以使用同一个模型作为教师和学生，每次迭代时，教师模型的参数将是学生模型参数的移动平均值。</p>
 <ul>
 <li><strong>全局-局部损失（Global-Local Loss）</strong>：学生网络仅接收训练图像的局部视图，并训练其表征，使其匹配教师网络从完整图像得出的表征。</li>
 <li><strong>掩码预测损失（Masked Prediction Loss）</strong>：学生网络中 50% 的嵌入图像块被掩码标记覆盖，要求学生模型在这些掩码位置匹配教师模型的特征。</li>
 </ul>
 <p>这些训练目标教会视觉编码器空间感知能力，并提高其局部语义表达能力。研究人员在<strong>80% 的训练完成后</strong>才引入这些损失，而在早期阶段主要采用 sigmoid 损失和解码器损失。这么做的原因是为了<strong>节省计算资源</strong>（额外的损失计算成本较高），同时<strong>避免对编码器产生负面影响</strong>。</p>
-<h2 id="问题-3：如何使模型适应不同的分辨率？"><a href="#问题-3：如何使模型适应不同的分辨率？" class="headerlink" title="问题 3：如何使模型适应不同的分辨率？"></a><strong>问题 3：如何使模型适应不同的分辨率？</strong></h2><h3 id="适应不同的分辨率"><a href="#适应不同的分辨率" class="headerlink" title="适应不同的分辨率"></a><strong>适应不同的分辨率</strong></h3><p>众所周知，图像模型对分辨率和长宽比的变化非常敏感。在这里，我们可以利用两种不同的方法来使这些模型适应不同的分辨率和补丁大小。</p>
+<h2 id="问题-3如何使模型适应不同的分辨率"><a class="markdownIt-Anchor" href="#问题-3如何使模型适应不同的分辨率"></a> <strong>问题 3：如何使模型适应不同的分辨率？</strong></h2>
+<h3 id="适应不同的分辨率"><a class="markdownIt-Anchor" href="#适应不同的分辨率"></a> <strong>适应不同的分辨率</strong></h3>
+<p>众所周知，图像模型对分辨率和长宽比的变化非常敏感。在这里，我们可以利用两种不同的方法来使这些模型适应不同的分辨率和补丁大小。</p>
 <ol>
-<li><p><strong>固定分辨率变体（Fixed resolution variant）</strong>：</p>
+<li>
+<p><strong>固定分辨率变体（Fixed resolution variant）</strong>：</p>
 <ul>
-<li>在 95% 训练完成后，我们可以调整<strong>位置嵌入（positional embeddings）</strong>和<strong>补丁嵌入（patch embeddings）</strong>的大小，然后继续训练，以适应所需（可能更大）的分辨率。</li>
+<li>在 95% 训练完成后，我们可以调整**位置嵌入（positional embeddings）<strong>和</strong>补丁嵌入（patch embeddings）**的大小，然后继续训练，以适应所需（可能更大）的分辨率。</li>
 </ul>
 </li>
-<li><p><strong>动态分辨率变体（Dynamic resolution variant）</strong>：</p>
+<li>
+<p><strong>动态分辨率变体（Dynamic resolution variant）</strong>：</p>
 <ul>
 <li>受到 <strong>FlexiViT</strong>（可以使用不同序列长度的输入）和 <strong>NaViT</strong>（遵循原生长宽比）方法的启发，我们可以创建 <strong>NaFlex</strong> 变体。这种方法非常有趣，因为它可以在单一模型中适应 <strong>OCR（较小的长宽比变形）</strong> 和 <strong>文档理解（适当的分辨率）</strong>。</li>
 <li>具有 <strong>“-naflex”</strong> 后缀的模型是动态分辨率变体。相比之下，固定分辨率模型可以直接用于现有的类别，而动态分辨率变体则需要专门调用。</li>
@@ -2535,19 +2541,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ol>
 <p>这标志着 SigLIP 到 SigLIP 2 发展的结束。接下来的部分，我们将探索 <strong>SigLIP 2</strong> 的应用场景。</p>
 <p><strong>使用 Transformers 进行推理</strong></p>
-<p>在这些模型上运行推理非常简单。你可以复制粘贴下面的代码，在 <strong>免费版 Colab</strong> 笔记本上运行推理 </p>
+<p>在这些模型上运行推理非常简单。你可以复制粘贴下面的代码，在 <strong>免费版 Colab</strong> 笔记本上运行推理</p>
 <p>要在 <strong>SigLIP 2</strong> 上运行推理，请从以下来源安装，或使用这个稳定分支：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install git+https://github.com/huggingface/transformers@v4.49.0-SigLIP-2</span><br></pre></td></tr></table></figure>
-
 <p><strong>零样本分类（Zero-shot Classification）</strong></p>
 <p>在这里，我们使用<strong>便捷的 API</strong>来展示 <strong>SigLIP 2</strong> 的零样本分类能力。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from transformers import pipeline</span><br><span class="line"></span><br><span class="line">ckpt = &quot;google/siglip2-so400m-patch14-384&quot;</span><br><span class="line">pipe = pipeline(model=ckpt, task=&quot;zero-shot-image-classification&quot;)</span><br><span class="line"></span><br><span class="line">inputs = &#123;</span><br><span class="line">    &quot;images&quot;: [</span><br><span class="line">        &quot;https://huggingface.co/datasets/merve/coco/resolve/main/val2017/000000000285.jpg&quot;, # bear</span><br><span class="line">        &quot;https://huggingface.co/datasets/merve/coco/resolve/main/val2017/000000000776.jpg&quot;, # teddy bear</span><br><span class="line">    ],</span><br><span class="line">    &quot;texts&quot;: [</span><br><span class="line">        &quot;bear looking into the camera&quot;,</span><br><span class="line">        &quot;bear looking away from the camera&quot;,</span><br><span class="line">        &quot;a bunch of teddy bears&quot;,</span><br><span class="line">        &quot;two teddy bears&quot;,</span><br><span class="line">        &quot;three teddy bears&quot;</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">outputs = pipe(inputs[&quot;images&quot;], candidate_labels=inputs[&quot;texts&quot;])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>让我们来可视化输出结果。</strong><br><img src="https://github.com/user-attachments/assets/6aababd9-8328-41e9-9c90-0b2513b43623" alt="image"></p>
+<p><strong>让我们来可视化输出结果。</strong><br>
+<img src="https://github.com/user-attachments/assets/6aababd9-8328-41e9-9c90-0b2513b43623" alt="image"></p>
 <p><strong>用于下游任务的图像编码</strong></p>
 <p>你还可以使用以下方法对图像进行编码：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">from transformers import AutoModel, AutoProcessor</span><br><span class="line">from transformers.image_utils import load_image</span><br><span class="line"></span><br><span class="line">ckpt = &quot;google/siglip2-so400m-patch14-384&quot;</span><br><span class="line">model = AutoModel.from_pretrained(ckpt, device_map=&quot;auto&quot;).eval()</span><br><span class="line">processor = AutoProcessor.from_pretrained(ckpt)</span><br><span class="line"></span><br><span class="line">image = load_image(&quot;https://huggingface.co/datasets/merve/coco/resolve/main/val2017/000000000285.jpg&quot;)</span><br><span class="line">inputs = processor(images=[image], return_tensors=&quot;pt&quot;).to(model.device)</span><br><span class="line"></span><br><span class="line">with torch.no_grad():</span><br><span class="line">    image_embeddings = model.get_image_features(**inputs)    </span><br><span class="line"></span><br><span class="line">print(image_embeddings.shape) # torch.Size([1, 1152])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><strong>比较 SigLIP 1 与 SigLIP 2</strong></p>
 <p>查看所有发布的 <strong>SigLIP 2</strong> 模型表，我们可以发现 <strong>SigLIP</strong> 相较于之前版本发生了两个显著变化：</p>
 <ol>
@@ -2557,7 +2561,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p><strong>SigLIP 2</strong> 的评估表明确展示了其相较 <strong>SigLIP</strong> 的卓越性能。</p>
 <p><img src="https://github.com/user-attachments/assets/044d5ac4-6470-4ea3-bb84-5d9ba220916d" alt="image"></p>
 <p><strong>用于 VLM 的编码器</strong></p>
-<p>与文本信息对齐的视觉编码器在 <strong>视觉语言模型（VLMs）</strong> 的开发中变得越来越重要。构建 <strong>VLM</strong> 的常见方法是将<strong>预训练的视觉编码器</strong>与<strong>预训练的大型语言模型（LLM）</strong>结合，并利用<strong>多模态数据</strong>在各种视觉-语言任务上共同训练。</p>
+<p>与文本信息对齐的视觉编码器在 <strong>视觉语言模型（VLMs）</strong> 的开发中变得越来越重要。构建 <strong>VLM</strong> 的常见方法是将<strong>预训练的视觉编码器</strong>与<strong>预训练的大型语言模型（LLM）<strong>结合，并利用</strong>多模态数据</strong>在各种视觉-语言任务上共同训练。</p>
 <p>一个值得关注的 <strong>VLM</strong> 例子是 <strong>PaliGemma</strong>，它充分利用了 <strong>SigLIP</strong> 视觉编码器系列。你可以在 <strong>PaliGemma</strong> 博客文章中深入了解其能力。在此基础上，<strong>新推出的 PaliGemma 2</strong> 更进一步，<strong>将 SigLIP 与先进的 Gemma 2 LLM 结合</strong>。如果能在 <strong>PaliGemma</strong> 这样的环境中<strong>用 SigLIP 2 替换 SigLIP</strong>，并观察模型的表现，那将会非常有趣！</p>
 
   </div>
@@ -2583,7 +2587,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2691,7 +2695,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>VITA1.5</p>
           <p class='content'>GitHub
 论文
-摘要近年来，多模态大型语言模型（MLLMs）主要集中在整合视觉和文本模态，而较少关注语音在增强交互中的作用。然而，语音在多模态对话系统中起着至关重要的作用，并且由于模态差异，...</p>
+ 摘要
+近年来，多模态大型语言模型（MLLMs）主要集中在整合视觉和文本模态，而较少关注语音在增强交互中的作用。然而，语音在多模态对话系统中起着至关重要的作用，并且由于模态差...</p>
         </a>
       
       
@@ -2699,7 +2704,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           <p class='title'>CoMat：将文本到图像扩散模型与图像到文本概念匹配对齐<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>GitHub
 论文
-摘要扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑战，...</p>
+ 摘要
+扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑...</p>
         </a>
       
     </div>
@@ -2760,7 +2766,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-1%EF%BC%9A%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E4%BB%80%E4%B9%88%EF%BC%88%E4%BD%8E%E6%88%90%E6%9C%AC%EF%BC%89%E8%BE%85%E5%8A%A9%E8%AE%AD%E7%BB%83%E7%9B%AE%E6%A0%87%E6%9D%A5%E5%AD%A6%E4%B9%A0%E6%9B%B4%E5%A5%BD%E7%9A%84%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81%EF%BC%88%E5%9C%A8%E4%BD%8D%E7%BD%AE%E6%84%9F%E7%9F%A5%E5%92%8C%E5%B1%80%E9%83%A8%E6%80%A7%E6%96%B9%E9%9D%A2%EF%BC%89%EF%BC%9F"><span class="toc-text">问题 1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-2%EF%BC%9A%E5%A6%82%E4%BD%95%E6%94%B9%E8%BF%9B%E5%9B%BE%E5%83%8F%E8%A1%A8%E5%BE%81%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E5%B1%80%E9%83%A8%E8%AF%AD%E4%B9%89%EF%BC%9F"><span class="toc-text">问题 2：如何改进图像表征的细粒度局部语义？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-3%EF%BC%9A%E5%A6%82%E4%BD%95%E4%BD%BF%E6%A8%A1%E5%9E%8B%E9%80%82%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E8%BE%A8%E7%8E%87%EF%BC%9F"><span class="toc-text">问题 3：如何使模型适应不同的分辨率？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E8%BE%A8%E7%8E%87"><span class="toc-text">适应不同的分辨率</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-1%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E4%BB%80%E4%B9%88%E4%BD%8E%E6%88%90%E6%9C%AC%E8%BE%85%E5%8A%A9%E8%AE%AD%E7%BB%83%E7%9B%AE%E6%A0%87%E6%9D%A5%E5%AD%A6%E4%B9%A0%E6%9B%B4%E5%A5%BD%E7%9A%84%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81%E5%9C%A8%E4%BD%8D%E7%BD%AE%E6%84%9F%E7%9F%A5%E5%92%8C%E5%B1%80%E9%83%A8%E6%80%A7%E6%96%B9%E9%9D%A2"><span class="toc-text"> 问题 1：我们可以使用什么（低成本）辅助训练目标来学习更好的视觉表征（在位置感知和局部性方面）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-2%E5%A6%82%E4%BD%95%E6%94%B9%E8%BF%9B%E5%9B%BE%E5%83%8F%E8%A1%A8%E5%BE%81%E7%9A%84%E7%BB%86%E7%B2%92%E5%BA%A6%E5%B1%80%E9%83%A8%E8%AF%AD%E4%B9%89"><span class="toc-text"> 问题 2：如何改进图像表征的细粒度局部语义？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-3%E5%A6%82%E4%BD%95%E4%BD%BF%E6%A8%A1%E5%9E%8B%E9%80%82%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E8%BE%A8%E7%8E%87"><span class="toc-text"> 问题 3：如何使模型适应不同的分辨率？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E8%BE%A8%E7%8E%87"><span class="toc-text"> 适应不同的分辨率</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3167,7 +3173,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3402,7 +3408,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/04/06/SigLIP2/","name":"SigLIP2：更好的多语言视觉语言编码器"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"SigLIP2：更好的多语言视觉语言编码器","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/04/06/SigLIP2/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/04/06/SigLIP2/","wordCount":0,"datePublished":"2025-04-06T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.899Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/04/06/SigLIP2/","name":"SigLIP2：更好的多语言视觉语言编码器"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"SigLIP2：更好的多语言视觉语言编码器","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/04/06/SigLIP2/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/04/06/SigLIP2/","wordCount":0,"datePublished":"2025-04-06T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.960Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

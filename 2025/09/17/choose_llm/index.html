@@ -43,11 +43,11 @@
 <meta property="og:title" content="如何在 2025 年为您的项目选择最佳的开源 LLM">
 <meta property="og:url" content="https://nicemxm.github.io/2025/09/17/choose_llm/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言选择正确的开源 LLM 并不是要找到“最佳”模型，而是要找到真正适合您的特定用例、硬件、预算和约束的模型。本指南将引导您了解重要的真正决策标准，从性能基准到实际部署注意事项。为了超越理论，该指南展示了如何使用 AI Sheets 来试验数千个模型和最佳推理提供商。 本指南为何存在Hugging Face 上有超过 200 万个公共模型，并且每周都会发布新版本，选择开源 LLM 可能会让人感到不">
+<meta property="og:description" content="引言 选择正确的开源 LLM 并不是要找到“最佳”模型，而是要找到真正适合您的特定用例、硬件、预算和约束的模型。本指南将引导您了解重要的真正决策标准，从性能基准到实际部署注意事项。为了超越理论，该指南展示了如何使用 AI Sheets 来试验数千个模型和最佳推理提供商。  本指南为何存在 Hugging Face 上有超过 200 万个公共模型，并且每周都会发布新版本，选择开源 LLM 可能会让">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-09-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.899Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.961Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="选型">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,10 +2498,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>选择正确的开源 LLM 并不是要找到“最佳”模型，而是要找到真正适合您的特定用例、硬件、预算和约束的模型。本指南将引导您了解重要的真正决策标准，从性能基准到实际部署注意事项。为了超越理论，该指南展示了如何使用 AI Sheets 来试验数千个模型和最佳推理提供商。</p>
-<h2 id="本指南为何存在"><a href="#本指南为何存在" class="headerlink" title="本指南为何存在"></a>本指南为何存在</h2><p>Hugging Face 上有超过 200 万个公共模型，并且每周都会发布新版本，选择开源 LLM 可能会让人感到不知所措。大多数指南只列出了流行的模型，但这并不是真正的选择方式。您需要一个考虑实际约束和要求的框架。</p>
+    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>选择正确的开源 LLM 并不是要找到“最佳”模型，而是要找到真正适合您的特定用例、硬件、预算和约束的模型。本指南将引导您了解重要的真正决策标准，从性能基准到实际部署注意事项。为了超越理论，该指南展示了如何使用 AI Sheets 来试验数千个模型和最佳推理提供商。</p>
+<h2 id="本指南为何存在"><a class="markdownIt-Anchor" href="#本指南为何存在"></a> 本指南为何存在</h2>
+<p>Hugging Face 上有超过 200 万个公共模型，并且每周都会发布新版本，选择开源 LLM 可能会让人感到不知所措。大多数指南只列出了流行的模型，但这并不是真正的选择方式。您需要一个考虑实际约束和要求的框架。</p>
 <p>人们犯的最大错误是什么？根据排行榜和基准选择模型，而不是使用实际数据进行测试。在 MMLU 上得分为 82% 的模型可能会在您的特定领域、写作风格或边缘情况下完全失败。</p>
-<h2 id="你需要先弄清楚什么"><a href="#你需要先弄清楚什么" class="headerlink" title="你需要先弄清楚什么"></a>你需要先弄清楚什么</h2><p>在深入研究模型比较之前，请回答以下问题：</p>
+<h2 id="你需要先弄清楚什么"><a class="markdownIt-Anchor" href="#你需要先弄清楚什么"></a> 你需要先弄清楚什么</h2>
+<p>在深入研究模型比较之前，请回答以下问题：</p>
 <p><strong>硬件约束</strong></p>
 <ul>
 <li>你的 GPU 情况如何？（这比你想象的更重要）</li>
@@ -2520,13 +2523,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>您需要微调功能吗？</li>
 <li>有任何合规性或数据隐私要求？</li>
 </ul>
-<h2 id="真正的选择标准"><a href="#真正的选择标准" class="headerlink" title="真正的选择标准"></a>真正的选择标准</h2><p><strong>1. 任务性能（但不仅仅是基准测试）</strong></p>
+<h2 id="真正的选择标准"><a class="markdownIt-Anchor" href="#真正的选择标准"></a> 真正的选择标准</h2>
+<p><strong>1. 任务性能（但不仅仅是基准测试）</strong></p>
 <p>不要只看 MMLU 分数。不同的模型擅长不同的任务：</p>
 <p>对于编码：查看 HumanEval 和 SWE-bench 分数，但也要在实际代码库上进行测试</p>
 <p>写作：查看 EQBench Creative Writing 和 WritingBench 进行风格和创造力评估，但也可以根据您的具体写作要求进行测试</p>
 <p>对于助手和文本处理：测试特定于领域的问题的推理能力</p>
 <p>专业提示：使用实际用例中的示例创建一个小型评估集。它比任何公共基准测试都更有价值。</p>
-<p><strong>2. 硬件要求</strong><br>这是大多数人搞砸的地方。了解 VRAM 要求有助于您是在本地运行还是选择云实例。</p>
+<p><strong>2. 硬件要求</strong><br>
+这是大多数人搞砸的地方。了解 VRAM 要求有助于您是在本地运行还是选择云实例。</p>
 <p>模型大小与功能权衡：</p>
 <table>
 <thead>
@@ -2539,7 +2544,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>最佳用例</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>1–3B</td>
 <td>4–6 GB</td>
 <td>~2 GB</td>
@@ -2552,7 +2558,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>14–16 GB</td>
 <td>~6–8 GB</td>
 <td>AWS g5.xlarge，RunPod RTX 4090</td>
-<td>RTX 4080&#x2F;4090、A6000</td>
+<td>RTX 4080/4090、A6000</td>
 <td>通用助手、摘要、编码</td>
 </tr>
 <tr>
@@ -2571,13 +2577,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>多 GPU 设置（昂贵）</td>
 <td>SOTA 推理、企业应用</td>
 </tr>
-</tbody></table>
-<h2 id="量化注意事项："><a href="#量化注意事项：" class="headerlink" title="量化注意事项："></a>量化注意事项：</h2><ul>
+</tbody>
+</table>
+<h2 id="量化注意事项"><a class="markdownIt-Anchor" href="#量化注意事项"></a> 量化注意事项：</h2>
+<ul>
 <li>4 位量化将内存减少到原始内存的 ~25% - 7B 型号从 ~14GB 下降到 ~3.5GB</li>
 <li>8 位量化将内存需求减半，质量损失最小</li>
 <li>量化会降低一些质量，但对于大多数应用来说通常是可以接受的</li>
 </ul>
-<h2 id="3-推理速度和提供商性能"><a href="#3-推理速度和提供商性能" class="headerlink" title="3. 推理速度和提供商性能"></a>3. 推理速度和提供商性能</h2><p>除了硬件要求之外，推理速度在提供商之间差异很大，并影响用户体验。</p>
+<h2 id="3-推理速度和提供商性能"><a class="markdownIt-Anchor" href="#3-推理速度和提供商性能"></a> 3. 推理速度和提供商性能</h2>
+<p>除了硬件要求之外，推理速度在提供商之间差异很大，并影响用户体验。</p>
 <p><strong>提供商比较：</strong></p>
 <table>
 <thead>
@@ -2587,7 +2596,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>最适合</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>优化的提供商（Groq、Cerebras）</td>
 <td>超快的专用硬件</td>
 <td>实时应用程序、交互式聊天、速度关键型工作流程</td>
@@ -2607,7 +2617,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>您的硬件</td>
 <td>隐私敏感数据，无限使用，完全控制</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p><strong>重要的速度因素：</strong></p>
 <ul>
 <li>型号尺寸：较大的型号速度较慢 - 70B 型号通常比 7B 慢 3-5 倍</li>
@@ -2622,7 +2633,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>批处理：吞吐量比单个响应速度更重要</li>
 <li>流媒体：快速的首次token时间对于实时感觉至关重要</li>
 </ul>
-<h2 id="4-部署复杂性"><a href="#4-部署复杂性" class="headerlink" title="4. 部署复杂性"></a>4. 部署复杂性</h2><p><strong>本地部署</strong></p>
+<h2 id="4-部署复杂性"><a class="markdownIt-Anchor" href="#4-部署复杂性"></a> 4. 部署复杂性</h2>
+<p><strong>本地部署</strong></p>
 <ul>
 <li>更易于启动，完全控制数据</li>
 <li>受硬件限制</li>
@@ -2647,7 +2659,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>本地硬件：前期成本高，但使用无限制</li>
 <li>大多数团队从推理提供商开始，仅针对特定的隐私需求迁移到本地</li>
 </ul>
-<h2 id="5-社区和生态系统"><a href="#5-社区和生态系统" class="headerlink" title="5. 社区和生态系统"></a>5. 社区和生态系统</h2><p><strong>积极发展</strong></p>
+<h2 id="5-社区和生态系统"><a class="markdownIt-Anchor" href="#5-社区和生态系统"></a> 5. 社区和生态系统</h2>
+<p><strong>积极发展</strong></p>
 <ul>
 <li>定期更新和错误修复</li>
 <li>社区对问题的支持</li>
@@ -2661,22 +2674,29 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ul>
 <p><strong>要避免的常见选择错误</strong></p>
 <ul>
-<li><p>错误 1：追逐最新型号最新版本并不总是最稳定或支持良好的版本。有时，以前的版本对于生产使用来说更可靠。</p>
+<li>
+<p>错误 1：追逐最新型号最新版本并不总是最稳定或支持良好的版本。有时，以前的版本对于生产使用来说更可靠。</p>
 </li>
-<li><p>错误 2：忽略推理速度需要 30 秒才能响应的模型在技术上可能更好，但对于交互式应用程序来说实际上毫无用处。</p>
+<li>
+<p>错误 2：忽略推理速度需要 30 秒才能响应的模型在技术上可能更好，但对于交互式应用程序来说实际上毫无用处。</p>
 </li>
-<li><p>错误 3：没有使用真实数据进行测试综合基准测试无法捕获您的特定领域、写作风格或边缘情况。使用您的实际数据来测试模型 - 像 AI Sheets 这样的工具比设置复杂的测试管道要容易得多。</p>
+<li>
+<p>错误 3：没有使用真实数据进行测试综合基准测试无法捕获您的特定领域、写作风格或边缘情况。使用您的实际数据来测试模型 - 像 AI Sheets 这样的工具比设置复杂的测试管道要容易得多。</p>
 </li>
-<li><p>错误 4：低估了部署复杂性在笔记本中运行模型与大规模可靠地提供模型不同。考虑通过 Hugging Face 推理提供程序从托管推理开始，在构建自己的基础设施之前在类似生产的条件下进行测试。</p>
+<li>
+<p>错误 4：低估了部署复杂性在笔记本中运行模型与大规模可靠地提供模型不同。考虑通过 Hugging Face 推理提供程序从托管推理开始，在构建自己的基础设施之前在类似生产的条件下进行测试。</p>
 </li>
 </ul>
-<h2 id="实用的选择过程"><a href="#实用的选择过程" class="headerlink" title="实用的选择过程"></a>实用的选择过程</h2><p><strong>第 1 步：定义约束</strong></p>
+<h2 id="实用的选择过程"><a class="markdownIt-Anchor" href="#实用的选择过程"></a> 实用的选择过程</h2>
+<p><strong>第 1 步：定义约束</strong></p>
 <p>写下您的硬件限制、延迟要求和预算。这些是硬性约束，可以立即消除许多选项。</p>
-<p><strong>第 2 步：根据任务绩效列出候选名单</strong><br>查看在您的特定任务类型上表现良好的模型。从最多 3-5 个候选人开始。</p>
-<p><strong>第 3 步：使用真实数据进行测试（这就是 AI Sheets 的用武之地）</strong><br>使用实际用例中的示例创建一个小型评估集。您可以使用 AI Sheets 并排比较模型，而不是设置复杂的测试基础设施。</p>
+<p><strong>第 2 步：根据任务绩效列出候选名单</strong><br>
+查看在您的特定任务类型上表现良好的模型。从最多 3-5 个候选人开始。</p>
+<p><strong>第 3 步：使用真实数据进行测试（这就是 AI Sheets 的用武之地）</strong><br>
+使用实际用例中的示例创建一个小型评估集。您可以使用 AI Sheets 并排比较模型，而不是设置复杂的测试基础设施。</p>
 <p><strong>如何使用 AI Sheets 进行模型比较：</strong></p>
 <ul>
-<li>导入您的测试数据 - 上传包含评估提示&#x2F;问题的 CSV</li>
+<li>导入您的测试数据 - 上传包含评估提示/问题的 CSV</li>
 <li>创建比较列 - 为要测试的每个模型添加一列，提示如下：“回答以下内容：”测试问题在哪里prompt</li>
 <li>选择您的推理提供程序 - AI Sheets 通过 Hugging Face 推理提供程序连接到多个提供程序（Groq、Cerebras、Together AI 等），因此无需任何本地设置即可测试模型</li>
 <li>并排比较结果 - 了解不同模型如何处理电子表格格式中的相同输入</li>
@@ -2689,25 +2709,28 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>考虑推理成本、潜在的微调需求和维护开销。</p>
 <p><strong>第 5 步：从小处着手，逐步扩大规模</strong></p>
 <p>从满足您要求的最简单解决方案开始。您可以随时稍后升级。</p>
-<h2 id="AI-Sheets-推荐型号"><a href="#AI-Sheets-推荐型号" class="headerlink" title="AI Sheets 推荐型号"></a>AI Sheets 推荐型号</h2><p>AI Sheets 有一个推荐模型部分，重点介绍了当前不同类别的高性能开源模型：</p>
+<h2 id="ai-sheets-推荐型号"><a class="markdownIt-Anchor" href="#ai-sheets-推荐型号"></a> AI Sheets 推荐型号</h2>
+<p>AI Sheets 有一个推荐模型部分，重点介绍了当前不同类别的高性能开源模型：</p>
 <p><strong>通用和推理：</strong></p>
 <ul>
-<li>openai&#x2F;gpt-oss-20b - 轻量级通用模型</li>
-<li>openai&#x2F;gpt-oss-120b - 更强的推理能力</li>
-<li>meta-llama&#x2F;Llama-3.1-70B-Instruct - 全面的旗舰模型</li>
+<li>openai/gpt-oss-20b - 轻量级通用模型</li>
+<li>openai/gpt-oss-120b - 更强的推理能力</li>
+<li>meta-llama/Llama-3.1-70B-Instruct - 全面的旗舰模型</li>
 </ul>
 <p><strong>编码专家：</strong></p>
 <ul>
-<li>Qwen&#x2F;Qwen3-Coder-480B-A35B-Instruct - 最先进的编码性能</li>
+<li>Qwen/Qwen3-Coder-480B-A35B-Instruct - 最先进的编码性能</li>
 </ul>
 <p><strong>专业任务：</strong></p>
 <ul>
-<li>CohereLabs&#x2F;command-a-translate-08-2025 - 翻译任务</li>
+<li>CohereLabs/command-a-translate-08-2025 - 翻译任务</li>
 </ul>
 <p>请记住：这些是测试评估过程的示例，而不是永久建议。使用 AI Sheets 比较这些模型在您的特定用例和数据上的性能。</p>
-<h2 id="未来呢？"><a href="#未来呢？" class="headerlink" title="未来呢？"></a>未来呢？</h2><p>开源 LLM 格局瞬息万变。选择“完美”模型更重要的是构建一个选择和评估过程，您可以在新模型出现时重复。</p>
+<h2 id="未来呢"><a class="markdownIt-Anchor" href="#未来呢"></a> 未来呢？</h2>
+<p>开源 LLM 格局瞬息万变。选择“完美”模型更重要的是构建一个选择和评估过程，您可以在新模型出现时重复。</p>
 <p>专注于创建良好的评估数据集和部署管道，而不是将所有赌注押在单个模型选择上。</p>
-<h2 id="后续步骤"><a href="#后续步骤" class="headerlink" title="后续步骤"></a>后续步骤</h2><ul>
+<h2 id="后续步骤"><a class="markdownIt-Anchor" href="#后续步骤"></a> 后续步骤</h2>
+<ul>
 <li>使用上述框架定义您的需求</li>
 <li>使用您的真实数据测试 2-3 个候选模型（尝试使用 AI Sheets，使用 Hugging Face 推理提供程序轻松并排比较）</li>
 <li>从满足您需求的最简单的解决方案开始 - 通常在自托管之前进行托管推理</li>
@@ -2738,7 +2761,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2844,13 +2867,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2025/09/17/MARS2_2025/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望</p>
-          <p class='content'>摘要本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，越来...</p>
+          <p class='content'> 摘要
+本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，...</p>
         </a>
       
       
         <a class='next' href='/2025/09/14/EmbeddingGemma/'>
           <p class='title'>EmbeddingGemma<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>引言Google 发布了 EmbeddingGemma，这是一种最先进的多语言嵌入模型，非常适合设备上的用例。该模型专为速度和效率而设计，具有 308M 参数的紧凑尺寸和 2K 上下文窗口，为移...</p>
+          <p class='content'> 引言
+Google 发布了 EmbeddingGemma，这是一种最先进的多语言嵌入模型，非常适合设备上的用例。该模型专为速度和效率而设计，具有 308M 参数的紧凑尺寸和 2K 上下文窗口，...</p>
         </a>
       
     </div>
@@ -2911,7 +2936,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%8C%87%E5%8D%97%E4%B8%BA%E4%BD%95%E5%AD%98%E5%9C%A8"><span class="toc-text">本指南为何存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E9%9C%80%E8%A6%81%E5%85%88%E5%BC%84%E6%B8%85%E6%A5%9A%E4%BB%80%E4%B9%88"><span class="toc-text">你需要先弄清楚什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%80%89%E6%8B%A9%E6%A0%87%E5%87%86"><span class="toc-text">真正的选择标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%9A"><span class="toc-text">量化注意事项：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%8E%A8%E7%90%86%E9%80%9F%E5%BA%A6%E5%92%8C%E6%8F%90%E4%BE%9B%E5%95%86%E6%80%A7%E8%83%BD"><span class="toc-text">3. 推理速度和提供商性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%83%A8%E7%BD%B2%E5%A4%8D%E6%9D%82%E6%80%A7"><span class="toc-text">4. 部署复杂性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%A4%BE%E5%8C%BA%E5%92%8C%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F"><span class="toc-text">5. 社区和生态系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%94%A8%E7%9A%84%E9%80%89%E6%8B%A9%E8%BF%87%E7%A8%8B"><span class="toc-text">实用的选择过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI-Sheets-%E6%8E%A8%E8%8D%90%E5%9E%8B%E5%8F%B7"><span class="toc-text">AI Sheets 推荐型号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5%E5%91%A2%EF%BC%9F"><span class="toc-text">未来呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E6%AD%A5%E9%AA%A4"><span class="toc-text">后续步骤</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%8C%87%E5%8D%97%E4%B8%BA%E4%BD%95%E5%AD%98%E5%9C%A8"><span class="toc-text"> 本指南为何存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E9%9C%80%E8%A6%81%E5%85%88%E5%BC%84%E6%B8%85%E6%A5%9A%E4%BB%80%E4%B9%88"><span class="toc-text"> 你需要先弄清楚什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%80%89%E6%8B%A9%E6%A0%87%E5%87%86"><span class="toc-text"> 真正的选择标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text"> 量化注意事项：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%8E%A8%E7%90%86%E9%80%9F%E5%BA%A6%E5%92%8C%E6%8F%90%E4%BE%9B%E5%95%86%E6%80%A7%E8%83%BD"><span class="toc-text"> 3. 推理速度和提供商性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%83%A8%E7%BD%B2%E5%A4%8D%E6%9D%82%E6%80%A7"><span class="toc-text"> 4. 部署复杂性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%A4%BE%E5%8C%BA%E5%92%8C%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F"><span class="toc-text"> 5. 社区和生态系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%94%A8%E7%9A%84%E9%80%89%E6%8B%A9%E8%BF%87%E7%A8%8B"><span class="toc-text"> 实用的选择过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ai-sheets-%E6%8E%A8%E8%8D%90%E5%9E%8B%E5%8F%B7"><span class="toc-text"> AI Sheets 推荐型号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5%E5%91%A2"><span class="toc-text"> 未来呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E6%AD%A5%E9%AA%A4"><span class="toc-text"> 后续步骤</span></a></li></ol>
   </div>
 </section>
 
@@ -3318,7 +3343,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3553,7 +3578,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/09/17/choose_llm/","name":"如何在 2025 年为您的项目选择最佳的开源 LLM"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"如何在 2025 年为您的项目选择最佳的开源 LLM","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/09/17/choose_llm/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/09/17/choose_llm/","wordCount":0,"datePublished":"2025-09-17T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.899Z","articleSection":"LLM","keywords":"选型","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/09/17/choose_llm/","name":"如何在 2025 年为您的项目选择最佳的开源 LLM"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"如何在 2025 年为您的项目选择最佳的开源 LLM","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/09/17/choose_llm/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/09/17/choose_llm/","wordCount":0,"datePublished":"2025-09-17T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.961Z","articleSection":"LLM","keywords":"选型","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

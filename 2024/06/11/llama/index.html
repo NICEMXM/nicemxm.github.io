@@ -43,11 +43,11 @@
 <meta property="og:title" content="LLAMA详解">
 <meta property="og:url" content="https://nicemxm.github.io/2024/06/11/llama/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="llama3模型架构根据我们的设计理念，我们在 Llama 3 中选择了相对标准的纯解码器转换器架构。与 Llama 2 相比，我们进行了几项关键改进。  Llama 3 使用具有 128K 标记词汇表的分词器，可以更有效地编码语言，从而大大提高模型性能。 为了提高 Llama 3 模型的推理效率，我们在 8B 和 70B 大小中都采用了分组查询注意力 （GQA）。 我们在 8,192 个令牌的序">
+<meta property="og:description" content="llama3  模型架构 根据我们的设计理念，我们在 Llama 3 中选择了相对标准的纯解码器转换器架构。与 Llama 2 相比，我们进行了几项关键改进。  Llama 3 使用具有 128K 标记词汇表的分词器，可以更有效地编码语言，从而大大提高模型性能。 为了提高 Llama 3 模型的推理效率，我们在 8B 和 70B 大小中都采用了分组查询注意力 （GQA）。 我们在 8,192 个">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-06-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.901Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.963Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="llama">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,19 +2498,24 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="llama3"><a href="#llama3" class="headerlink" title="llama3"></a>llama3</h2><h3 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h3><p>根据我们的设计理念，我们在 Llama 3 中选择了相对标准的纯解码器转换器架构。与 Llama 2 相比，我们进行了几项关键改进。</p>
+    <h2 id="llama3"><a class="markdownIt-Anchor" href="#llama3"></a> llama3</h2>
+<h3 id="模型架构"><a class="markdownIt-Anchor" href="#模型架构"></a> 模型架构</h3>
+<p>根据我们的设计理念，我们在 Llama 3 中选择了相对标准的纯解码器转换器架构。与 Llama 2 相比，我们进行了几项关键改进。</p>
 <ul>
 <li>Llama 3 使用具有 128K 标记词汇表的分词器，可以更有效地编码语言，从而大大提高模型性能。</li>
 <li>为了提高 Llama 3 模型的推理效率，我们在 8B 和 70B 大小中都采用了分组查询注意力 （GQA）。</li>
 <li>我们在 8,192 个令牌的序列上训练模型，使用掩码来确保自我注意力不会跨越文档边界。</li>
 </ul>
-<h3 id="训练数据"><a href="#训练数据" class="headerlink" title="训练数据"></a>训练数据</h3><p>为了训练最佳语言模型，管理大型、高质量的训练数据集至关重要。根据我们的设计原则，我们在预训练数据方面投入了大量资金。Llama 3 在超过 <strong>15T</strong> 的代币上进行了预训练，这些token都是从公开来源收集的。我们的训练数据集比 Llama 2 使用的数据集<strong>大 7 倍</strong>，包含的代码是 Llama 2 的 <strong>4 倍</strong>。为了应对即将到来的多语言用例，Llama 3 预训练数据集的 5% 以上由涵盖 30 多种语言的高质量非英语数据组成。但是，我们预计这些语言的性能水平与英语不同。</p>
+<h3 id="训练数据"><a class="markdownIt-Anchor" href="#训练数据"></a> 训练数据</h3>
+<p>为了训练最佳语言模型，管理大型、高质量的训练数据集至关重要。根据我们的设计原则，我们在预训练数据方面投入了大量资金。Llama 3 在超过 <strong>15T</strong> 的代币上进行了预训练，这些token都是从公开来源收集的。我们的训练数据集比 Llama 2 使用的数据集<strong>大 7 倍</strong>，包含的代码是 Llama 2 的 <strong>4 倍</strong>。为了应对即将到来的多语言用例，Llama 3 预训练数据集的 5% 以上由涵盖 30 多种语言的高质量非英语数据组成。但是，我们预计这些语言的性能水平与英语不同。</p>
 <p>为了确保 Llama 3 接受最高质量的数据训练，我们开发了一系列数据过滤管道。这些管道包括使用<strong>启发式筛选器</strong>、<strong>NSFW 筛选器</strong>、<strong>语义重复数据删除方法</strong>和<strong>文本分类器</strong>来预测数据质量。我们发现前几代 Llama 在识别高质量数据方面出奇地好，因此我们<strong>使用 Llama 2 为 Llama 3 提供支持的文本质量分类器生成训练数据</strong>。</p>
 <p>我们还进行了广泛的实验，以评估在最终的预训练数据集中混合来自不同来源的数据的最佳方法。这些实验使我们能够选择一种数据组合，确保 Llama 3 在包括日常问题、STEM、编码、历史知识等在内的用例中表现良好。</p>
-<h3 id="扩大预训练规模"><a href="#扩大预训练规模" class="headerlink" title="扩大预训练规模"></a>扩大预训练规模</h3><p>为了在 Llama 3 模型中有效地利用我们的预训练数据，我们投入了大量精力来扩大预训练。具体而言，我们为下游基准评估制定了一系列详细的扩展法则。这些缩放定律使我们能够选择最佳的数据组合，并就如何最好地使用我们的训练计算做出明智的决策。重要的是，缩放定律允许我们在实际训练模型之前预测最大模型在关键任务上的性能（例如，在 HumanEval 基准测试中评估的代码生成——见上文）。这有助于我们确保最终模型在各种用例和功能中具有强大的性能。</p>
+<h3 id="扩大预训练规模"><a class="markdownIt-Anchor" href="#扩大预训练规模"></a> 扩大预训练规模</h3>
+<p>为了在 Llama 3 模型中有效地利用我们的预训练数据，我们投入了大量精力来扩大预训练。具体而言，我们为下游基准评估制定了一系列详细的扩展法则。这些缩放定律使我们能够选择最佳的数据组合，并就如何最好地使用我们的训练计算做出明智的决策。重要的是，缩放定律允许我们在实际训练模型之前预测最大模型在关键任务上的性能（例如，在 HumanEval 基准测试中评估的代码生成——见上文）。这有助于我们确保最终模型在各种用例和功能中具有强大的性能。</p>
 <p>我们在 Llama 3 的开发过程中对缩放行为进行了一些新的观察。例如，虽然 8B 参数模型的 Chinchilla 最优训练计算量对应于 ~200B 标记，但我们发现，即使在模型使用两个数量级的数据进行训练后，模型性能仍在继续提高。我们的 8B 和 70B 参数模型在我们对高达 15T 的代币进行训练后，继续对数线性改进。较大的模型可以与这些较小模型的性能相匹配，但训练计算较少，但通常首选较小的模型，因为它们在推理过程中效率更高。</p>
 <p>为了训练我们最大的 Llama 3 模型，我们结合了三种类型的并行化：数据并行化、模型并行化和管道并行化。我们最高效的实现是在 16K GPU 上同时训练时，每个 GPU 的计算利用率超过 400 TFLOPS。我们在两个定制的 <a target="_blank" rel="noopener" href="https://engineering.fb.com/2024/03/12/data-center-engineering/building-metas-genai-infrastructure/">24K GPU 集群</a>上执行了训练运行。为了最大限度地延长 GPU 正常运行时间，我们开发了一种先进的新训练堆栈，可自动执行错误检测、处理和维护。我们还大大改进了硬件可靠性和静默数据损坏检测机制，并开发了新的可扩展存储系统，以减少检查点和回滚的开销。这些改进使总体有效培训时间超过 95%。总之，这些改进将 Llama 3 的训练效率提高了 ~3 倍，比 Llama 2 提高了 ~3 倍。</p>
-<h3 id="指令微调"><a href="#指令微调" class="headerlink" title="指令微调"></a>指令微调</h3><p>为了在聊天用例中充分释放预训练模型的潜力，我们还对指令调整方法进行了创新。我们的后训练方法是监督微调 （SFT）、拒绝抽样、近端策略优化 （PPO） 和直接偏好优化 （DPO） 的组合。SFT 中使用的提示的质量以及 PPO 和 DPO 中使用的偏好排名对对齐模型的性能有很大影响。我们在模型质量方面的一些最大改进来自于仔细管理这些数据，并对人工注释者提供的注释执行多轮质量保证。</p>
+<h3 id="指令微调"><a class="markdownIt-Anchor" href="#指令微调"></a> 指令微调</h3>
+<p>为了在聊天用例中充分释放预训练模型的潜力，我们还对指令调整方法进行了创新。我们的后训练方法是监督微调 （SFT）、拒绝抽样、近端策略优化 （PPO） 和直接偏好优化 （DPO） 的组合。SFT 中使用的提示的质量以及 PPO 和 DPO 中使用的偏好排名对对齐模型的性能有很大影响。我们在模型质量方面的一些最大改进来自于仔细管理这些数据，并对人工注释者提供的注释执行多轮质量保证。</p>
 <p>通过 PPO 和 DPO 从偏好排名中学习也大大提高了 Llama 3 在推理和编码任务上的表现。我们发现，如果你问一个模型一个它难以回答的推理问题，模型有时会产生正确的推理痕迹：模型知道如何产生正确的答案，但它不知道如何选择它。对偏好排名的训练使模型能够学习如何选择它。</p>
 
   </div>
@@ -2536,7 +2541,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2642,14 +2647,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2024/06/12/stable_diffusion/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>stable diffusion详解</p>
-          <p class='content'>sd3arxiv论文：Scaling Rectified Flow Transformers for High-Resolution Image Synthesis
-摘要扩散模型通过将数据的前向...</p>
+          <p class='content'> sd3
+arxiv论文：Scaling Rectified Flow Transformers for High-Resolution Image Synthesis
+
+ 摘要
+扩散模型通过将...</p>
         </a>
       
       
         <a class='next' href='/2024/06/03/prompt_human/'>
           <p class='title'>大型语言模型是人类级别的提示工程师<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>摘要通过对自然语言指令进行调节，大型语言模型 （LLM） 作为通用计算机表现出令人印象深刻的功能。然而，任务性能很大程度上取决于用于引导模型的提示的质量，而最有效的提示都是由人类手工制作的。受经...</p>
+          <p class='content'> 摘要
+通过对自然语言指令进行调节，大型语言模型 （LLM） 作为通用计算机表现出令人印象深刻的功能。然而，任务性能很大程度上取决于用于引导模型的提示的质量，而最有效的提示都是由人类手工制作的。...</p>
         </a>
       
     </div>
@@ -2710,7 +2719,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#llama3"><span class="toc-text">llama3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="toc-text">模型架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-text">训练数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%A4%A7%E9%A2%84%E8%AE%AD%E7%BB%83%E8%A7%84%E6%A8%A1"><span class="toc-text">扩大预训练规模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83"><span class="toc-text">指令微调</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#llama3"><span class="toc-text"> llama3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="toc-text"> 模型架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-text"> 训练数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%A4%A7%E9%A2%84%E8%AE%AD%E7%BB%83%E8%A7%84%E6%A8%A1"><span class="toc-text"> 扩大预训练规模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83"><span class="toc-text"> 指令微调</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3117,7 +3126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3352,7 +3361,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/06/11/llama/","name":"LLAMA详解"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"LLAMA详解","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/06/11/llama/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/06/11/llama/","wordCount":0,"datePublished":"2024-06-11T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.901Z","articleSection":"gpt","keywords":"llama","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/06/11/llama/","name":"LLAMA详解"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"LLAMA详解","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/06/11/llama/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/06/11/llama/","wordCount":0,"datePublished":"2024-06-11T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.963Z","articleSection":"gpt","keywords":"llama","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

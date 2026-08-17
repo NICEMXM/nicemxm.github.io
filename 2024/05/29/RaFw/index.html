@@ -47,7 +47,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-05-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.899Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.960Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="RAG">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2501,9 +2501,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <p>Github:</p>
 <p>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2405.14431">arxiv</a></p>
 <p>随着大型语言模型 （LLM） 和检索增强生成 （RAG） 技术的发展，查询重写已被广泛纳入 RAG 系统中，用于开放域 QA 等下游任务。许多工作都试图利用具有强化学习的小型模型而不是昂贵的 LLM 来改进查询重写。然而，目前的方法需要注释（例如，标记的相关文档或下游答案）或预先设计的反馈奖励，这些奖励缺乏泛化，并且无法利用为查询重写量身定制的信号。在本文中，我们提出了 RaFe，这是一个用于训练没有注释的查询重写模型的框架。通过利用公开可用的重新排名器，RaFe 提供了与重写目标非常一致的反馈。实验结果表明，RaFe 可以获得比基线更好的性能。</p>
-<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h2><p>大型语言模型 （LLM） 已显示出解决各种任务的强大能力（Zhao et al.， 2023）。然而，他们仍然会遇到幻觉的挑战（Ji et al.， 2023;Zhang 等人，2023 年;Huang et al.， 2023）或过时的知识（Yao et al.， 2023;Zhang等人，2024）。最近，检索增强生成 （RAG） （Gao et al.， 2023） 已成为通过整合外部知识来增强 LLM 能力的重要技术。例如，在开放域 QA 中，LLM 可以首先检索相关文档，然后生成答案。尽管如此，直接通过原始查询进行检索并不总是能够获得正确和相关的文档。因此，查询重写（Efthimiadis，1996;Carpineto和Romano，2012）已被广泛用于重新制定查询，以扩展检索到的文档以获得更好的响应，如图1所示。<br><img src="/../images/2024/05/30/RaFw/image1.png" alt="图片" title="流程图"></p>
+<h2 id="1-引言"><a class="markdownIt-Anchor" href="#1-引言"></a> 1 引言</h2>
+<p>大型语言模型 （LLM） 已显示出解决各种任务的强大能力（Zhao et al.， 2023）。然而，他们仍然会遇到幻觉的挑战（Ji et al.， 2023;Zhang 等人，2023 年;Huang et al.， 2023）或过时的知识（Yao et al.， 2023;Zhang等人，2024）。最近，检索增强生成 （RAG） （Gao et al.， 2023） 已成为通过整合外部知识来增强 LLM 能力的重要技术。例如，在开放域 QA 中，LLM 可以首先检索相关文档，然后生成答案。尽管如此，直接通过原始查询进行检索并不总是能够获得正确和相关的文档。因此，查询重写（Efthimiadis，1996;Carpineto和Romano，2012）已被广泛用于重新制定查询，以扩展检索到的文档以获得更好的响应，如图1所示。<br>
+<img src="../images/2024/05/30/RaFw/image1.png" alt="图片" title="流程图"></p>
 <p>已经提出了许多努力来利用强大的 LLM 直接生成重写（Shen et al.， 2023;Wang 等人，2023 年）。而在实际应用中，更普遍的是实现特定的小查询重写模型以避免昂贵的 LLM 使用（马 等人，2023 年）。为了提高查询重写的性能，使用反馈进行强化学习 （RL）（Wu et al.， 2022;Chen et al.， 2022）可以用作典型的解决方案。例如，Nogueira 和 Cho （2017） 通过考虑标记文档的召回来产生反馈。同时，马 等人（2023 年）利用重写后问答 （QA） 的评估结果来生成信号。此外，Peng 等人（2023 年）采用特定领域的注释重写分数进行反馈训练。</p>
-<p>请注意，这些反馈驱动的查询重写方法依赖于带注释的标签（如相关文档或答案），或针对特定领域量身定制的预先设计的奖励。但是，它们通常缺乏对查询重写的有效和通用信号的利用。同时，considerarXiv：2405.14431v1 [cs.CL] 2024 年 5 月 23 日 已经做出了有力的努力来利用各个领域的各种反馈机制（Nathani 等人，2023 年;Li 等人，2023 年）。值得注意的是，Liu et al. （2023b） 有效地将单元测试反馈集成到代码生成中，产生了显着的功效。从这些方面，在本文中，我们试图 （i） 降低反馈注释的成本;以及 （ii） 确定更符合查询重写任务目标的信号。</p>
+<p>请注意，这些反馈驱动的查询重写方法依赖于带注释的标签（如相关文档或答案），或针对特定领域量身定制的预先设计的奖励。但是，它们通常缺乏对查询重写的有效和通用信号的利用。同时，considerarXiv：2405.14431v1 [<a target="_blank" rel="noopener" href="http://cs.CL">cs.CL</a>] 2024 年 5 月 23 日 已经做出了有力的努力来利用各个领域的各种反馈机制（Nathani 等人，2023 年;Li 等人，2023 年）。值得注意的是，Liu et al. （2023b） 有效地将单元测试反馈集成到代码生成中，产生了显着的功效。从这些方面，在本文中，我们试图 （i） 降低反馈注释的成本;以及 （ii） 确定更符合查询重写任务目标的信号。</p>
 <p>为了解决这些问题，我们引入了 RaFe（Ranking Feedback improve Query Rewriting），这是一个新颖的框架，它利用来自 reranker 的反馈来训练查询重写模型。这种方法的灵感来自传统信息检索 （IR） 系统中的 reranker 模块，该模块根据查询对检索到的文档进行评分和排序。直观地说，查询重写旨在检索与原始查询相关的文档，这与重新排序器的目标完全一致。具体来说，reranker 能够在不需要额外标签的情况下对文档进行评分。因此，我们合并了一个 reranker 来为查询重写模型提供反馈。</p>
 <p>RaFe 包括两个阶段的过程。我们首先通过标准的监督微调来训练初始查询重写模型。随后，我们利用 reranker 的排名分数对查询重写模型进行反馈训练。RaFe 支持离线和在线 RL 反馈培训。从经验上讲，我们证明了利用通用的、公开可用的 reranker，RaFe 可以驱动查询重写模型的训练，这表明所提出的方法的有效性和潜在的可推广性。本文的主要贡献可归纳如下：</p>
 <ul>
@@ -2511,21 +2513,37 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>RaFe 不需要带注释的标签或专门设计的分数，确保了训练框架的通用性。</li>
 <li>我们通过一般和公共重新排名器验证了我们提出的方法在广泛环境中跨语言数据集的有效性，我们进一步对什么是更好的查询重写以及排名反馈如何工作进行了全面调查。</li>
 </ul>
-<h2 id="2-方法"><a href="#2-方法" class="headerlink" title="2 方法"></a>2 方法</h2><h3 id="2-1-任务制定"><a href="#2-1-任务制定" class="headerlink" title="2.1 任务制定"></a>2.1 任务制定</h3><p>在检索增强生成（RAG）的过程中，当输入原始查询q时，通过搜索引擎检索到一组相关文档D &#x3D; [d0， d1， …， dk]，并利用检索到的文档使模型能够更好地完成相应的任务（本文中， 我们讨论开放域问答的任务）。查询重写是将原始查询 q 重新表述为另一种形式，以便更好地检索相关段落。我们的目标是获得一个更好的重写模型 Mθ，它可以将 q 重写为：$q ′ &#x3D; Mθ（q）$，（1） 这里 q ′ 是重写的查询，用于检索文档 D′ 以完成后续任务。图 2 显示了我们提议的框架 RaFe 的概述，用于查询重写训练。</p>
-<h3 id="2-2-初始监督微调"><a href="#2-2-初始监督微调" class="headerlink" title="2.2 初始监督微调"></a>2.2 初始监督微调</h3><p>在利用排名反馈之前，我们首先通过冷启动监督微调初始化重写模型，以获得重写能力。具体来说，我们提示 LLM 生成重写数据，我们用于生成训练重写的数据集的详细信息可以在 Sec 3.1 中找到。从 LLM 生成的重写表示为 Tall &#x3D; {（q， q′ ）|q ′ ∈ Q′}，这里 Q′ 是原始查询 q 的重写集。我们将训练实例分为两部分 Tall &#x3D; [Tsft ： Tf]，这里 Tsft 和 Tf 分别表示我们用于 SFT 和反馈训练的实例。我们用标准SFT损耗训练重写模型Mθ，如下所示：<br><img src="/../images/2024/05/30/RaFw/image6.png" alt="图片" title="公式"></p>
+<h2 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2 方法</h2>
+<h3 id="21-任务制定"><a class="markdownIt-Anchor" href="#21-任务制定"></a> 2.1 任务制定</h3>
+<p>在检索增强生成（RAG）的过程中，当输入原始查询q时，通过搜索引擎检索到一组相关文档D = [d0， d1， …， dk]，并利用检索到的文档使模型能够更好地完成相应的任务（本文中， 我们讨论开放域问答的任务）。查询重写是将原始查询 q 重新表述为另一种形式，以便更好地检索相关段落。我们的目标是获得一个更好的重写模型 Mθ，它可以将 q 重写为：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mtext>′</mtext><mo>=</mo><mi>M</mi><mi>θ</mi><mtext>（</mtext><mi>q</mi><mtext>）</mtext></mrow><annotation encoding="application/x-tex">q ′ = Mθ（q）</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.75em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mord">′</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mord cjk_fallback">（</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mord cjk_fallback">）</span></span></span></span>，（1） 这里 q ′ 是重写的查询，用于检索文档 D′ 以完成后续任务。图 2 显示了我们提议的框架 RaFe 的概述，用于查询重写训练。</p>
+<h3 id="22-初始监督微调"><a class="markdownIt-Anchor" href="#22-初始监督微调"></a> 2.2 初始监督微调</h3>
+<p>在利用排名反馈之前，我们首先通过冷启动监督微调初始化重写模型，以获得重写能力。具体来说，我们提示 LLM 生成重写数据，我们用于生成训练重写的数据集的详细信息可以在 Sec 3.1 中找到。从 LLM 生成的重写表示为 Tall = {（q， q′ ）|q ′ ∈ Q′}，这里 Q′ 是原始查询 q 的重写集。我们将训练实例分为两部分 Tall = [Tsft ： Tf]，这里 Tsft 和 Tf 分别表示我们用于 SFT 和反馈训练的实例。我们用标准SFT损耗训练重写模型Mθ，如下所示：<br>
+<img src="../images/2024/05/30/RaFw/image6.png" alt="图片" title="公式"></p>
 <p>请注意，对于每个查询，我们在数据集中将所有相应的重写混合在一起进行训练，以增强我们训练模型生成的多样性，因为在实际应用中，单个搜索查询需要不同的重写来解决不同的方面或解释。</p>
-<h3 id="2-3-反馈训练"><a href="#2-3-反馈训练" class="headerlink" title="2.3 反馈训练"></a>2.3 反馈训练</h3><p>由于缺乏直接的质量评估方法，查询重写的评估是出了名的困难（Zhu et al.， 2023），因此之前对 QR 的反馈通常依赖于带注释的段落（Nogueira and Cho， 2017;Wu 等人，2022 年）。</p>
-<p>在整个传统的 IR 管道中，通过查询重写扩展的文档通常会经历重新排名过程。直观地说，reranker 可以作为查询重写的自然反馈。给定一个重新排序模型 Mr，使用查询 q 对文档 d 进行评分的过程可以表述为 Mr（q， d）。重写q′的排名分数可以表示如下：<br><img src="/../images/2024/05/30/RaFw/image8.png" alt="图片" title="公式"></p>
-<p>通过这种方式，我们可以为训练重写模型提供可靠的反馈。如图2所示，我们提出的方法既可以应用于离线反馈培训，也可以应用于在线反馈培训。<br><img src="/../images/2024/05/30/RaFw/image2.png" alt="图片" title="流程图"></p>
-<p><strong>离线反馈</strong> 对于离线反馈，我们利用重写查询检索到的每个文档的排名分数来构建偏好数据。具体来说，我们设置了一个阈值来区分μ表述的好坏重写，该阈值计算为所有训练实例的平均排名分数，如下所示。<br><img src="/../images/2024/05/30/RaFw/image9.png" alt="图片" title="公式"></p>
+<h3 id="23-反馈训练"><a class="markdownIt-Anchor" href="#23-反馈训练"></a> 2.3 反馈训练</h3>
+<p>由于缺乏直接的质量评估方法，查询重写的评估是出了名的困难（Zhu et al.， 2023），因此之前对 QR 的反馈通常依赖于带注释的段落（Nogueira and Cho， 2017;Wu 等人，2022 年）。</p>
+<p>在整个传统的 IR 管道中，通过查询重写扩展的文档通常会经历重新排名过程。直观地说，reranker 可以作为查询重写的自然反馈。给定一个重新排序模型 Mr，使用查询 q 对文档 d 进行评分的过程可以表述为 Mr（q， d）。重写q′的排名分数可以表示如下：<br>
+<img src="../images/2024/05/30/RaFw/image8.png" alt="图片" title="公式"></p>
+<p>通过这种方式，我们可以为训练重写模型提供可靠的反馈。如图2所示，我们提出的方法既可以应用于离线反馈培训，也可以应用于在线反馈培训。<br>
+<img src="../images/2024/05/30/RaFw/image2.png" alt="图片" title="流程图"></p>
+<p><strong>离线反馈</strong> 对于离线反馈，我们利用重写查询检索到的每个文档的排名分数来构建偏好数据。具体来说，我们设置了一个阈值来区分μ表述的好坏重写，该阈值计算为所有训练实例的平均排名分数，如下所示。<br>
+<img src="../images/2024/05/30/RaFw/image9.png" alt="图片" title="公式"></p>
 <p>那么，对于每个重写q′的分数超过阈值μ，我们认为它是对原始查询q的良好重写;否则，它被认为是一个糟糕的重写。通过这种方式，我们以 （q， q′ g ， q′ b ） 的形式获得了开放域 QA 的所有偏好对。</p>
 <p><strong>对于离线反馈训练</strong>，我们使用 DPO（Rafailov 等人，2023 年）和 KTO（Kawin 等人，2023 年）。DPO直接利用偏好对来优化模型，而KTO是一种可以从反馈中优化模型的方法，只需要重写q是否好的信号，而不需要对，公式化为（q，q′ρ），ρ∈[好，坏]。Lkto 的具体表述见方程 6，KTO 的详细说明见附录 A.2.1。</p>
 <p><strong>在线反馈</strong> 排名分数也可以作为在线反馈信号。我们利用近端策略优化 （PPO） （Schulman et al.， 2017） 算法来实现在线反馈训练。训练过程包括重写、检索、评分和最终提供反馈，如图 2（2b） 所示。PPO损失和实施的细节在附录A.2.1中提供。</p>
-<h2 id="3-实验"><a href="#3-实验" class="headerlink" title="3.实验"></a>3.实验</h2><p>RaFe在跨语言数据集上的表现优于基线模型。通过使用公开可用的重排器，RaFe能够驱动查询重写模型的训练，显示出所提出方法的有效性和潜在的泛化能力。具体来说，RaFe在不同的实验设置（包括，SUBSTITUTE设置：直接使用检索到的文档进行评估、EXPAND设置：使用原始查询和重写查询检索到的文档进行评估、Raw设置：按照默认顺序拼接检索到的前5个文档、Ranked设置：在对所有检索到的文档重新排名后连接前5个文档）中都取得了改进。</p>
-<p><strong>结果展示了在SUBSTITUTE-Raw和EXPAND-Raw设置中的性能表现</strong>。”QA”指的是通过Qwen-max获得的结果，而”w&#x2F;o retrieval”表示直接生成答案。结果中超过OQR（Open Question Response，开放问题回答）的用粗体突出显示，代表表现最佳，而那些下划线的表示第二名。<br><img src="/../images/2024/05/30/RaFw/image3.png" alt="图片" title="结果"><br>SUBSTITUTE-Ranked和EXPAND-Ranked设置的结果。”OQR”在排名后进行评估。<br><img src="/../images/2024/05/30/RaFw/image4.png" alt="图片" title="结果"></p>
-<h2 id="4-分析"><a href="#4-分析" class="headerlink" title="4.分析"></a>4.分析</h2><h3 id="RaFe-如何使重写变得更好？"><a href="#RaFe-如何使重写变得更好？" class="headerlink" title="RaFe 如何使重写变得更好？"></a>RaFe 如何使重写变得更好？</h3><p>在本节中，我们将提供说明性案例研究，以直观地比较不同的重写和图 3 中的原始查询。RaFe 的优点可以归纳为三种类型。</p>
-<p><strong>（A）：RaFe 在保留原始查询的语义方面表现更好</strong>。如图 3 （A） 所示，可以看出，RaFe 在通过 reranker 对齐后，可以更好地保留原始查询的语义来重写查询。相比之下，SFT 的重写直接将查询的焦点从哪个运动员转移到哪个比赛。<br><img src="/../images/2024/05/30/RaFw/image5.png" alt="image.png" title="结果"></p>
-<p><strong>（B）：RaFe 的重写改进了用于检索目的的查询格式</strong>。RaFe能够将一个不常见的术语“接受者”转变为“赢家”。尽管 SFT 重写也用“获胜者”替换了“接收者”，但它将“团队”从体育比赛上下文更改为“小队”，这是军队、警察或其他上下文中常用的术语，从而引入了潜在的歧义。<br><strong>（C）：RaFe 重写句子以便更好地理解</strong>。根据直觉，这种情况不容易辨别是好是坏;但是，RaFe 的重写在检索结果方面表现出更好的性能。这些案例说明了为什么我们需要反馈来提高 QR 的有效性，因为我们总是无法阐明如何格式化查询以更好地适应检索器</p>
+<h2 id="3实验"><a class="markdownIt-Anchor" href="#3实验"></a> 3.实验</h2>
+<p>RaFe在跨语言数据集上的表现优于基线模型。通过使用公开可用的重排器，RaFe能够驱动查询重写模型的训练，显示出所提出方法的有效性和潜在的泛化能力。具体来说，RaFe在不同的实验设置（包括，SUBSTITUTE设置：直接使用检索到的文档进行评估、EXPAND设置：使用原始查询和重写查询检索到的文档进行评估、Raw设置：按照默认顺序拼接检索到的前5个文档、Ranked设置：在对所有检索到的文档重新排名后连接前5个文档）中都取得了改进。</p>
+<p><strong>结果展示了在SUBSTITUTE-Raw和EXPAND-Raw设置中的性能表现</strong>。&quot;QA&quot;指的是通过Qwen-max获得的结果，而&quot;w/o retrieval&quot;表示直接生成答案。结果中超过OQR（Open Question Response，开放问题回答）的用粗体突出显示，代表表现最佳，而那些下划线的表示第二名。<br>
+<img src="../images/2024/05/30/RaFw/image3.png" alt="图片" title="结果"><br>
+SUBSTITUTE-Ranked和EXPAND-Ranked设置的结果。&quot;OQR&quot;在排名后进行评估。<br>
+<img src="../images/2024/05/30/RaFw/image4.png" alt="图片" title="结果"></p>
+<h2 id="4分析"><a class="markdownIt-Anchor" href="#4分析"></a> 4.分析</h2>
+<h3 id="rafe-如何使重写变得更好"><a class="markdownIt-Anchor" href="#rafe-如何使重写变得更好"></a> RaFe 如何使重写变得更好？</h3>
+<p>在本节中，我们将提供说明性案例研究，以直观地比较不同的重写和图 3 中的原始查询。RaFe 的优点可以归纳为三种类型。</p>
+<p><strong>（A）：RaFe 在保留原始查询的语义方面表现更好</strong>。如图 3 （A） 所示，可以看出，RaFe 在通过 reranker 对齐后，可以更好地保留原始查询的语义来重写查询。相比之下，SFT 的重写直接将查询的焦点从哪个运动员转移到哪个比赛。<br>
+<img src="../images/2024/05/30/RaFw/image5.png" alt="image.png" title="结果"></p>
+<p><strong>（B）：RaFe 的重写改进了用于检索目的的查询格式</strong>。RaFe能够将一个不常见的术语“接受者”转变为“赢家”。尽管 SFT 重写也用“获胜者”替换了“接收者”，但它将“团队”从体育比赛上下文更改为“小队”，这是军队、警察或其他上下文中常用的术语，从而引入了潜在的歧义。<br>
+<strong>（C）：RaFe 重写句子以便更好地理解</strong>。根据直觉，这种情况不容易辨别是好是坏;但是，RaFe 的重写在检索结果方面表现出更好的性能。这些案例说明了为什么我们需要反馈来提高 QR 的有效性，因为我们总是无法阐明如何格式化查询以更好地适应检索器</p>
 
   </div>
   
@@ -2550,7 +2568,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2656,14 +2674,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2024/06/03/prompt_human/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>大型语言模型是人类级别的提示工程师</p>
-          <p class='content'>摘要通过对自然语言指令进行调节，大型语言模型 （LLM） 作为通用计算机表现出令人印象深刻的功能。然而，任务性能很大程度上取决于用于引导模型的提示的质量，而最有效的提示都是由人类手工制作的。受经...</p>
+          <p class='content'> 摘要
+通过对自然语言指令进行调节，大型语言模型 （LLM） 作为通用计算机表现出令人印象深刻的功能。然而，任务性能很大程度上取决于用于引导模型的提示的质量，而最有效的提示都是由人类手工制作的。...</p>
         </a>
       
       
         <a class='next' href='/2024/05/29/prompt_categories/'>
           <p class='title'>prompt写法<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>RAG带有出处引用出处使用角标标明
-12345678910111213141516171819202122232425262728293031323334prompt：你是建筑专家，请完全根据下...</p>
+          <p class='content'> RAG
+ 带有出处引用
+出处使用角标标明
+12345678910111213141516171819202122232425262728293031323334prompt：你是建筑专家，请完...</p>
         </a>
       
     </div>
@@ -2724,7 +2745,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-text">1 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%96%B9%E6%B3%95"><span class="toc-text">2 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%BB%BB%E5%8A%A1%E5%88%B6%E5%AE%9A"><span class="toc-text">2.1 任务制定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%88%9D%E5%A7%8B%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83"><span class="toc-text">2.2 初始监督微调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%8F%8D%E9%A6%88%E8%AE%AD%E7%BB%83"><span class="toc-text">2.3 反馈训练</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%9E%E9%AA%8C"><span class="toc-text">3.实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%88%86%E6%9E%90"><span class="toc-text">4.分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RaFe-%E5%A6%82%E4%BD%95%E4%BD%BF%E9%87%8D%E5%86%99%E5%8F%98%E5%BE%97%E6%9B%B4%E5%A5%BD%EF%BC%9F"><span class="toc-text">RaFe 如何使重写变得更好？</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-text"> 1 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%96%B9%E6%B3%95"><span class="toc-text"> 2 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E4%BB%BB%E5%8A%A1%E5%88%B6%E5%AE%9A"><span class="toc-text"> 2.1 任务制定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E5%88%9D%E5%A7%8B%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83"><span class="toc-text"> 2.2 初始监督微调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E5%8F%8D%E9%A6%88%E8%AE%AD%E7%BB%83"><span class="toc-text"> 2.3 反馈训练</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E5%AE%9E%E9%AA%8C"><span class="toc-text"> 3.实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E5%88%86%E6%9E%90"><span class="toc-text"> 4.分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rafe-%E5%A6%82%E4%BD%95%E4%BD%BF%E9%87%8D%E5%86%99%E5%8F%98%E5%BE%97%E6%9B%B4%E5%A5%BD"><span class="toc-text"> RaFe 如何使重写变得更好？</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3131,7 +3152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3366,7 +3387,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/29/RaFw/","name":"RaFw：排名反馈改进了RAG 的查询重写"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"RaFw：排名反馈改进了RAG 的查询重写","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/29/RaFw/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/29/RaFw/","wordCount":0,"datePublished":"2024-05-29T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.899Z","articleSection":"gpt","keywords":"RAG","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/29/RaFw/","name":"RaFw：排名反馈改进了RAG 的查询重写"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"RaFw：排名反馈改进了RAG 的查询重写","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/29/RaFw/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/29/RaFw/","wordCount":0,"datePublished":"2024-05-29T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.960Z","articleSection":"gpt","keywords":"RAG","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

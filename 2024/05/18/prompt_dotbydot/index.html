@@ -43,11 +43,11 @@
 <meta property="og:title" content="省略号（...）在大模型中有什么魔法力量?">
 <meta property="og:url" content="https://nicemxm.github.io/2024/05/18/prompt_dotbydot/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="论文链接：2404.15758 (arxiv.org) github仓库:github 摘要来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“……”）代替思维链来解决两个困难的算法任务，这些任务在">
+<meta property="og:description" content="论文链接：2404.15758 (arxiv.org) github仓库:github  摘要 来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“…”）代替思维链来解决两个困难的算法任务，这些任务">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-05-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.903Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.965Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="prompt">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2500,12 +2500,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div id="post-body" itemprop="articleBody">
     <p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.15758">2404.15758 (arxiv.org)</a></p>
 <p>github仓库:<a target="_blank" rel="noopener" href="https://github.com/JacobPfau/fillerTokens">github</a></p>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“……”）代替思维链来解决两个困难的算法任务，这些任务在没有中间token的情况下无法解决。然而，我们从经验上发现，学习使用 filler token是困难的。我们还提供了一类问题的理论表征，其中filler token在一阶公式的量词深度方面很有用。对于满足此特征的问题，思维链tokens不需要提供有关多token计算中涉及的中间计算步骤的信息。总之，我们的结果表明，额外的token可以提供独立于token选择的计算优势。中间token可以充当填充token这一事实，引发了人们对大型语言模型进行不可审计的隐藏计算的担忧，这些计算越来越脱离观察到的思维链token。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>与没有思维链的prompt相比，思维链推理提高了语言模型 （LM） 的性能（Wei 等人，2023 年;Suzgun 等人，2022 年;Lanham 等人，2023 年）。然而，最近的实证研究表明，通过思维链得出的答案往往不忠实于链中采取的中间推理步骤（Lanham et al.， 2023;Turpin 等人，2023 年）。对于不忠实的极限情况，filler token设置将思维链替换为任意的重复token，例如“……”，如图 1 所示。通过比较给定filler token而不是思维链来对比语言模型性能，我们可以评估给定的 LM 是否能够执行未反映在思维链中的cross-token计算。<br><img src="/../images/2024/05/19/prompt_dot/image1.png" alt="图片" title="数据图"></p>
+<h2 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
+<p>来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可以归因于类似人类的任务分解，或者仅仅是更大的计算额外的token允许。我们实践表明，transform可以使用无意义的filler token（例如，“…”）代替思维链来解决两个困难的算法任务，这些任务在没有中间token的情况下无法解决。然而，我们从经验上发现，学习使用 filler token是困难的。我们还提供了一类问题的理论表征，其中filler token在一阶公式的量词深度方面很有用。对于满足此特征的问题，思维链tokens不需要提供有关多token计算中涉及的中间计算步骤的信息。总之，我们的结果表明，额外的token可以提供独立于token选择的计算优势。中间token可以充当填充token这一事实，引发了人们对大型语言模型进行不可审计的隐藏计算的担忧，这些计算越来越脱离观察到的思维链token。</p>
+<h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>与没有思维链的prompt相比，思维链推理提高了语言模型 （LM） 的性能（Wei 等人，2023 年;Suzgun 等人，2022 年;Lanham 等人，2023 年）。然而，最近的实证研究表明，通过思维链得出的答案往往不忠实于链中采取的中间推理步骤（Lanham et al.， 2023;Turpin 等人，2023 年）。对于不忠实的极限情况，filler token设置将思维链替换为任意的重复token，例如“…”，如图 1 所示。通过比较给定filler token而不是思维链来对比语言模型性能，我们可以评估给定的 LM 是否能够执行未反映在思维链中的cross-token计算。<br>
+<img src="../images/2024/05/19/prompt_dot/image1.png" alt="图片" title="数据图"></p>
 <p>最广泛使用的LM对齐方法是纯粹的行为对齐方法。从人类反馈、强化学习、指令微调都依赖于判断或比较模型输出token。能够使用filler token的 LM 破坏了这种依赖性，因为无法从token本身判断交叉filler token进行的推理过程。</p>
-<p>在这项工作中，我们研究了严格的填充情况，其中填充标记是重复的点“……”;然而，这种token的效用仅取决于激活空间中过剩容量的可用性。在输入提示和一些复杂的输出token之间提供任何填充token序列，“……”是更通用设置的最小版本</p>
+<p>在这项工作中，我们研究了严格的填充情况，其中填充标记是重复的点“…”;然而，这种token的效用仅取决于激活空间中过剩容量的可用性。在输入提示和一些复杂的输出token之间提供任何填充token序列，“…”是更通用设置的最小版本</p>
 <p>从经验上讲，商业大型语言模型 （LLM） 不会从常见 QA 和数学基准上的填充标记中受益;Claude 2 和 GPT-3.5 使用filler token在没有中间token的情况下性能相同（Sachan，2023 年;Lanham 等人，2023 年）。</p>
-<p>以上这些结果也为filler token如何扩展transformers的表现力提供了有趣的见解。作为single-token预测器，transformers只能解决称为 TC0 的复杂度类中的问题，这意味着transformers无法表达排列组合或图连通性等问题（Merrill &amp; Sabharwal，2023a;Strobl 等人，2023 年）。虽然线性或多项式思维链步骤可以对TC0 之外问题，提高性能（Merrill &amp; Sabharwal，2023a）。因此，与思维链不同，我们不能指望填充token让 transformer 解决 TC0 之外的问题，例如图连接。然而，我们的结果表明，填充token可能会扩展 TC0 中transform的表达能力。特别是，我们的研究结果表明，对于具有填充token的transformers，需要许多嵌套量词的推理变得可表达，而推测无中间标记、即时transformers无法解决这些问题。我们提出了没有思维链的transformers被推测为不够充分的合成任务。<br><img src="/../images/2024/05/19/prompt_dot/image2.png" alt="图片" title="数据图"></p>
+<p>以上这些结果也为filler token如何扩展transformers的表现力提供了有趣的见解。作为single-token预测器，transformers只能解决称为 TC0 的复杂度类中的问题，这意味着transformers无法表达排列组合或图连通性等问题（Merrill &amp; Sabharwal，2023a;Strobl 等人，2023 年）。虽然线性或多项式思维链步骤可以对TC0 之外问题，提高性能（Merrill &amp; Sabharwal，2023a）。因此，与思维链不同，我们不能指望填充token让 transformer 解决 TC0 之外的问题，例如图连接。然而，我们的结果表明，填充token可能会扩展 TC0 中transform的表达能力。特别是，我们的研究结果表明，对于具有填充token的transformers，需要许多嵌套量词的推理变得可表达，而推测无中间标记、即时transformers无法解决这些问题。我们提出了没有思维链的transformers被推测为不够充分的合成任务。<br>
+<img src="../images/2024/05/19/prompt_dot/image2.png" alt="图片" title="数据图"></p>
 <p>我们的贡献如下：</p>
 <ul>
 <li>1.我们构建了两个合成数据集，3SUM（图3）和2SUM-Transform，LLAMA转换器在没有filler的情况下无法解决任务，但在提供fillers时分别实现了100%和94%的准确率。</li>
@@ -2514,10 +2518,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>4.我们发现学习使用filler token很困难，需要具体、密集的监督才能收敛。标准的思维链数据不足以让模型学会有效地利用filler token，参见第 4.3 节。</li>
 </ul>
 <p>综上所述，这些发现表明，尽管当前的 LLM 不太可能从filler token中受益，但这并不是当前架构的原则限制。鉴于可并行化任务分解的演示，我们预计当前的 LLM 也将从filler token中获益。</p>
-<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><p>Transformer 表达性和filler tokens</p>
+<h2 id="相关工作"><a class="markdownIt-Anchor" href="#相关工作"></a> 相关工作</h2>
+<p>Transformer 表达性和filler tokens</p>
 <p>最近的理论工作表明，没有额外推理token的 Transformer 仅限于解决高度可并行化的问题（参见 Strobl 等人，2023 年的概述）。从形式上讲，Merrill &amp; Sabharwal （2023a） log-precision transformers在复杂度等级 TC0 中，这可以等效地理解为在具有多数量词的一阶逻辑中可定义的问题类别 （Merrill &amp; Sabharwal， 2023b）。因此，如果没有额外的推理token，transformers 就无法解决 TC0 之外的问题（那些无法在一阶多数逻辑中定义的问题）。这包括规范推理问题，如组合排列、图形连接或评估布尔公式。这表明，在没有额外推理token的情况下，transforemers是令人惊讶的有限的。</p>
 <p>绕过这些表现力限制的一个自然方法是为 transformer 提供额外的推理token。当 transformer 有一条思维链（即，可以生成添加到其输入中）时，如果思维链足够长，它们确实可以解决 TC0 之外的问题（Merrill &amp; Sabharwal，2023c;Feng 等人，2023 年）。这些结果表明，思维链除了为复杂问题提供特定的分解提示外，还以一种对许多类型的顺序推理问题至关重要的方式扩展了transformers的计算能力。</p>
-<p>但是，对于filler token：即，当通过附加空白token来扩展上下文时呢？在这种情况下，模型显然无法从遵循指令中受益，但仍有计算优势吗？只要filler token的数量是多项式的，Merrill &amp; Sabharwal （2023a） 的论点就表明，带有filler token的转换器只能解决 TC0 中的问题。Merrill &amp; Sabharwal （2023a） 表明，对于尺寸为 n 的输入，transformer可以通过 O（1） 深度、多（n） 尺寸的阈值来模拟。如果我们添加多项式filler token，这意味着我们可以模拟具有 O（1） 深度和 poly（poly（n）） &#x3D; poly（n） 大小的。</p>
+<p>但是，对于filler token：即，当通过附加空白token来扩展上下文时呢？在这种情况下，模型显然无法从遵循指令中受益，但仍有计算优势吗？只要filler token的数量是多项式的，Merrill &amp; Sabharwal （2023a） 的论点就表明，带有filler token的转换器只能解决 TC0 中的问题。Merrill &amp; Sabharwal （2023a） 表明，对于尺寸为 n 的输入，transformer可以通过 O（1） 深度、多（n） 尺寸的阈值来模拟。如果我们添加多项式filler token，这意味着我们可以模拟具有 O（1） 深度和 poly（poly（n）） = poly（n） 大小的。</p>
 <p>Transformers 中非近视计算的实证结果</p>
 <p>Lanham et al. （2023） 和 Sachan （2023） 都发现，对于商业 LLM，在 NLP 和数学 QA 基准上进行评估时，filler token通常无法提高性能。</p>
 <p>先前和目前的研究确定了token表示有助于预测token，后来表明，在实践中，这种贡献都减少了平均情况下的损失（Janus，2023 年;Wu 等人，2024 年），并且可以通过探测进行机械识别（Pal 等人，2023 年）。作为对这些工作的补充，我们提出了filler token作为协调的、与token无关的、非短视计算的极限情况;这种情况因其表现力和对齐特性而特别令人感兴趣。</p>
@@ -2535,7 +2540,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>（2）需要什么样的训练数据来教模型使用填充token</p>
 </blockquote>
 <p>对此，研究人员设计了2个任务并构建了相应的合成数据集，每个数据集都突出了一个不同的条件，在该条件下，填充token能够为Transformer提供性能改进。</p>
-<h3 id="3SUM"><a href="#3SUM" class="headerlink" title="3SUM"></a><strong>3SUM</strong></h3><p>先看第一个比较难的任务：3SUM。要求模型在序列中挑选满足条件的3个数，比如3个数的和除以10余数为0。</p>
+<h3 id="3sum"><a class="markdownIt-Anchor" href="#3sum"></a> <strong>3SUM</strong></h3>
+<p>先看第一个比较难的任务：3SUM。要求模型在序列中挑选满足条件的3个数，比如3个数的和除以10余数为0。</p>
 <p>在最坏的情况下，这个任务的复杂度是N的3次方，而Transformer层与层之间的计算复杂度是N的二次方，</p>
 <p>所以，当输入序列长度很大的时候，3SUM问题自然会超出Transformer的表达能力。</p>
 <p>实验设置了三组对照：</p>
@@ -2544,18 +2550,23 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>每个点代表一个单独的token，与下面的思维链中的token一一对应。</p>
 <p><strong>2. 可并行化的CoT解决方案</strong>，序列的形式为：「A05 B75 C22 D13 : AB 70 AC 27 AD 18 BC 97 BD 88 CD B ANS True」。</p>
 <p>实验设置了三组对照：</p>
-<p>思维链通过编写所有相关的中间求和，将3SUM问题简化为一系列2SUM问题（如下图所示）。这种方法将问题的计算量降低到了N的2次方——Transformer可以搞定，而且可以并行。<br><img src="/../images/2024/05/19/prompt_dot/image3.png" alt="图片" title="数据图"></p>
+<p>思维链通过编写所有相关的中间求和，将3SUM问题简化为一系列2SUM问题（如下图所示）。这种方法将问题的计算量降低到了N的2次方——Transformer可以搞定，而且可以并行。<br>
+<img src="../images/2024/05/19/prompt_dot/image3.png" alt="图片" title="数据图"></p>
 <p><strong>3. 自适应CoT解决方案</strong>，序列的形式为：「A15 B75 C22 D13 : A B C 15 75 22 2 B C D 75 22 13 0 ANS True」。</p>
-<p>与上面方案中，将3SUM巧妙地分解为可并行化的子问题不同，这里希望使用启发式方法来产生灵活的思维链，以模仿人类的推理。这种实例自适应计算，与填充token计算的并行结构不兼容。<br><img src="/../images/2024/05/19/prompt_dot/image5.png" alt="图片" title="数据图"></p>
+<p>与上面方案中，将3SUM巧妙地分解为可并行化的子问题不同，这里希望使用启发式方法来产生灵活的思维链，以模仿人类的推理。这种实例自适应计算，与填充token计算的并行结构不兼容。<br>
+<img src="../images/2024/05/19/prompt_dot/image5.png" alt="图片" title="数据图"></p>
 <p>从上图的结果可以看出，不输出填充token的情况下，模型的准确率总体上随着序列变长而下降，而使用填充token时，准确率一直保持在100%。</p>
 <p><strong>2SUM-Transform</strong></p>
 <p>第二个任务是2SUM-Transform，只需要判断两个数字的和是否满足要求，计算量在Transformer的掌控之中。</p>
-<p>不过为了防止模型「作弊」，对输入token就地计算，这里将输入的每个数字移动一个随机偏移量。<br><img src="/../images/2024/05/19/prompt_dot/image6.png" alt="图片" title="数据图"></p>
+<p>不过为了防止模型「作弊」，对输入token就地计算，这里将输入的每个数字移动一个随机偏移量。<br>
+<img src="../images/2024/05/19/prompt_dot/image6.png" alt="图片" title="数据图"></p>
 <p>结果如上表所示：filler token方法的精度达到了93.6%，非常接近于Chain-of-Thought，而不使用中间填充的情况下，精度只有78.7%。</p>
 <p>但是，这种改进是否只是由于训练数据呈现的差异，例如通过正则化损失梯度？</p>
-<p>为了验证填充token是否带来了与最终预测相关的隐藏计算，研究人员冻结了模型权重，仅微调最后一层注意力层。<br><img src="/../images/2024/05/19/prompt_dot/image7.png" alt="图片" title="数据图"></p>
+<p>为了验证填充token是否带来了与最终预测相关的隐藏计算，研究人员冻结了模型权重，仅微调最后一层注意力层。<br>
+<img src="../images/2024/05/19/prompt_dot/image7.png" alt="图片" title="数据图"></p>
 <p>上面的结果表明，随着可用的填充token增多，模型的准确性也不断提高，这表明填充token确实正在执行与3SUM预测任务相关的隐藏计算。</p>
-<h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a><strong>局限性</strong></h2><p>虽然填充token的方法很玄学、很神奇，甚至还很有效，但要说思维链被干翻了还为时尚早。</p>
+<h2 id="局限性"><a class="markdownIt-Anchor" href="#局限性"></a> <strong>局限性</strong></h2>
+<p>虽然填充token的方法很玄学、很神奇，甚至还很有效，但要说思维链被干翻了还为时尚早。</p>
 <p>作者也表示，填充token的方法并没有突破Transformer的计算复杂度上限。</p>
 <p>而且学习利用填充token是需要特定训练过程的，比如文中采用密集监督才能使模型最终收敛。</p>
 <p>不过，一些问题可能已经浮出水面，比如隐藏的安全问题，比如提示词工程会不会突然有一天就不存在了？</p>
@@ -2583,7 +2594,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2689,14 +2700,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2024/05/21/RA-ISF/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象</p>
-          <p class='content'>论文：arixcode：github
-1.摘要大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （...</p>
+          <p class='content'>论文：arix
+code：github
+ 1.摘要
+大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生...</p>
         </a>
       
       
         <a class='next' href='/2024/05/15/prompt_competion/'>
           <p class='title'>GPT-4提示工程师竞赛-冠军心得<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo最终夺冠，成为最终的提...</p>
+          <p class='content'>去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo
+最终夺冠，成为最终的...</p>
         </a>
       
     </div>
@@ -2757,7 +2771,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text">相关工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3SUM"><span class="toc-text">3SUM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">局限性</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text"> 相关工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3sum"><span class="toc-text"> 3SUM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text"> 局限性</span></a></li></ol>
   </div>
 </section>
 
@@ -3164,7 +3178,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3399,7 +3413,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/18/prompt_dotbydot/","name":"省略号（...）在大模型中有什么魔法力量?"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"省略号（...）在大模型中有什么魔法力量?","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/18/prompt_dotbydot/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/18/prompt_dotbydot/","wordCount":0,"datePublished":"2024-05-18T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.903Z","articleSection":"gpt","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/18/prompt_dotbydot/","name":"省略号（...）在大模型中有什么魔法力量?"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"省略号（...）在大模型中有什么魔法力量?","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/18/prompt_dotbydot/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/18/prompt_dotbydot/","wordCount":0,"datePublished":"2024-05-18T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.965Z","articleSection":"gpt","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

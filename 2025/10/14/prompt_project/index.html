@@ -43,11 +43,11 @@
 <meta property="og:title" content="提示工程技术">
 <meta property="og:url" content="https://nicemxm.github.io/2025/10/14/prompt_project/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言不建议使用这些技术来推理 gpt-5 和 o 系列模型等模型。 提示构造可能很困难。 在实践中，提示动作有助于模型完成所需的任务，但它比科学更像一种艺术，通常需要经验和直觉来制作成功的提示。 本文的目的是帮助你开始学习此学习过程。 它会尝试探讨适用于所有 GPT 模型的一般概念和模式。 但是，必须了解每个模型的行为方式不同，因此学习可能不适用于所有模型。 基础本部分介绍 GPT 提示的基本概念">
+<meta property="og:description" content="引言 不建议使用这些技术来推理 gpt-5 和 o 系列模型等模型。 提示构造可能很困难。 在实践中，提示动作有助于模型完成所需的任务，但它比科学更像一种艺术，通常需要经验和直觉来制作成功的提示。 本文的目的是帮助你开始学习此学习过程。 它会尝试探讨适用于所有 GPT 模型的一般概念和模式。 但是，必须了解每个模型的行为方式不同，因此学习可能不适用于所有模型。  基础 本部分介绍 GPT 提示的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-10-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.904Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.966Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="prompt">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,9 +2498,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>不建议使用这些技术来推理 gpt-5 和 o 系列模型等模型。</p>
+    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>不建议使用这些技术来推理 gpt-5 和 o 系列模型等模型。</p>
 <p>提示构造可能很困难。 在实践中，提示动作有助于模型完成所需的任务，但它比科学更像一种艺术，通常需要经验和直觉来制作成功的提示。 本文的目的是帮助你开始学习此学习过程。 它会尝试探讨适用于所有 GPT 模型的一般概念和模式。 但是，必须了解每个模型的行为方式不同，因此学习可能不适用于所有模型。</p>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>本部分介绍 GPT 提示的基本概念和元素。</p>
+<h2 id="基础"><a class="markdownIt-Anchor" href="#基础"></a> 基础</h2>
+<p>本部分介绍 GPT 提示的基本概念和元素。</p>
 <p>文本提示是用户与 GPT 模型交互的方式。 与所有生成语言模型一样，GPT 模型会尝试生成最有可能紧跟上一个文本的下一系列字词。 就好像我们在说[当我说“<prompt>”时，你首先想到的是什么？]以下示例演示了此行为。 给定著名内容的第一个单词，模型能够准确地延续文本。</prompt></p>
 <table>
 <thead>
@@ -2509,7 +2511,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>87 年前，我们的</td>
 <td>先辈们在这个大陆上创立了一个新国家，它孕育于自由之中，并致力于所有人生而平等的信条。 […]</td>
 </tr>
@@ -2517,11 +2520,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>“叫我 Ishmael。”</td>
 <td>“几年前–不要在意确切的时间–我钱包里几乎没有什么钱，岸上也没有什么特别吸引我的事情，所以我想航行一下，看看这个世界中被水覆盖的部分。”[…]</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>在开发更复杂的提示时，记住这一基本行为会很有帮助。 无论提供的提示是什么，模型都只是使用它确定的最有可能的情况（基于训练数据和训练目标）做出响应。 如果在提示中提出问题，则模型不会遵循单独的“Q&amp;A”代码路径，而是看起来在回答问题，因为回答即是输入的给定问题最有可能的响应。</p>
-<h2 id="提示组件"><a href="#提示组件" class="headerlink" title="提示组件"></a>提示组件</h2><p>当使用补全 API 而提示的不同部分之间没有区别时，它对于学习和讨论以识别基础提示组件仍然很有用。 使用聊天补全 API 时，提示的不同部分以具有关联角色（系统、用户和助手）的字典数组的形式发送到 API。 本指南更笼统地侧重于如何考虑提示构造，而不是提供特定于某个 API 的规范性指导。</p>
+<h2 id="提示组件"><a class="markdownIt-Anchor" href="#提示组件"></a> 提示组件</h2>
+<p>当使用补全 API 而提示的不同部分之间没有区别时，它对于学习和讨论以识别基础提示组件仍然很有用。 使用聊天补全 API 时，提示的不同部分以具有关联角色（系统、用户和助手）的字典数组的形式发送到 API。 本指南更笼统地侧重于如何考虑提示构造，而不是提供特定于某个 API 的规范性指导。</p>
 <p>同样重要的是要了解，虽然可能存在其他有效的方法来剖析提示，但这种分解的目标是提供一种相对简单的方法来理解提示构造。 使用补全 API 时，所有组件都是可选的，但必须至少有一个组件存在，而大多数提示包含多个组件。 组件之间也可能存在一些灰色区域。 下面显示的顺序大致对应于每个组件的使用方式（从最多到最少）。</p>
-<h2 id="说明书"><a href="#说明书" class="headerlink" title="说明书"></a>说明书</h2><p>指令可能是最常用的提示组件。 指令很简单：向模型说明要执行的操作。 虽然概念简单，但它在实践中可能比较复杂。 下表以两种不同形式显示简单和复杂的指令，借此来说明这一点。</p>
+<h2 id="说明书"><a class="markdownIt-Anchor" href="#说明书"></a> 说明书</h2>
+<p>指令可能是最常用的提示组件。 指令很简单：向模型说明要执行的操作。 虽然概念简单，但它在实践中可能比较复杂。 下表以两种不同形式显示简单和复杂的指令，借此来说明这一点。</p>
 <table>
 <thead>
 <tr>
@@ -2530,7 +2536,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>简单指令</td>
 <td>为每周新闻稿撰写简介。</td>
 <td>欢迎阅读我们的每周新闻稿。 本周，我们特别关注工作效率。 我们将分享有关如何在生活的各个方面提高工作效率的提示和技巧。 我们希望你喜欢并请与你的朋友分享！</td>
@@ -2545,8 +2552,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>为每周新闻稿编写简介，包括以下内容：- 我的公司名为 contoso <br> - 兴高采烈的问候 <br> - 感谢团队在艰难的几个月里辛勤工作 <br> - 下一季度的积极前景 <br> - 由 SLT 签名</td>
 <td>你好，Contoso 团队！ 我想花点时间感谢你们过去几个月的辛勤工作。 这是艰难的几个月，但你们都团结在一起，完成了非常棒的工作。 我真的很为你们感到骄傲。 展望下个季度，我感到非常乐观。 我觉得我们会取得一些伟大的成就。 再次感谢，高级领导团队。</td>
 </tr>
-</tbody></table>
-<h2 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2><p>主要内容是指模型正在处理或转换的某种文本。 主要内容通常与指令一起使用。 一个简单的示例是语言翻译。 在下面的示例中，英语文本被视为主要内容，而“翻译为法语：”是指令。</p>
+</tbody>
+</table>
+<h2 id="主要内容"><a class="markdownIt-Anchor" href="#主要内容"></a> 主要内容</h2>
+<p>主要内容是指模型正在处理或转换的某种文本。 主要内容通常与指令一起使用。 一个简单的示例是语言翻译。 在下面的示例中，英语文本被视为主要内容，而“翻译为法语：”是指令。</p>
 <table>
 <thead>
 <tr>
@@ -2554,11 +2563,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>你能告诉我怎么去博物馆吗？翻译为法语：</td>
 <td>Pouvez-vous s’il vous plaît me dire comment aller au musée?</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>主要内容也可以更长。 在以下示例中，主要内容是维基百科时间复杂度条目的简介部分，长度近 300 字。 此内容在表格中缩写，便于显示。</p>
 <table>
 <thead>
@@ -2567,7 +2578,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>在计算机科学中，时间复杂度是指计算复杂度，用于描述运行算法所需的计算机时间量。 时间复杂度通常通过 […] 估计将前面的文本汇总为几个句子：</td>
 <td>时间复杂度是度量算法运行所需时间的方法。 它通常表示为输入大小的函数。 最常见的度量值是最差情况的时间复杂度，即给定大小的输入所需的最大时间量。</td>
 </tr>
@@ -2575,7 +2587,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>在计算机科学中，时间复杂度是指计算复杂度，用于描述运行算法所需的计算机时间量。 时间复杂度通常通过 […] 估计TL;DR（太长没看）</td>
 <td>算法的时间复杂度是运行算法所需的时间量。 通常通过计算算法执行的基本操作数来估计时间复杂度，假定每个基本操作的执行时间都是固定的。 时间复杂度通常表示为输入大小的函数。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>GPT 模型还可以处理结构化的主要内容。 在下面的示例中，有关比利时啤酒的 TSV（本文中为显示为缩写）作为提示的一部分传递给模型。 它能够正确解释内容并回答有关数据的问题。</p>
 <table>
 <thead>
@@ -2584,12 +2597,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>Belgian Beer Brands <br> Beer name Beer style color ABV Brewery <br> “Chimay Gold: “”Doree””” trappist pale ale gold 4.80% Chimay Brewery (official trappist) <br> “Chimay Blue: “”Grande Reserve””” trappist dark ale dark 9.00% <br> […] <br> 参考上表，有多少啤酒小于 6% ABV？</td>
+<tbody>
+<tr>
+<td>Belgian Beer Brands <br> Beer name Beer style color ABV Brewery <br> “Chimay Gold: ““Doree””” trappist pale ale gold 4.80% Chimay Brewery (official trappist) <br> “Chimay Blue: ““Grande Reserve””” trappist dark ale dark 9.00% <br> […] <br> 参考上表，有多少啤酒小于 6% ABV？</td>
 <td>表中有 10 种啤酒的 ABV 小于 6%。</td>
 </tr>
-</tbody></table>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>成功的提示通常依赖于“单样本”或“少样本”学习。 这是指加入模型所需行为的一个或多个示例，通常做法是加入输入和输出对。 这不是从模型进行永久更改这一意义上学习，而是通过示例更好地使模型能够仅根据当前推理的需求做出响应。 使用没有示例的提示有时称为“零样本”学习。 请注意，使用 Chat Completion API 时，在初始系统消息之后，少样本学习示例通常会以用户&#x2F;助手交互示例的形式添加到消息数组中。</p>
+</tbody>
+</table>
+<h2 id="例子"><a class="markdownIt-Anchor" href="#例子"></a> 例子</h2>
+<p>成功的提示通常依赖于“单样本”或“少样本”学习。 这是指加入模型所需行为的一个或多个示例，通常做法是加入输入和输出对。 这不是从模型进行永久更改这一意义上学习，而是通过示例更好地使模型能够仅根据当前推理的需求做出响应。 使用没有示例的提示有时称为“零样本”学习。 请注意，使用 Chat Completion API 时，在初始系统消息之后，少样本学习示例通常会以用户/助手交互示例的形式添加到消息数组中。</p>
 <table>
 <thead>
 <tr>
@@ -2598,7 +2614,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>零样本</td>
 <td>头条：教练相信伤病不会破坏勇士队 <br>主题：</td>
 <td>教练相信伤病不会破坏勇士队的赛季。 团队仍然专注于他们的目标，他们将继续努力实现他们。</td>
@@ -2608,12 +2625,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>头条：双城队的科雷亚将选择跳出合同，试水自由市场 <br> 主题：棒球 <br> 头条：卡塔尔世界杯将设有清醒区 <br> 主题：足球 <br> 头条：耶茨：第 6 周范特西橄榄球情报 <br> 主题：橄榄球 <br> 头条：教练相信伤病不会破坏勇士队 <br> 主题：</td>
 <td>篮球</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>上面的示例演示了少样本学习的效用。 如果没有这些示例，模型似乎在猜测所需的行为，而示例则清晰地向模型展示了如何操作。 这也演示了模型的强大功能，它可以推断出所需的标签类别，即使示例中没有“篮球”标签。</p>
-<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>提示充当模型输出的“快速启动”，帮助将模型定向到所需的输出。 它通常是模型可以作为生成基础的前缀。 在下面的示例中，我们演示了引导故事以包含关键元素的提示。 提示通常与指令一起使用，但并非总是如此。 在下面的示例中，该模型用于汇总长公告电子邮件。 提示在一种情况下用于帮助聚焦模型的输出，在另一种情况下用于建议特定输出格式（项目符号）。</p>
-<p>在聊天补全 API 的上下文中，指令采用系统消息的形式，通过提供一系列示例用户&#x2F;助手交互来指示少样本示例以帮助启动模型。</p>
-<p>|提示数	|Prompt	|补全|<br>|0	|绩效评估是我们 Contoso 绩效与发展方法的核心组成部分。 […] <br> 总结上述电子邮件：	|这封电子邮件的目的是通知员工最近对绩效评估体验进行了更改，这是 Contoso 绩效与发展方法的一部分。 这些更改包括改进结构、升级工具内用户体验和重点提示。 此外，现在还有一个可选的对话启动器部分，供员工标记他们想要与其经理讨论的主题。|<br>|1	|绩效评估是我们 Contoso 绩效与发展方法的核心组成部分。 […] <br> 总结上述电子邮件： <br> 邮件的关键要点是	| Contoso 通过更加专注于核心优先事项、期望和影响来改进绩效评估体验。 此外，他们还使用提示、资源和指南升级工具内用户体验。 最后，他们将添加有关如何激活公司范围的核心优先级的指导。|<br>|2	|绩效评估是我们 Contoso 绩效与发展方法的核心组成部分。 […] <br> 总结上述电子邮件： <br> 要点： <br> •	| Contoso 正在根据员工的反馈推出对绩效评估体验的更改。 <br> •这些更改包括对核心优先事项、期望和影响的新侧重；升级用户体验；以及公司范围核心优先事项的新指南。 <br> •绩效评估是反思过去绩效和学习以及规划未来优先事项和增长机会的机会。 <br> •员工和经理应在绩效考核会议之前撰写评论。 <br> •每年至少应进行两次绩效评估。 <br> •每次评估的时间投资应保持大致相同。|</p>
-<h2 id="支持内容"><a href="#支持内容" class="headerlink" title="支持内容"></a>支持内容</h2><p>支持内容是模型可用于以某种方式影响输出的信息。 它不同于主要内容，因为它不是任务的主要目标，但它通常与主要内容一起使用。 常见示例包括上下文信息，例如当前日期、用户名、用户偏好等。 以下示例使用支持内容来帮助为用户安排一组计划的研讨会。 如果没有支持（重要主题），模型只会列出研讨会（为显示而截断），当被告知我的重要主题时，模型能够准确地分组会议。</p>
+<h2 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h2>
+<p>提示充当模型输出的“快速启动”，帮助将模型定向到所需的输出。 它通常是模型可以作为生成基础的前缀。 在下面的示例中，我们演示了引导故事以包含关键元素的提示。 提示通常与指令一起使用，但并非总是如此。 在下面的示例中，该模型用于汇总长公告电子邮件。 提示在一种情况下用于帮助聚焦模型的输出，在另一种情况下用于建议特定输出格式（项目符号）。</p>
+<p>在聊天补全 API 的上下文中，指令采用系统消息的形式，通过提供一系列示例用户/助手交互来指示少样本示例以帮助启动模型。</p>
+<p>|提示数	|Prompt	|补全|<br>
+|0	|绩效评估是我们 Contoso 绩效与发展方法的核心组成部分。 […] <br> 总结上述电子邮件：	|这封电子邮件的目的是通知员工最近对绩效评估体验进行了更改，这是 Contoso 绩效与发展方法的一部分。 这些更改包括改进结构、升级工具内用户体验和重点提示。 此外，现在还有一个可选的对话启动器部分，供员工标记他们想要与其经理讨论的主题。|<br>
+|1	|绩效评估是我们 Contoso 绩效与发展方法的核心组成部分。 […] <br> 总结上述电子邮件： <br> 邮件的关键要点是	| Contoso 通过更加专注于核心优先事项、期望和影响来改进绩效评估体验。 此外，他们还使用提示、资源和指南升级工具内用户体验。 最后，他们将添加有关如何激活公司范围的核心优先级的指导。|<br>
+|2	|绩效评估是我们 Contoso 绩效与发展方法的核心组成部分。 […] <br> 总结上述电子邮件： <br> 要点： <br> •	| Contoso 正在根据员工的反馈推出对绩效评估体验的更改。 <br> •这些更改包括对核心优先事项、期望和影响的新侧重；升级用户体验；以及公司范围核心优先事项的新指南。 <br> •绩效评估是反思过去绩效和学习以及规划未来优先事项和增长机会的机会。 <br> •员工和经理应在绩效考核会议之前撰写评论。 <br> •每年至少应进行两次绩效评估。 <br> •每次评估的时间投资应保持大致相同。|</p>
+<h2 id="支持内容"><a class="markdownIt-Anchor" href="#支持内容"></a> 支持内容</h2>
+<p>支持内容是模型可用于以某种方式影响输出的信息。 它不同于主要内容，因为它不是任务的主要目标，但它通常与主要内容一起使用。 常见示例包括上下文信息，例如当前日期、用户名、用户偏好等。 以下示例使用支持内容来帮助为用户安排一组计划的研讨会。 如果没有支持（重要主题），模型只会列出研讨会（为显示而截断），当被告知我的重要主题时，模型能够准确地分组会议。</p>
 <table>
 <thead>
 <tr>
@@ -2622,7 +2645,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>补全</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>没有</td>
 <td>研讨会列表： <br> 标题描述 <br> 规划研讨会启动请加入我们以启动研讨会！ 听取我们的领导介绍未来一年的跨部门优先事项和经验教训。 此活动的邀请已发送给 […] 中的每个人 <br> 总结上述研讨会，按主题分组：</td>
 <td>研讨会列表： <br> 规划研讨会启动 <br> - 规划研讨会总结 <br> - 核心会面 <br> - 以客户驱动的视角 <br> - 影响和重点领域 <br> - 最佳做法 <br> - 加速应用采用 […]</td>
@@ -2632,8 +2656,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>研讨会列表： <br> 标题描述 <br> 规划研讨会启动请加入我们以启动研讨会！ 听取我们的领导介绍未来一年的跨部门优先事项和经验教训。 此活动的邀请已发送给 […] 中的每个人 <br> 我的重要主题：提示词设计、搜索、GPT 模型 <br> 总结上述研讨会，按我的重要主题分组：	1.提示工程： <br> - 新的提示工程技巧 <br> - 提示工程的艺术 <br> 2. 搜索： <br> - 嵌入式矢量搜索的简介 <br> 3. GPT 模型： <br> - GPT-4 简介 <br> - 深度了解 GPT-35-Turbo。</td>
 <td></td>
 </tr>
-</tbody></table>
-<h2 id="场景特定指南"><a href="#场景特定指南" class="headerlink" title="场景特定指南"></a>场景特定指南</h2><p>虽然提示工程的原则可以在许多不同的模型类型间归纳，但某些模型需要专用的提示结构。 对于 Azure OpenAI GPT 模型，目前有两个不同的 API，提示工程可以在其中发挥作用：</p>
+</tbody>
+</table>
+<h2 id="场景特定指南"><a class="markdownIt-Anchor" href="#场景特定指南"></a> 场景特定指南</h2>
+<p>虽然提示工程的原则可以在许多不同的模型类型间归纳，但某些模型需要专用的提示结构。 对于 Azure OpenAI GPT 模型，目前有两个不同的 API，提示工程可以在其中发挥作用：</p>
 <ul>
 <li>聊天补全 API。</li>
 <li>补全 API。</li>
@@ -2641,11 +2667,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>每种 API 要求以不同的格式输入数据，这反过来又会影响整体的提示设计。 聊天补全 API 支持 GPT-35-Turbo 和 GPT-4 模型。 这些模型旨在接收存储在字典数组中的类似聊天的特定脚本格式的输入。</p>
 <p>补全 API 支持较旧的 GPT-3 模型，并且具有更灵活的输入要求，即它接受没有特定格式规则的文本字符串。</p>
 <p>本部分中的技术将指导你提高使用大型语言模型 (LLM) 生成的响应的准确性并巩固其基础。 但是，请务必记住，即使有效地使用了提示工程，你仍需要验证模型生成的响应。 仅仅因为精心制作的提示适用于某个特定方案并不一定意味着它能更广泛地推广到某些用例。 了解 LLM 的限制与了解如何利用其优势一样重要。</p>
-<h2 id="少样本学习"><a href="#少样本学习" class="headerlink" title="少样本学习"></a>少样本学习</h2><p>使语言模型适应新任务的一个常见方法是使用少样本学习。 在少样本学习中，需要在提示中提供一组训练示例，以便为模型提供额外的上下文。</p>
+<h2 id="少样本学习"><a class="markdownIt-Anchor" href="#少样本学习"></a> 少样本学习</h2>
+<p>使语言模型适应新任务的一个常见方法是使用少样本学习。 在少样本学习中，需要在提示中提供一组训练示例，以便为模型提供额外的上下文。</p>
 <p>使用聊天补全 API 时，用户和助手之间的一系列消息（以新的提示格式编写）可以作为进行少样本学习的示例。 这些例子可以用来引导模型以某种方式相应，模仿特定的行为，并为常见的问题提供种子答案。</p>
-<p>|系统消息	|少样本示例|<br>|助手是一种智能聊天机器人，旨在帮助用户回答其税务相关问题。 <br> 说明 <br> - 仅回答与税收相关的问题。 <br> - 如果你不确定答案，你可以说“我不知道”或“我不确定”，并建议用户前往 IRS 网站获取详细信息。|	用户 -“我需要报税的截止时间是？” <br> 助手 -“在 2023 年，你需要在 4 月 18 日前报税。 该日期在通常的 4 月 15 日最后期限之后，因为 4 月 15 日在 2023 年是星期六。 有关详细信息，请参阅 <a target="_blank" rel="noopener" href="https://www.irs.gov/filing/individuals/when-to-file%E2%80%9D">https://www.irs.gov/filing/individuals/when-to-file”</a> <br>  <br> 用户 -“如何检查我的退税状态？” <br> 助手 -“你可以通过访问 <a target="_blank" rel="noopener" href="https://www.irs.gov/refunds">https://www.irs.gov/refunds</a> 检查你的退税状态”|</p>
+<p>|系统消息	|少样本示例|<br>
+|助手是一种智能聊天机器人，旨在帮助用户回答其税务相关问题。 <br> 说明 <br> - 仅回答与税收相关的问题。 <br> - 如果你不确定答案，你可以说“我不知道”或“我不确定”，并建议用户前往 IRS 网站获取详细信息。|	用户 -“我需要报税的截止时间是？” <br> 助手 -“在 2023 年，你需要在 4 月 18 日前报税。 该日期在通常的 4 月 15 日最后期限之后，因为 4 月 15 日在 2023 年是星期六。 有关详细信息，请参阅 <a target="_blank" rel="noopener" href="https://www.irs.gov/filing/individuals/when-to-file%E2%80%9D">https://www.irs.gov/filing/individuals/when-to-file”</a> <br>  <br> 用户 -“如何检查我的退税状态？” <br> 助手 -“你可以通过访问 <a target="_blank" rel="noopener" href="https://www.irs.gov/refunds">https://www.irs.gov/refunds</a> 检查你的退税状态”|</p>
 <p>上表介绍了基本的提示结构，但有关确切提示格式的详细说明，需要参考聊天补全指南。</p>
-<h2 id="非聊天场景"><a href="#非聊天场景" class="headerlink" title="非聊天场景"></a>非聊天场景</h2><p>虽然聊天补全 API 已优化为处理多回合对话，但它也可用于非聊天场景。 例如，对于情绪分析场景，可以使用以下提示：</p>
+<h2 id="非聊天场景"><a class="markdownIt-Anchor" href="#非聊天场景"></a> 非聊天场景</h2>
+<p>虽然聊天补全 API 已优化为处理多回合对话，但它也可用于非聊天场景。 例如，对于情绪分析场景，可以使用以下提示：</p>
 <table>
 <thead>
 <tr>
@@ -2654,13 +2683,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>你是负责根据语音数据分析情绪的助手。 用户将粘贴文本字符串，而你将对讲话人的响应进行评估。 评分范围是1到10（10为最高分）。 解释给出此评分的原因。</td>
 <td>嗨，感谢你致电 Contoso 药店，我今天和谁通话？我了解你的挫败感，玛丽。你能告诉我你想要实现什么目标吗？好的，很高兴帮你看一下，请稍等片刻。我在这里看到你曾经使用过普通立普妥是吗？好的，那么我看到你的医生在 2021 年停止开这些药物的处方了。实际上是这样吗？好的，让我为你检查一下。因为有时候系统中会出现漏洞，并没有被报告出来。请稍等片刻，让我看看这里是否有记录。所以根据最新提供给我们的医生办公室记录显示，在 2012 年至 2021 年期间，你的医生曾经给你开过这些药物处方。好的，在最新记录中显示，现在医生已经更换了不同种类的药物–二甲双胍。请问我们需要帮忙准备并发放 500 毫克二甲双胍处方给你吗？不客气玛丽，请告诉我们今天还有什么可以帮到你的。</td>
 <td>情绪评分：8 <br> 此文本中的讲者在解决客户关注的问题时似乎很有礼貌、有帮助和耐心。 他们花时间检查信息，提供明确的解释，并提供协助。 然而，评分不是 10 分，因为对话的某些部分中仍然存在不确定性的迹象，这可能不会向客户传达完全的信心。</td>
 </tr>
-</tbody></table>
-<h2 id="从明确的说明开始"><a href="#从明确的说明开始" class="headerlink" title="从明确的说明开始"></a>从明确的说明开始</h2><p>信息在提示中显示的顺序非常重要。 这是因为 GPT 风格的模型是以某种方式构建的，这定义了它们处理输入的方式。 我们的研究表明，在共享其他上下文信息或示例之前，在提示开始时告诉模型你希望它执行的任务有助于生成更高质量的输出。</p>
+</tbody>
+</table>
+<h2 id="从明确的说明开始"><a class="markdownIt-Anchor" href="#从明确的说明开始"></a> 从明确的说明开始</h2>
+<p>信息在提示中显示的顺序非常重要。 这是因为 GPT 风格的模型是以某种方式构建的，这定义了它们处理输入的方式。 我们的研究表明，在共享其他上下文信息或示例之前，在提示开始时告诉模型你希望它执行的任务有助于生成更高质量的输出。</p>
 <p><strong>备注</strong></p>
 <p>尽管通常仍建议遵循此方法，但与之前的模型版本（GPT-3 和更早）相比，我们的测试表明，无论是否使用该技术，ChatGPT 和 GPT-4 模型的模型响应都是相同的。 在下面的示例中，我们看到添加了语句“几个消息来源… 爆发”到提示的开头或末尾后，不会导致最终模型响应发生任何变化。</p>
 <table>
@@ -2671,14 +2703,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。</td>
 <td>你的任务是验证“几个消息来源提到了可能会发生另一次大爆发”这一说法是否有以下一组片段中的具体引文的支持。 <br> — <br> 内容片段 <br> [1] 专家称西雅图发生特大地震的几率为14% <br> 西雅图 - 美国地质调查局估计，在未来 50 年里，西雅图发生 9 级卡斯卡迪亚地震的可能性为 14%。 “不幸的是，我们无法… <br>  <br> [2] 地震专家对西雅图的“真正的大地震”进行了最新展望 <br> “我们说，在未来 50 年里，大约有 14% 的机会再次发生大约 9 级的地震，”华盛顿大学的一位地球物理学家说。 <br> — <br> “几个消息来源提到了可能会发生另一次大爆发”，此陈述是由内容片段直接暗示或明确表述的吗？</td>
 <td></td>
 </tr>
-</tbody></table>
-<h2 id="在末尾重复指令"><a href="#在末尾重复指令" class="headerlink" title="在末尾重复指令"></a>在末尾重复指令</h2><p>模型可能容易受到近因偏差的影响，在此上下文中，这意味着提示结束时的信息对输出的影响可能比提示开头的信息更大。 因此，值得尝试一下在提示结束时重复指令，并评估对所生成响应的影响。</p>
-<h2 id="引导输出"><a href="#引导输出" class="headerlink" title="引导输出"></a>引导输出</h2><p>这是指在提示的末尾包含几个字词或短语，以获取遵循所需形式的模型响应。 例如，使用 “Here’s a bulleted list of key points:\n- ” 等提示有助于确保输出的格式为项目符号列表。</p>
+</tbody>
+</table>
+<h2 id="在末尾重复指令"><a class="markdownIt-Anchor" href="#在末尾重复指令"></a> 在末尾重复指令</h2>
+<p>模型可能容易受到近因偏差的影响，在此上下文中，这意味着提示结束时的信息对输出的影响可能比提示开头的信息更大。 因此，值得尝试一下在提示结束时重复指令，并评估对所生成响应的影响。</p>
+<h2 id="引导输出"><a class="markdownIt-Anchor" href="#引导输出"></a> 引导输出</h2>
+<p>这是指在提示的末尾包含几个字词或短语，以获取遵循所需形式的模型响应。 例如，使用 “Here’s a bulleted list of key points:\n- ” 等提示有助于确保输出的格式为项目符号列表。</p>
 <table>
 <thead>
 <tr>
@@ -2687,14 +2723,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。 尽量简短回答。</td>
 <td>约翰·史密斯与露西·史密斯结婚了。 他们有五个孩子，他在 Microsoft 担任软件工程师。 我应该执行哪些搜索查询来检查此事实？ ## 一个可能的搜索查询是：</td>
 <td>“约翰·史密斯与露西·史密斯结婚，他们有五个孩子。他是一名在微软工作的软件工程师。”</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>在上述提示中，文本“一个可能的搜索查询是：”引导模型生成单个输出。 如果没有此提示，模型将生成多个搜索查询作为输出。</p>
-<h2 id="添加明确的语法"><a href="#添加明确的语法" class="headerlink" title="添加明确的语法"></a>添加明确的语法</h2><p>对提示使用明确的语法（包括标点符号、标题和节标记）有助于传达意向，并且通常使输出更易于分析。</p>
+<h2 id="添加明确的语法"><a class="markdownIt-Anchor" href="#添加明确的语法"></a> 添加明确的语法</h2>
+<p>对提示使用明确的语法（包括标点符号、标题和节标记）有助于传达意向，并且通常使输出更易于分析。</p>
 <p>在下面的示例中，分隔符（本例中为 —）已添加到不同的信息源或步骤之间。 这允许使用 — 作为生成的停止条件。 此外，节标题或特殊变量以大写形式显示，用于区分。</p>
 <table>
 <thead>
@@ -2704,14 +2743,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。</td>
 <td>你将阅读一个段落，然后向搜索引擎发出查询，以便对其进行事实检查。 此外，还请解释查询。 <br> — <br> 段落 <br> 约翰·史密斯与露西·史密斯结婚了。 他们有五个孩子，他在 Microsoft 担任软件工程师。 我应该执行哪些搜索查询来检查此事实？ <br> — <br> 查询</td>
 <td>1.“约翰·史密斯 Microsoft”- 检查约翰·史密斯是否确实在 Microsoft 工作。 <br> 2.“约翰·史密斯露西·史密斯”–检查约翰·史密斯是否与露西·史密斯结婚了。 <br> 3.“约翰·史密斯孩子”- 检查约翰·史密斯是否有 5 个孩子。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>如果不确定要使用哪种语法，请考虑使用 Markdown 或 XML。 这些模型已通过 XML 和 Markdown 的大量 Web 内容进行了训练，可能会提供更好的结果。</p>
-<h2 id="分解任务"><a href="#分解任务" class="headerlink" title="分解任务"></a>分解任务</h2><p>如果任务分解为较小的步骤，大型语言模型(LLM)的性能通常会更好。 例如，在前面引用的搜索查询提示中，可以调整提示的结构，以便首先指示模型提取相关事实，然后指示生成可用于验证这些事实的搜索查询。</p>
+<h2 id="分解任务"><a class="markdownIt-Anchor" href="#分解任务"></a> 分解任务</h2>
+<p>如果任务分解为较小的步骤，大型语言模型(LLM)的性能通常会更好。 例如，在前面引用的搜索查询提示中，可以调整提示的结构，以便首先指示模型提取相关事实，然后指示生成可用于验证这些事实的搜索查询。</p>
 <table>
 <thead>
 <tr>
@@ -2720,14 +2762,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。</td>
 <td>你将阅读一个段落，然后向搜索引擎发出查询，以便对其进行事实检查。 <br> — <br> 段落 <br> 约翰·史密斯与露西·史密斯结婚了。 他们有五个孩子，他在 Microsoft 担任软件工程师。 我应该执行哪些搜索查询来检查此事实？ <br> — <br> 现在，你将提取事实声明，并向其发出查询以对其进行事实检查。 发出查询时，请使用函数 SEARCH (“query”) <br>  <br> 事实声明</td>
 <td>1.约翰·史密斯与露西·史密斯结婚了 <br> 2. 他们有五个孩子 <br> 3. 他在 Microsoft 担任软件工程师 <br>  <br> 查询 <br> SEARCH(“约翰·史密斯与露西·史密斯结婚了”) <br> SEARCH(“约翰·史密斯家庭规模”) <br> SEARCH(“约翰·史密斯 Microsoft 软件工程师”)</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>请注意，应使用清晰的语法来区分不同部分并引导输出。 在此简单示例中，将任务从一步分解为两步并不十分引人注目，但在试图对包含许多事实声明的较大文本进行分解时，将任务分解会产生显著的不同。</p>
-<h2 id="使用可供性"><a href="#使用可供性" class="headerlink" title="使用可供性"></a>使用可供性</h2><p>有时候，我们可以让模型使用可供性，而不是仅依赖其自身的参数来获取信息和答案。 例如，搜索可以作为一种可供性来帮助减轻虚构答案的风险，并获取最新的信息。</p>
+<h2 id="使用可供性"><a class="markdownIt-Anchor" href="#使用可供性"></a> 使用可供性</h2>
+<p>有时候，我们可以让模型使用可供性，而不是仅依赖其自身的参数来获取信息和答案。 例如，搜索可以作为一种可供性来帮助减轻虚构答案的风险，并获取最新的信息。</p>
 <p>使用功能的一种简单方法是在模型完成功能调用时停止生成，然后将结果粘贴回提示中。 下面是执行上述 SEARCH 调用后进行跟进调用的示例。 请注意看我们如何将搜索结果粘贴到提示中并替换之前的 SEARCH 调用。</p>
 <table>
 <thead>
@@ -2737,13 +2782,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。</td>
 <td>你将阅读段落，提取事实声明，然后使用搜索引擎结果对它们进行事实检查 <br> — <br> 段落 <br> 约翰·史密斯与露西·史密斯结婚了。 他们有五个孩子，他在 Microsoft 担任软件工程师。 我应该执行哪些搜索查询来检查此事实？ <br> — <br> 事实声明 <br> - 约翰·史密斯与露西·史密斯结婚了 <br> - 约翰和露西有五个孩子 <br> - 约翰在 Microsoft 担任软件工程师 <br> — <br> 下面是为研究上述声明而发出的各种搜索查询： <br> 搜索查询 <br> - 约翰·史密斯与露西·史密斯结婚了 <br> - 约翰·史密斯儿童数量 <br> - 约翰·史密软件工程师 Microsoft <br> — <br> 下面是搜索结果的内容片段： <br> 内容片段： <br> [1] … 约翰·史密斯的婚礼是在 2012 年 9 月 25 日… <br> [2] … John Smith 和他的妻子 Lucy 一起参加了一场聚会 <br> [3]约翰带着他的两个女儿和三个儿子去看了足球比赛 <br> [4] … 在 Microsoft 工作 10 年后，史密斯创立了自己的初创公司 Tailspin Toys <br> [5] 约翰·M 是镇上的铁匠，他娶了菲奥娜。 他们有一个女儿叫露西 <br> — <br> 根据给定的片段，核实上述每个事实陈述。</td>
 <td>- 约翰·史密斯与露西·史密斯结婚了：已确认。 片段 [1] 和 [2] 都提及了约翰·史密斯的妻子露西。 <br>  <br> - 约翰和露西有五个孩子：已确认。 片段 [3] 提到约翰由他的两个女儿和三个儿子陪同。 <br>  <br> - 约翰在 Microsoft 担任软件工程师：部分确认。 片段 [4] 提到约翰已在 Microsoft 工作 10 年，但没有明确说明他目前在那里工作。 可能需要进一步调查才能确认他目前的就业状况。</td>
 </tr>
-</tbody></table>
-<h2 id="思维链提示"><a href="#思维链提示" class="headerlink" title="思维链提示"></a>思维链提示</h2><p> <strong>重要</strong></p>
+</tbody>
+</table>
+<h2 id="思维链提示"><a class="markdownIt-Anchor" href="#思维链提示"></a> 思维链提示</h2>
+<p><strong>重要</strong></p>
 <p>此方法仅适用于非推理模型。 除通过推理摘要参数外，不支持尝试使用其他方法提取模型推理，这样做可能导致违反可接受的使用策略，一旦检测到就可能导致限流或帐户停用。</p>
 <p>这是分解任务技术的变体。 在这种方法中，不是将一项任务分割成较小的步骤，而是指示模型响应逐步进行，并提出所有涉及的步骤。 这样做可以减少结果不准确的可能性，并使评估模型响应更容易。</p>
 <table>
@@ -2754,13 +2802,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。</td>
 <td>谁是在悉尼举行的奥林匹克运动会中获得最多奖牌（最大奖牌数）的个人运动员？ 采取逐步方法回答问题，在分享最终答案之前引用来源并给出推理，格式如下：答案是：<name></name></td>
 <td>步骤 1：确定悉尼奥运会的年份。 悉尼奥运会是在 2000 年举行的。 <br>  <br> 步骤 2：查找在 2000 年悉尼奥运会上获得多枚奖牌的个人运动员名单。 <br>  <br> 据奥运会官方网站称，在 2000 年悉尼奥运会上，有数名运动员获得了多枚奖牌。 一些值得注意的名字包括： <br> •伊恩·索普（澳大利亚）- 3 金 2 银 0 铜 <br> •彼得·范登·霍根班德（荷兰）- 2 金 0 银 2 铜 <br> •莱尼·克雷泽尔堡（美国）- 3 金 0 银 0 铜 <br> ·英格·德·布鲁伊恩（荷兰）- 3 金 1 银 0 铜 <br>  <br> 步骤 3：确定获得最多奖牌的运动员。 回顾了在 2000 年悉尼奥运会上获得多枚奖牌的个人运动员名单后，我们可以看到，获得奖牌最多的运动员是来自澳大利亚的伊恩·索普，他共获得 5 枚奖牌（3 金 2 银）。 <br>  <br> 因此，答案是：伊恩·索普。</td>
 </tr>
-</tbody></table>
-<h2 id="指定输出结构"><a href="#指定输出结构" class="headerlink" title="指定输出结构"></a>指定输出结构</h2><p>使用提示指定输出结构时，可能会对结果的性质和质量产生重大影响。 有时，系统消息输入“仅写出真实事实”或“不捏造信息”可能不足以缓解问题。 相反，要求模型响应同时包含引文有助于减少错误响应的概率。</p>
+</tbody>
+</table>
+<h2 id="指定输出结构"><a class="markdownIt-Anchor" href="#指定输出结构"></a> 指定输出结构</h2>
+<p>使用提示指定输出结构时，可能会对结果的性质和质量产生重大影响。 有时，系统消息输入“仅写出真实事实”或“不捏造信息”可能不足以缓解问题。 相反，要求模型响应同时包含引文有助于减少错误响应的概率。</p>
 <p>如果你指示模型在编写语句时引用源材料，则这些语句更有可能有根据。 请求引文会使模型在每次生成响应时都犯两个错误：第一个错误是捏造的响应，第二个错误是错误的引文。 请注意，引文越接近它支持的文本，模型预测引文所需的距离就越短，这表明内联引文比内容末尾的引文更适合缓解虚假内容的生成。</p>
 <p>同样，如果要求模型从段落中提取事实陈述，它可能会提取复合语句，例如“X 正在执行 Y 和 Z”（这可能更难验证）。 可以通过指定输出结构来避免这种情况，如（实体 1、关系、实体 2）。</p>
 <p>以下示例演示了引文的使用，并指导模型响应适应定义的结构。</p>
@@ -2772,12 +2823,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手</td>
 <td>列出客户支持专员在以下对话中展示的不同行为。 <br> — <br> 嗨，感谢你致电 Contoso 药店，我今天和谁通话？我了解你的挫败感，玛丽。你能告诉我你想要实现什么目标吗？好的，很高兴帮你看一下，请稍等片刻。我在这里看到你曾经使用过普通立普妥是吗？好的，那么我看到你的医生在 2021 年停止开这些药物的处方了。实际上是这样吗？好的，让我为你检查一下。因为有时候系统中会出现漏洞，并没有被报告出来。请稍等片刻，让我看看这里是否有记录。所以根据最新提供给我们的医生办公室记录显示，在 2012 年至 2021 年期间，你的医生曾经给你开过这些药物处方。好的，在最新记录中显示，现在医生已经更换了不同种类的药物–二甲双胍。请问我们需要帮忙准备并发放 500 毫克二甲双胍处方给你吗？不客气玛丽，请告诉我们今天还有什么可以帮到你的。 <br> — <br> 客户支持专员的响应如何？ <br> 使用“行为（“原因”）”格式对各种行为进行分类和列出，并引用分类背后的原因</td>
 <td>1. 礼貌问候行为（“专员以礼貌的问候语开始对话，并询问呼叫者的姓名”）  <br> 2. 同理心行为（“专员意识到玛丽的沮丧，并试图理解她的担忧”） <br> 3. 细心的行为（“专员倾听客户的问题，并询问更多详细信息”） <br> 4.主动行为（“专员提出为客户检查问题”）<br> 5.信息性行为（“专员提供了有关客户的处方记录的相关信息”） <br> 6.全面的行为（“专员检查了系统中可能存在的任何漏洞，并提供了完整的回应”） <br> 7.确认性行为（“专员与客户确认当前药物”） <br> 8.以解决方案为引导的行为（“专员提出为客户填写新处方”） <br> 9. 礼貌行为（“专员感谢了客户，并提出在需要时提供进一步帮助”）</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
@@ -2786,14 +2839,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。</td>
-<td>根据在文本中看到的模式，将以下新闻标题分为主题类别。 还要提到定义这些类别的理由。 <br> 输出格式： <br> { } <br> “主题_名称”：“”， <br> “标题”：[]， <br> “理由”：“” <br> } <br>  <br> 输入新闻标题： <br> “通过 AR + ML 在 10 秒内实现从书本到演讲的转换” <br> 2.“1993 年 32 岁的 Yann LeCun 演示了世界第一个文本识别卷积网络” <br> 3.“应用于动画绘画的一阶运动模型” <br> 4.“Robinhood 和其他券商从实际上阻止购买 $GME、$NOK、$BB、$AMC；允许卖出” <br> 5.“美国联合航空公司股票在盘前交易中下跌超过 5%” <br> 输出：</td>
-<td><br>  <br> { } <br> “人工_智能”：{ <br> “标题”：[ <br> 使用 AR + ML 可以在 10 秒内实现从书籍到展示的转换。 <br> “1993 年 32 岁的 Yann LeCun 演示了世界第一个文本识别卷积网络”、 <br> “应用于动画绘画的一阶运动模型” <br> ], <br> “理由”：“这些标题与人工智能、机器学习及其在各个领域的应用有关。” <br> }, <br> “金融_市场”：{ <br> “标题”：[ <br> “Robinhood 和其他券商从实际上阻止购买 $GME、$NOK、$BB、$AMC；允许卖出”、 <br> “美国联合航空公司股票在盘前交易中下跌超过 5%”、 <br> “比特币在一年前的今天接近 20,000 美元” <br> ], <br> “理由”：“这些标题与金融市场、股票、加密货币和交易平台有关。 <br> } <br> }</td>
+<td>根据在文本中看到的模式，将以下新闻标题分为主题类别。 还要提到定义这些类别的理由。 <br> 输出格式： <br> { } <br> “主题_名称”：“”， <br> “标题”：[]， <br> “理由”：“” <br> } <br>  <br> 输入新闻标题： <br> “通过 AR + ML 在 10 秒内实现从书本到演讲的转换” <br> 2.“1993 年 32 岁的 Yann LeCun 演示了世界第一个文本识别卷积网络” <br> 3.“应用于动画绘画的一阶运动模型” <br> 4.“Robinhood 和其他券商从实际上阻止购买 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>M</mi><mi>E</mi><mtext>、</mtext></mrow><annotation encoding="application/x-tex">GME、</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord cjk_fallback">、</span></span></span></span>NOK、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>B</mi><mtext>、</mtext></mrow><annotation encoding="application/x-tex">BB、</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord cjk_fallback">、</span></span></span></span>AMC；允许卖出” <br> 5.“美国联合航空公司股票在盘前交易中下跌超过 5%” <br> 输出：</td>
+<td><br>  <br> { } <br> “人工_智能”：{ <br> “标题”：[ <br> 使用 AR + ML 可以在 10 秒内实现从书籍到展示的转换。 <br> “1993 年 32 岁的 Yann LeCun 演示了世界第一个文本识别卷积网络”、 <br> “应用于动画绘画的一阶运动模型” <br> ], <br> “理由”：“这些标题与人工智能、机器学习及其在各个领域的应用有关。” <br> }, <br> “金融_市场”：{ <br> “标题”：[ <br> “Robinhood 和其他券商从实际上阻止购买 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>M</mi><mi>E</mi><mtext>、</mtext></mrow><annotation encoding="application/x-tex">GME、</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">G</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord cjk_fallback">、</span></span></span></span>NOK、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>B</mi><mtext>、</mtext></mrow><annotation encoding="application/x-tex">BB、</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord cjk_fallback">、</span></span></span></span>AMC；允许卖出”、 <br> “美国联合航空公司股票在盘前交易中下跌超过 5%”、 <br> “比特币在一年前的今天接近 20,000 美元” <br> ], <br> “理由”：“这些标题与金融市场、股票、加密货币和交易平台有关。 <br> } <br> }</td>
 </tr>
-</tbody></table>
-<h2 id="温度和-Top-p-参数"><a href="#温度和-Top-p-参数" class="headerlink" title="温度和 Top_p 参数"></a>温度和 Top_p 参数</h2><p>改变温度参数会改变模型的输出。 温度参数可以设置为 0 到 2。 较高的值（例如 0.7）将会导致输出更随机，并产生更发散的响应，而较低的值，例如 0.2）会产生更集中和更具体的输出。 虚构的故事可以使用更高的温度生成。 而要生成法律文件，建议使用低得多的温度。 Top_probability 是另一个参数，与温度类似，它也控制模型响应的随机性，但它的控制方式有所不同。 一般建议一次只更改这两个参数其中之一，而不是同时更改它们。</p>
-<h2 id="提供背景信息以帮助理解"><a href="#提供背景信息以帮助理解" class="headerlink" title="提供背景信息以帮助理解"></a>提供背景信息以帮助理解</h2><p>提供可靠答案的最有效方法之一是为模型提供数据，让它从基础数据得出响应。 如果你的用例依赖于最新且可靠的信息，而且不是纯粹的创意性场景，我们强烈建议提供有根据的数据。 通常，源材料越接近所需答案的最终形式，模型需要完成的工作就越少，这意味着出错的可能性就越小。 在下例中，向系统提供了介绍在 Azure AI Foundry 模型中的 Azure OpenAI 中推出 GPT-4 的最新播客，并要求系统提及一些早期客户的名称。</p>
+</tbody>
+</table>
+<h2 id="温度和-top_p-参数"><a class="markdownIt-Anchor" href="#温度和-top_p-参数"></a> 温度和 Top_p 参数</h2>
+<p>改变温度参数会改变模型的输出。 温度参数可以设置为 0 到 2。 较高的值（例如 0.7）将会导致输出更随机，并产生更发散的响应，而较低的值，例如 0.2）会产生更集中和更具体的输出。 虚构的故事可以使用更高的温度生成。 而要生成法律文件，建议使用低得多的温度。 Top_probability 是另一个参数，与温度类似，它也控制模型响应的随机性，但它的控制方式有所不同。 一般建议一次只更改这两个参数其中之一，而不是同时更改它们。</p>
+<h2 id="提供背景信息以帮助理解"><a class="markdownIt-Anchor" href="#提供背景信息以帮助理解"></a> 提供背景信息以帮助理解</h2>
+<p>提供可靠答案的最有效方法之一是为模型提供数据，让它从基础数据得出响应。 如果你的用例依赖于最新且可靠的信息，而且不是纯粹的创意性场景，我们强烈建议提供有根据的数据。 通常，源材料越接近所需答案的最终形式，模型需要完成的工作就越少，这意味着出错的可能性就越小。 在下例中，向系统提供了介绍在 Azure AI Foundry 模型中的 Azure OpenAI 中推出 GPT-4 的最新播客，并要求系统提及一些早期客户的名称。</p>
 <table>
 <thead>
 <tr>
@@ -2802,20 +2859,24 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>助手</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>“你是帮助用户查找信息的 AI 助手。 你将仅通过以下文本提供回答，并以 100 字或更少的字数给出响应： <br> “在 Microsoft，我们不断发现释放创造力、解锁生产力和提高技能的新方法，以便让更多人可以从使用 AI 中获益。 这使我们的客户能够… <br>  <br> … 从而减少模型生成有害响应的可能性。”1 <br> 回答不超过 100 个字词。 尽可能使用项目符号列表。</td>
 <td>Azure OpenAI GPT-4 模型的一些早期客户是谁？</td>
 <td>下面是 Azure OpenAI GPT-4 模型的一些早期客户： <br> - Epic Healthcare：他们计划使用 GPT-4 来帮助医生和护士在数据输入和调查上花费更少的时间。 <br> - Coursera：他们将 Azure OpenAI 与 GPT-4 配合使用，在其平台上创建新的 AI 驱动的学习体验。 <br> - Coca-Cola：他们正在使用 Azure OpenAI 构建知识中心，并计划利用 GPT-4 的多模态功能处理营销、广告、公共关系和客户关系。 <br> - 其他各种规模的公司也在使用 Azure AI 来改善客户体验、汇总长格式内容、帮助编写软件，并通过预测正确的税务数据来降低风险。</td>
 </tr>
-</tbody></table>
-<h2 id="最佳做法"><a href="#最佳做法" class="headerlink" title="最佳做法"></a>最佳做法</h2><ul>
+</tbody>
+</table>
+<h2 id="最佳做法"><a class="markdownIt-Anchor" href="#最佳做法"></a> 最佳做法</h2>
+<ul>
 <li>尽量具体。 尽可能少留解读空间。 限制操作空间。</li>
 <li>具有描述性。 使用类比。</li>
 <li>强调。 有时可能需要对模型进行重复操作。 在主要内容之前和之后提供说明，使用指令和提示等。</li>
 <li>顺序很重要。 向模型呈现信息的顺序可能会影响输出。 你选择是在内容之前放置指令（“汇总以下内容…”）还是之后（“汇总以上…”）会影响输出。 即使是少样本示例的顺序，也很重要。 这被称为“近因偏差”。</li>
 <li>给模型一个“出路”。 如果模型无法完成分配的任务，有时为模型提供备用路径可能会有所帮助。 例如，在对一段文本提出问题时，可以加入类似于“如果答案不存在，则回复‘未找到’”之类的内容。这可帮助模型避免生成错误的响应。</li>
 </ul>
-<h2 id="空间效率"><a href="#空间效率" class="headerlink" title="空间效率"></a>空间效率</h2><p>虽然输入大小会随着 GPT 模型的迭代而增加，但仍存在提供的数据超出模型所能处理的数据量的情况。 GPT 模型将单词分解为“标记”。常见的多音节单词通常是单个标记，而不太常见的单词会按音节拆分。 标记有时可能违反直觉，如以下示例所示，它演示了不同日期格式的标记边界。 在这种情况下，拼出整个月份比使用完全数字的日期更具空间效益。 当前的标记支持范围：早期 GPT-3 模型支持 2000 个标记，最新的 GPT-4 模型 32k 版本支持最多 32,768 个标记。</p>
+<h2 id="空间效率"><a class="markdownIt-Anchor" href="#空间效率"></a> 空间效率</h2>
+<p>虽然输入大小会随着 GPT 模型的迭代而增加，但仍存在提供的数据超出模型所能处理的数据量的情况。 GPT 模型将单词分解为“标记”。常见的多音节单词通常是单个标记，而不太常见的单词会按音节拆分。 标记有时可能违反直觉，如以下示例所示，它演示了不同日期格式的标记边界。 在这种情况下，拼出整个月份比使用完全数字的日期更具空间效益。 当前的标记支持范围：早期 GPT-3 模型支持 2000 个标记，最新的 GPT-4 模型 32k 版本支持最多 32,768 个标记。</p>
 <p>由于空间有限，请务必尽可能高效地使用它。</p>
 <ul>
 <li>表格–如上一部分中的示例所示，GPT 模型可以非常轻松地理解表格格式的数据。 这是一种节省空间的数据包含方式，相较于在每个字段前加上名称（例如使用 JSON）。</li>
@@ -2845,7 +2906,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2952,7 +3013,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='next' href='/2025/10/13/kv/'>
           <p class='title'>KV 缓存解释：优化 Transformer 推理效率<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>介绍当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它已经...</p>
+          <p class='content'> 介绍
+当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它...</p>
         </a>
       
     </div>
@@ -3013,7 +3075,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E7%BB%84%E4%BB%B6"><span class="toc-text">提示组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E%E4%B9%A6"><span class="toc-text">说明书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-text">例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA"><span class="toc-text">提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E5%86%85%E5%AE%B9"><span class="toc-text">支持内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E7%89%B9%E5%AE%9A%E6%8C%87%E5%8D%97"><span class="toc-text">场景特定指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%91%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0"><span class="toc-text">少样本学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E8%81%8A%E5%A4%A9%E5%9C%BA%E6%99%AF"><span class="toc-text">非聊天场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%98%8E%E7%A1%AE%E7%9A%84%E8%AF%B4%E6%98%8E%E5%BC%80%E5%A7%8B"><span class="toc-text">从明确的说明开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AB%E5%B0%BE%E9%87%8D%E5%A4%8D%E6%8C%87%E4%BB%A4"><span class="toc-text">在末尾重复指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E8%BE%93%E5%87%BA"><span class="toc-text">引导输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%98%8E%E7%A1%AE%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="toc-text">添加明确的语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1"><span class="toc-text">分解任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%AF%E4%BE%9B%E6%80%A7"><span class="toc-text">使用可供性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E9%93%BE%E6%8F%90%E7%A4%BA"><span class="toc-text">思维链提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%84"><span class="toc-text">指定输出结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%A9%E5%BA%A6%E5%92%8C-Top-p-%E5%8F%82%E6%95%B0"><span class="toc-text">温度和 Top_p 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%83%8C%E6%99%AF%E4%BF%A1%E6%81%AF%E4%BB%A5%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3"><span class="toc-text">提供背景信息以帮助理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%81%9A%E6%B3%95"><span class="toc-text">最佳做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E6%95%88%E7%8E%87"><span class="toc-text">空间效率</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text"> 基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E7%BB%84%E4%BB%B6"><span class="toc-text"> 提示组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E%E4%B9%A6"><span class="toc-text"> 说明书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="toc-text"> 主要内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-text"> 例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA"><span class="toc-text"> 提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E5%86%85%E5%AE%B9"><span class="toc-text"> 支持内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E7%89%B9%E5%AE%9A%E6%8C%87%E5%8D%97"><span class="toc-text"> 场景特定指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%91%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0"><span class="toc-text"> 少样本学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E8%81%8A%E5%A4%A9%E5%9C%BA%E6%99%AF"><span class="toc-text"> 非聊天场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%98%8E%E7%A1%AE%E7%9A%84%E8%AF%B4%E6%98%8E%E5%BC%80%E5%A7%8B"><span class="toc-text"> 从明确的说明开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AB%E5%B0%BE%E9%87%8D%E5%A4%8D%E6%8C%87%E4%BB%A4"><span class="toc-text"> 在末尾重复指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E8%BE%93%E5%87%BA"><span class="toc-text"> 引导输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%98%8E%E7%A1%AE%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="toc-text"> 添加明确的语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1"><span class="toc-text"> 分解任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%AF%E4%BE%9B%E6%80%A7"><span class="toc-text"> 使用可供性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E7%BB%B4%E9%93%BE%E6%8F%90%E7%A4%BA"><span class="toc-text"> 思维链提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%84"><span class="toc-text"> 指定输出结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%A9%E5%BA%A6%E5%92%8C-top_p-%E5%8F%82%E6%95%B0"><span class="toc-text"> 温度和 Top_p 参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BE%9B%E8%83%8C%E6%99%AF%E4%BF%A1%E6%81%AF%E4%BB%A5%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3"><span class="toc-text"> 提供背景信息以帮助理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%81%9A%E6%B3%95"><span class="toc-text"> 最佳做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E6%95%88%E7%8E%87"><span class="toc-text"> 空间效率</span></a></li></ol>
   </div>
 </section>
 
@@ -3420,7 +3482,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3655,7 +3717,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/10/14/prompt_project/","name":"提示工程技术"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"提示工程技术","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/10/14/prompt_project/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/10/14/prompt_project/","wordCount":0,"datePublished":"2025-10-14T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.904Z","articleSection":"LLM","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/10/14/prompt_project/","name":"提示工程技术"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"提示工程技术","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/10/14/prompt_project/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/10/14/prompt_project/","wordCount":0,"datePublished":"2025-10-14T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.966Z","articleSection":"LLM","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

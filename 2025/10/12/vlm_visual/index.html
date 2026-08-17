@@ -43,11 +43,11 @@
 <meta property="og:title" content="可视化 VLM 的工作原理">
 <meta property="og:url" content="https://nicemxm.github.io/2025/10/12/vlm_visual/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="介绍视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉和文本信息以生成连贯的输出。 作为本博文中的模型参考，我们将使用 HuggingFaceTB&#x2F;SmolVLM-256M-Instruct。 处理器图像处理器处理器将文本和图像数据准备成适合模型的统">
+<meta property="og:description" content="介绍 视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉和文本信息以生成连贯的输出。 作为本博文中的模型参考，我们将使用 HuggingFaceTB&#x2F;SmolVLM-256M-Instruct。  处理器  图像处理器 处理器将文本和图像数据准备成适合模型的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-10-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.905Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.967Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="VLM">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,26 +2498,28 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉和文本信息以生成连贯的输出。</p>
-<p>作为本博文中的模型参考，我们将使用 HuggingFaceTB&#x2F;SmolVLM-256M-Instruct。</p>
-<h2 id="处理器"><a href="#处理器" class="headerlink" title="处理器"></a>处理器</h2><h3 id="图像处理器"><a href="#图像处理器" class="headerlink" title="图像处理器"></a>图像处理器</h3><p>处理器将文本和图像数据准备成适合模型的统一格式。对于图像，它会执行一系列转换，然后再将它们转换为模型可以理解的类似标记的表示。</p>
+    <h2 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h2>
+<p>视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉和文本信息以生成连贯的输出。</p>
+<p>作为本博文中的模型参考，我们将使用 HuggingFaceTB/SmolVLM-256M-Instruct。</p>
+<h2 id="处理器"><a class="markdownIt-Anchor" href="#处理器"></a> 处理器</h2>
+<h3 id="图像处理器"><a class="markdownIt-Anchor" href="#图像处理器"></a> 图像处理器</h3>
+<p>处理器将文本和图像数据准备成适合模型的统一格式。对于图像，它会执行一系列转换，然后再将它们转换为模型可以理解的类似标记的表示。</p>
 <p>图像管道可以可视化如下：</p>
 <img width="1012" height="606" alt="image" src="https://github.com/user-attachments/assets/4f016172-4caa-4060-a75c-2aa8de239444">
-
 <p>此过程中的一个关键步骤是图像分割，如此代码片段所示。 每个图像都分为更小的补丁（或“拆分”），这些补丁是单独编码的。</p>
 <p>当文本伴随图像时，每个图像首先由文本序列中的标记表示。根据拆分次数，每个图像都会扩展为：<image>64×number_of_splits</image></p>
 <p>常数 64 来自以下关系：</p>
-<p>512^2&#x2F;16^2 &#x2F; 4^2 &#x3D; 64</p>
+<p>512<sup>2/16</sup>2 / 4^2 = 64</p>
 <p>我们稍后会回到这个公式，但现在，将其视为：</p>
 <p>– 每个图像分割由 64 个标记表示。</p>
-<h3 id="文本处理器"><a href="#文本处理器" class="headerlink" title="文本处理器"></a>文本处理器</h3><p>包含图像时，文本还必须使用占位符反映它。处理器遵循以下步骤：<image></image></p>
+<h3 id="文本处理器"><a class="markdownIt-Anchor" href="#文本处理器"></a> 文本处理器</h3>
+<p>包含图像时，文本还必须使用占位符反映它。处理器遵循以下步骤：<image></image></p>
 <ul>
 <li>插入占位符 – 输入中的每个图像都由文本中的标记表示。<image></image></li>
 <li>计数分割 – 处理器确定每个图像在预处理后具有多少分割。</li>
 <li>扩展令牌 – 然后根据以下公式，根据图像分割的数量将每个令牌替换（或“扩展”）为一个序列。<image></image></li>
 </ul>
 <img width="4380" height="1173" alt="image" src="https://github.com/user-attachments/assets/5608afcd-f9d2-44fc-b536-ac5315ddb60d">
-
 <p>要完全掌握图像标记的扩展方式，请查看下面的编码示例并查看以下参考：</p>
 <ul>
 <li>文档示例 – 显示了扩展如何发生的实际示例。</li>
@@ -2525,23 +2527,23 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ul>
 <p>编码示例</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">from PIL import Image</span><br><span class="line">from transformers import AutoProcessor, AutoModelForVision2Seq</span><br><span class="line">from transformers.image_utils import load_image</span><br><span class="line"></span><br><span class="line"># Initialize processor and model</span><br><span class="line">processor = AutoProcessor.from_pretrained(&quot;HuggingFaceTB/SmolVLM-256M-Instruct&quot;)</span><br><span class="line">model = AutoModelForVision2Seq.from_pretrained(&quot;HuggingFaceTB/SmolVLM-256M-Instruct&quot;)</span><br><span class="line"></span><br><span class="line"># Load images</span><br><span class="line">image = load_image(&quot;https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg&quot;)</span><br><span class="line"></span><br><span class="line"># Create input messages</span><br><span class="line">messages = [</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;role&quot;: &quot;user&quot;,</span><br><span class="line">        &quot;content&quot;: [</span><br><span class="line">            &#123;&quot;type&quot;: &quot;image&quot;&#125;,</span><br><span class="line">            &#123;&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Can you describe this image?&quot;&#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">prompt = processor.apply_chat_template(messages, add_generation_prompt=True)</span><br><span class="line">inputs = processor(text=prompt, images=[image], return_tensors=&quot;pt&quot;)</span><br><span class="line"></span><br><span class="line">out = processor.decode(inputs[&quot;input_ids&quot;][0])</span><br><span class="line"></span><br><span class="line">print(out.replace(&quot;&lt;image&gt;&quot;, &quot;.&quot;)) # printing the full &lt;image&gt; will bload the screen</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>在输入模型之前，图像和文本数据都经过准备和对齐。 与大多数自回归模型一样，输出序列向右移动，以教模型如何根据所有先前的标记预测下一个标记。</p>
+<h2 id="数据准备"><a class="markdownIt-Anchor" href="#数据准备"></a> 数据准备</h2>
+<p>在输入模型之前，图像和文本数据都经过准备和对齐。 与大多数自回归模型一样，输出序列向右移动，以教模型如何根据所有先前的标记预测下一个标记。</p>
 <p>但是，由于无法直接预测图像表示，因此使用标记对其进行屏蔽。 这可以防止模型计算非文本（视觉）标记的损失。<pad></pad></p>
 <img width="1533" height="413" alt="image" src="https://github.com/user-attachments/assets/5a4ca169-138b-4b2a-8022-455fc080d7df">
-
-<h2 id="模型架构"><a href="#模型架构" class="headerlink" title="模型架构"></a>模型架构</h2><h3 id="嵌入层"><a href="#嵌入层" class="headerlink" title="嵌入层"></a>嵌入层</h3><p>从高层次来看，SmolVLM 由五个主要组件组成（如右图所示）。 文本处理从提示开始，提示被标记化并通过嵌入层传递。该层将离散标记转换为高维向量表示，产生形状张量：</p>
+<h2 id="模型架构"><a class="markdownIt-Anchor" href="#模型架构"></a> 模型架构</h2>
+<h3 id="嵌入层"><a class="markdownIt-Anchor" href="#嵌入层"></a> 嵌入层</h3>
+<p>从高层次来看，SmolVLM 由五个主要组件组成（如右图所示）。 文本处理从提示开始，提示被标记化并通过嵌入层传递。该层将离散标记转换为高维向量表示，产生形状张量：</p>
 <p>[sequence_length,576]</p>
 <img width="2861" height="3065" alt="image" src="https://github.com/user-attachments/assets/c445d14c-2c38-4a6a-b3f1-53edcbad0bf7">
-
 <p>该张量现在对输入文本的向量表示进行编码，并作为所有后续计算的基础，请注意，该张量已经为即将处理的图像提供了 13 x 64 个占位符标记（其中 13 是图像分割的数量）</p>
 <img width="811" height="487" alt="image" src="https://github.com/user-attachments/assets/f653b50f-9bdd-457d-8b26-6390f27e1fa5">
-
-<h3 id="视觉模型"><a href="#视觉模型" class="headerlink" title="视觉模型"></a>视觉模型</h3><h4 id="补丁嵌入"><a href="#补丁嵌入" class="headerlink" title="补丁嵌入"></a>补丁嵌入</h4><p>对于视觉分支，输入张量的形状为 。 例如，对于可以拆分为 13 个 RGB 拆分的图像，图像表示为 。[splits, num_channels, height, width][13, 3, 512, 512]</p>
+<h3 id="视觉模型"><a class="markdownIt-Anchor" href="#视觉模型"></a> 视觉模型</h3>
+<h4 id="补丁嵌入"><a class="markdownIt-Anchor" href="#补丁嵌入"></a> 补丁嵌入</h4>
+<p>对于视觉分支，输入张量的形状为 。 例如，对于可以拆分为 13 个 RGB 拆分的图像，图像表示为 。[splits, num_channels, height, width][13, 3, 512, 512]</p>
 <p>该图像被送入 patch embedding 层后，会被转换为一系列视觉 token，从而与 Transformer 架构兼容。具体做法是将图像划分为多个小的、不重叠的图像块（patches），并将每个图像块投影到一个高维向量空间中。其核心原理是将 RGB 通道视为嵌入维度，并将其从 3 维扩展到 768 维。</p>
 <p>该操作通过二维卷积实现，其中卷积核大小（kernel_size）和步长（stride）均被设置为图像块（patch）的尺寸。这样可确保每个卷积窗口恰好处理一个图像块，且彼此之间无重叠。kernel_sizestride</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">self.patch_embedding = nn.Conv2d(</span><br><span class="line">    in_channels=config.num_channels,  # 3 (RGB channels)</span><br><span class="line">    out_channels=self.embed_dim,      # 768</span><br><span class="line">    kernel_size=self.patch_size,      # 16</span><br><span class="line">    stride=self.patch_size,           # 16</span><br><span class="line">    padding=&quot;valid&quot;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
 <p>应用时，转换将按如下方式进行：[13, 3, 512, 512]</p>
 <table>
 <thead>
@@ -2552,11 +2554,12 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>1</td>
 <td>转换2d</td>
 <td>[13, 768, 32, 32]</td>
-<td>每个 16×16 补丁都嵌入到 768 维向量 （） 中。512 &#x2F; 16 &#x3D; 32</td>
+<td>每个 16×16 补丁都嵌入到 768 维向量 （） 中。512 / 16 = 32</td>
 </tr>
 <tr>
 <td>2</td>
@@ -2564,23 +2567,27 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>[13, 1024, 768]</td>
 <td>32×32 网格被扁平化为 1024 个补丁（可视标记）。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>生成的张量将每个图像表示为 1024 个嵌入补丁的序列，准备与 Transformer 中的文本嵌入一起处理。[13, 1024, 768]</p>
-<h4 id="位置编码器"><a href="#位置编码器" class="headerlink" title="位置编码器"></a>位置编码器</h4><p>位置编码器注入有关补丁顺序和空间布局的信息，就像位置编码对文本模型中的单词所做的那样。 由于转换器没有固有的秩序感，因此这些编码允许模型了解每个补丁在图像中的位置。</p>
-<h4 id="编码器"><a href="#编码器" class="headerlink" title="编码器"></a>编码器</h4><p>编码器以简单的方式运行：</p>
+<h4 id="位置编码器"><a class="markdownIt-Anchor" href="#位置编码器"></a> 位置编码器</h4>
+<p>位置编码器注入有关补丁顺序和空间布局的信息，就像位置编码对文本模型中的单词所做的那样。 由于转换器没有固有的秩序感，因此这些编码允许模型了解每个补丁在图像中的位置。</p>
+<h4 id="编码器"><a class="markdownIt-Anchor" href="#编码器"></a> 编码器</h4>
+<p>编码器以简单的方式运行：</p>
 <ul>
 <li>多头注意力 （MHA） 层捕获图像块之间的关系，使模型能够推理空间依赖性。</li>
 <li>然后输出通过前馈网络 （MLP） 来细化和投影特征。</li>
 </ul>
 <p>这种注意力实现接近 BERT 的功能，必须注意的是，vision_model的输出是给定我们正在使用的示例输入的。[13,1024,768]</p>
-<h4 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h4><img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/56179a70-71b9-4da5-8689-9bc8bc906de9">
-
+<h4 id="连接器"><a class="markdownIt-Anchor" href="#连接器"></a> 连接器</h4>
+<img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/56179a70-71b9-4da5-8689-9bc8bc906de9">
 <p>连接器充当视觉编码器和语言模型之间的桥梁，确保两种模式共享兼容的嵌入空间。 它的两个主要功能是：</p>
 <ul>
 <li>压缩视觉输出（减少标记数）。</li>
 <li>转换嵌入维度以匹配文本嵌入维度。</li>
 </ul>
-<h4 id="像素重排"><a href="#像素重排" class="headerlink" title="像素重排"></a>像素重排</h4><p>Pixel Shuffle（像素重排）操作在压缩视觉特征空间维度的同时，保留了重要的空间关系。具体而言，它将图像 token 的数量从 1024 减少到 64，大幅降低了序列长度，同时保持了特征的表达丰富性。</p>
+<h4 id="像素重排"><a class="markdownIt-Anchor" href="#像素重排"></a> 像素重排</h4>
+<p>Pixel Shuffle（像素重排）操作在压缩视觉特征空间维度的同时，保留了重要的空间关系。具体而言，它将图像 token 的数量从 1024 减少到 64，大幅降低了序列长度，同时保持了特征的表达丰富性。</p>
 <p>该变换过程如下所示：</p>
 <table>
 <thead>
@@ -2589,23 +2596,36 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>代码</th>
 </tr>
 </thead>
-<tbody><tr>
-<td># (split height and width) <br> → [splits, H, W, C] <br> #  (apply transformation on width dimension)  <br> →  [splits, H, W&#x2F;scale, C×scale] <br> #  (permute dimensions)  <br> → [splits, W&#x2F;scale, H, C×scale]  <br> #  (apply transformation on height dimension) <br> → [splits, W&#x2F;scale, H&#x2F;scale, C×scale²] <br> # (permute dimensions back) <br> → [splits, H&#x2F;scale, W&#x2F;scale, C×scale²] <br> # (merge height and width back) <br> → [splits, (H&#x2F;scale)×(W&#x2F;scale), C×scale²] <br></td>
+<tbody>
+<tr>
+<td># (split height and width) <br> → [splits, H, W, C] <br> #  (apply transformation on width dimension)  <br> →  [splits, H, W/scale, C×scale] <br> #  (permute dimensions)  <br> → [splits, W/scale, H, C×scale]  <br> #  (apply transformation on height dimension) <br> → [splits, W/scale, H/scale, C×scale²] <br> # (permute dimensions back) <br> → [splits, H/scale, W/scale, C×scale²] <br> # (merge height and width back) <br> → [splits, (H/scale)×(W/scale), C×scale²] <br></td>
 <td><img width="3680" height="1256" alt="image" src="https://github.com/user-attachments/assets/adb7e406-f36c-4241-811f-1d42f4d0ea17"></td>
 </tr>
-</tbody></table>
-<p>通过这种方式，我们得到的最终维度为：  </p>
-<p>[<br>[\text{splits},\ H’ &#x2F; \text{scale} \times W’ &#x2F; \text{scale},\ C \times \text{scale}^2]<br>]  </p>
-<p>即：  </p>
-<p>[<br>[13,\ 1024 &#x2F; 4^2,\ 768 \times 4^2] \rightarrow [13,\ 64,\ 12288]<br>]</p>
+</tbody>
+</table>
+<p>通过这种方式，我们得到的最终维度为：</p>
+<p>[<br>
+[\text{splits},\ H’ / \text{scale} \times W’ / \text{scale},\ C \times \text{scale}^2]<br>
+]</p>
+<p>即：</p>
+<p>[<br>
+[13,\ 1024 / 4^2,\ 768 \times 4^2] \rightarrow [13,\ 64,\ 12288]<br>
+]</p>
 <p>通过逐步对像素进行重排（shuffle）和重组，该操作在压缩高度和宽度维度的同时，保留了每个方向上视觉信息的空间顺序。最终得到一个更加紧凑的张量，同时保留了图像的关键特征。</p>
-<h4 id="模态投影（Modality-Projection）"><a href="#模态投影（Modality-Projection）" class="headerlink" title="模态投影（Modality Projection）"></a>模态投影（Modality Projection）</h4><p>该连接器还应用了一个模态投影层（modality_projection layer），该层是一个线性变换，用于将视觉特征的维度调整为与文本 token 的嵌入维度一致。通过这一操作，张量维度从  </p>
-<p>[<br>[13,\ 64,\ 12288]<br>]  </p>
-<p>变换为  </p>
-<p>[<br>[13,\ 64,\ 576]<br>] 。</p>
-<h3 id="输入合并"><a href="#输入合并" class="headerlink" title="输入合并"></a>输入合并</h3><p>输入合并是一个不可学习的层，实际上是一个负责将视觉和文本嵌入集成到单个输入序列中的函数。 它将文本序列中的每个&lt;图像&gt;占位符标记替换为连接器生成的相应视觉嵌入。</p>
+<h4 id="模态投影modality-projection"><a class="markdownIt-Anchor" href="#模态投影modality-projection"></a> 模态投影（Modality Projection）</h4>
+<p>该连接器还应用了一个模态投影层（modality_projection layer），该层是一个线性变换，用于将视觉特征的维度调整为与文本 token 的嵌入维度一致。通过这一操作，张量维度从</p>
+<p>[<br>
+[13,\ 64,\ 12288]<br>
+]</p>
+<p>变换为</p>
+<p>[<br>
+[13,\ 64,\ 576]<br>
+] 。</p>
+<h3 id="输入合并"><a class="markdownIt-Anchor" href="#输入合并"></a> 输入合并</h3>
+<p>输入合并是一个不可学习的层，实际上是一个负责将视觉和文本嵌入集成到单个输入序列中的函数。 它将文本序列中的每个&lt;图像&gt;占位符标记替换为连接器生成的相应视觉嵌入。</p>
 <p>实际上，此函数会扫描令牌 ID 以查找令牌，并用预处理的图像表示形式替换它们。此步骤有效地将两种模态合并为一个可以直接输入解码器的连续张量。<image></image></p>
-<h3 id="解码器"><a href="#解码器" class="headerlink" title="解码器"></a>解码器</h3><p>解码器的功能类似于传统的自回归语言模型。它由堆叠的屏蔽多头注意力 （MHA） 层和语言建模 （LM） 头组成。</p>
+<h3 id="解码器"><a class="markdownIt-Anchor" href="#解码器"></a> 解码器</h3>
+<p>解码器的功能类似于传统的自回归语言模型。它由堆叠的屏蔽多头注意力 （MHA） 层和语言建模 （LM） 头组成。</p>
 <ul>
 <li>屏蔽 MHA 确保每个标记只能关注以前的标记（包括视觉标记），从而在文本生成过程中保留因果关系。</li>
 <li>LM 头将解码器的隐藏状态映射回词汇 logits，使模型能够预测下一个标记。</li>
@@ -2613,8 +2633,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>这使得 VLM 能够生成连贯的多模态输出，将文本预测无缝地建立在视觉环境中。</p>
 <p>这里要记住的关键是，由于我们无法计算图像标记的输出，因此我们在目标中使用pad标记来跳过计算它的损失。</p>
 <img width="6907" height="5157" alt="image" src="https://github.com/user-attachments/assets/9e4fc295-609b-4992-a413-74e1993a1282">
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>在这篇文章中，我们探讨了 SmolVLM 等视觉语言模型 （VLM） 的内部工作原理，详细分析了它们如何处理和集成从原始像素和文本到连贯、接地输出的多模态数据。</p>
+<h2 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h2>
+<p>在这篇文章中，我们探讨了 SmolVLM 等视觉语言模型 （VLM） 的内部工作原理，详细分析了它们如何处理和集成从原始像素和文本到连贯、接地输出的多模态数据。</p>
 <p>以下是每个阶段的快速回顾：</p>
 <ul>
 <li>处理器： 准备和对齐原始文本和图像输入。</li>
@@ -2648,7 +2668,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2754,13 +2774,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2025/10/13/kv/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>KV 缓存解释：优化 Transformer 推理效率</p>
-          <p class='content'>介绍当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它已经...</p>
+          <p class='content'> 介绍
+当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它...</p>
         </a>
       
       
         <a class='next' href='/2025/09/17/MARS2_2025/'>
           <p class='title'>2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>摘要本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，越来...</p>
+          <p class='content'> 摘要
+本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，...</p>
         </a>
       
     </div>
@@ -2821,7 +2843,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">图像处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">文本处理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="toc-text">数据准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="toc-text">模型架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%B1%82"><span class="toc-text">嵌入层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E8%A7%89%E6%A8%A1%E5%9E%8B"><span class="toc-text">视觉模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E4%B8%81%E5%B5%8C%E5%85%A5"><span class="toc-text">补丁嵌入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-text">位置编码器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-text">编码器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%99%A8"><span class="toc-text">连接器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0%E9%87%8D%E6%8E%92"><span class="toc-text">像素重排</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%80%81%E6%8A%95%E5%BD%B1%EF%BC%88Modality-Projection%EF%BC%89"><span class="toc-text">模态投影（Modality Projection）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%90%88%E5%B9%B6"><span class="toc-text">输入合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-text">解码器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text"> 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text"> 处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text"> 图像处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text"> 文本处理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="toc-text"> 数据准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="toc-text"> 模型架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%B1%82"><span class="toc-text"> 嵌入层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%86%E8%A7%89%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 视觉模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A5%E4%B8%81%E5%B5%8C%E5%85%A5"><span class="toc-text"> 补丁嵌入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-text"> 位置编码器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-text"> 编码器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%99%A8"><span class="toc-text"> 连接器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0%E9%87%8D%E6%8E%92"><span class="toc-text"> 像素重排</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%80%81%E6%8A%95%E5%BD%B1modality-projection"><span class="toc-text"> 模态投影（Modality Projection）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%90%88%E5%B9%B6"><span class="toc-text"> 输入合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-text"> 解码器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text"> 结论</span></a></li></ol>
   </div>
 </section>
 
@@ -3228,7 +3250,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3463,7 +3485,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/10/12/vlm_visual/","name":"可视化 VLM 的工作原理"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"可视化 VLM 的工作原理","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/10/12/vlm_visual/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/10/12/vlm_visual/","wordCount":0,"datePublished":"2025-10-12T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.905Z","articleSection":"LLM","keywords":"VLM","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/10/12/vlm_visual/","name":"可视化 VLM 的工作原理"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"可视化 VLM 的工作原理","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/10/12/vlm_visual/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/10/12/vlm_visual/","wordCount":0,"datePublished":"2025-10-12T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.967Z","articleSection":"LLM","keywords":"VLM","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

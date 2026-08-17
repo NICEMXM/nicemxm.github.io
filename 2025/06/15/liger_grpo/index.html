@@ -43,11 +43,11 @@
 <meta property="og:title" content="Liger GRPO 遇见 TRL">
 <meta property="og:url" content="https://nicemxm.github.io/2025/06/15/liger_grpo/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="DR Liger 通过将内存使用量削减 40% 且模型质量零下降，增强了 TRL 的组相对策略优化 GRPO Trainer。我们还增加了对 FSDP 和 PEFT 的支持，使跨多个 GPU 扩展 GRPO 变得比以往任何时候都更容易。 动机使用强化学习 （RL） 微调语言模型是模型训练生命周期中的关键步骤，用于引导模型朝着理想的行为发展，这些行为比通过典型的监督微调所能实现的要复杂。RL 传统上">
+<meta property="og:description" content="DR Liger 通过将内存使用量削减 40% 且模型质量零下降，增强了 TRL 的组相对策略优化 GRPO Trainer。我们还增加了对 FSDP 和 PEFT 的支持，使跨多个 GPU 扩展 GRPO 变得比以往任何时候都更容易。  动机 使用强化学习 （RL） 微调语言模型是模型训练生命周期中的关键步骤，用于引导模型朝着理想的行为发展，这些行为比通过典型的监督微调所能实现的要复杂。RL 传">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-06-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.901Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.963Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2499,45 +2499,48 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
     <p>DR Liger 通过将内存使用量削减 40% 且模型质量零下降，增强了 TRL 的组相对策略优化 GRPO Trainer。我们还增加了对 FSDP 和 PEFT 的支持，使跨多个 GPU 扩展 GRPO 变得比以往任何时候都更容易。</p>
-<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>使用强化学习 （RL） 微调语言模型是模型训练生命周期中的关键步骤，用于引导模型朝着理想的行为发展，这些行为比通过典型的监督微调所能实现的要复杂。RL 传统上应用于使用近端策略优化 （PPO） 算法优化大型语言模型 （LLM）。这种方法通常与来自人类反馈的强化学习 （RLHF） 相关联，利用单独训练的奖励模型来指导主要模型的微调。</p>
+<h3 id="动机"><a class="markdownIt-Anchor" href="#动机"></a> 动机</h3>
+<p>使用强化学习 （RL） 微调语言模型是模型训练生命周期中的关键步骤，用于引导模型朝着理想的行为发展，这些行为比通过典型的监督微调所能实现的要复杂。RL 传统上应用于使用近端策略优化 （PPO） 算法优化大型语言模型 （LLM）。这种方法通常与来自人类反馈的强化学习 （RLHF） 相关联，利用单独训练的奖励模型来指导主要模型的微调。</p>
 <p>然而，使用 PPO 的 RLHF 是一种非常耗费资源的方法 - PPO 需要在内存中加载多个模型（策略、价值、奖励和参考模型），并且还需要对奖励和基础模型进行多次迭代才能达到预期的结果。RLHF 的成功还取决于奖励模型从我们的模型中有效区分期望行为和不期望行为的能力。</p>
 <p>组相对策略优化 （GRPO） 最近与 DeepSeek 的 R1 模型一起受到了极大的欢迎。GRPO 避开了 RLHF 中使用的预训练奖励模型和价值模型，而是依赖于可验证的奖励函数，这些函数可以以封闭的方式检查模型输出的正确性，而无需外部奖励模型。当使用 GRPO 而不是 PPO 对易于验证的领域进行微调时，这带来了巨大的改进，例如教模型推理，并在数学和编码任务中表现良好。</p>
 <p>下图显示了 GRPO 与 PPO 训练管道（参考：DeepSeekMath 的图 4：在开放语言模型中突破数学推理的极限）：</p>
 <p><img src="https://github.com/user-attachments/assets/f72a0bf2-6774-4c07-8d57-273e7a2f7a5b" alt="image"></p>
 <p>也就是说，RL 训练仍然会消耗大量 GPU 内存，因此这里仍有很大的优化空间。在这篇博文中，我们讨论了我们最近添加到 TRL 的一项优化，该优化在 GRPO 训练期间将峰值内存使用量减少了 40%，我们还深入探讨了如何在不损失性能或正确性的情况下将 GRPO 扩展到多个 GPU 和节点。</p>
-<h3 id="Liger-Kernel-如何削减-GRPO-的内存"><a href="#Liger-Kernel-如何削减-GRPO-的内存" class="headerlink" title="Liger Kernel 如何削减 GRPO 的内存"></a>Liger Kernel 如何削减 GRPO 的内存</h3><p>我们将 Liger 分块损失方法扩展到 GRPO 损失，这让我们不必为每个训练步骤将完整的 logit 存储在内存中。logits 的计算（涉及模型的输出头）是峰值内存使用的重要因素，尤其是在处理大词汇表、长序列长度或大批量时。我们通过将输入分块到整个批处理并一次运行一个块的正向传递来解决此问题。lm_head</p>
+<h3 id="liger-kernel-如何削减-grpo-的内存"><a class="markdownIt-Anchor" href="#liger-kernel-如何削减-grpo-的内存"></a> Liger Kernel 如何削减 GRPO 的内存</h3>
+<p>我们将 Liger 分块损失方法扩展到 GRPO 损失，这让我们不必为每个训练步骤将完整的 logit 存储在内存中。logits 的计算（涉及模型的输出头）是峰值内存使用的重要因素，尤其是在处理大词汇表、长序列长度或大批量时。我们通过将输入分块到整个批处理并一次运行一个块的正向传递来解决此问题。lm_head</p>
 <p>但是，如果您只是以简单的方式实现它，您实际上将无法减少峰值内存，因为您仍然需要将所有 logits 保留在 GPU 内存中以进行向后传递。为了解决这个问题，我们在 forward pass 期间计算每个 loss chunk 的梯度（相对于 chunk 和 weight），然后在遍历每个 chunk 时累积它们。inputlm_head</p>
 <p>以下是优化的可视化效果（参考：Byron Hsu）：</p>
 <p><img src="https://github.com/user-attachments/assets/ba6beb57-a7f5-4e5e-b18d-bbe4588dae84" alt="image"></p>
-<p>与 TRL 的即插即用集成<br>我们最近在 PR #3184 中将 Liger GRPO 与 TRL 集成在一起，现在您只需在您的 中设置 即可使用 Liger GRPO 损失并享受内存节省！use_liger_lossTrueGRPOConfig</p>
+<p>与 TRL 的即插即用集成<br>
+我们最近在 PR #3184 中将 Liger GRPO 与 TRL 集成在一起，现在您只需在您的 中设置 即可使用 Liger GRPO 损失并享受内存节省！use_liger_lossTrueGRPOConfig</p>
 <p>注意：这些功能尚未包含在最新的 TRL 版本中，因此您现在需要从源代码安装 TRL：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install &quot;trl[liger] @ git+https://github.com/huggingface/trl.git&quot;</span><br></pre></td></tr></table></figure>
 <p>然后你可以像这样使用它：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from trl import GRPOConfig, GRPOTrainer</span><br><span class="line">from datasets import load_dataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">train_dataset = load_dataset(&quot;trl-lib/tldr&quot;, split=&quot;train&quot;)</span><br><span class="line">training_args = GRPOConfig(output_dir=&quot;Qwen3-0.6B-GRPO&quot;, use_liger_loss=True)</span><br><span class="line"></span><br><span class="line">def reward_len(completions, **kwargs):</span><br><span class="line">    return [-abs(20 - len(completion)) for completion in completions]</span><br><span class="line"></span><br><span class="line">trainer = GRPOTrainer(</span><br><span class="line">    model=&quot;Qwen/Qwen3-0.6B-Instruct&quot;,</span><br><span class="line">    reward_funcs=reward_len,</span><br><span class="line">    args=training_args,</span><br><span class="line">    train_dataset=train_dataset,</span><br><span class="line">)</span><br><span class="line">trainer.train()</span><br></pre></td></tr></table></figure>
-
-<h3 id="基准"><a href="#基准" class="headerlink" title="基准"></a>基准</h3><p>我们在有和没有 Liger GRPO Loss 的情况下进行了大量 GRPO 实验，以了解情况如何比较。对于策略模型，我们使用并尝试了不同的批处理大小。所有实验都使用其奖励函数在数据集上运行。Qwen3-0.6Bgsm8k</p>
+<h3 id="基准"><a class="markdownIt-Anchor" href="#基准"></a> 基准</h3>
+<p>我们在有和没有 Liger GRPO Loss 的情况下进行了大量 GRPO 实验，以了解情况如何比较。对于策略模型，我们使用并尝试了不同的批处理大小。所有实验都使用其奖励函数在数据集上运行。Qwen3-0.6Bgsm8k</p>
 <p>以下是 FP32 和 BF16 训练的峰值内存使用量与批处理大小的关系图。正如预期的那样，较大的批处理大小会更好地节省内存，因为我们沿批处理维度进行分块。因此，当批处理大小增加时，与常规（非 liger）版本相比，Liger 分块损失最终使用的内存要少得多，最多可减少 40%。</p>
 <p>快速说明：目前，我们只支持 FP32，但我们正在努力为 TRL 中的 Liger GRPO 开源 BF16 支持。此处显示的 BF16 结果来自我们一直在测试的内部补丁。</p>
 <p><img src="https://github.com/user-attachments/assets/69ce316d-bd09-4208-b56f-e4576063e8e9" alt="image"></p>
 <p><img src="https://github.com/user-attachments/assets/a3510b83-91b7-4310-b753-1c615bc20fdf" alt="image"></p>
 <p>我们还表明 Liger Loss 实际上是准确的。如图所示，训练步骤的奖励与您使用标准 TRL 实现看到的奖励几乎相同。</p>
-<h3 id="使用-FSDP-和-PEFT-进一步扩展"><a href="#使用-FSDP-和-PEFT-进一步扩展" class="headerlink" title="使用 FSDP 和 PEFT 进一步扩展"></a>使用 FSDP 和 PEFT 进一步扩展</h3><p>我们还分别在 PR #3260 和 PR #3355 中为 Liger GRPO Loss 添加了 FSDP 和 PEFT 支持，使用户能够轻松地在多个 GPU 或节点上扩展他们的实验。PEFT 技术（如 LoRA 和 QLoRA）通过仅在原始模型之上调整较小适配器权重的权重来减少可训练参数的数量，从而显著降低内存压力，因为整个模型的梯度、激活和优化器状态不需要保存在内存中。此外，在 GRPO 中使用 PEFT 可以避免在训练期间加载单独的参考模型，因为我们只需禁用 LoRA 适配器即可在训练期间获得原始的、未经修改的模型。</p>
+<h3 id="使用-fsdp-和-peft-进一步扩展"><a class="markdownIt-Anchor" href="#使用-fsdp-和-peft-进一步扩展"></a> 使用 FSDP 和 PEFT 进一步扩展</h3>
+<p>我们还分别在 PR #3260 和 PR #3355 中为 Liger GRPO Loss 添加了 FSDP 和 PEFT 支持，使用户能够轻松地在多个 GPU 或节点上扩展他们的实验。PEFT 技术（如 LoRA 和 QLoRA）通过仅在原始模型之上调整较小适配器权重的权重来减少可训练参数的数量，从而显著降低内存压力，因为整个模型的梯度、激活和优化器状态不需要保存在内存中。此外，在 GRPO 中使用 PEFT 可以避免在训练期间加载单独的参考模型，因为我们只需禁用 LoRA 适配器即可在训练期间获得原始的、未经修改的模型。</p>
 <p>在这里，我们展示了一个使用 FSDP 和 PEFT 的多 GPU GRPO 训练图，其中我们比较了不同 Qwen3 模型大小中可能的最大训练批量大小，有和没有 Liger 损失。我们发现，使用 Liger，我们能够将批量大小提高大约 1.5 到 1.8 倍！</p>
 <p><img src="https://github.com/user-attachments/assets/06942b52-2348-4597-95ed-0fa80b7e5d0f" alt="image"></p>
-<h3 id="使用-vLLM-进一步扩展"><a href="#使用-vLLM-进一步扩展" class="headerlink" title="使用 vLLM 进一步扩展"></a>使用 vLLM 进一步扩展</h3><p>为了在训练期间加速文本生成，Liger Loss 可以与 TRL 的集成 vLLM 服务器有效结合。这以最小的开销显著加快了数据的收集速度，并提供了无缝集成体验。</p>
+<h3 id="使用-vllm-进一步扩展"><a class="markdownIt-Anchor" href="#使用-vllm-进一步扩展"></a> 使用 vLLM 进一步扩展</h3>
+<p>为了在训练期间加速文本生成，Liger Loss 可以与 TRL 的集成 vLLM 服务器有效结合。这以最小的开销显著加快了数据的收集速度，并提供了无缝集成体验。</p>
 <p>设置方法如下：</p>
 <p>启动 vLLM 服务器：首先，启动 vLLM 服务器。此服务器将处理来自您的训练脚本的生成请求。打开终端并运行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=1 trl vllm-serve --model &quot;Qwen/Qwen3-0.6B&quot;</span><br></pre></td></tr></table></figure>
-
-<p>注意：我们分配 CUDA_VISIBLE_DEVICES&#x3D;1 以在特定 GPU（在本例中为 GPU 1）上运行 vLLM 服务器，让其他 GPU 免费进行训练。</p>
-<p>配置并运行您的训练脚本：接下来，修改您的训练脚本以使用 vLLM 服务器。关键更改是 .use_vllm&#x3D;TrueGRPOConfig</p>
+<p>注意：我们分配 CUDA_VISIBLE_DEVICES=1 以在特定 GPU（在本例中为 GPU 1）上运行 vLLM 服务器，让其他 GPU 免费进行训练。</p>
+<p>配置并运行您的训练脚本：接下来，修改您的训练脚本以使用 vLLM 服务器。关键更改是 .use_vllm=TrueGRPOConfig</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">from trl import GRPOConfig, GRPOTrainer</span><br><span class="line">from datasets import load_dataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def reward_len(completions, **kwargs):</span><br><span class="line">    return [-abs(20 - len(completion)) for completion in completions]</span><br><span class="line"></span><br><span class="line">dataset = load_dataset(&quot;trl-lib/tldr&quot;, split=&quot;train[:1%]&quot;)</span><br><span class="line">training_args = GRPOConfig(</span><br><span class="line">    output_dir=&quot;Qwen3-0.6B-GRPO&quot;, </span><br><span class="line">    use_liger_loss=True, </span><br><span class="line">    use_vllm=True, # Enable vLLM integration</span><br><span class="line">    logging_steps=10</span><br><span class="line">)</span><br><span class="line">trainer = GRPOTrainer(</span><br><span class="line">    model=&quot;Qwen/Qwen3-0.6B&quot;, # Ensure this matches the model served by vLLM</span><br><span class="line">    reward_funcs=reward_len,</span><br><span class="line">    args=training_args,</span><br><span class="line">    train_dataset=dataset,</span><br><span class="line">)</span><br><span class="line">trainer.train()</span><br></pre></td></tr></table></figure>
-
-<p>启动训练：最后，使用 （或者如果不使用 Accelerate 进行多 GPU&#x2F;分布式训练） 运行训练脚本。如果您的 vLLM 服务器占用 GPU，请确保以不同的 GPU 为目标进行训练。accelerate launchpython</p>
+<p>启动训练：最后，使用 （或者如果不使用 Accelerate 进行多 GPU/分布式训练） 运行训练脚本。如果您的 vLLM 服务器占用 GPU，请确保以不同的 GPU 为目标进行训练。accelerate launchpython</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=0 accelerate launch train.py</span><br></pre></td></tr></table></figure>
-
 <p>通过执行这些步骤，您可以在 Liger Loss 的 GRPO 培训期间利用 vLLM 来加快生成周转时间。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>随着 Liger-GRPO 集成到 TRL 中，以及 FSDP 和 PEFT 支持，使用 GRPO 微调语言模型现在比以往任何时候都更加高效和可扩展。我们鼓励社区尝试这些新功能并分享他们的反馈，以帮助我们进一步改进 LLM 的 RL 训练。</p>
+<h3 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h3>
+<p>随着 Liger-GRPO 集成到 TRL 中，以及 FSDP 和 PEFT 支持，使用 GRPO 微调语言模型现在比以往任何时候都更加高效和可扩展。我们鼓励社区尝试这些新功能并分享他们的反馈，以帮助我们进一步改进 LLM 的 RL 训练。</p>
 
   </div>
   
@@ -2562,7 +2565,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2674,8 +2677,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='next' href='/2025/06/10/DeepResearch/'>
           <p class='title'>DeepResearch：搜索代理<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>引言OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根据摘要回答问题的系统。该系统令人印象深刻，当我们第一次尝试时，它让我们大吃一惊。
-博文中的主要结果之一是通用 ...</p>
+          <p class='content'> 引言
+OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根据摘要回答问题的系统。该系统令人印象深刻，当我们第一次尝试时，它让我们大吃一惊。
+博文中的主要结果之一是通...</p>
         </a>
       
     </div>
@@ -2736,7 +2740,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Liger-Kernel-%E5%A6%82%E4%BD%95%E5%89%8A%E5%87%8F-GRPO-%E7%9A%84%E5%86%85%E5%AD%98"><span class="toc-text">Liger Kernel 如何削减 GRPO 的内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E5%87%86"><span class="toc-text">基准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-FSDP-%E5%92%8C-PEFT-%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%89%A9%E5%B1%95"><span class="toc-text">使用 FSDP 和 PEFT 进一步扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-vLLM-%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%89%A9%E5%B1%95"><span class="toc-text">使用 vLLM 进一步扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text"> 动机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#liger-kernel-%E5%A6%82%E4%BD%95%E5%89%8A%E5%87%8F-grpo-%E7%9A%84%E5%86%85%E5%AD%98"><span class="toc-text"> Liger Kernel 如何削减 GRPO 的内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E5%87%86"><span class="toc-text"> 基准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-fsdp-%E5%92%8C-peft-%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%89%A9%E5%B1%95"><span class="toc-text"> 使用 FSDP 和 PEFT 进一步扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-vllm-%E8%BF%9B%E4%B8%80%E6%AD%A5%E6%89%A9%E5%B1%95"><span class="toc-text"> 使用 vLLM 进一步扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text"> 结论</span></a></li></ol>
   </div>
 </section>
 
@@ -3143,7 +3147,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3378,7 +3382,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/TRL/","name":"TRL"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/06/15/liger_grpo/","name":"Liger GRPO 遇见 TRL"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"Liger GRPO 遇见 TRL","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/06/15/liger_grpo/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/06/15/liger_grpo/","wordCount":0,"datePublished":"2025-06-15T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.901Z","articleSection":"TRL","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/TRL/","name":"TRL"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/06/15/liger_grpo/","name":"Liger GRPO 遇见 TRL"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"Liger GRPO 遇见 TRL","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/06/15/liger_grpo/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/06/15/liger_grpo/","wordCount":0,"datePublished":"2025-06-15T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.963Z","articleSection":"TRL","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

@@ -43,11 +43,11 @@
 <meta property="og:title" content="vllm推理加速">
 <meta property="og:url" content="https://nicemxm.github.io/2024/05/26/vllm/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="vllm是什么？vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。 vLLM 速度很快：  最先进的服务吞吐量 使用 PagedAttention 高效管理注意力键和值内存 传入请求的连续批处理 使用 CUDA&#x2F;HIP 图快速执行模型 量化：GPTQ、AWQ、SqueezeLLM、FP8 KV 缓存 优化的 CUDA 内核  vLLM 灵活且易于使用：  与流行的 Hugg">
+<meta property="og:description" content="vllm是什么？ vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。 vLLM 速度很快：  最先进的服务吞吐量 使用 PagedAttention 高效管理注意力键和值内存 传入请求的连续批处理 使用 CUDA&#x2F;HIP 图快速执行模型 量化：GPTQ、AWQ、SqueezeLLM、FP8 KV 缓存 优化的 CUDA 内核  vLLM 灵活且易于使用：  与流行的 Hugging">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-05-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.905Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.966Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="推理">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2499,13 +2499,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
     <p><img src="https://gcore.jsdelivr.net/gh/hexojs/hexo-theme-unit-test@master/source/assets/wallpaper-2572384.jpg" alt="这个图片"></p>
-<h2 id="vllm是什么？"><a href="#vllm是什么？" class="headerlink" title="vllm是什么？"></a>vllm是什么？</h2><p>vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。</p>
+<h2 id="vllm是什么"><a class="markdownIt-Anchor" href="#vllm是什么"></a> vllm是什么？</h2>
+<p>vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。</p>
 <p>vLLM 速度很快：</p>
 <ul>
 <li>最先进的服务吞吐量</li>
 <li>使用 <strong>PagedAttention</strong> 高效管理注意力键和值内存</li>
 <li>传入请求的连续批处理</li>
-<li>使用 CUDA&#x2F;HIP 图快速执行模型</li>
+<li>使用 CUDA/HIP 图快速执行模型</li>
 <li>量化：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.17323">GPTQ</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.00978">AWQ</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2306.07629">SqueezeLLM</a>、FP8 KV 缓存</li>
 <li>优化的 CUDA 内核</li>
 </ul>
@@ -2521,18 +2522,25 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>（实验性的）Multi-lora 支持</li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://docs.vllm.ai/en/latest/index.html">vLLM官网</a></p>
-<h2 id="vllm怎么提高推理速度的？"><a href="#vllm怎么提高推理速度的？" class="headerlink" title="vllm怎么提高推理速度的？"></a>vllm怎么提高推理速度的？</h2><p>LLM有望从根本上改变我们在所有行业中使用AI的方式。然而，实际为这些模型提供服务是具有挑战性的，即使在昂贵的硬件上也可能非常慢。今天，我们很高兴地介绍vLLM，这是一个用于快速LLM推理和服务的开源库。vLLM 利用 <strong>PagedAttention</strong>，这是我们新的注意力算法，可以有效地管理注意力键和值。配备 <a target="_blank" rel="noopener" href="https://blog.vllm.ai/2023/06/20/vllm.html">PagedAttention</a> 的 vLLM 重新定义了 LLM 服务中的新技术：它提供的吞吐量比 HuggingFace Transformer 高 24 倍，而无需更改任何模型架构。</p>
-<p>vLLM已在加州大学伯克利分校开发，并在过去两个月中部署在<a target="_blank" rel="noopener" href="https://chat.lmsys.org/">Chatbot Arena和Vicuna Demo</a>上。它是使 LLM 服务能够负担得起的核心技术，即使对于像 LMSYS 这样计算资源有限的小型研究团队也是如此。立即在我们的 <a target="_blank" rel="noopener" href="https://github.com/vllm-project/vllm">GitHub 存储库</a>中使用单个命令试用 vLLM。<br><img src="/../images/2024/05/27/vllm/image1.png" alt="这个图片" title="数据图"></p>
-<h3 id="PagedAttention是什么"><a href="#PagedAttention是什么" class="headerlink" title="PagedAttention是什么?"></a>PagedAttention是什么?</h3><p>在 vLLM 中，我们发现 LLM 服务的性能受到内存的瓶颈。在自回归解码过程中，LLM 的所有输入标记都会生成它们的注意力键和值张量，这些张量保存在 GPU 内存中以生成下一个标记。这些缓存的键和值张量通常称为 KV 缓存。KV 缓存为</p>
+<h2 id="vllm怎么提高推理速度的"><a class="markdownIt-Anchor" href="#vllm怎么提高推理速度的"></a> vllm怎么提高推理速度的？</h2>
+<p>LLM有望从根本上改变我们在所有行业中使用AI的方式。然而，实际为这些模型提供服务是具有挑战性的，即使在昂贵的硬件上也可能非常慢。今天，我们很高兴地介绍vLLM，这是一个用于快速LLM推理和服务的开源库。vLLM 利用 <strong>PagedAttention</strong>，这是我们新的注意力算法，可以有效地管理注意力键和值。配备 <a target="_blank" rel="noopener" href="https://blog.vllm.ai/2023/06/20/vllm.html">PagedAttention</a> 的 vLLM 重新定义了 LLM 服务中的新技术：它提供的吞吐量比 HuggingFace Transformer 高 24 倍，而无需更改任何模型架构。</p>
+<p>vLLM已在加州大学伯克利分校开发，并在过去两个月中部署在<a target="_blank" rel="noopener" href="https://chat.lmsys.org/">Chatbot Arena和Vicuna Demo</a>上。它是使 LLM 服务能够负担得起的核心技术，即使对于像 LMSYS 这样计算资源有限的小型研究团队也是如此。立即在我们的 <a target="_blank" rel="noopener" href="https://github.com/vllm-project/vllm">GitHub 存储库</a>中使用单个命令试用 vLLM。<br>
+<img src="../images/2024/05/27/vllm/image1.png" alt="这个图片" title="数据图"></p>
+<h3 id="pagedattention是什么"><a class="markdownIt-Anchor" href="#pagedattention是什么"></a> PagedAttention是什么?</h3>
+<p>在 vLLM 中，我们发现 LLM 服务的性能受到内存的瓶颈。在自回归解码过程中，LLM 的所有输入标记都会生成它们的注意力键和值张量，这些张量保存在 GPU 内存中以生成下一个标记。这些缓存的键和值张量通常称为 KV 缓存。KV 缓存为</p>
 <ul>
-<li><em>大：</em>LLaMA-13B 中的单个序列最多需要 1.7GB。</li>
-<li><em>动态：</em>它的大小取决于序列长度，序列长度是高度可变和不可预测的。 因此，有效管理 KV 缓存是一项重大挑战。我们发现，由于碎片化和过度预留，现有系统会浪费 <strong>60% – 80%</strong> 的内存。</li>
+<li>*大：*LLaMA-13B 中的单个序列最多需要 1.7GB。</li>
+<li>*动态：*它的大小取决于序列长度，序列长度是高度可变和不可预测的。 因此，有效管理 KV 缓存是一项重大挑战。我们发现，由于碎片化和过度预留，现有系统会浪费 <strong>60% – 80%</strong> 的内存。</li>
 </ul>
-<p>为了解决这个问题，我们引入了 <strong>PagedAttention</strong>，这是一种注意力算法，其灵感来自操作系统中虚拟内存和分页的经典思想。与传统的注意力算法不同，PagedAttention 允许在非连续内存空间中存储连续的键和值。具体来说，PagedAttention 将每个序列的 KV 缓存划分为多个块，每个块包含固定数量标记的键和值。在注意力计算期间，PagedAttention 内核可以有效地识别和获取这些块。<br><img src="/../images/2024/05/27/vllm/image2.png" alt="这个图片" title="数据图"></p>
-<p>因为块不需要在内存中是连续的，我们可以像在操作系统的虚拟内存中一样以更灵活的方式管理键和值：可以将块视为页面，将token视为字节，将序列视为进程。序列的连续<em>逻辑块</em>通过块表映射到非连续<em>的物理块</em>。随着token的生成，物理区块会按需分配。<br><img src="/../images/2024/05/27/vllm/image3.png" alt="这个图片" title="数据图"></p>
+<p>为了解决这个问题，我们引入了 <strong>PagedAttention</strong>，这是一种注意力算法，其灵感来自操作系统中虚拟内存和分页的经典思想。与传统的注意力算法不同，PagedAttention 允许在非连续内存空间中存储连续的键和值。具体来说，PagedAttention 将每个序列的 KV 缓存划分为多个块，每个块包含固定数量标记的键和值。在注意力计算期间，PagedAttention 内核可以有效地识别和获取这些块。<br>
+<img src="../images/2024/05/27/vllm/image2.png" alt="这个图片" title="数据图"></p>
+<p>因为块不需要在内存中是连续的，我们可以像在操作系统的虚拟内存中一样以更灵活的方式管理键和值：可以将块视为页面，将token视为字节，将序列视为进程。序列的连续<em>逻辑块</em>通过块表映射到非连续<em>的物理块</em>。随着token的生成，物理区块会按需分配。<br>
+<img src="../images/2024/05/27/vllm/image3.png" alt="这个图片" title="数据图"></p>
 <p>在 PagedAttention 中，内存浪费只发生在序列的最后一个块中。在实践中，这导致了近乎最佳的内存使用，仅浪费不到 4%。内存效率的提升被证明是非常有益的：它允许系统将更多的序列批处理在一起，提高 GPU 利用率，从而显著提高吞吐量，如上面的性能结果所示。</p>
-<p>PagedAttention 还有另一个关键优势：高效的内存共享。例如，在<em>并行采样</em>中，从同一提示生成多个输出序列。在这种情况下，提示的计算和内存可以在输出序列之间共享。<br><img src="/../images/2024/05/27/vllm/image4.png" alt="这个图片" title="数据图"></p>
-<p>PagedAttention 自然地通过其块表实现内存共享。与进程共享物理页的方式类似，PagedAttention 中的不同序列可以通过将其逻辑块映射到同一物理块来共享块。为了确保安全共享，PagedAttention 会跟踪物理块的引用计数，并实现 <em>Copy-on-Write</em> 机制。<br><img src="/../images/2024/05/27/vllm/image6.png" alt="这个图片" title="数据图"></p>
+<p>PagedAttention 还有另一个关键优势：高效的内存共享。例如，在<em>并行采样</em>中，从同一提示生成多个输出序列。在这种情况下，提示的计算和内存可以在输出序列之间共享。<br>
+<img src="../images/2024/05/27/vllm/image4.png" alt="这个图片" title="数据图"></p>
+<p>PagedAttention 自然地通过其块表实现内存共享。与进程共享物理页的方式类似，PagedAttention 中的不同序列可以通过将其逻辑块映射到同一物理块来共享块。为了确保安全共享，PagedAttention 会跟踪物理块的引用计数，并实现 <em>Copy-on-Write</em> 机制。<br>
+<img src="../images/2024/05/27/vllm/image6.png" alt="这个图片" title="数据图"></p>
 <p>PageAttention 的内存共享大大降低了复杂采样算法（如并行采样和光束搜索）的内存开销，将其内存使用量降低了 55%。这可以转化为高达 2.2 倍的吞吐量提升。这使得这种采样方法在 LLM 服务中变得实用。</p>
 <p>PagedAttention 是 vLLM 背后的核心技术，vLLM 是我们的 LLM 推理和服务引擎，支持各种模型，具有高性能和易于使用的界面。</p>
 
@@ -2559,7 +2567,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2665,14 +2673,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2024/05/28/fox_document/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>fox-实现细粒度多页文档理解</p>
-          <p class='content'>摘要现代 LVLM 仍然难以实现细粒度的文档理解，例如用户感兴趣的区域的 OCR&#x2F;翻译&#x2F;标题、需要整个页面上下文的任务，甚至是多个页面。因此，本文提出了 Fox，这是一种有效...</p>
+          <p class='content'> 摘要
+现代 LVLM 仍然难以实现细粒度的文档理解，例如用户感兴趣的区域的 OCR/翻译/标题、需要整个页面上下文的任务，甚至是多个页面。因此，本文提出了 Fox，这是一种有效的流水线、混合数...</p>
         </a>
       
       
         <a class='next' href='/2024/05/21/RA-ISF/'>
           <p class='title'>RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>论文：arixcode：github
-1.摘要大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （...</p>
+          <p class='content'>论文：arix
+code：github
+ 1.摘要
+大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生...</p>
         </a>
       
     </div>
@@ -2733,7 +2744,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vllm%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">vllm是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vllm%E6%80%8E%E4%B9%88%E6%8F%90%E9%AB%98%E6%8E%A8%E7%90%86%E9%80%9F%E5%BA%A6%E7%9A%84%EF%BC%9F"><span class="toc-text">vllm怎么提高推理速度的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PagedAttention%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">PagedAttention是什么?</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vllm%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text"> vllm是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vllm%E6%80%8E%E4%B9%88%E6%8F%90%E9%AB%98%E6%8E%A8%E7%90%86%E9%80%9F%E5%BA%A6%E7%9A%84"><span class="toc-text"> vllm怎么提高推理速度的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pagedattention%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text"> PagedAttention是什么?</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3140,7 +3151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3375,7 +3386,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/llm推理/","name":"llm推理"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/26/vllm/","name":"vllm推理加速"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"vllm推理加速","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/26/vllm/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/26/vllm/","wordCount":0,"datePublished":"2024-05-26T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.905Z","articleSection":"llm推理","keywords":"推理","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/llm推理/","name":"llm推理"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/26/vllm/","name":"vllm推理加速"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"vllm推理加速","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/26/vllm/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/26/vllm/","wordCount":0,"datePublished":"2024-05-26T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.966Z","articleSection":"llm推理","keywords":"推理","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

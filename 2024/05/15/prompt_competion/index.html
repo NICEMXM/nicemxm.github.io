@@ -43,11 +43,11 @@
 <meta property="og:title" content="GPT-4提示工程师竞赛-冠军心得">
 <meta property="og:url" content="https://nicemxm.github.io/2024/05/15/prompt_competion/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4提示工程赛》的博客文章，慷慨分享了其获胜法门。 博文原文： 上个月，我非常荣幸地赢得了新加坡首届 GPT-4">
+<meta property="og:description" content="去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo 最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4 提示工程赛》的博客文章，慷慨分享了其获胜法门。 博文原文： 上个月，我非常荣幸地赢得了新加坡首届 GPT-">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-05-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.903Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.965Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="prompt">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2481,7 +2481,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fa-solid fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>时长：31 分钟</p>
+      <p>时长：30 分钟</p>
     </a>
   </div>
 
@@ -2498,10 +2498,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <p>去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo<br>最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4<br>提示工程赛》的博客文章，慷慨分享了其获胜法门。</p>
+    <p>去年 11 月 8 日，新加坡政府科技局（GovTech）组织举办了首届 GPT-4 提示工程（Prompt Engineering）竞赛。数据科学家 Sheila Teo<br>
+最终夺冠，成为最终的提示女王（Prompt Queen）。之后，Teo 发布了一篇题为《我如何赢得了新加坡 GPT-4<br>
+提示工程赛》的博客文章，慷慨分享了其获胜法门。</p>
 <p>博文原文：</p>
 <p>上个月，我非常荣幸地赢得了新加坡首届 GPT-4 提示工程竞赛；该竞赛由新加坡政府科技局组织，汇聚了 400 多名优秀的参赛者。</p>
-<p>提示工程是一门融合了艺术和科学的学科 —— 它既需要对技术的理解，也需要创造力和战略思维。这篇文章汇编了我一路以来学习到的提示工程策略，这些策略能让<br>LLM 切实完成你想完成的任务并做到更多！</p>
+<p>提示工程是一门融合了艺术和科学的学科 —— 它既需要对技术的理解，也需要创造力和战略思维。这篇文章汇编了我一路以来学习到的提示工程策略，这些策略能让<br>
+LLM 切实完成你想完成的任务并做到更多！</p>
 <p>本文包含以下内容，其中 🔵 是指适合初学者的提示工程技术，而 🔴 是指进阶技术。</p>
 <ol>
 <li>[🔵] 使用 CO-STAR 框架来搭建 prompt 的结构</li>
@@ -2509,62 +2512,83 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>[🔴] 使用 LLM 防护围栏创建系统 prompt</li>
 <li>[🔴] 仅使用 LLM 分析数据集，不使用插件或代码 —— 附带一个实操示例：使用 GPT-4 分析一个真实的 Kaggle 数据集。</li>
 </ol>
-<h2 id="1-🔵-使用-CO-STAR-框架来搭建-prompt-的结构"><a href="#1-🔵-使用-CO-STAR-框架来搭建-prompt-的结构" class="headerlink" title="1. [🔵] 使用 CO-STAR 框架来搭建 prompt 的结构"></a>1. [🔵] 使用 CO-STAR 框架来搭建 prompt 的结构</h2><p>为了让 LLM 给出最优响应，为 prompt 设置有效的结构至关重要。CO-STAR 框架是一种可以方便用于设计 prompt<br>结构的模板，这是新加坡政府科技局的数据科学与 AI 团队的创意成果。该模板考虑了会影响 LLM 响应的有效性和相关性的方方面面，从而有助于得到更优的响应。</p>
-<p>其工作方式为：<br><img src="/../images/2024/05/16/prompt_competion/CO-STAR.png" alt="这是图片" title="CO-STAR架构"></p>
-<p>(C) 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。<br>(O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。<br>(S) 风格（Style）：指定你希望 LLM 使用的写作风格。这可能是一位具体名人的写作风格，也可以是某种职业专家（比如商业分析师或<br>CEO）的风格。这能引导 LLM 使用符合你需求的方式和词语给出响应。<br>(T) 语气（Tone）：设定响应的态度。这能确保 LLM 的响应符合所需的情感或情绪上下文，比如正式、幽默、善解人意等。<br>(A) 受众（Audience）：确定响应的目标受众。针对具体受众（比如领域专家、初学者、孩童）定制 LLM<br>的响应，确保其在你所需的上下文中是适当的和可被理解的。<br>(R) 响应（Response）：提供响应的格式。这能确保 LLM 输出你的下游任务所需的格式，比如列表、JSON、专业报告等。对于大多数通过程序化方法将<br>LLM 响应用于下游任务的 LLM 应用而言，理想的输出格式是 JSON。</p>
+<h2 id="1-使用-co-star-框架来搭建-prompt-的结构"><a class="markdownIt-Anchor" href="#1-使用-co-star-框架来搭建-prompt-的结构"></a> 1. [🔵] 使用 CO-STAR 框架来搭建 prompt 的结构</h2>
+<p>为了让 LLM 给出最优响应，为 prompt 设置有效的结构至关重要。CO-STAR 框架是一种可以方便用于设计 prompt<br>
+结构的模板，这是新加坡政府科技局的数据科学与 AI 团队的创意成果。该模板考虑了会影响 LLM 响应的有效性和相关性的方方面面，从而有助于得到更优的响应。</p>
+<p>其工作方式为：<br>
+<img src="../images/2024/05/16/prompt_competion/CO-STAR.png" alt="这是图片" title="CO-STAR架构"></p>
+<p>© 上下文（Context）：提供与任务有关的背景信息。这有助于 LLM 理解正在讨论的具体场景，从而确保其响应是相关的。<br>
+(O) 目标（Objective）：定义你希望 LLM 执行的任务。明晰目标有助于 LLM 将自己响应重点放在完成具体任务上。<br>
+(S) 风格（Style）：指定你希望 LLM 使用的写作风格。这可能是一位具体名人的写作风格，也可以是某种职业专家（比如商业分析师或<br>
+CEO）的风格。这能引导 LLM 使用符合你需求的方式和词语给出响应。<br>
+(T) 语气（Tone）：设定响应的态度。这能确保 LLM 的响应符合所需的情感或情绪上下文，比如正式、幽默、善解人意等。<br>
+(A) 受众（Audience）：确定响应的目标受众。针对具体受众（比如领域专家、初学者、孩童）定制 LLM<br>
+的响应，确保其在你所需的上下文中是适当的和可被理解的。<br>
+® 响应（Response）：提供响应的格式。这能确保 LLM 输出你的下游任务所需的格式，比如列表、JSON、专业报告等。对于大多数通过程序化方法将<br>
+LLM 响应用于下游任务的 LLM 应用而言，理想的输出格式是 JSON。</p>
 <p>CO-STAR 的一个实际应用</p>
 <p>这里通过一个实际案例说明 CO-STAR 为什么有用。假设你是一位社交媒体管理者，你需要帮助草拟一篇 Facebook 帖文，其內容是宣传你公司的新产品。</p>
 <p>如果不使用 CO-STAR，那么你可能会使用这样的 prompt：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Write a facebook post to advertise my company’s new product. My company’s name is Alpha and the product is called Beta, a new ultra-fast hairdryer.</span><br></pre></td></tr></table></figure>
-
 <p>GPT-4 的输出如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">introducing the Revolutionary Beta Hairdryer by Alpha!</span><br><span class="line">- Say goodbye to long, tedious hair drying sessions! Alpha is proud to unveil the Beta, our latest innovation in haircare technology.</span><br><span class="line">- Ultra-Fast Drying: The Beta is designed to cut your drying time in half, thanks to its advanced, powerful motor. Get ready faster and enjoy more time doing what you love!</span><br><span class="line">Shop Now: [Link to product page]</span><br></pre></td></tr></table></figure>
-
 <p>这个结果也许够用了，但却只是泛泛而谈，缺乏具体的细节和有针对性的吸引力，而这些是吸引目标受众所必需的。</p>
-<p>那如果使用 CO-STAR 模板呢？CO-STAR 会提醒你将任务涉及的其它方面也整合进 prompt 之中，具体来说就是上面的简单 prompt 中缺失的<br>STYLE、TONE、AUDIENCE 方面：</p>
+<p>那如果使用 CO-STAR 模板呢？CO-STAR 会提醒你将任务涉及的其它方面也整合进 prompt 之中，具体来说就是上面的简单 prompt 中缺失的<br>
+STYLE、TONE、AUDIENCE 方面：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># CONTEXT #</span><br><span class="line">I want to advertise my company’s new product. My company’s name is Alpha and the product is called Beta, which is a new ultra-fast hairdryer.</span><br><span class="line"># OBJECTIVE #</span><br><span class="line">Create a Facebook post for me, which aims to get people to click on the product link to purchase it.</span><br><span class="line"># STYLE #</span><br><span class="line">Follow the writing style of successful companies that advertise similar products, such as Dyson.</span><br><span class="line"># TONE #</span><br><span class="line">Persuasive</span><br><span class="line"># AUDIENCE #</span><br><span class="line">My company’s audience profile on Facebook is typically the older generation. Tailor your post to target what this audience typically looks out for in hair products.</span><br><span class="line"># RESPONSE #</span><br><span class="line">The Facebook post, kept concise yet impactful.</span><br></pre></td></tr></table></figure>
-
 <p>通过使用 CO-STAR，GPT-4 的响应会变得明显更有针对性、效果更好：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Embrace Effortless Elegance with Alpha Beta — The Ultra-Fast Hairdryer for the Wise Generation.</span><br><span class="line">Rediscover the joy of simple, effective hair care with Alpha Beta. Our latest innovation is more than just a hairdryer; it’s a promise of swift, gentle, and reliable hair styling for those who appreciate the finer things in life.</span><br><span class="line">- Easy and Intuitive Use: Say goodbye to complicated gadgets. Alpha Beta is</span><br><span class="line">crafted for comfort and simplicity, perfect for those who value straightforward,</span><br><span class="line">hassle-free technology.</span><br><span class="line">- Time-Saving Technology: We understand your time is precious. That’s why Alpha Beta cuts down drying time significantly, giving you more moments to enjoy life’s pleasures.</span><br><span class="line">Make every day a good hair day with Alpha Beta. Experience the blend of sophistication and simplicity today.</span><br><span class="line">[Your Product Link Here]</span><br></pre></td></tr></table></figure>
-
 <p>CO-STAR 框架能引导用户以一种结构化的方式向 LLM 提供有关你的任务所有关键信息，从而确保得到完全符合你的需求的定制化的更优的响应。</p>
-<h2 id="2-🔵-使用分隔符为-prompt-设置分节"><a href="#2-🔵-使用分隔符为-prompt-设置分节" class="headerlink" title="2. [🔵] 使用分隔符为 prompt 设置分节"></a>2. [🔵] 使用分隔符为 prompt 设置分节</h2><p>分隔符是一种特殊 token，可帮助 LLM 分辨 prompt 的哪些部分应被视为单个含义单元。这很重要，因为输入 LLM 的整个 prompt 是单个的<br>token 长序列。分隔符能将 prompt 中不同部分隔离开，从而为这个 token 序列提供结构，让其中各个部分能被区别对待。</p>
+<h2 id="2-使用分隔符为-prompt-设置分节"><a class="markdownIt-Anchor" href="#2-使用分隔符为-prompt-设置分节"></a> 2. [🔵] 使用分隔符为 prompt 设置分节</h2>
+<p>分隔符是一种特殊 token，可帮助 LLM 分辨 prompt 的哪些部分应被视为单个含义单元。这很重要，因为输入 LLM 的整个 prompt 是单个的<br>
+token 长序列。分隔符能将 prompt 中不同部分隔离开，从而为这个 token 序列提供结构，让其中各个部分能被区别对待。</p>
 <p>需要说明的是，如果任务很简单，那么分隔符对 LLM 的响应质量的影响不大。但是，任务越复杂，使用分隔符分节对 LLM 响应的影响就越大。</p>
-<h3 id="用特殊字符当分隔符"><a href="#用特殊字符当分隔符" class="headerlink" title="用特殊字符当分隔符"></a>用特殊字符当分隔符</h3><p>分隔符可以使用任何通常不会同时出现的特殊字符序列，举些例子：###、&#x3D;&#x3D;&#x3D;、&gt;&gt;&gt;</p>
+<h3 id="用特殊字符当分隔符"><a class="markdownIt-Anchor" href="#用特殊字符当分隔符"></a> 用特殊字符当分隔符</h3>
+<p>分隔符可以使用任何通常不会同时出现的特殊字符序列，举些例子：###、===、&gt;&gt;&gt;</p>
 <p>特殊字符的数量和类型并不重要，只要它们足够独特即可，这样才能让 LLM 将它们理解成内容分隔符，而不是普通的标点符号。</p>
 <p>下面通过一个例子说明如何在 prompt 中使用分隔符：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Classify the sentiment of each conversation in &lt;&lt;&lt;CONVERSATIONS&gt;&gt;&gt; as</span><br><span class="line">‘Positive’ or ‘Negative’. Give the sentiment classifications without any other preamble text.</span><br><span class="line"></span><br><span class="line">###</span><br><span class="line">EXAMPLE CONVERSATIONS</span><br><span class="line">[Agent]: Good morning, how can I assist you today?</span><br><span class="line">[Customer]: This product is terrible, nothing like what was advertised!</span><br><span class="line">[Customer]: I’m extremely disappointed and expect a full refund.</span><br><span class="line">[Agent]: Good morning, how can I help you today?</span><br><span class="line"></span><br><span class="line">[Customer]: Hi, I just wanted to say that I’m really impressed with your</span><br><span class="line">product. It exceeded my expectations!</span><br><span class="line">EXAMPLE OUTPUTS</span><br><span class="line">Negative</span><br><span class="line">Positive</span><br><span class="line">###</span><br><span class="line">&lt;&lt;&lt;</span><br><span class="line"></span><br><span class="line">[Agent]: Hello! Welcome to our support. How can I help you today?</span><br><span class="line">[Customer]: Hi there! I just wanted to let you know I received my order, and</span><br><span class="line">it’s fantastic!</span><br><span class="line">[Agent]: That’s great to hear! We’re thrilled you’re happy with your purchase.</span><br><span class="line">Is there anything else I can assist you with?</span><br><span class="line"></span><br><span class="line">[Customer]: No, that’s it. Just wanted to give some positive feedback. Thanks</span><br><span class="line">for your excellent service!</span><br><span class="line">[Agent]: Hello, thank you for reaching out. How can I assist you today?</span><br><span class="line">[Customer]: I’m very disappointed with my recent purchase. It’s not what I expected at all.</span><br><span class="line">[Agent]: I’m sorry to hear that. Could you please provide more details so I can help?</span><br><span class="line">[Customer]: The product is of poor quality and it arrived late. I’m really</span><br><span class="line">unhappy with this experience.</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>上面例子中使用的分隔符是 ###，同时每一节都带有完全大写的标题以示区分，如 EXAMPLE CONVERSATIONS 和 EXAMPLE<br>OUTPUTS。前置说明部分陈述了要分类的对话是在 &lt;&lt;<CONVERSATIONS>&gt;&gt; 中，这些对话是在 prompt<br>末尾提供，也不带任何解释说明文本，但由于有了 &lt;&lt;&lt; 和 &gt;&gt;&gt; 这样的分隔符，LLM 就能理解这就是要分类的对话。</CONVERSATIONS></p>
+<p>上面例子中使用的分隔符是 ###，同时每一节都带有完全大写的标题以示区分，如 EXAMPLE CONVERSATIONS 和 EXAMPLE<br>
+OUTPUTS。前置说明部分陈述了要分类的对话是在 &lt;&lt;<CONVERSATIONS>&gt;&gt; 中，这些对话是在 prompt<br>
+末尾提供，也不带任何解释说明文本，但由于有了 &lt;&lt;&lt; 和 &gt;&gt;&gt; 这样的分隔符，LLM 就能理解这就是要分类的对话。</CONVERSATIONS></p>
 <p>GPT-4 对此 prompt 给出的输出如下，其给出的情感分类结果不带任何附加文本，这符合我们的要求：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Positive</span><br><span class="line">Negative</span><br></pre></td></tr></table></figure>
-
-<h3 id="用-XML-标签当分隔符"><a href="#用-XML-标签当分隔符" class="headerlink" title="用 XML 标签当分隔符"></a>用 XML 标签当分隔符</h3><p>另一种方法是使用 XML 标签作为分隔符。XML 标签是使用尖括号括起来的成对标签，包括开始和结束标签。比如 <tag> 和 </tag>。这很有效，因为<br>LLM 在训练时就看过了大量用 XML 标注的网络内容，已经学会了理解其格式。</p>
+<h3 id="用-xml-标签当分隔符"><a class="markdownIt-Anchor" href="#用-xml-标签当分隔符"></a> 用 XML 标签当分隔符</h3>
+<p>另一种方法是使用 XML 标签作为分隔符。XML 标签是使用尖括号括起来的成对标签，包括开始和结束标签。比如 <tag> 和 </tag>。这很有效，因为<br>
+LLM 在训练时就看过了大量用 XML 标注的网络内容，已经学会了理解其格式。</p>
 <p>下面用 XML 标签作为分隔符重写上面的 prompt：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Classify the sentiment of the following conversations into one of two classes, using the examples given. Give the sentiment classifications without any other</span><br><span class="line">preamble text.</span><br><span class="line"></span><br><span class="line">&lt;classes&gt;</span><br><span class="line">Positive</span><br><span class="line">Negative</span><br><span class="line">&lt;/classes&gt;</span><br><span class="line"></span><br><span class="line">&lt;example-conversations&gt;</span><br><span class="line">[Agent]: Good morning, how can I assist you today?</span><br><span class="line">[Customer]: This product is terrible, nothing like what was advertised!</span><br><span class="line">[Customer]: I’m extremely disappointed and expect a full refund.</span><br><span class="line">[Agent]: Good morning, how can I help you today?</span><br><span class="line"></span><br><span class="line">[Customer]: Hi, I just wanted to say that I’m really impressed with your</span><br><span class="line">product. It exceeded my expectations!</span><br><span class="line">&lt;/example-conversations&gt;</span><br><span class="line">&lt;example-classes&gt;</span><br><span class="line"></span><br><span class="line">Negative</span><br><span class="line">Positive</span><br><span class="line">&lt;/example-classes&gt;</span><br><span class="line">&lt;conversations&gt;</span><br><span class="line"></span><br><span class="line">[Agent]: Hello! Welcome to our support. How can I help you today?</span><br><span class="line">[Customer]: Hi there! I just wanted to let you know I received my order, and</span><br><span class="line">it’s fantastic!</span><br><span class="line">[Agent]: That’s great to hear! We’re thrilled you’re happy with your purchase.</span><br><span class="line">Is there anything else I can assist you with?</span><br><span class="line"></span><br><span class="line">[Customer]: No, that’s it. Just wanted to give some positive feedback. Thanks</span><br><span class="line">for your excellent service!</span><br><span class="line">[Agent]: Hello, thank you for reaching out. How can I assist you today?</span><br><span class="line">[Customer]: I’m very disappointed with my recent purchase. It’s not what I</span><br><span class="line">expected at all.</span><br><span class="line"></span><br><span class="line">[Agent]: I’m sorry to hear that. Could you please provide more details so I</span><br><span class="line">can help?</span><br><span class="line">[Customer]: The product is of poor quality and it arrived late. I’m really</span><br><span class="line">unhappy with this experience.</span><br><span class="line">&lt;/conversations&gt;</span><br></pre></td></tr></table></figure>
-
 <p>为了达到更好的效果，在 XML 标签中使用的名词应该与指令中用于描述它们的名词一样。在上面的 prompt 中，我们给出的指令为：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Classify the sentiment of the following conversations into one of two classes, using the examples given. Give the sentiment classifications without any other preamble text.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>其中使用的名词有 conversations、classes 和 examples。也因此，后面的分隔 XML 标签就对应为 <conversations>、<classes>、&lt;<br>example-conversations&gt; 和 <example-classes>。这能确保 LLM 理解指令与 XML 标签的关联。</example-classes></classes></conversations></p>
+<p>其中使用的名词有 conversations、classes 和 examples。也因此，后面的分隔 XML 标签就对应为 <conversations>、<classes>、&lt;<br>
+example-conversations&gt; 和 <example-classes>。这能确保 LLM 理解指令与 XML 标签的关联。</example-classes></classes></conversations></p>
 <p>同样的，使用这样的分隔符能以清晰的结构化方式对 prompt 进行分节，从而确保 GPT-4 输出的内容就刚好是你想要的结果：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Positive</span><br><span class="line">Negative</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-🔴-使用-LLM-防护围栏创建系统提示"><a href="#3-🔴-使用-LLM-防护围栏创建系统提示" class="headerlink" title="3. [🔴] 使用 LLM 防护围栏创建系统提示"></a>3. [🔴] 使用 LLM 防护围栏创建系统提示</h2><p>在深入之前，需要指出这一节的内容仅适用于具有 System Prompt（系统提示）功能的 LLM，而本文其它章节的内容却适用于任意<br>LLM。当然，具有这一功能的最著名 LLM 是 ChatGPT，因此这一节将使用 ChatGPT 作为示例进行说明。</p>
+<h2 id="3-使用-llm-防护围栏创建系统提示"><a class="markdownIt-Anchor" href="#3-使用-llm-防护围栏创建系统提示"></a> 3. [🔴] 使用 LLM 防护围栏创建系统提示</h2>
+<p>在深入之前，需要指出这一节的内容仅适用于具有 System Prompt（系统提示）功能的 LLM，而本文其它章节的内容却适用于任意<br>
+LLM。当然，具有这一功能的最著名 LLM 是 ChatGPT，因此这一节将使用 ChatGPT 作为示例进行说明。</p>
 <p>与 System Prompts 有关的术语</p>
-<p>首先，我们先把术语搞清楚：对于 ChatGPT，有大量资源使用 System Prompts、System Messages 和 Custom Instructions<br>这三个术语，而且很多时候它们的意思似乎差不多。这给很多人（包括我）带来了困扰，以至于让 OpenAI 都专门发了一篇文章来解释这些它们。简单总结一下：</p>
+<p>首先，我们先把术语搞清楚：对于 ChatGPT，有大量资源使用 System Prompts、System Messages 和 Custom Instructions<br>
+这三个术语，而且很多时候它们的意思似乎差不多。这给很多人（包括我）带来了困扰，以至于让 OpenAI 都专门发了一篇文章来解释这些它们。简单总结一下：</p>
 <ul>
 <li>System Prompts 和 System Messages 是通过 ChatGPT 的 Chat Completions API 以程序化方式使用该 LLM 时使用的术语。</li>
 <li>另一方面，Custom Instructions 是通过 <a target="_blank" rel="noopener" href="https://chat.openai.com/">https://chat.openai.com/</a> 的用户界面使用 ChatGPT 时的术语。</li>
 </ul>
 <p>不过整体而言，这三个术语指代的是同一对象，因此请不要过多纠结于此！我们这一节将使用 System Prompts 这个术语。现在继续深入吧！</p>
-<h3 id="System-Prompts-是什么？"><a href="#System-Prompts-是什么？" class="headerlink" title="System Prompts 是什么？"></a>System Prompts 是什么？</h3><p>System Prompts 是指附加的额外 prompt，其作用是指示 LLM 理应的行为方式。之所以说这是额外附加的，是因为它位于「普通」prompt（也被称为用户<br>prompt）之外。</p>
-<p>在一组聊天中，每一次你都要提供一个新的 prompt，System Prompts 的作用就像是一个 LLM 会自动应用的过滤器。这意味着，在一组聊天中，LLM<br>每次响应都要考虑 System Prompts。</p>
-<h3 id="应在何时使用-System-Prompts？"><a href="#应在何时使用-System-Prompts？" class="headerlink" title="应在何时使用 System Prompts？"></a>应在何时使用 System Prompts？</h3><p>你脑袋冒出的第一个问题可能是：我为什么应该在 System Prompts 中提供指令，毕竟我可以在一组聊天的第一个 prompt 中提供这些指令？</p>
-<p>答案是因为 LLM 的对话记忆有局限。如果在一组对话的第一个 prompt 中提供这些指令，随着对话的进行，LLM 可能会「遗忘」你提供的第一个<br>prompt，其中的指令也就失效了。</p>
-<p>另一方面，如果在 System Prompts 中提供这些指令，那么 LLM 就会自动将其与新的 prompt 一起纳入考量。这能确保随着对话进行，LLM<br>能持续接收这些指令，无论聊天变得多长。</p>
+<h3 id="system-prompts-是什么"><a class="markdownIt-Anchor" href="#system-prompts-是什么"></a> System Prompts 是什么？</h3>
+<p>System Prompts 是指附加的额外 prompt，其作用是指示 LLM 理应的行为方式。之所以说这是额外附加的，是因为它位于「普通」prompt（也被称为用户<br>
+prompt）之外。</p>
+<p>在一组聊天中，每一次你都要提供一个新的 prompt，System Prompts 的作用就像是一个 LLM 会自动应用的过滤器。这意味着，在一组聊天中，LLM<br>
+每次响应都要考虑 System Prompts。</p>
+<h3 id="应在何时使用-system-prompts"><a class="markdownIt-Anchor" href="#应在何时使用-system-prompts"></a> 应在何时使用 System Prompts？</h3>
+<p>你脑袋冒出的第一个问题可能是：我为什么应该在 System Prompts 中提供指令，毕竟我可以在一组聊天的第一个 prompt 中提供这些指令？</p>
+<p>答案是因为 LLM 的对话记忆有局限。如果在一组对话的第一个 prompt 中提供这些指令，随着对话的进行，LLM 可能会「遗忘」你提供的第一个<br>
+prompt，其中的指令也就失效了。</p>
+<p>另一方面，如果在 System Prompts 中提供这些指令，那么 LLM 就会自动将其与新的 prompt 一起纳入考量。这能确保随着对话进行，LLM<br>
+能持续接收这些指令，无论聊天变得多长。</p>
 <p>总结一下：使用 System Prompts 提供你希望 LLM 在整个聊天过程中全程记住的指令。</p>
-<h3 id="System-Prompts-应包含什么内容？"><a href="#System-Prompts-应包含什么内容？" class="headerlink" title="System Prompts 应包含什么内容？"></a>System Prompts 应包含什么内容？</h3><p>System Prompts 中的指令通常包含以下类别：</p>
+<h3 id="system-prompts-应包含什么内容"><a class="markdownIt-Anchor" href="#system-prompts-应包含什么内容"></a> System Prompts 应包含什么内容？</h3>
+<p>System Prompts 中的指令通常包含以下类别：</p>
 <ul>
 <li>任务定义，这样 LLM 在聊天过程中能一直记得要做什么。</li>
 <li>输出格式，这样 LLM 能一直记得自己应该如何响应。</li>
@@ -2572,32 +2596,37 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ul>
 <p>举个例子，System Prompt 可能是这样的：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">You will answer questions using this text: [insert text].</span><br><span class="line">You will respond with a JSON object in this format: &#123;“Question”: “Answer”&#125;.</span><br><span class="line">If the text does not contain sufficient information to answer the question, do not make up information and give the answer as “NA”.</span><br><span class="line"></span><br><span class="line">You are only allowed to answer questions related to [insert scope]. Never answer any questions related to demographic information such as age, gender, and religion.</span><br></pre></td></tr></table></figure>
-
 <p>其中每部分的类别如下：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">任务定义：You will answer questions using this text: [insert text].</span><br><span class="line">输出格式：You will respond with a JSON object in this format: &#123;“Question”: “Answer”&#125;.</span><br><span class="line">防护围栏（幻觉）：If the text does not contain sufficient information to answer the question, do not make up information</span><br><span class="line">and give the answer as “NA”.</span><br><span class="line">防护围栏（范围）：You are only allowed to answer questions related to [insert scope]. Never answer any questions related to</span><br><span class="line">demographic information such as age, gender, and religion.</span><br></pre></td></tr></table></figure>
-
-<h3 id="那么「普通」prompt-又该包含哪些内容呢？"><a href="#那么「普通」prompt-又该包含哪些内容呢？" class="headerlink" title="那么「普通」prompt 又该包含哪些内容呢？"></a>那么「普通」prompt 又该包含哪些内容呢？</h3><p>现在你可能会想：看起来 System Prompt 中已经给出了大量信息。那么我们又该在「普通」prompt（也称为用户 prompt）中放什么内容？</p>
-<p>System Prompt 会大致描述任务概况。在上面的 System Prompt 示例中，任务被定义为仅使用特定的文本进行问答，并指示 LLM 以 {“<br>Question”: “Answer”} 的格式进行响应。</p>
+<h3 id="那么普通prompt-又该包含哪些内容呢"><a class="markdownIt-Anchor" href="#那么普通prompt-又该包含哪些内容呢"></a> 那么「普通」prompt 又该包含哪些内容呢？</h3>
+<p>现在你可能会想：看起来 System Prompt 中已经给出了大量信息。那么我们又该在「普通」prompt（也称为用户 prompt）中放什么内容？</p>
+<p>System Prompt 会大致描述任务概况。在上面的 System Prompt 示例中，任务被定义为仅使用特定的文本进行问答，并指示 LLM 以 {&quot;<br>
+Question&quot;: “Answer”} 的格式进行响应。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">You will answer questions using this text: [insert text].</span><br><span class="line">You will respond with a JSON object in this format: &#123;“Question”: “Answer”&#125;.</span><br></pre></td></tr></table></figure>
-
-<p>在这个案例中，聊天中的每个用户 prompt 都只是你希望得到文本解答的问题。举个例子，用户 prompt 可能是这样「What is the text<br>about?」。而 LLM 的响应会是这样：{“What is the text about?”: “The text is about…”}。</p>
-<p>但我们可以进一步泛化这个示例任务。在实践中，你更可能会有多个希望得到解答的问题，而不只是一个。在这个案例中，我们可以将上述<br>System Prompt 的第一行从</p>
+<p>在这个案例中，聊天中的每个用户 prompt 都只是你希望得到文本解答的问题。举个例子，用户 prompt 可能是这样「What is the text<br>
+about?」。而 LLM 的响应会是这样：{“What is the text about?”: “The text is about…”}。</p>
+<p>但我们可以进一步泛化这个示例任务。在实践中，你更可能会有多个希望得到解答的问题，而不只是一个。在这个案例中，我们可以将上述<br>
+System Prompt 的第一行从</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You will answer questions using this text: [insert text].</span><br></pre></td></tr></table></figure>
-
 <p>改成</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You will answer questions using the provided text.</span><br></pre></td></tr></table></figure>
-
 <p>现在，每个用户 prompt 中都既包含执行问答所基于的文本，也包含所要回答的问题。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;text&gt;</span><br><span class="line">[insert text]</span><br><span class="line">&lt;/text&gt;</span><br><span class="line">&lt;question&gt;</span><br><span class="line">[insert question]</span><br><span class="line">&lt;/question&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这里，我们依然使用 XML 标签作为分隔符，以一种结构化的方式为 LLM 提供这两段所需信息。此处 XML 标签中使用的名词是 text 和<br>question，对应于 System Prompt 中使用的名词，这样一来 LLM 就能理解这些标签与 System Prompt 指令有何关联。</p>
+<p>这里，我们依然使用 XML 标签作为分隔符，以一种结构化的方式为 LLM 提供这两段所需信息。此处 XML 标签中使用的名词是 text 和<br>
+question，对应于 System Prompt 中使用的名词，这样一来 LLM 就能理解这些标签与 System Prompt 指令有何关联。</p>
 <p>总结起来，System Prompt 应能给出整体的任务指令，而每个用户 prompt 应提供你希望执行任务时使用的确切细节。比如在这个案例中，这个确切的细节是文本和问题。</p>
-<h3 id="另：让-LLM-防护围栏变得动态化"><a href="#另：让-LLM-防护围栏变得动态化" class="headerlink" title="另：让 LLM 防护围栏变得动态化"></a>另：让 LLM 防护围栏变得动态化</h3><p>在上面，防护围栏是通过 System Prompt 中的几句话添加的。然后，这些防护围栏在聊天的整个过程中就不变了。那如果你希望在对话的不同位置使用不同的防护围栏呢？</p>
-<p>不幸的是，对于 ChatGPT 用户界面的用户，目前还没有能做到这一点的简单方法。但是，如果你通过编程方法与 ChatGPT<br>交互，你就很幸运了！现在人们对构建有效的 LLM 防护围栏的兴趣越来越大，有研究者开发了一些开源软件包，可让用户能以编程方式设置远远更加细节和动态的防护围栏。</p>
-<p>英伟达团队开发的 NeMo Guardrails 尤其值得注意，这能让用户配置与 LLM<br>之间的期望对话流，从而在聊天的不同位置设置不同的防护围栏，实现随聊天不断演进的动态防护围栏。我强烈建议你研究看看！</p>
-<h2 id="4-🔴-仅使用-LLM-分析数据集，不使用插件或代码"><a href="#4-🔴-仅使用-LLM-分析数据集，不使用插件或代码" class="headerlink" title="4. [🔴] 仅使用 LLM 分析数据集，不使用插件或代码"></a>4. [🔴] 仅使用 LLM 分析数据集，不使用插件或代码</h2><p>你可能听说过 OpenAI 为 GPT-4 版本的 ChatGPT 提供的 Advanced Data Analysis（高级数据分析）插件 —— 高级（付费用户）可以使用。这让用户可以向<br>ChatGPT 上传数据集，然后直接在数据集上运行代码，实现精准的数据分析。</p>
+<h3 id="另让-llm-防护围栏变得动态化"><a class="markdownIt-Anchor" href="#另让-llm-防护围栏变得动态化"></a> 另：让 LLM 防护围栏变得动态化</h3>
+<p>在上面，防护围栏是通过 System Prompt 中的几句话添加的。然后，这些防护围栏在聊天的整个过程中就不变了。那如果你希望在对话的不同位置使用不同的防护围栏呢？</p>
+<p>不幸的是，对于 ChatGPT 用户界面的用户，目前还没有能做到这一点的简单方法。但是，如果你通过编程方法与 ChatGPT<br>
+交互，你就很幸运了！现在人们对构建有效的 LLM 防护围栏的兴趣越来越大，有研究者开发了一些开源软件包，可让用户能以编程方式设置远远更加细节和动态的防护围栏。</p>
+<p>英伟达团队开发的 NeMo Guardrails 尤其值得注意，这能让用户配置与 LLM<br>
+之间的期望对话流，从而在聊天的不同位置设置不同的防护围栏，实现随聊天不断演进的动态防护围栏。我强烈建议你研究看看！</p>
+<h2 id="4-仅使用-llm-分析数据集不使用插件或代码"><a class="markdownIt-Anchor" href="#4-仅使用-llm-分析数据集不使用插件或代码"></a> 4. [🔴] 仅使用 LLM 分析数据集，不使用插件或代码</h2>
+<p>你可能听说过 OpenAI 为 GPT-4 版本的 ChatGPT 提供的 Advanced Data Analysis（高级数据分析）插件 —— 高级（付费用户）可以使用。这让用户可以向<br>
+ChatGPT 上传数据集，然后直接在数据集上运行代码，实现精准的数据分析。</p>
 <p>但你知道吗，其实不使用这样的插件也能让 LLM 分析数据集？我们首先了解一下完全使用 LLM 分析数据集的优势和局限。</p>
-<h3 id="LLM-不擅长的数据集分析类型"><a href="#LLM-不擅长的数据集分析类型" class="headerlink" title="LLM 不擅长的数据集分析类型"></a>LLM 不擅长的数据集分析类型</h3><p>你可能已经知道，LLM 执行准确数学计算的能力有限，这使得它们不适合需要对数据集进行精确定量分析的任务，比如：</p>
+<h3 id="llm-不擅长的数据集分析类型"><a class="markdownIt-Anchor" href="#llm-不擅长的数据集分析类型"></a> LLM 不擅长的数据集分析类型</h3>
+<p>你可能已经知道，LLM 执行准确数学计算的能力有限，这使得它们不适合需要对数据集进行精确定量分析的任务，比如：</p>
 <ul>
 <li>描述性统计数值计算：以定量方式总结数值列，使用的度量包括均值或方差。</li>
 <li>相关性分析： 获得列之间的精确相关系数。</li>
@@ -2606,7 +2635,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ul>
 <p>正是为了在数据集上执行这样的定量分析任务，OpenAI 才做了 Advanced Data Analysis 插件，这样才能借助编程语言来为这些任务在数据集上执行代码。</p>
 <p>那么，为什么还需要不使用插件、仅使用 LLM 来分析数据集呢？</p>
-<h3 id="LLM-擅长的数据集分析类型"><a href="#LLM-擅长的数据集分析类型" class="headerlink" title="LLM 擅长的数据集分析类型"></a>LLM 擅长的数据集分析类型</h3><p>LLM 擅长识别模式和趋势。这种能力源自 LLM 训练时使用的大量多样化数据，这让它们可以识别出可能并不显而易见的复杂模式。</p>
+<h3 id="llm-擅长的数据集分析类型"><a class="markdownIt-Anchor" href="#llm-擅长的数据集分析类型"></a> LLM 擅长的数据集分析类型</h3>
+<p>LLM 擅长识别模式和趋势。这种能力源自 LLM 训练时使用的大量多样化数据，这让它们可以识别出可能并不显而易见的复杂模式。</p>
 <p>这让他们非常适合处理基于模式发现的任务，比如：</p>
 <ul>
 <li>异常检测：基于一列或多列数值识别偏离正常模式的异常数据点。</li>
@@ -2630,7 +2660,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>spend-amount</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>1957</td>
 <td>single</td>
 <td>58138</td>
@@ -2646,7 +2677,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>26</td>
 <td>423</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>假设你在该公司的宣传团队工作。你的任务使用这个客户信息数据集来指导营销工作。这个任务分为两步：第一步，使用数据集生成有意义的细分客户群。第二步，针对每个细分群生成最好的营销策略。现在，这个问题就成了模式发现（第一步）的实际业务问题，这也正是 LLM 擅长的能力。</p>
 <p>下面针对这个任务草拟一个 prompt，这里用到了 4 种提示工程技术（后面还有更多！）：</p>
 <ol>
@@ -2717,21 +2749,25 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>#START ANALYSIS#</p>
 <p>If you understand, ask me for my dataset.</p>
 </blockquote>
-<p>GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据集。<br><img src="/../images/2024/05/16/prompt_competion/image.png" alt="图片" title="数据图"></p>
-<p>之后，GPT-4 以我们要求的 markdown 报告格式回复其分析结果：<br><img src="/../images/2024/05/16/prompt_competion/image1.png" alt="图片" title="数据图"></p>
+<p>GPT-4 的回复如下，我们继续以 CSV 字符串的形式向其传递数据集。<br>
+<img src="../images/2024/05/16/prompt_competion/image.png" alt="图片" title="数据图"></p>
+<p>之后，GPT-4 以我们要求的 markdown 报告格式回复其分析结果：<br>
+<img src="../images/2024/05/16/prompt_competion/image1.png" alt="图片" title="数据图"></p>
 <p><strong>验证 LLM 的分析结果</strong></p>
 <p>为了简单起见，我们将选取 LLM 生成的 2 个客户群来进行验证，即年轻家庭（Young Families）和高品位爱好者（Discerning Enthusiasts）。</p>
 <p>年轻家庭</p>
 <ul>
 <li>LLM 分析出的人群画像：1980 年后出生，已婚或同居，中低收入，频繁进行小额购买。</li>
 <li>被 LLM 聚类到这一分组的行：3, 4, 7, 10, 16, 20</li>
-<li>深入研究这些数据集，这些行的完整数据为：<br><img src="/../images/2024/05/16/prompt_competion/image3.png" alt="图片" title="数据图"></li>
+<li>深入研究这些数据集，这些行的完整数据为：<br>
+<img src="../images/2024/05/16/prompt_competion/image3.png" alt="图片" title="数据图"></li>
 </ul>
 <p>这同样与 LLM 识别出的人群画像非常符合！</p>
 <p>这个例子彰显了 LLM 发现模式的能力，其能从多维度的数据集中解读和提炼出有意义的见解，这能确保其分析深深植根于数据集的事实真相。</p>
 <p><strong>如果使用 ChatGPT 的高级数据分析插件呢？</strong></p>
 <p>为了完整比较，我使用同样的 prompt 尝试了同样的任务，但是让 ChatGPT 使用代码执行分析，这会激活其高级数据分析插件。这里的思路是让插件直接在数据集上运行 k - 均值聚类等聚类算法的代码，从而得到每个客户群，之后再合成每个聚类的人群画像，以提供营销策略。</p>
-<p>但是，多次尝试都得到了以下报错信息，并没有输出，尽管这个数据集只有 50 行：<br><img src="/../images/2024/05/16/prompt_competion/image4.png" alt="图片" title="数据图"></p>
+<p>但是，多次尝试都得到了以下报错信息，并没有输出，尽管这个数据集只有 50 行：<br>
+<img src="../images/2024/05/16/prompt_competion/image4.png" alt="图片" title="数据图"></p>
 <p>目前而言，使用高级数据分析插件只能执行更简单的数据集任务，比如计算描述性统计信息或创建图表，但需要算法的更高级任务有时可能会遭遇报错，无法得到输出结果，原因可能是计算限制等问题。</p>
 <p><strong>那么 LLM 适合在什么时候用来分析数据集？</strong></p>
 <p>答案是取决于分析的类型。</p>
@@ -2837,17 +2873,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </blockquote>
 <blockquote>
 <Annex>
-
 <p>Give a table of the list of row numbers belonging to each cluster, in order to back up your analysis. Use these table headers: [[CLUSTER_NAME], List of Rows].</p>
 </Annex></blockquote>
-<p>事实上，你之后也可以让 ChatGPT 提供可下载的报告文件，让其直接完成你的最终报告。<br><img src="/../images/2024/05/16/prompt_competion/image6.png" alt="图片" title="数据图"></p>
+<p>事实上，你之后也可以让 ChatGPT 提供可下载的报告文件，让其直接完成你的最终报告。<br>
+<img src="../images/2024/05/16/prompt_competion/image6.png" alt="图片" title="数据图"></p>
 <p><strong>技术 4</strong>：将任务指令与数据集分离开</p>
 <p>可以看到，我们从未在第一个 prompt 中向 LLM 提供数据集。相反，该 prompt 只给出了数据集分析的任务指令，最后再加上了以下内容：</p>
 <blockquote>
 <p>#START ANALYSIS#</p>
 <p>If you understand, ask me for my dataset.</p>
 </blockquote>
-<p>然后，ChatGPT 答复它理解了，然后我们再在下一个 prompt 中以 CSV 字符串的形式将数据集传递给它。<br><img src="/../images/2024/05/16/prompt_competion/image7.png" alt="图片" title="数据图"></p>
+<p>然后，ChatGPT 答复它理解了，然后我们再在下一个 prompt 中以 CSV 字符串的形式将数据集传递给它。<br>
+<img src="../images/2024/05/16/prompt_competion/image7.png" alt="图片" title="数据图"></p>
 <p><em>GPT-4 的响应</em></p>
 <p>但为什么要将任务指令与数据集分离开？</p>
 <p>这样做有助于 LLM 清晰理解每一部分，降低遗漏信息的可能性；尤其是当任务更复杂时，例如例子中这个指令较长的任务。你可能经历过 LLM「意外遗忘」长 prompt 中某个特定指令的情况，举个例子，如果你让 LLM 给出 100 词的响应，但其反馈的结果却长得多。而如果让 LLM 先接收指令，然后再接收指令处理的数据集，就能让 LLM 先消化其应当做的事情，之后再基于后面提供的数据集来执行它。</p>
@@ -2877,7 +2914,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2985,7 +3022,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>省略号（...）在大模型中有什么魔法力量?</p>
           <p class='content'>论文链接：2404.15758 (arxiv.org)
 github仓库:github
-摘要来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可...</p>
+ 摘要
+来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度...</p>
         </a>
       
       
@@ -2993,7 +3031,9 @@ github仓库:github
           <p class='title'>多标签文本分类中长尾分布的平衡策略<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>论文链接：arxiv
 文章源码：github
-摘要多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，各类别标签的训练数据量往往差异较大（不...</p>
+ 摘要
+多标签文本分类是自然语言处理中的一类经典任务，训练模型为给定文本标记上不定数目的类别标签。然而实际应用时，
+各类别标签的训练数据量往往差异较...</p>
         </a>
       
     </div>
@@ -3054,7 +3094,7 @@ github仓库:github
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%F0%9F%94%B5-%E4%BD%BF%E7%94%A8-CO-STAR-%E6%A1%86%E6%9E%B6%E6%9D%A5%E6%90%AD%E5%BB%BA-prompt-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">1. [🔵] 使用 CO-STAR 框架来搭建 prompt 的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%F0%9F%94%B5-%E4%BD%BF%E7%94%A8%E5%88%86%E9%9A%94%E7%AC%A6%E4%B8%BA-prompt-%E8%AE%BE%E7%BD%AE%E5%88%86%E8%8A%82"><span class="toc-text">2. [🔵] 使用分隔符为 prompt 设置分节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E5%BD%93%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-text">用特殊字符当分隔符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8-XML-%E6%A0%87%E7%AD%BE%E5%BD%93%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-text">用 XML 标签当分隔符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%F0%9F%94%B4-%E4%BD%BF%E7%94%A8-LLM-%E9%98%B2%E6%8A%A4%E5%9B%B4%E6%A0%8F%E5%88%9B%E5%BB%BA%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA"><span class="toc-text">3. [🔴] 使用 LLM 防护围栏创建系统提示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Prompts-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">System Prompts 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E5%9C%A8%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8-System-Prompts%EF%BC%9F"><span class="toc-text">应在何时使用 System Prompts？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Prompts-%E5%BA%94%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88%E5%86%85%E5%AE%B9%EF%BC%9F"><span class="toc-text">System Prompts 应包含什么内容？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%A3%E4%B9%88%E3%80%8C%E6%99%AE%E9%80%9A%E3%80%8Dprompt-%E5%8F%88%E8%AF%A5%E5%8C%85%E5%90%AB%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9%E5%91%A2%EF%BC%9F"><span class="toc-text">那么「普通」prompt 又该包含哪些内容呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A6%EF%BC%9A%E8%AE%A9-LLM-%E9%98%B2%E6%8A%A4%E5%9B%B4%E6%A0%8F%E5%8F%98%E5%BE%97%E5%8A%A8%E6%80%81%E5%8C%96"><span class="toc-text">另：让 LLM 防护围栏变得动态化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%F0%9F%94%B4-%E4%BB%85%E4%BD%BF%E7%94%A8-LLM-%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%8C%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6%E6%88%96%E4%BB%A3%E7%A0%81"><span class="toc-text">4. [🔴] 仅使用 LLM 分析数据集，不使用插件或代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LLM-%E4%B8%8D%E6%93%85%E9%95%BF%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90%E7%B1%BB%E5%9E%8B"><span class="toc-text">LLM 不擅长的数据集分析类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LLM-%E6%93%85%E9%95%BF%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90%E7%B1%BB%E5%9E%8B"><span class="toc-text">LLM 擅长的数据集分析类型</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8-co-star-%E6%A1%86%E6%9E%B6%E6%9D%A5%E6%90%AD%E5%BB%BA-prompt-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text"> 1. [🔵] 使用 CO-STAR 框架来搭建 prompt 的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%88%86%E9%9A%94%E7%AC%A6%E4%B8%BA-prompt-%E8%AE%BE%E7%BD%AE%E5%88%86%E8%8A%82"><span class="toc-text"> 2. [🔵] 使用分隔符为 prompt 设置分节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E5%BD%93%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-text"> 用特殊字符当分隔符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8-xml-%E6%A0%87%E7%AD%BE%E5%BD%93%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-text"> 用 XML 标签当分隔符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-llm-%E9%98%B2%E6%8A%A4%E5%9B%B4%E6%A0%8F%E5%88%9B%E5%BB%BA%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA"><span class="toc-text"> 3. [🔴] 使用 LLM 防护围栏创建系统提示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#system-prompts-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text"> System Prompts 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E5%9C%A8%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8-system-prompts"><span class="toc-text"> 应在何时使用 System Prompts？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#system-prompts-%E5%BA%94%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88%E5%86%85%E5%AE%B9"><span class="toc-text"> System Prompts 应包含什么内容？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%82%A3%E4%B9%88%E6%99%AE%E9%80%9Aprompt-%E5%8F%88%E8%AF%A5%E5%8C%85%E5%90%AB%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9%E5%91%A2"><span class="toc-text"> 那么「普通」prompt 又该包含哪些内容呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A6%E8%AE%A9-llm-%E9%98%B2%E6%8A%A4%E5%9B%B4%E6%A0%8F%E5%8F%98%E5%BE%97%E5%8A%A8%E6%80%81%E5%8C%96"><span class="toc-text"> 另：让 LLM 防护围栏变得动态化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BB%85%E4%BD%BF%E7%94%A8-llm-%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6%E6%88%96%E4%BB%A3%E7%A0%81"><span class="toc-text"> 4. [🔴] 仅使用 LLM 分析数据集，不使用插件或代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#llm-%E4%B8%8D%E6%93%85%E9%95%BF%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90%E7%B1%BB%E5%9E%8B"><span class="toc-text"> LLM 不擅长的数据集分析类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#llm-%E6%93%85%E9%95%BF%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90%E7%B1%BB%E5%9E%8B"><span class="toc-text"> LLM 擅长的数据集分析类型</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3461,7 +3501,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3696,7 +3736,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/15/prompt_competion/","name":"GPT-4提示工程师竞赛-冠军心得"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"GPT-4提示工程师竞赛-冠军心得","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/15/prompt_competion/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/15/prompt_competion/","wordCount":0,"datePublished":"2024-05-15T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.903Z","articleSection":"gpt","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/15/prompt_competion/","name":"GPT-4提示工程师竞赛-冠军心得"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"GPT-4提示工程师竞赛-冠军心得","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/15/prompt_competion/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/15/prompt_competion/","wordCount":0,"datePublished":"2024-05-15T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.965Z","articleSection":"gpt","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

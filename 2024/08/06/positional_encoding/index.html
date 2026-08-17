@@ -43,11 +43,11 @@
 <meta property="og:title" content="位置编码设计">
 <meta property="og:url" content="https://nicemxm.github.io/2024/08/06/positional_encoding/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言本文将带你一步步探究 Transformer 模型中先进的位置编码技术。我们将通过迭代改进编码位置的方法，最终得出 旋转位置编码 (Rotary Postional Encoding, RoPE)，这也是最新发布的 LLama 3.2 和大多数现代 transformer 模型所采用的方法。本文旨在尽量减少所需的数学知识，但理解一些基本的线性代数、三角学和自注意力机制是有帮助的。 问题陈述你可">
+<meta property="og:description" content="引言 本文将带你一步步探究 Transformer 模型中先进的位置编码技术。我们将通过迭代改进编码位置的方法，最终得出 旋转位置编码 (Rotary Postional Encoding, RoPE)，这也是最新发布的 LLama 3.2 和大多数现代 transformer 模型所采用的方法。本文旨在尽量减少所需的数学知识，但理解一些基本的线性代数、三角学和自注意力机制是有帮助的。  问题陈">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-08-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:18:31.903Z">
+<meta property="article:modified_time" content="2026-08-17T06:41:16.965Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786947529801),
+    lastupdate: new Date(1786948910807),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,17 +2498,22 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文将带你一步步探究 Transformer 模型中先进的位置编码技术。我们将通过迭代改进编码位置的方法，最终得出 旋转位置编码 (Rotary Postional Encoding, RoPE)，这也是最新发布的 LLama 3.2 和大多数现代 transformer 模型所采用的方法。本文旨在尽量减少所需的数学知识，但理解一些基本的线性代数、三角学和自注意力机制是有帮助的。</p>
-<h2 id="问题陈述"><a href="#问题陈述" class="headerlink" title="问题陈述"></a>问题陈述</h2><p>你可以通过词语与其他词语的关系来理解一个词语的意义<br>—— John Rupert Firth</p>
+    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>本文将带你一步步探究 Transformer 模型中先进的位置编码技术。我们将通过迭代改进编码位置的方法，最终得出 旋转位置编码 (Rotary Postional Encoding, RoPE)，这也是最新发布的 LLama 3.2 和大多数现代 transformer 模型所采用的方法。本文旨在尽量减少所需的数学知识，但理解一些基本的线性代数、三角学和自注意力机制是有帮助的。</p>
+<h2 id="问题陈述"><a class="markdownIt-Anchor" href="#问题陈述"></a> 问题陈述</h2>
+<p>你可以通过词语与其他词语的关系来理解一个词语的意义<br>
+—— John Rupert Firth</p>
 <p>在所有问题中，首先要做的是理解 我们到底在解决什么问题。Transformer 中的自注意力机制用于理解序列中词元之间的关系。自注意力是一种 集合 操作，这意味着它是 排列等变的。如果我们不通过位置编码来丰富自注意力，许多重要的关系将 无法被确定。</p>
 <p>下面通过一个例子更好的说明此问题。</p>
-<h2 id="引导示例"><a href="#引导示例" class="headerlink" title="引导示例"></a>引导示例</h2><p>以下面这句话为例，单词的位置不同:</p>
+<h2 id="引导示例"><a class="markdownIt-Anchor" href="#引导示例"></a> 引导示例</h2>
+<p>以下面这句话为例，单词的位置不同:</p>
 <p>The dog chased another dog</p>
 <p>显然，“dog” 在两个位置上指代的是两个不同的实体。让我们看看如果我们首先对它们进行词元化，使用 Llama 3.2 1B 模型获得词元嵌入，并将它们传递给 torch.nn.MultiheadAttention 会发生什么。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, AutoModel</span><br><span class="line"></span><br><span class="line">model_id = <span class="string">&quot;meta-llama/Llama-3.2-1B&quot;</span></span><br><span class="line">tok = AutoTokenizer.from_pretrained(model_id)</span><br><span class="line">model = AutoModel.from_pretrained(model_id)</span><br><span class="line"></span><br><span class="line">text = <span class="string">&quot;The dog chased another dog&quot;</span></span><br><span class="line">tokens = tok(text, return_tensors=<span class="string">&quot;pt&quot;</span>)[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">embeddings = model.embed_tokens(tokens)</span><br><span class="line">hdim = embeddings.shape[-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">W_q = nn.Linear(hdim, hdim, bias=<span class="literal">False</span>)</span><br><span class="line">W_k = nn.Linear(hdim, hdim, bias=<span class="literal">False</span>)</span><br><span class="line">W_v = nn.Linear(hdim, hdim, bias=<span class="literal">False</span>)</span><br><span class="line">mha = nn.MultiheadAttention(embed_dim=hdim, num_heads=<span class="number">4</span>, batch_first=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> mha.parameters():</span><br><span class="line">        nn.init.normal_(param, std=<span class="number">0.1</span>) <span class="comment"># Initialize weights to be non-negligible</span></span><br><span class="line"></span><br><span class="line">output, _ = mha(W_q(embeddings), W_k(embeddings), W_v(embeddings))</span><br><span class="line"></span><br><span class="line">dog1_out = output[<span class="number">0</span>, <span class="number">2</span>]</span><br><span class="line">dog2_out = output[<span class="number">0</span>, <span class="number">5</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Dog output identical?: <span class="subst">&#123;torch.allclose(dog1_out, dog2_out, atol=<span class="number">1e-6</span>)&#125;</span>&quot;</span>) <span class="comment">#True</span></span><br></pre></td></tr></table></figure>
-
 <p>如我们所见，如果没有任何位置编码，那么经过多头自注意力操作后， 同一个词元在不同位置的输出是相同的，尽管这些词元代表的是不同的实体。接下来，我们将开始设计一种增强自注意力位置编码的方法，使其能够根据位置来区分单词之间的关系。</p>
-<h2 id="理想的位置编码方案应该如何表现？"><a href="#理想的位置编码方案应该如何表现？" class="headerlink" title="理想的位置编码方案应该如何表现？"></a>理想的位置编码方案应该如何表现？</h2><h3 id="理想属性"><a href="#理想属性" class="headerlink" title="理想属性"></a>理想属性</h3><p>让我们尝试定义一些理想的属性，使优化过程尽可能简单。</p>
+<h2 id="理想的位置编码方案应该如何表现"><a class="markdownIt-Anchor" href="#理想的位置编码方案应该如何表现"></a> 理想的位置编码方案应该如何表现？</h2>
+<h3 id="理想属性"><a class="markdownIt-Anchor" href="#理想属性"></a> 理想属性</h3>
+<p>让我们尝试定义一些理想的属性，使优化过程尽可能简单。</p>
 <p><strong>属性 1 - 每个位置的唯一编码 (跨序列)</strong></p>
 <p>每个位置都需要一个唯一的编码，无论序列长度如何，该编码保持一致 - 位置 5 的词元应该具有相同的编码，无论当前序列的长度是 10 还是 10,000。</p>
 <p><strong>属性 2 - 两个编码位置之间的线性关系</strong></p>
@@ -2521,49 +2526,62 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p><strong>属性 5 - 可扩展到多个维度</strong></p>
 <p>随着多模态模型的普及，我们的位置编码方案能够自然地从 1D 扩展到(nD) 至关重要。这将使模型能够处理图像、脑部扫描等二维和四维数据。</p>
 <p>现在我们知道了理想的属性 (以下称为 Prn)，让我们开始设计和迭代我们的编码方案。</p>
-<h3 id="整数位置编码"><a href="#整数位置编码" class="headerlink" title="整数位置编码"></a>整数位置编码</h3><p>第一个可能的方案是简单地将词元的位置整数值添加到每个词元嵌入的分量中，值的范围从 0→L，其中 L 是当前序列的长度。</p>
+<h3 id="整数位置编码"><a class="markdownIt-Anchor" href="#整数位置编码"></a> 整数位置编码</h3>
+<p>第一个可能的方案是简单地将词元的位置整数值添加到每个词元嵌入的分量中，值的范围从 0→L，其中 L 是当前序列的长度。</p>
 <p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/IntegerEncoding.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/IntegerEncoding.mp4</a></p>
 <p>在上面的动画中，我们利用索引值为 chased 词元创建了位置编码向量并将其添加到词元嵌入中。这里的嵌入值是 Llama 3.2 1B 中的真实值的一个子集。我们可以观察到它们集中在 0 附近。这是希望避免训练过程中的 梯度消失或梯度爆炸 问题，因此我们希望在模型中保持这一点。</p>
 <p>很明显，我们当前的简单方法会带来问题。位置值的大小远大于输入的实际值。这意味着信噪比非常低，模型很难将语义信息与位置编码区分开。</p>
-<p>有了这个新的认识，一个自然的后续步骤是通过 1&#x2F;N来规范化位置值。这样将值限制在 0 到 1 之间，但引入了另一个问题。如果我们选择 N 为当前序列的长度，那么位置值在不同长度的序列中会完全不同，从而违反了 Pr1。</p>
+<p>有了这个新的认识，一个自然的后续步骤是通过 1/N来规范化位置值。这样将值限制在 0 到 1 之间，但引入了另一个问题。如果我们选择 N 为当前序列的长度，那么位置值在不同长度的序列中会完全不同，从而违反了 Pr1。</p>
 <p>是否有更好的方法确保我们的数字在 0 到 1 之间？如果我们仔细思考一下，可能会想到从十进制转到二进制数。</p>
-<h3 id="二进制位置编码"><a href="#二进制位置编码" class="headerlink" title="二进制位置编码"></a>二进制位置编码</h3><p>与其将 (可能已经规范化的) 整数位置添加到每个词元的嵌入分量中，我们不如将位置转换成二进制表示，并将其 拉伸 以匹配我们的嵌入维度，如下所示。</p>
+<h3 id="二进制位置编码"><a class="markdownIt-Anchor" href="#二进制位置编码"></a> 二进制位置编码</h3>
+<p>与其将 (可能已经规范化的) 整数位置添加到每个词元的嵌入分量中，我们不如将位置转换成二进制表示，并将其 拉伸 以匹配我们的嵌入维度，如下所示。</p>
 <p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/BinaryEncoding.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/BinaryEncoding.mp4</a></p>
-<p>我们已经将感兴趣的位置信息 (252) 转换为其二进制表示 (11111100)，并将每一位加到词元嵌入的相应分量中。最低有效位 (LSB) 将在每个后续词元中在 0 和 1 之间循环，而最高有效位 (MSB) 将在每<br>2^(n−1)个词元中循环，其中 n 是位数。你可以在下面的动画中看到不同索引的二进制位置编码向量 []。</p>
+<p>我们已经将感兴趣的位置信息 (252) 转换为其二进制表示 (11111100)，并将每一位加到词元嵌入的相应分量中。最低有效位 (LSB) 将在每个后续词元中在 0 和 1 之间循环，而最高有效位 (MSB) 将在每<br>
+2^(n−1)个词元中循环，其中 n 是位数。你可以在下面的动画中看到不同索引的二进制位置编码向量 []。</p>
 <p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/BinaryPositionalEncodingPlot.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/BinaryPositionalEncodingPlot.mp4</a></p>
 <p>我们解决了值域的问题，并获得了在不同序列长度下都一致的唯一编码。如果我们绘制一个低维的嵌入表示，并观察对不同值加入二进制位置向量后的变化，会发生什么呢？</p>
 <p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/BinaryVector3D.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/BinaryVector3D.mp4</a></p>
 <p>我们可以看到，结果非常“跳跃”(这符合二进制离散性的预期)。优化过程更喜欢平滑、连续和可预测的变化。我们是否知道哪些函数的具有与此类似的值域，同时也是平滑和连续的？</p>
 <p>稍作思考就会发现，(\sin) 和 cos 恰好符合这个需求！</p>
-<h3 id="正弦位置编码"><a href="#正弦位置编码" class="headerlink" title="正弦位置编码"></a>正弦位置编码</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/SteppedPositionalEncodingPlot.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/SteppedPositionalEncodingPlot.mp4</a></p>
+<h3 id="正弦位置编码"><a class="markdownIt-Anchor" href="#正弦位置编码"></a> 正弦位置编码</h3>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/SteppedPositionalEncodingPlot.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/SteppedPositionalEncodingPlot.mp4</a></p>
 <p>上面的动画展示了位置嵌入的可视化，其中每个分量交替来自 sin 和 cos，并逐步增加其波长。如果将其与前一个动画对比，你会注意到惊人的相似性！</p>
 <p>我们现在得到了 正弦嵌入，其最初在 Attention is all you need 论文中被提出。以下是相关公式:</p>
 <p>其中，(pos) 是词元的位置索引，(i) 是位置编码向量的分量索引，(d) 是模型的维度，(10,000) 是 基波长 (以下简称为 θ)，它根据分量索引被拉伸或压缩。你可以代入一些实际的值，直观地感受这种几何级数的变化。</p>
 <p>选择 10,000 作为基准波长似乎是通过实验确定的 。解读同时使用 sin 和 cos 的意义较为复杂，但对于我们逐步理解问题的方法却至关重要。关键在于，我们希望两个位置编码 Pr 2之间具有线性关系。要理解使用 sin 和 cos 如何联合产生这种线性关系，我们需要深入了解一些三角学知识。</p>
 <p>假设一个正弦和余弦组成的序列对，每个序列对对应一个频率 ω i。我们的目标是找到一个线性变换矩阵 M，该矩阵可以将这些正弦函数按照固定偏移量 k 进行平移:</p>
 <p>这些频率 ω i遵循随维度索引 i 减小的几何级数，其定义为:</p>
-<p>如果你曾从事过游戏编程，可能会觉得这个结果似曾相识。没错，这就是 旋转矩阵！ </p>
+<p>如果你曾从事过游戏编程，可能会觉得这个结果似曾相识。没错，这就是 旋转矩阵！</p>
 <p>因此，Noam Shazeer 在 Attention is all you need 一文中设计的编码方案早在 2017 年就已经通过旋转来编码相对位置了！但从正弦位置编码到 RoPE (旋转位置编码) 却花了整整 4 年，尽管旋转的概念早已被提出……</p>
-<h3 id="绝对位置编码-vs-相对位置编码"><a href="#绝对位置编码-vs-相对位置编码" class="headerlink" title="绝对位置编码 vs 相对位置编码"></a>绝对位置编码 vs 相对位置编码</h3><p>认识到旋转的重要性后，让我们回到引导示例，并尝试为下一次迭代探索一些灵感。</p>
-<p>上图展示了词元的绝对位置以及从<br>chased<br>chased 到其他词元的相对位置。通过正弦位置编码，我们生成了一个表示绝对位置的独立向量，并利用一些三角技巧将相对位置编码了进来。</p>
+<h3 id="绝对位置编码-vs-相对位置编码"><a class="markdownIt-Anchor" href="#绝对位置编码-vs-相对位置编码"></a> 绝对位置编码 vs 相对位置编码</h3>
+<p>认识到旋转的重要性后，让我们回到引导示例，并尝试为下一次迭代探索一些灵感。</p>
+<p>上图展示了词元的绝对位置以及从<br>
+chased<br>
+chased 到其他词元的相对位置。通过正弦位置编码，我们生成了一个表示绝对位置的独立向量，并利用一些三角技巧将相对位置编码了进来。</p>
 <p>当我们试图理解这些句子时， this 单词是这篇博客中第 2157 个词的重要性有多大？或者我们更关心它与周围单词的关系？单词的绝对位置对于其意义来说很少重要——真正重要的是单词之间的相互关系。</p>
-<h3 id="在上下文中理解位置编码"><a href="#在上下文中理解位置编码" class="headerlink" title="在上下文中理解位置编码"></a>在上下文中理解位置编码</h3><p>从现在开始，我们需要将位置编码放在 自注意力机制的上下文中 中分析。再强调一次，自注意力机制让模型能够评估输入序列中不同元素的重要性，并动态调整它们对输出的影响。</p>
+<h3 id="在上下文中理解位置编码"><a class="markdownIt-Anchor" href="#在上下文中理解位置编码"></a> 在上下文中理解位置编码</h3>
+<p>从现在开始，我们需要将位置编码放在 自注意力机制的上下文中 中分析。再强调一次，自注意力机制让模型能够评估输入序列中不同元素的重要性，并动态调整它们对输出的影响。</p>
 <p>在之前的所有迭代中，我们生成了一个独立的位置信息向量，并在 Q、(K) 和 V 投影之前将其 加到 词元嵌入上。这样做实际上是将位置信息与语义信息混合在一起，对嵌入向量的范数进行了修改。为了避免污染语义信息，我们应该尝试使用乘法进行编码。</p>
 <p>用词典的类比来说，当我们查找一个单词 (query) 在词典 (keys) 中的含义时，邻近的单词应该比远处的单词有更大的影响。这种影响是通过 QK T 的点积来决定的，因此位置编码应该集中在这里！</p>
 <p>点积的几何解释为我们提供了一个极好的灵感: 我们可以通过改变两个向量之间的角度来调整点积的结果。此外，通过旋转向量，我们不会改变向量的范数，从而不会影响词元的语义信息。</p>
 <p>现在，我们知道应该把注意力放在哪里，并从另一个视角看到了为什么旋转是一种合理的“通道”来编码位置信息——让我们把一切整合起来吧！</p>
-<h3 id="旋转位置编码-RoPE"><a href="#旋转位置编码-RoPE" class="headerlink" title="旋转位置编码 (RoPE)"></a>旋转位置编码 (RoPE)</h3><p>旋转位置编码 (Rotary Positional Encoding，简称 RoPE ) 是在 RoFormer 论文 中定义的 (Jianlin Su 在他的博客 这里 和 这里 中独立设计了这一方法)。</p>
+<h3 id="旋转位置编码-rope"><a class="markdownIt-Anchor" href="#旋转位置编码-rope"></a> 旋转位置编码 (RoPE)</h3>
+<p>旋转位置编码 (Rotary Positional Encoding，简称 RoPE ) 是在 RoFormer 论文 中定义的 (Jianlin Su 在他的博客 这里 和 这里 中独立设计了这一方法)。</p>
 <p>如果直接跳到最终结果，可能会觉得它像是某种“魔法”。但通过将正弦位置编码放在自注意力 (尤其是点积) 的背景下思考，我们可以看出它的核心逻辑。</p>
-<p>与正弦位置编码类似，我们将向量 q 或 k (而非投影前的 x) 分解为二维的对&#x2F;块。不同于通过将基于逐渐减小频率的正弦函数生成的向量相加来直接编码 绝对 位置，RoPE 通过 对每一对分量应用旋转矩阵 来编码 相对 位置。</p>
+<p>与正弦位置编码类似，我们将向量 q 或 k (而非投影前的 x) 分解为二维的对/块。不同于通过将基于逐渐减小频率的正弦函数生成的向量相加来直接编码 绝对 位置，RoPE 通过 对每一对分量应用旋转矩阵 来编码 相对 位置。</p>
 <p>令 q 或 k 为位置 p 处的输入向量。我们创建一个块对角矩阵，其中 M i是对应分量对的旋转矩阵:</p>
 <p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/RopeEncoding.mp4">https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/you-could-have-designed-SOTA-positional-encoding/RopeEncoding.mp4</a></p>
 <p>实际上，我们并不直接通过矩阵乘法计算 RoPE，因为使用稀疏矩阵会导致计算效率低下。取而代之，我们可以利用计算规律直接对分量对分别应用旋转操作:</p>
 <p>就是这么简单！通过在 q 和 k 的二维块上巧妙地应用旋转操作，并从加法切换为乘法，我们可以显著提升评估性能([^4])。</p>
-<h3 id="将-RoPE-扩展到-n-维"><a href="#将-RoPE-扩展到-n-维" class="headerlink" title="将 RoPE 扩展到 n- 维"></a>将 RoPE 扩展到 n- 维</h3><p>我们已经探讨了 RoPE 的 (1D) 情况，到这里为止，我希望你已经对这种直观上难以理解的 Transformer 组件有了一定的认识。接下来，我们来看看如何将其扩展到更高维度的数据，例如图像。</p>
-<p>一个直观的想法是直接使用图像的<br>[x y] 坐标对。这看起来很合理，毕竟我们之前就是随意地将分量配对。然而，这将是一个错误！ 在 1D 情况下，我们通过对输入向量中分量对的旋转来编码相对位置 m−n。对于 2D 数据，我们需要独立地编码水平和垂直的相对位置 (例如 m−n 和 i−j)。RoPE 的精妙之处在于其如何处理多维度。与其尝试在单次旋转中编码所有位置信息，不如在 同一维度内配对分量并旋转，否则我们会混淆 x 和 y 偏移信息。通过分别处理每个维度，我们保持了数据的自然结构。这一方法可以推广到任意多维数据！</p>
-<h3 id="位置编码的未来"><a href="#位置编码的未来" class="headerlink" title="位置编码的未来"></a>位置编码的未来</h3><p>RoPE 是位置编码的最终形式吗？DeepMind 的 这篇论文 深入分析了 RoPE 并指出了一些根本性问题。总结: RoPE 并非完美解决方案，模型主要专注于低频分量，而对某些低频分量的旋转能够提升 Gemma 2B 的性能！</p>
+<h3 id="将-rope-扩展到-n-维"><a class="markdownIt-Anchor" href="#将-rope-扩展到-n-维"></a> 将 RoPE 扩展到 n- 维</h3>
+<p>我们已经探讨了 RoPE 的 (1D) 情况，到这里为止，我希望你已经对这种直观上难以理解的 Transformer 组件有了一定的认识。接下来，我们来看看如何将其扩展到更高维度的数据，例如图像。</p>
+<p>一个直观的想法是直接使用图像的<br>
+[x y] 坐标对。这看起来很合理，毕竟我们之前就是随意地将分量配对。然而，这将是一个错误！ 在 1D 情况下，我们通过对输入向量中分量对的旋转来编码相对位置 m−n。对于 2D 数据，我们需要独立地编码水平和垂直的相对位置 (例如 m−n 和 i−j)。RoPE 的精妙之处在于其如何处理多维度。与其尝试在单次旋转中编码所有位置信息，不如在 同一维度内配对分量并旋转，否则我们会混淆 x 和 y 偏移信息。通过分别处理每个维度，我们保持了数据的自然结构。这一方法可以推广到任意多维数据！</p>
+<h3 id="位置编码的未来"><a class="markdownIt-Anchor" href="#位置编码的未来"></a> 位置编码的未来</h3>
+<p>RoPE 是位置编码的最终形式吗？DeepMind 的 这篇论文 深入分析了 RoPE 并指出了一些根本性问题。总结: RoPE 并非完美解决方案，模型主要专注于低频分量，而对某些低频分量的旋转能够提升 Gemma 2B 的性能！</p>
 <p>未来可能会有一些突破，或许从信号处理中汲取灵感，例如小波或分层实现。随着模型越来越多地被量化以便于部署，我也期待在低精度计算下仍然保持鲁棒性的编码方案出现。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>在 Transformer 中，位置编码常被视为事后的补丁。我认为我们应当改变这种看法——自注意力机制有一个“致命弱点”，它需要被反复修补。</p>
+<h2 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h2>
+<p>在 Transformer 中，位置编码常被视为事后的补丁。我认为我们应当改变这种看法——自注意力机制有一个“致命弱点”，它需要被反复修补。</p>
 <p>希望这篇博客能让你明白，即便这种方法起初看起来难以直观理解，你也可以发现最新的状态 -of-the-art 位置编码。在后续文章中，我将探讨如何实践 RoPE 的具体实现细节以优化性能。</p>
 
   </div>
@@ -2589,7 +2607,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:18:31+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2695,7 +2713,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2024/08/06/grpo/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>深入了解 GRPO 方法</p>
-          <p class='content'>引言GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身在训练期间生成的数据进行迭代改进。GRPO 目标背后的直觉是最大限度地利用生成的完成，同时确保模型始终接近参考策略。要了解 GRP...</p>
+          <p class='content'> 引言
+GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身在训练期间生成的数据进行迭代改进。GRPO 目标背后的直觉是最大限度地利用生成的完成，同时确保模型始终接近参考策略。要了解 G...</p>
         </a>
       
       
@@ -2703,7 +2722,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           <p class='title'>MInference 1.0：通过动态稀疏注意力加速长上下文 LLM 的预填充<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>论文
 GitHub
-摘要大型语言模型 （LLM） 推理的计算挑战仍然是其广泛部署的重大障碍，尤其是在提示长度不断增加的情况下。由于注意力计算的二次复杂度，8B LLM 在单个 A100 GPU ...</p>
+ 摘要
+大型语言模型 （LLM） 推理的计算挑战仍然是其广泛部署的重大障碍，尤其是在提示长度不断增加的情况下。由于注意力计算的二次复杂度，8B LLM 在单个 A100 GP...</p>
         </a>
       
     </div>
@@ -2764,7 +2784,7 @@ GitHub
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="toc-text">问题陈述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E7%A4%BA%E4%BE%8B"><span class="toc-text">引导示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E6%83%B3%E7%9A%84%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E6%96%B9%E6%A1%88%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E8%A1%A8%E7%8E%B0%EF%BC%9F"><span class="toc-text">理想的位置编码方案应该如何表现？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E6%83%B3%E5%B1%9E%E6%80%A7"><span class="toc-text">理想属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text">整数位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text">二进制位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%BC%A6%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text">正弦位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81-vs-%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text">绝对位置编码 vs 相对位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%AD%E7%90%86%E8%A7%A3%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text">在上下文中理解位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81-RoPE"><span class="toc-text">旋转位置编码 (RoPE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86-RoPE-%E6%89%A9%E5%B1%95%E5%88%B0-n-%E7%BB%B4"><span class="toc-text">将 RoPE 扩展到 n- 维</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-text">位置编码的未来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="toc-text"> 问题陈述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E7%A4%BA%E4%BE%8B"><span class="toc-text"> 引导示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E6%83%B3%E7%9A%84%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E6%96%B9%E6%A1%88%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E8%A1%A8%E7%8E%B0"><span class="toc-text"> 理想的位置编码方案应该如何表现？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E6%83%B3%E5%B1%9E%E6%80%A7"><span class="toc-text"> 理想属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text"> 整数位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text"> 二进制位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%BC%A6%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text"> 正弦位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81-vs-%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text"> 绝对位置编码 vs 相对位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%AD%E7%90%86%E8%A7%A3%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="toc-text"> 在上下文中理解位置编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81-rope"><span class="toc-text"> 旋转位置编码 (RoPE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86-rope-%E6%89%A9%E5%B1%95%E5%88%B0-n-%E7%BB%B4"><span class="toc-text"> 将 RoPE 扩展到 n- 维</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-text"> 位置编码的未来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text"> 结论</span></a></li></ol>
   </div>
 </section>
 
@@ -3171,7 +3191,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3406,7 +3426,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/08/06/positional_encoding/","name":"位置编码设计"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"位置编码设计","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/08/06/positional_encoding/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/08/06/positional_encoding/","wordCount":0,"datePublished":"2024-08-06T16:00:00.000Z","dateModified":"2026-08-17T06:18:31.903Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/08/06/positional_encoding/","name":"位置编码设计"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"位置编码设计","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/08/06/positional_encoding/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/08/06/positional_encoding/","wordCount":0,"datePublished":"2024-08-06T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.965Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
