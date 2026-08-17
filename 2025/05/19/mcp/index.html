@@ -43,11 +43,11 @@
 <meta property="og:title" content="什么是MCP">
 <meta property="og:url" content="https://nicemxm.github.io/2025/05/19/mcp/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言 如今的大型语言模型 （LLM） 在现实当中非常智能，但一旦它们需要超出冻结训练数据中的信息，它们就会陷入困境。要使 AI 代理真正有用，它们必须在正确的时间访问正确的上下文（无论是您的文件、知识库还是工具），甚至根据该上下文执行更新文档或发送电子邮件等作。从历史上看，将 AI 模型连接到所有这些外部来源一直是一件混乱的临时工作。开发人员必须为每个数据源或 API 编写自定义代码或使用专用插">
+<meta property="og:description" content="引言如今的大型语言模型 （LLM） 在现实当中非常智能，但一旦它们需要超出冻结训练数据中的信息，它们就会陷入困境。要使 AI 代理真正有用，它们必须在正确的时间访问正确的上下文（无论是您的文件、知识库还是工具），甚至根据该上下文执行更新文档或发送电子邮件等作。从历史上看，将 AI 模型连接到所有这些外部来源一直是一件混乱的临时工作。开发人员必须为每个数据源或 API 编写自定义代码或使用专用插件。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-05-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:41:16.965Z">
+<meta property="article:modified_time" content="2026-08-17T07:32:08.963Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="agent">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786948910807),
+    lastupdate: new Date(1786951943027),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2308,7 +2308,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='top'>
     
     
-      <p class="title">OpenAI</p>
+      <p class="title">OpenHarness</p>
     
     
   </div>
@@ -2325,10 +2325,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div class='list-h'>
         
           
-            <a href="/v4/getting-started/"
+            <a href="/archives/"
               
               
-              active-action="action-v4getting-started">
+              active-action="action-archives">
               <p>文档</p>
             </a>
           
@@ -2498,119 +2498,86 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
-<p>如今的大型语言模型 （LLM） 在现实当中非常智能，但一旦它们需要超出冻结训练数据中的信息，它们就会陷入困境。要使 AI 代理真正有用，它们必须在正确的时间访问正确的上下文（无论是您的文件、知识库还是工具），甚至根据该上下文执行更新文档或发送电子邮件等作。从历史上看，将 AI 模型连接到所有这些外部来源一直是一件混乱的临时工作。开发人员必须为每个数据源或 API 编写自定义代码或使用专用插件。这使得 “wire together” 集成变得脆弱且难以扩展。</p>
+    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>如今的大型语言模型 （LLM） 在现实当中非常智能，但一旦它们需要超出冻结训练数据中的信息，它们就会陷入困境。要使 AI 代理真正有用，它们必须在正确的时间访问正确的上下文（无论是您的文件、知识库还是工具），甚至根据该上下文执行更新文档或发送电子邮件等作。从历史上看，将 AI 模型连接到所有这些外部来源一直是一件混乱的临时工作。开发人员必须为每个数据源或 API 编写自定义代码或使用专用插件。这使得 “wire together” 集成变得脆弱且难以扩展。</p>
 <p>为了简化这一过程，Anthropic 推出了模型上下文协议（MCP）——一个开放标准，旨在将 AI 助手与数据和工具世界连接起来，让其能够接入多种不同的上下文来源。他们在 2024 年 11 月宣布了这一协议，起初市场反应平平。但现在 MCP 正在迅速流行，已经超过 Langchain，并且有望在不久的将来超越 OpenAPI 和 CrewAI。主要 AI 参与者和开源社区纷纷支持 MCP，认为它可能会成为构建具备自主能力的 AI 系统的革命性技术。为什么会这样呢？</p>
 <p>在这篇文章中，我们将深入探讨 <strong>MCP（模型上下文协议）</strong>——为什么它目前成为热门话题，MCP 如何推动 AI 向更加集成、具备上下文感知的方向发展，以及它在自主代理工作流中的作用。此外，我们还会揭示一些鲜为人知的细节，这些是开发者、研究人员、AI 工程师和科技高管应该关注的内容。同时，我们还将探索一些创新性的 MCP 应用，其中许多尚未被广泛尝试。</p>
-<h2 id="为什么-mcp-现在掀起浪潮而不是去年-11-月"><a class="markdownIt-Anchor" href="#为什么-mcp-现在掀起浪潮而不是去年-11-月"></a> 为什么 MCP 现在掀起浪潮（而不是去年 11 月）？</h2>
-<p>MCP 由 Anthropic 在 2024 年 11 月底首次开源并发布。当时，它是一个令人兴奋的概念，但并没有引起太多关注或被认真对待。直到 2025 年初，MCP 才真正进入 AI 社群的视野，引发广泛讨论。这一波热潮的主要原因包括：</p>
+<h2 id="为什么-MCP-现在掀起浪潮（而不是去年-11-月）？"><a href="#为什么-MCP-现在掀起浪潮（而不是去年-11-月）？" class="headerlink" title="为什么 MCP 现在掀起浪潮（而不是去年 11 月）？"></a>为什么 MCP 现在掀起浪潮（而不是去年 11 月）？</h2><p>MCP 由 Anthropic 在 2024 年 11 月底首次开源并发布。当时，它是一个令人兴奋的概念，但并没有引起太多关注或被认真对待。直到 2025 年初，MCP 才真正进入 AI 社群的视野，引发广泛讨论。这一波热潮的主要原因包括：</p>
 <p><strong>解决集成问题</strong>：AI 代理和自主工作流在 2023-2024 年间成为热门话题，但它们的最大短板一直是：如何与现实世界的业务系统和数据进行集成。最初，人们的关注点主要集中在模型能力和提示技术上，而不是数据和系统集成。MCP 则精准填补了这一空白，它定义了“如何将现有数据源”（文件系统、数据库、API 等）接入 AI 工作流。随着人们深入研究 MCP，它逐渐被视为让 AI 代理真正进入生产环境的关键拼图。（这是 HumanX 会议上的一个观点：近年来，我们主要关注构建独立的 AI 模型，每个模型都专注于特定任务。但随着复杂性和需求的增长，AI 开发正在向<strong>集成系统</strong>转变，即由多个专门模型、软件组件、API、数据源和界面协调合作的体系。）</p>
 <p><strong>社区发展与应用普及</strong>：在短短几个月内，MCP 从概念变成了一个不断增长的生态系统。早期采用者包括 Block（Square）、Apollo、Zed、Replit、Codeium 和 Sourcegraph 等公司，它们开始集成 MCP 以增强自身平台。到了 2025 年，生态系统呈现爆发式增长——到 2 月，已有超过 1,000 个社区构建的 MCP 服务器（连接器）可用。很明显，MCP 的崛起符合行业向更<strong>集成化、具备上下文感知</strong>的 AI 方向发展的趋势。这种<strong>网络效应</strong>使得 MCP 更具吸引力：可用的工具越多，采用 MCP 标准的价值就越大。</p>
 <p><strong>迈向事实上的行业标准</strong>：与其他专有 SDK 或零散框架不同，MCP 是开放的、模型无关的，并且由知名 AI 公司支持。这意味着<strong>任何 AI 模型</strong>（Claude、GPT-4、开源 LLM 等）都可以使用 MCP，<strong>任何开发者或公司</strong>都可以创建 MCP 集成，而无需获得许可。许多社区成员认为 MCP 很可能会成为<strong>AI 系统连接外部数据的标准</strong>——类似于 USB、HTTP 或 ODBC 成为各自领域的通用标准。</p>
 <p><strong>快速发展与教育推广</strong>：Anthropic 并没有发布 MCP 后就不管不问，他们一直在<strong>积极改进 MCP 并教育开发者</strong>。在最近的 AI 峰会上，Anthropic 的 Mahesh Murthy 举办了一场<strong>爆火的 MCP 研讨会</strong>，进一步推动了 MCP 的采用。（文末还包含所有相关学习资源链接，供读者深入了解。）</p>
 <p>MCP 的崛起不仅是技术上的突破，也是社区推动、行业需求和开放标准趋势共同作用的结果。你怎么看 MCP 未来的发展？</p>
-<h2 id="mcp模型上下文协议是什么它是如何工作的"><a class="markdownIt-Anchor" href="#mcp模型上下文协议是什么它是如何工作的"></a> <strong>MCP（模型上下文协议）是什么，它是如何工作的？</strong></h2>
-<p>MCP 设定了<strong>明确的规则</strong>，规定 AI 如何查找、连接并使用外部工具——无论是查询数据库还是执行命令。借助 MCP，AI 不再仅仅局限于其训练数据，而是能够<strong>突破固有信息的限制</strong>，让模型更加灵活，并能够感知和利用周围的真实世界信息。</p>
+<h2 id="MCP（模型上下文协议）是什么，它是如何工作的？"><a href="#MCP（模型上下文协议）是什么，它是如何工作的？" class="headerlink" title="MCP（模型上下文协议）是什么，它是如何工作的？"></a><strong>MCP（模型上下文协议）是什么，它是如何工作的？</strong></h2><p>MCP 设定了<strong>明确的规则</strong>，规定 AI 如何查找、连接并使用外部工具——无论是查询数据库还是执行命令。借助 MCP，AI 不再仅仅局限于其训练数据，而是能够<strong>突破固有信息的限制</strong>，让模型更加灵活，并能够感知和利用周围的真实世界信息。</p>
 <p><strong>MCP 的技术概述：</strong></p>
 <p>MCP 具有一个显著特性——<strong>动态发现</strong>，即 AI 代理可以<strong>自动检测</strong>可用的 MCP 服务器及其能力，而无需进行<strong>硬编码集成</strong>。例如，如果你启动一个新的 MCP 服务器（比如 CRM），AI 代理可以<strong>立即识别并使用它</strong>，通过标准化 API 进行连接。这种灵活性远<strong>超越传统集成方式</strong>，使得 AI 代理能够适应不断变化的系统和数据源。</p>
-<h3 id="如何开始使用-mcp"><a class="markdownIt-Anchor" href="#如何开始使用-mcp"></a> <strong>如何开始使用 MCP？</strong></h3>
-<p>最好的起点是<strong>官方 MCP 文档和代码库</strong>。Anthropic 已开源了 MCP 规范，并提供了 SDK（支持 Python，现在甚至包括 Java）。一般来说，入门步骤如下：</p>
+<h3 id="如何开始使用-MCP？"><a href="#如何开始使用-MCP？" class="headerlink" title="如何开始使用 MCP？"></a><strong>如何开始使用 MCP？</strong></h3><p>最好的起点是<strong>官方 MCP 文档和代码库</strong>。Anthropic 已开源了 MCP 规范，并提供了 SDK（支持 Python，现在甚至包括 Java）。一般来说，入门步骤如下：</p>
 <ol>
-<li>
-<p><strong>运行或安装 MCP 服务器</strong>，用于管理你需要的工具或数据源。Anthropic 在开源代码库中提供了<strong>预构建的 MCP 服务器</strong>，涵盖 Google Drive、Slack、Git、数据库等流行系统。你可以安装这些服务器，并进行配置（通常只需运行命令并提供凭据或密钥）。</p>
+<li><p><strong>运行或安装 MCP 服务器</strong>，用于管理你需要的工具或数据源。Anthropic 在开源代码库中提供了<strong>预构建的 MCP 服务器</strong>，涵盖 Google Drive、Slack、Git、数据库等流行系统。你可以安装这些服务器，并进行配置（通常只需运行命令并提供凭据或密钥）。</p>
 </li>
-<li>
-<p><strong>在你的 AI 应用中设置 MCP 客户端</strong>。如果你在使用 Claude 的应用，可以直接在 UI 中添加 MCP 服务器。如果你在编写自己的 AI 代理，可以通过 MCP SDK 连接到服务器（提供地址和端口）。</p>
+<li><p><strong>在你的 AI 应用中设置 MCP 客户端</strong>。如果你在使用 Claude 的应用，可以直接在 UI 中添加 MCP 服务器。如果你在编写自己的 AI 代理，可以通过 MCP SDK 连接到服务器（提供地址和端口）。</p>
 </li>
-<li>
-<p><strong>启用 MCP 服务后，AI 代理会自动发现并利用 MCP 服务器提供的附加功能</strong>，如新工具、资源和提示模板，使 AI 具备更强的上下文处理能力。</p>
+<li><p><strong>启用 MCP 服务后，AI 代理会自动发现并利用 MCP 服务器提供的附加功能</strong>，如新工具、资源和提示模板，使 AI 具备更强的上下文处理能力。</p>
 </li>
-<li>
-<p><strong>调用并迭代优化</strong>。你的 AI 模型或代理可以<strong>随时调用 MCP 提供的工具</strong>。你可以<strong>监控日志</strong>，确保正确调用 MCP 服务器，并查看请求和响应数据，以优化集成效果。</p>
+<li><p><strong>调用并迭代优化</strong>。你的 AI 模型或代理可以<strong>随时调用 MCP 提供的工具</strong>。你可以<strong>监控日志</strong>，确保正确调用 MCP 服务器，并查看请求和响应数据，以优化集成效果。</p>
 </li>
 </ol>
-<p>如果你想快速入门，Anthropic 建议尝试<strong>Claude Desktop 集成</strong>（如果你有访问权限），或者运行示例服务器，并使用其<strong>快速入门指南</strong>。此外，MCP 社区非常活跃，已构建了大量 MCP 服务器，涵盖 Google 服务（Drive、Gmail、Calendar）、Slack（聊天与文件访问）、GitHub/Git（代码库管理）、Postgres 数据库、Web 浏览器（如 Puppeteer），以及更多工具。许多 MCP 服务器都被列在社区目录中（一些开发者创建了专门的索引网站）。你也可以在<strong>官方 MCP GitHub</strong> 上找到许多<strong>连接器实现</strong>，帮助你快速上手。</p>
+<p>如果你想快速入门，Anthropic 建议尝试<strong>Claude Desktop 集成</strong>（如果你有访问权限），或者运行示例服务器，并使用其<strong>快速入门指南</strong>。此外，MCP 社区非常活跃，已构建了大量 MCP 服务器，涵盖 Google 服务（Drive、Gmail、Calendar）、Slack（聊天与文件访问）、GitHub&#x2F;Git（代码库管理）、Postgres 数据库、Web 浏览器（如 Puppeteer），以及更多工具。许多 MCP 服务器都被列在社区目录中（一些开发者创建了专门的索引网站）。你也可以在<strong>官方 MCP GitHub</strong> 上找到许多<strong>连接器实现</strong>，帮助你快速上手。</p>
 <p>如果 MCP 还没有适配你所需的工具，你可以使用 SDK <strong>构建自己的 MCP 服务器</strong>——通常，它只是一个<strong>对该工具 API 的轻量封装</strong>，并以 MCP 兼容的格式公开相关功能。</p>
-<h3 id="在-mcp-之前ai-系统是如何处理上下文和工具访问的"><a class="markdownIt-Anchor" href="#在-mcp-之前ai-系统是如何处理上下文和工具访问的"></a> <strong>在 MCP 之前，AI 系统是如何处理上下文和工具访问的？</strong></h3>
-<p>让我们简要回顾一下<strong>传统方法</strong>如何为 AI 提供外部知识或执行操作，以及 MCP 如何与之不同：</p>
+<h3 id="在-MCP-之前，AI-系统是如何处理上下文和工具访问的？"><a href="#在-MCP-之前，AI-系统是如何处理上下文和工具访问的？" class="headerlink" title="在 MCP 之前，AI 系统是如何处理上下文和工具访问的？"></a><strong>在 MCP 之前，AI 系统是如何处理上下文和工具访问的？</strong></h3><p>让我们简要回顾一下<strong>传统方法</strong>如何为 AI 提供外部知识或执行操作，以及 MCP 如何与之不同：</p>
 <ul>
-<li>
-<p><strong>自定义 API 集成（一次性连接器）</strong>：最常见的方法是<strong>为每个服务编写自定义代码或使用 SDK</strong>。例如，如果你希望 AI 代理访问 <strong>Google Drive</strong> 和 <strong>SQL 数据库</strong>，你必须分别集成 Google API 和数据库驱动程序，每个都有自己的<strong>身份验证、数据格式和操作方式</strong>——非常麻烦！而 MCP 提供了一个<strong>通用协议</strong>，类似于一把<strong>万能钥匙</strong>，可以解锁多个系统，并且无需修改客户端即可添加新的 MCP 服务器。</p>
+<li><p><strong>自定义 API 集成（一次性连接器）</strong>：最常见的方法是<strong>为每个服务编写自定义代码或使用 SDK</strong>。例如，如果你希望 AI 代理访问 <strong>Google Drive</strong> 和 <strong>SQL 数据库</strong>，你必须分别集成 Google API 和数据库驱动程序，每个都有自己的<strong>身份验证、数据格式和操作方式</strong>——非常麻烦！而 MCP 提供了一个<strong>通用协议</strong>，类似于一把<strong>万能钥匙</strong>，可以解锁多个系统，并且无需修改客户端即可添加新的 MCP 服务器。</p>
 </li>
-<li>
-<p><strong>语言模型插件（OpenAI 插件等）</strong>：2023 年引入的一种方法是让模型使用<strong>标准化的插件规范</strong>（通常是 OpenAPI 方案），从而受控地调用外部 API（例如 ChatGPT 插件系统）。尽管与 MCP 有类似的目标（标准化工具访问），但这些插件通常是<strong>专有的</strong>，且<strong>局限性较大</strong>——每个插件仍然需要<strong>单独构建和托管</strong>，并且只有某些特定平台（如 ChatGPT 或 Bing Chat）可以使用。此外，插件通常<strong>只支持单向数据检索</strong>（模型调用 API 获取信息），而无法保持<strong>持续的互动</strong>。MCP 的优势在于<strong>开源和通用性</strong>（任何人都可以实施，不依赖于某个 AI 提供商），并且支持<strong>双向交互</strong>，它像是 AI 和工具之间的<strong>对话</strong>，而插件更像是<strong>无状态的问答调用</strong>。</p>
+<li><p><strong>语言模型插件（OpenAI 插件等）</strong>：2023 年引入的一种方法是让模型使用<strong>标准化的插件规范</strong>（通常是 OpenAPI 方案），从而受控地调用外部 API（例如 ChatGPT 插件系统）。尽管与 MCP 有类似的目标（标准化工具访问），但这些插件通常是<strong>专有的</strong>，且<strong>局限性较大</strong>——每个插件仍然需要<strong>单独构建和托管</strong>，并且只有某些特定平台（如 ChatGPT 或 Bing Chat）可以使用。此外，插件通常<strong>只支持单向数据检索</strong>（模型调用 API 获取信息），而无法保持<strong>持续的互动</strong>。MCP 的优势在于<strong>开源和通用性</strong>（任何人都可以实施，不依赖于某个 AI 提供商），并且支持<strong>双向交互</strong>，它像是 AI 和工具之间的<strong>对话</strong>，而插件更像是<strong>无状态的问答调用</strong>。</p>
 </li>
-<li>
-<p><strong>工具使用（LangChain 工具、AI 代理）</strong>：LangChain 等<strong>代理编排库</strong>推动了 AI <strong>工具调用</strong>的概念，即模型可以使用定义好的<strong>工具（函数）</strong>，比如 <code>search()</code> 或 <code>calculate()</code>，代理（LLM）决定何时调用。这很强大，但<strong>每个工具仍然需要自定义实现</strong>——LangChain 的库已经扩展到 500 多种工具，虽然接口统一，但开发者仍然需要手动连接这些工具，确保它们适用于自己的需求。MCP 在这里是<strong>互补的</strong>：它提供了工具的<strong>标准化接口</strong>，而 MCP 服务器可以看作是<strong>现成的工具库</strong>，任何 AI 代理都可以使用。区别在于标准化的方式：LangChain 为<strong>开发者</strong>提供了标准（Tool 类接口），用于在代理代码中集成工具；MCP 为<strong>模型</strong>提供了标准——<strong>运行中的 AI 代理可以在执行时发现并使用任何 MCP 定义的工具</strong>，即使<strong>代码没有针对某个工具进行自定义集成</strong>，模型也可以<strong>动态使用它</strong>。实际上，这些方法正在趋同：LangChain 团队在 MCP 崛起后开发了<strong>适配器</strong>，让所有 MCP 服务器（连接器）都可以被<strong>当作 LangChain 工具</strong>使用。因此，使用 LangChain 或其他框架构建的代理<strong>可以直接调用 MCP 工具</strong>，并受益于日益增长的 MCP 生态系统。</p>
+<li><p><strong>工具使用（LangChain 工具、AI 代理）</strong>：LangChain 等<strong>代理编排库</strong>推动了 AI <strong>工具调用</strong>的概念，即模型可以使用定义好的<strong>工具（函数）</strong>，比如 <code>search()</code> 或 <code>calculate()</code>，代理（LLM）决定何时调用。这很强大，但<strong>每个工具仍然需要自定义实现</strong>——LangChain 的库已经扩展到 500 多种工具，虽然接口统一，但开发者仍然需要手动连接这些工具，确保它们适用于自己的需求。MCP 在这里是<strong>互补的</strong>：它提供了工具的<strong>标准化接口</strong>，而 MCP 服务器可以看作是<strong>现成的工具库</strong>，任何 AI 代理都可以使用。区别在于标准化的方式：LangChain 为<strong>开发者</strong>提供了标准（Tool 类接口），用于在代理代码中集成工具；MCP 为<strong>模型</strong>提供了标准——<strong>运行中的 AI 代理可以在执行时发现并使用任何 MCP 定义的工具</strong>，即使<strong>代码没有针对某个工具进行自定义集成</strong>，模型也可以<strong>动态使用它</strong>。实际上，这些方法正在趋同：LangChain 团队在 MCP 崛起后开发了<strong>适配器</strong>，让所有 MCP 服务器（连接器）都可以被<strong>当作 LangChain 工具</strong>使用。因此，使用 LangChain 或其他框架构建的代理<strong>可以直接调用 MCP 工具</strong>，并受益于日益增长的 MCP 生态系统。</p>
 </li>
-<li>
-<p><strong>检索增强生成（RAG）和向量数据库</strong>：一种常见的向 AI 供应上下文的方法是使用<strong>检索器（retriever）</strong>，搜索知识库（文档、嵌入）并将最相关的结果注入到模型的提示词中，以弥补 AI 的知识截止点或有限记忆。然而，<strong>RAG 主要处理静态文本片段</strong>，它不会让模型执行<strong>超出索引范围的操作或查询</strong>。MCP 实际上可以与 RAG <strong>协同工作</strong>——例如，一个 MCP 服务器可以连接<strong>向量数据库或搜索引擎</strong>，使模型能够像调用工具一样<strong>执行搜索查询</strong>，而不仅仅是每次都依赖检索被动获取上下文。可以说，<strong>MCP 是一种更通用的机制</strong>：RAG 主要提供<strong>被动上下文</strong>，而 MCP 使模型能够<strong>主动获取或执行操作</strong>。在需要<strong>最新或交互式数据</strong>的场景（比如查询实时数据库或发布更新）时，MCP 超越了单纯的检索文本——<strong>它能够触发实际操作</strong>。</p>
+<li><p><strong>检索增强生成（RAG）和向量数据库</strong>：一种常见的向 AI 供应上下文的方法是使用<strong>检索器（retriever）</strong>，搜索知识库（文档、嵌入）并将最相关的结果注入到模型的提示词中，以弥补 AI 的知识截止点或有限记忆。然而，<strong>RAG 主要处理静态文本片段</strong>，它不会让模型执行<strong>超出索引范围的操作或查询</strong>。MCP 实际上可以与 RAG <strong>协同工作</strong>——例如，一个 MCP 服务器可以连接<strong>向量数据库或搜索引擎</strong>，使模型能够像调用工具一样<strong>执行搜索查询</strong>，而不仅仅是每次都依赖检索被动获取上下文。可以说，<strong>MCP 是一种更通用的机制</strong>：RAG 主要提供<strong>被动上下文</strong>，而 MCP 使模型能够<strong>主动获取或执行操作</strong>。在需要<strong>最新或交互式数据</strong>的场景（比如查询实时数据库或发布更新）时，MCP 超越了单纯的检索文本——<strong>它能够触发实际操作</strong>。</p>
 </li>
 </ul>
 <p>MCP 的出现，让 AI 能够更<strong>主动</strong>地与外部系统交互，而不仅仅是被动获取信息。你觉得 MCP 能在哪些场景中带来最重要的突破？</p>
-<h2 id="mcp-是万能方案吗能解决所有问题吗"><a class="markdownIt-Anchor" href="#mcp-是万能方案吗能解决所有问题吗"></a> <strong>MCP 是万能方案吗，能解决所有问题吗？</strong></h2>
-<p>当然，MCP 不是<strong>万能钥匙</strong>，而是一个<strong>极为便利的集成层</strong>。但和所有新兴技术一样，它也引入了一系列复杂性和挑战，开发者和组织在大规模采用前必须仔细考虑：</p>
+<h2 id="MCP-是万能方案吗，能解决所有问题吗？"><a href="#MCP-是万能方案吗，能解决所有问题吗？" class="headerlink" title="MCP 是万能方案吗，能解决所有问题吗？"></a><strong>MCP 是万能方案吗，能解决所有问题吗？</strong></h2><p>当然，MCP 不是<strong>万能钥匙</strong>，而是一个<strong>极为便利的集成层</strong>。但和所有新兴技术一样，它也引入了一系列复杂性和挑战，开发者和组织在大规模采用前必须仔细考虑：</p>
 <ul>
-<li>
-<p><strong>工具服务器管理的额外开销</strong>：运行和维护多个 MCP 服务器可能非常<strong>繁琐</strong>，尤其是在生产环境中，<strong>稳定性、安全性和可扩展性</strong>至关重要。MCP 的<strong>最初实现</strong>主要面向<strong>本地和桌面使用</strong>，因此如何适配云架构和多用户场景仍然是个开放问题。开发者已经提出让 MCP <strong>更无状态</strong>并适配分布式环境的方案，但这仍然是<strong>持续挑战</strong>。</p>
+<li><p><strong>工具服务器管理的额外开销</strong>：运行和维护多个 MCP 服务器可能非常<strong>繁琐</strong>，尤其是在生产环境中，<strong>稳定性、安全性和可扩展性</strong>至关重要。MCP 的<strong>最初实现</strong>主要面向<strong>本地和桌面使用</strong>，因此如何适配云架构和多用户场景仍然是个开放问题。开发者已经提出让 MCP <strong>更无状态</strong>并适配分布式环境的方案，但这仍然是<strong>持续挑战</strong>。</p>
 </li>
-<li>
-<p><strong>工具可用性问题</strong>：MCP 扩展了 AI 模型的工具集，但并不意味着模型能够<strong>有效利用这些工具</strong>。此前的代理框架表明，AI 模型可能在<strong>工具选择和执行</strong>方面存在困难。MCP 试图通过<strong>结构化工具描述和规范</strong>来缓解这一问题，但成功仍然取决于<strong>描述的质量</strong>及 AI <strong>正确解析</strong>这些信息的能力。LangChain 创始人 Harrison Chase 提出的<strong>社区驱动方式</strong>认为，<strong>完善的工具文档</strong>可以提升可用性，但这仍然需要<strong>持续优化</strong>。</p>
+<li><p><strong>工具可用性问题</strong>：MCP 扩展了 AI 模型的工具集，但并不意味着模型能够<strong>有效利用这些工具</strong>。此前的代理框架表明，AI 模型可能在<strong>工具选择和执行</strong>方面存在困难。MCP 试图通过<strong>结构化工具描述和规范</strong>来缓解这一问题，但成功仍然取决于<strong>描述的质量</strong>及 AI <strong>正确解析</strong>这些信息的能力。LangChain 创始人 Harrison Chase 提出的<strong>社区驱动方式</strong>认为，<strong>完善的工具文档</strong>可以提升可用性，但这仍然需要<strong>持续优化</strong>。</p>
 </li>
-<li>
-<p><strong>MCP 的技术成熟度</strong>：作为<strong>新兴技术</strong>，MCP 仍在快速演进，这可能会带来<strong>破坏性更新</strong>，导致服务器和客户端需要频繁升级。尽管 MCP 的<strong>核心概念</strong>相对稳定，但开发者应该<strong>预期并适应版本更新</strong>以及<strong>不断变化的最佳实践</strong>。</p>
+<li><p><strong>MCP 的技术成熟度</strong>：作为<strong>新兴技术</strong>，MCP 仍在快速演进，这可能会带来<strong>破坏性更新</strong>，导致服务器和客户端需要频繁升级。尽管 MCP 的<strong>核心概念</strong>相对稳定，但开发者应该<strong>预期并适应版本更新</strong>以及<strong>不断变化的最佳实践</strong>。</p>
 </li>
-<li>
-<p><strong>兼容性问题</strong>：目前，MCP 在 <strong>Anthropic 生态系统（Claude等）<strong>中获得了</strong>一流支持</strong>，但更广泛的应用仍不确定。其他 AI 供应商可能不会<strong>原生支持</strong> MCP，这需要额外的<strong>适配器或自定义集成</strong>。在 MCP <strong>被更广泛采用</strong>之前，它的实用性仍然会受到一定限制。</p>
+<li><p><strong>兼容性问题</strong>：目前，MCP 在 <strong>Anthropic 生态系统（Claude等）</strong>中获得了<strong>一流支持</strong>，但更广泛的应用仍不确定。其他 AI 供应商可能不会<strong>原生支持</strong> MCP，这需要额外的<strong>适配器或自定义集成</strong>。在 MCP <strong>被更广泛采用</strong>之前，它的实用性仍然会受到一定限制。</p>
 </li>
-<li>
-<p><strong>适用场景限制</strong>：对于<strong>较简单的应用</strong>，MCP 甚至可能<strong>过于复杂</strong>。如果 AI 只需要访问<strong>一两个简单 API</strong>，直接调用 API 可能比 MCP 集成更高效。此外，MCP 的<strong>消息系统和服务器配置</strong>有一定<strong>学习曲线</strong>，开发者需要权衡 MCP 的<strong>优势和复杂性</strong>。</p>
+<li><p><strong>适用场景限制</strong>：对于<strong>较简单的应用</strong>，MCP 甚至可能<strong>过于复杂</strong>。如果 AI 只需要访问<strong>一两个简单 API</strong>，直接调用 API 可能比 MCP 集成更高效。此外，MCP 的<strong>消息系统和服务器配置</strong>有一定<strong>学习曲线</strong>，开发者需要权衡 MCP 的<strong>优势和复杂性</strong>。</p>
 </li>
-<li>
-<p><strong>安全性和监控问题</strong>：由于 MCP 充当<strong>中间层</strong>，它需要<strong>强大的身份验证和权限控制</strong>来防止<strong>未经授权访问</strong>。类似 <strong>MCP Guardian</strong> 的<strong>开源项目</strong>已开始解决这些问题（比如<strong>请求日志记录和策略执行</strong>），但<strong>确保 MCP 在企业环境中的安全性仍是待完善的领域</strong>。</p>
+<li><p><strong>安全性和监控问题</strong>：由于 MCP 充当<strong>中间层</strong>，它需要<strong>强大的身份验证和权限控制</strong>来防止<strong>未经授权访问</strong>。类似 <strong>MCP Guardian</strong> 的<strong>开源项目</strong>已开始解决这些问题（比如<strong>请求日志记录和策略执行</strong>），但<strong>确保 MCP 在企业环境中的安全性仍是待完善的领域</strong>。</p>
 </li>
 </ul>
 <p>总体而言，<strong>这些问题并不会阻碍 MCP 的发展</strong>，但<strong>建议从实验性或非关键性部署开始，以积累经验</strong>。MCP 最大的优势之一是<strong>活跃的社区</strong>，由于它是<strong>开源</strong>的，你遇到的任何问题都可以通过<strong>社区协作解决</strong>。</p>
-<h2 id="mcp-在自主编排中的作用及其在自主工作流中的位置"><a class="markdownIt-Anchor" href="#mcp-在自主编排中的作用及其在自主工作流中的位置"></a> <strong>MCP 在自主编排中的作用及其在自主工作流中的位置</strong></h2>
-<p>在之前的文章中，我们探讨了<strong>自主代理（Agent）的核心构建模块</strong>：<strong>画像（身份与上下文）、知识、记忆、推理/规划、反思以及行动</strong>。一个智能代理需要：</p>
+<h2 id="MCP-在自主编排中的作用及其在自主工作流中的位置"><a href="#MCP-在自主编排中的作用及其在自主工作流中的位置" class="headerlink" title="MCP 在自主编排中的作用及其在自主工作流中的位置"></a><strong>MCP 在自主编排中的作用及其在自主工作流中的位置</strong></h2><p>在之前的文章中，我们探讨了<strong>自主代理（Agent）的核心构建模块</strong>：<strong>画像（身份与上下文）、知识、记忆、推理&#x2F;规划、反思以及行动</strong>。一个智能代理需要：</p>
 <ul>
-<li><strong>观察和理解环境</strong>（画像/知识）</li>
+<li><strong>观察和理解环境</strong>（画像&#x2F;知识）</li>
 <li><strong>记住过去的交互</strong>（记忆）</li>
-<li><strong>规划自己的行为</strong>（推理/决策）</li>
+<li><strong>规划自己的行为</strong>（推理&#x2F;决策）</li>
 <li><strong>执行动作</strong>（调用工具或输出）</li>
 <li><strong>反思并学习</strong>（调整策略）</li>
 </ul>
 <p>那么，MCP 在哪里发挥作用？</p>
-<p>MCP <strong>本身不是一个“代理框架”</strong>，而是<strong>一个标准化的集成层</strong>，专门用于处理<strong>行动（Action）<strong>部分——<strong>让代理以标准化的方式执行涉及外部数据或工具的操作</strong>。它提供了</strong>安全、结构化</strong>的连接方式，使 AI 代理能够顺畅地接入外部系统和工具。<strong>如果没有 MCP（或类似技术），每次代理需要在现实世界执行任务</strong>——比如获取文件、查询数据库或调用 API——<strong>开发者都必须编写自定义集成代码或使用临时解决方案</strong>，这就像<strong>为一个机器人单独定制每一根手指，以便抓取不同的物体</strong>，不仅<strong>繁琐</strong>，而且<strong>无法扩展</strong>。</p>
+<p>MCP <strong>本身不是一个“代理框架”</strong>，而是<strong>一个标准化的集成层</strong>，专门用于处理<strong>行动（Action）</strong>部分——<strong>让代理以标准化的方式执行涉及外部数据或工具的操作</strong>。它提供了<strong>安全、结构化</strong>的连接方式，使 AI 代理能够顺畅地接入外部系统和工具。<strong>如果没有 MCP（或类似技术），每次代理需要在现实世界执行任务</strong>——比如获取文件、查询数据库或调用 API——<strong>开发者都必须编写自定义集成代码或使用临时解决方案</strong>，这就像<strong>为一个机器人单独定制每一根手指，以便抓取不同的物体</strong>，不仅<strong>繁琐</strong>，而且<strong>无法扩展</strong>。</p>
 <p>需要再次强调，<strong>MCP 不是编排引擎，也不是 AI 代理的“大脑”</strong>，而是<strong>代理架构中的集成层</strong>。它<strong>补充</strong>了 LangChain、LangGraph、CrewAI 和 LlamaIndex 等<strong>代理编排工具</strong>，充当 AI 代理的<strong>统一“工具箱”</strong>，让代理能够调用外部操作。MCP <strong>不会取代编排引擎</strong>（后者决定代理<strong>何时</strong>以及<strong>为什么</strong>使用工具），而是<strong>定义工具如何被调用及数据如何交换</strong>。</p>
-<p>MCP <strong>类似于一个标准化的 API 网关</strong>，将集成复杂度从**“N×M”问题（每个代理对接多个工具）<strong>降低为</strong>“N+M”问题（所有代理使用统一协议调用所有工具）<strong>，从而</strong>实现客户端（AI 代理）和服务器（工具）的通用兼容性**。最终，MCP <strong>简化了外部功能的集成</strong>，让 AI 代理更加<strong>多功能、可适应，并能够在不同的环境中执行复杂任务</strong>。</p>
-<h2 id="mcp-解锁的新可能性"><a class="markdownIt-Anchor" href="#mcp-解锁的新可能性"></a> <strong>MCP 解锁的新可能性</strong></h2>
-<p>MCP 仍然处于早期阶段，其全部潜力才刚刚开始被探索。首批应用场景显而易见——例如<strong>将企业数据连接到聊天助手</strong>，或<strong>增强编码代理的代码库访问能力</strong>。但一些<strong>新兴应用</strong>可能会将 AI 代理提升至新的高度：</p>
+<p>MCP <strong>类似于一个标准化的 API 网关</strong>，将集成复杂度从<strong>“N×M”问题（每个代理对接多个工具）</strong>降低为<strong>“N+M”问题（所有代理使用统一协议调用所有工具）</strong>，从而<strong>实现客户端（AI 代理）和服务器（工具）的通用兼容性</strong>。最终，MCP <strong>简化了外部功能的集成</strong>，让 AI 代理更加<strong>多功能、可适应，并能够在不同的环境中执行复杂任务</strong>。</p>
+<h2 id="MCP-解锁的新可能性"><a href="#MCP-解锁的新可能性" class="headerlink" title="MCP 解锁的新可能性"></a><strong>MCP 解锁的新可能性</strong></h2><p>MCP 仍然处于早期阶段，其全部潜力才刚刚开始被探索。首批应用场景显而易见——例如<strong>将企业数据连接到聊天助手</strong>，或<strong>增强编码代理的代码库访问能力</strong>。但一些<strong>新兴应用</strong>可能会将 AI 代理提升至新的高度：</p>
 <ul>
-<li>
-<p><strong>多步骤、跨系统工作流</strong><br>
-代理系统通常需要跨多个平台进行协调。例如，当 AI 计划一个活动时，它需要<strong>检查日程表、预订场地、发送邀请邮件、安排交通，并更新预算表</strong>。目前，这些操作<strong>必须手动拼接多个 API</strong>。而 MCP 让所有这些任务通过<strong>单一接口</strong>完成——代理可以<strong>依次调用 MCP 工具（每项任务对应一个工具）</strong>，确保共享上下文，无需定制化集成，也不会出现断点丢失数据的问题。</p>
+<li><p><strong>多步骤、跨系统工作流</strong><br>代理系统通常需要跨多个平台进行协调。例如，当 AI 计划一个活动时，它需要<strong>检查日程表、预订场地、发送邀请邮件、安排交通，并更新预算表</strong>。目前，这些操作<strong>必须手动拼接多个 API</strong>。而 MCP 让所有这些任务通过<strong>单一接口</strong>完成——代理可以<strong>依次调用 MCP 工具（每项任务对应一个工具）</strong>，确保共享上下文，无需定制化集成，也不会出现断点丢失数据的问题。</p>
 </li>
-<li>
-<p><strong>理解环境的智能代理（包括机器人）</strong><br>
-除了访问工具，MCP 还能让 AI 代理嵌入<strong>智能环境</strong>（如智能家居或操作系统）。AI 助理可以通过<strong>标准化的 MCP 服务器</strong>与<strong>传感器、物联网设备或操作系统功能</strong>交互，使 AI 具备<strong>实时环境感知能力</strong>，从而提供更<strong>自然且主动的帮助</strong>。</p>
+<li><p><strong>理解环境的智能代理（包括机器人）</strong><br>除了访问工具，MCP 还能让 AI 代理嵌入<strong>智能环境</strong>（如智能家居或操作系统）。AI 助理可以通过<strong>标准化的 MCP 服务器</strong>与<strong>传感器、物联网设备或操作系统功能</strong>交互，使 AI 具备<strong>实时环境感知能力</strong>，从而提供更<strong>自然且主动的帮助</strong>。</p>
 </li>
-<li>
-<p><strong>协作式代理（智能代理网络）</strong><br>
-MCP 还能充当<strong>多代理系统的共享工作空间</strong>。专门化的 AI 代理（如负责研究、规划、执行的不同代理）可以通过 MCP <strong>交换信息并动态协调任务</strong>。借助 MCP，<strong>每个代理无需直接集成各自的工具</strong>，而是可以<strong>访问统一的工具集</strong>。</p>
+<li><p><strong>协作式代理（智能代理网络）</strong><br>MCP 还能充当<strong>多代理系统的共享工作空间</strong>。专门化的 AI 代理（如负责研究、规划、执行的不同代理）可以通过 MCP <strong>交换信息并动态协调任务</strong>。借助 MCP，<strong>每个代理无需直接集成各自的工具</strong>，而是可以<strong>访问统一的工具集</strong>。</p>
 </li>
-<li>
-<p><strong>深度集成的个人 AI 助理</strong><br>
-MCP 可以让用户<strong>安全地配置自己的 AI 助理</strong>，使其与个人数据和应用交互。例如，本地 MCP 服务器可以<strong>赋予 AI 对电子邮件、笔记和智能设备的访问权限</strong>，而<strong>不会将敏感数据暴露给第三方</strong>。这可能创造出<strong>高度个性化的 AI 助理</strong>，且无需依赖云服务。</p>
+<li><p><strong>深度集成的个人 AI 助理</strong><br>MCP 可以让用户<strong>安全地配置自己的 AI 助理</strong>，使其与个人数据和应用交互。例如，本地 MCP 服务器可以<strong>赋予 AI 对电子邮件、笔记和智能设备的访问权限</strong>，而<strong>不会将敏感数据暴露给第三方</strong>。这可能创造出<strong>高度个性化的 AI 助理</strong>，且无需依赖云服务。</p>
 </li>
-<li>
-<p><strong>企业级治理与安全</strong><br>
-对企业而言，MCP <strong>标准化了 AI 访问内部工具的方式</strong>，降低了集成开销。此外，它还能<strong>实现治理</strong>——AI 交互<strong>可被记录、监控和控制</strong>，通过监督层<strong>防止意外操作，同时保持高效工作流</strong>。</p>
+<li><p><strong>企业级治理与安全</strong><br>对企业而言，MCP <strong>标准化了 AI 访问内部工具的方式</strong>，降低了集成开销。此外，它还能<strong>实现治理</strong>——AI 交互<strong>可被记录、监控和控制</strong>，通过监督层<strong>防止意外操作，同时保持高效工作流</strong>。</p>
 </li>
 </ul>
 <p>这些只是 MCP 潜力的<strong>初步体现</strong>。它通过<strong>流畅、具备上下文意识的多步骤交互</strong>，让 AI 代理<strong>更接近真正的自主工作流执行</strong>。</p>
-<h2 id="总结思考"><a class="markdownIt-Anchor" href="#总结思考"></a> <strong>总结思考</strong></h2>
-<p>MCP 正在迅速发展成为一个强大的<strong>标准协议</strong>，让 AI <strong>不再是孤立的“思维体”，而是一个多功能的“执行者”</strong>。它通过<strong>简化代理连接外部系统的方式</strong>，为更<strong>强大、互动性更强、用户友好的 AI 工作流</strong>铺平了道路。</p>
+<h2 id="总结思考"><a href="#总结思考" class="headerlink" title="总结思考"></a><strong>总结思考</strong></h2><p>MCP 正在迅速发展成为一个强大的<strong>标准协议</strong>，让 AI <strong>不再是孤立的“思维体”，而是一个多功能的“执行者”</strong>。它通过<strong>简化代理连接外部系统的方式</strong>，为更<strong>强大、互动性更强、用户友好的 AI 工作流</strong>铺平了道路。</p>
 <p>MCP 的崛起甚至<strong>让我们调整了编辑计划</strong>，因为它的影响力实在太值得深入探讨！在探讨了 <strong>代理工作流中的“行动”</strong> 之后，解析 MCP 似乎是再自然不过的事情。下一篇，我们将<strong>深入研究人机交流和“人类参与”（HITL）集成</strong>，然后进入<strong>多代理协作</strong>的主题。</p>
 
   </div>
@@ -2636,7 +2603,7 @@ MCP 可以让用户<strong>安全地配置自己的 AI 助理</strong>，使其�
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T07:32:08+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2742,8 +2709,7 @@ MCP 可以让用户<strong>安全地配置自己的 AI 助理</strong>，使其�
       
         <a class='prev' href='/2025/05/29/qwen_onmi/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>Qwen_onmi_7B</p>
-          <p class='content'> 摘要
-本篇论文介绍了一种名为Qwen2.5-Omni的端到端多模态模型，该模型可以感知包括文本、图像、音频和视频在内的多种模态，并在流式处理中同时生成文本和自然语音响应。为了实现多模态信息输入...</p>
+          <p class='content'>摘要本篇论文介绍了一种名为Qwen2.5-Omni的端到端多模态模型，该模型可以感知包括文本、图像、音频和视频在内的多种模态，并在流式处理中同时生成文本和自然语音响应。为了实现多模态信息输入的流...</p>
         </a>
       
       
@@ -2751,8 +2717,7 @@ MCP 可以让用户<strong>安全地配置自己的 AI 助理</strong>，使其�
           <p class='title'>VITA1.5<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>GitHub
 论文
- 摘要
-近年来，多模态大型语言模型（MLLMs）主要集中在整合视觉和文本模态，而较少关注语音在增强交互中的作用。然而，语音在多模态对话系统中起着至关重要的作用，并且由于模态差...</p>
+摘要近年来，多模态大型语言模型（MLLMs）主要集中在整合视觉和文本模态，而较少关注语音在增强交互中的作用。然而，语音在多模态对话系统中起着至关重要的作用，并且由于模态差异，...</p>
         </a>
       
     </div>
@@ -2813,7 +2778,7 @@ MCP 可以让用户<strong>安全地配置自己的 AI 助理</strong>，使其�
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-mcp-%E7%8E%B0%E5%9C%A8%E6%8E%80%E8%B5%B7%E6%B5%AA%E6%BD%AE%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8E%BB%E5%B9%B4-11-%E6%9C%88"><span class="toc-text"> 为什么 MCP 现在掀起浪潮（而不是去年 11 月）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mcp%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE%E6%98%AF%E4%BB%80%E4%B9%88%E5%AE%83%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="toc-text"> MCP（模型上下文协议）是什么，它是如何工作的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8-mcp"><span class="toc-text"> 如何开始使用 MCP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8-mcp-%E4%B9%8B%E5%89%8Dai-%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%B7%A5%E5%85%B7%E8%AE%BF%E9%97%AE%E7%9A%84"><span class="toc-text"> 在 MCP 之前，AI 系统是如何处理上下文和工具访问的？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mcp-%E6%98%AF%E4%B8%87%E8%83%BD%E6%96%B9%E6%A1%88%E5%90%97%E8%83%BD%E8%A7%A3%E5%86%B3%E6%89%80%E6%9C%89%E9%97%AE%E9%A2%98%E5%90%97"><span class="toc-text"> MCP 是万能方案吗，能解决所有问题吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mcp-%E5%9C%A8%E8%87%AA%E4%B8%BB%E7%BC%96%E6%8E%92%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%8F%8A%E5%85%B6%E5%9C%A8%E8%87%AA%E4%B8%BB%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%AD%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-text"> MCP 在自主编排中的作用及其在自主工作流中的位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mcp-%E8%A7%A3%E9%94%81%E7%9A%84%E6%96%B0%E5%8F%AF%E8%83%BD%E6%80%A7"><span class="toc-text"> MCP 解锁的新可能性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%80%9D%E8%80%83"><span class="toc-text"> 总结思考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-MCP-%E7%8E%B0%E5%9C%A8%E6%8E%80%E8%B5%B7%E6%B5%AA%E6%BD%AE%EF%BC%88%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8E%BB%E5%B9%B4-11-%E6%9C%88%EF%BC%89%EF%BC%9F"><span class="toc-text">为什么 MCP 现在掀起浪潮（而不是去年 11 月）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP%EF%BC%88%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE%EF%BC%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E5%AE%83%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="toc-text">MCP（模型上下文协议）是什么，它是如何工作的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8-MCP%EF%BC%9F"><span class="toc-text">如何开始使用 MCP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8-MCP-%E4%B9%8B%E5%89%8D%EF%BC%8CAI-%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%B7%A5%E5%85%B7%E8%AE%BF%E9%97%AE%E7%9A%84%EF%BC%9F"><span class="toc-text">在 MCP 之前，AI 系统是如何处理上下文和工具访问的？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-%E6%98%AF%E4%B8%87%E8%83%BD%E6%96%B9%E6%A1%88%E5%90%97%EF%BC%8C%E8%83%BD%E8%A7%A3%E5%86%B3%E6%89%80%E6%9C%89%E9%97%AE%E9%A2%98%E5%90%97%EF%BC%9F"><span class="toc-text">MCP 是万能方案吗，能解决所有问题吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-%E5%9C%A8%E8%87%AA%E4%B8%BB%E7%BC%96%E6%8E%92%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%8F%8A%E5%85%B6%E5%9C%A8%E8%87%AA%E4%B8%BB%E5%B7%A5%E4%BD%9C%E6%B5%81%E4%B8%AD%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-text">MCP 在自主编排中的作用及其在自主工作流中的位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCP-%E8%A7%A3%E9%94%81%E7%9A%84%E6%96%B0%E5%8F%AF%E8%83%BD%E6%80%A7"><span class="toc-text">MCP 解锁的新可能性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%80%9D%E8%80%83"><span class="toc-text">总结思考</span></a></li></ol>
   </div>
 </section>
 
@@ -3220,7 +3185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3455,7 +3420,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/05/19/mcp/","name":"什么是MCP"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"什么是MCP","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/05/19/mcp/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/05/19/mcp/","wordCount":0,"datePublished":"2025-05-19T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.965Z","articleSection":"gpt","keywords":"agent","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/05/19/mcp/","name":"什么是MCP"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"什么是MCP","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/05/19/mcp/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/05/19/mcp/","wordCount":0,"datePublished":"2025-05-19T16:00:00.000Z","dateModified":"2026-08-17T07:32:08.963Z","articleSection":"gpt","keywords":"agent","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

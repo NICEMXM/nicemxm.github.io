@@ -43,11 +43,11 @@
 <meta property="og:title" content="回到未来：评估人工智能代理预测未来事件">
 <meta property="og:url" content="https://nicemxm.github.io/2025/08/17/agent_future/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="人工智能的未来 当前大多数 AI 基准测试都侧重于回答有关过去的问题，要么是根据现有知识测试模型（以静态方式，如 HLE 或 GPQA，或增强方式，如 BrowseComp 或 GAIA）或以前解决的问题（如 PaperBench、DABStep 或大多数编码评估）。然而，我们相信更有价值的人工智能，以及最终的通用人工智能，将以其利用过去来预测未来有趣方面的能力而著称，而不仅仅是背诵旧事实。 预">
+<meta property="og:description" content="人工智能的未来当前大多数 AI 基准测试都侧重于回答有关过去的问题，要么是根据现有知识测试模型（以静态方式，如 HLE 或 GPQA，或增强方式，如 BrowseComp 或 GAIA）或以前解决的问题（如 PaperBench、DABStep 或大多数编码评估）。然而，我们相信更有价值的人工智能，以及最终的通用人工智能，将以其利用过去来预测未来有趣方面的能力而著称，而不仅仅是背诵旧事实。 预测未">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-08-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:41:16.961Z">
+<meta property="article:modified_time" content="2026-08-17T07:32:08.960Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786948910807),
+    lastupdate: new Date(1786951943027),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2308,7 +2308,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='top'>
     
     
-      <p class="title">OpenAI</p>
+      <p class="title">OpenHarness</p>
     
     
   </div>
@@ -2325,10 +2325,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div class='list-h'>
         
           
-            <a href="/v4/getting-started/"
+            <a href="/archives/"
               
               
-              active-action="action-v4getting-started">
+              active-action="action-archives">
               <p>文档</p>
             </a>
           
@@ -2498,22 +2498,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="人工智能的未来"><a class="markdownIt-Anchor" href="#人工智能的未来"></a> 人工智能的未来</h2>
-<p>当前大多数 AI 基准测试都侧重于回答有关过去的问题，要么是根据现有知识测试模型（以静态方式，如 HLE 或 GPQA，或增强方式，如 BrowseComp 或 GAIA）或以前解决的问题（如 PaperBench、DABStep 或大多数编码评估）。然而，我们相信更有价值的人工智能，以及最终的通用人工智能，将以其利用过去来预测未来有趣方面的能力而著称，而不仅仅是背诵旧事实。</p>
+    <h2 id="人工智能的未来"><a href="#人工智能的未来" class="headerlink" title="人工智能的未来"></a>人工智能的未来</h2><p>当前大多数 AI 基准测试都侧重于回答有关过去的问题，要么是根据现有知识测试模型（以静态方式，如 HLE 或 GPQA，或增强方式，如 BrowseComp 或 GAIA）或以前解决的问题（如 PaperBench、DABStep 或大多数编码评估）。然而，我们相信更有价值的人工智能，以及最终的通用人工智能，将以其利用过去来预测未来有趣方面的能力而著称，而不仅仅是背诵旧事实。</p>
 <p>预测未来事件是一项复杂而全面的任务：它需要复杂的推理、综合、权衡概率和真正的理解，而不是与现有信息进行模式匹配或搜索。评估模型预测未来结果的能力，无论是在科学、经济、地缘政治还是技术领域，都可以测试创造现实世界价值的智能类型。</p>
 <p>除了其固有的重要性之外，这种基于预测的方法还解决了当前评估和基准面临的许多方法问题。在固定测试集上测量准确性的传统基准不可避免地会受到可能的数据污染的影响，并且如果无法访问模型的完整可重复训练管道，就很难信任结果。现在，最严肃的评估工作将他们的测试集完全保密，在评估者和潜在的“玩弄排行榜”机制之间造成了令人沮丧的军备竞赛（Singh 等人，2025 年）。</p>
 <p>预测在设计上变得不可能，因为您无法使用尚不存在的数据进行训练！这创造了一个公平的竞争环境，成功取决于推理能力而不是记忆。</p>
 <p>也许最重要的是，对未来的预测本质上是可验证的。我们可以拭目以待，看看谁是对的，从而创建一个客观的、带有时间戳的模型性能衡量标准。</p>
 <p>因此，我们建议评估代理预测未来事件的能力（Ye 等人，2024 年;Karger 等人，2025 年）。FutureBench 借鉴现实世界的预测市场和新兴新闻，根据实际的未来结果创建有趣的预测任务。我们从平台、实时新闻报道和多种市场收集事件，对其进行过滤，以关注值得预测的新兴事件。使用基于代理的方法，我们策划了需要真正推理而不是简单模式匹配的场景。想想地缘政治发展、市场走势或技术采用趋势——在这些事件中，明智的分析实际上很重要。</p>
-<h2 id="agent可以预测未来事件吗"><a class="markdownIt-Anchor" href="#agent可以预测未来事件吗"></a> agent可以预测未来事件吗？</h2>
-<p>这是一个显而易见的问题，也是使这个基准测试变得有趣的核心！我们认为答案不能是简单的“是”或“否”，因为它主要取决于实际问题;总有一些重要的注意事项需要考虑。 人类不断利用他们权衡当前信息的能力来预测未来事件。大多数职业变动、关系选择，甚至商业战略，本质上不都是押注于未来的结果吗？</p>
+<h2 id="agent可以预测未来事件吗？"><a href="#agent可以预测未来事件吗？" class="headerlink" title="agent可以预测未来事件吗？"></a>agent可以预测未来事件吗？</h2><p>这是一个显而易见的问题，也是使这个基准测试变得有趣的核心！我们认为答案不能是简单的“是”或“否”，因为它主要取决于实际问题;总有一些重要的注意事项需要考虑。 人类不断利用他们权衡当前信息的能力来预测未来事件。大多数职业变动、关系选择，甚至商业战略，本质上不都是押注于未来的结果吗？</p>
 <p>一些预测涉及不可减少的不确定性（2027 年 12 月 17 日中午会下雨吗？），但许多预测没有。当熟练的分析师预测公司的季度收益或政策专家预测选举结果时，他们正在利用现有信息做出明智的决策。这正是我们要求 AI 代理使用 FutureBench 做的事情！任务不是让智能体算命，而是在比大多数其他基准更强的不确定性下综合信息和推理。</p>
 <p>智能体的预测质量直接反映了其搜索相关信息、合成复杂数据和推理因果关系的能力。这些正是我们想要在实际应用中测量的能力。</p>
 <p>DeepResearch 等工具已用于市场分析和战略规划。信息收集的质量与决策有效性密切相关。FutureBench 受到这一评估过程的启发，并尝试通过客观、可验证的结果来计算代理的质量。</p>
-<h2 id="未来"><a class="markdownIt-Anchor" href="#未来"></a> 未来</h2>
-<p>构建测试真实预测能力的基准需要源源不断的有意义的问题。我们开发了两种互补的方法来捕捉不同类型的未来事件：</p>
-<h3 id="1-新闻生成的问题今天寻找明天的头条新闻"><a class="markdownIt-Anchor" href="#1-新闻生成的问题今天寻找明天的头条新闻"></a> 1. 新闻生成的问题：今天寻找明天的头条新闻</h3>
-<p>我们的第一种方法使用人工智能来挖掘时事以寻找预测机会。我们部署了一个基于 smolagents 的代理来抓取一些主要新闻网站，分析头版文章，并生成有关其可能结果的预测问题。代理通读并识别有趣的文章，并从其内容中提出具体的、有时限的问题，例如“美联储会在 2025 年 7 月 1 日之前至少降息 0.25% 吗？</p>
+<h2 id="未来"><a href="#未来" class="headerlink" title="未来"></a>未来</h2><p>构建测试真实预测能力的基准需要源源不断的有意义的问题。我们开发了两种互补的方法来捕捉不同类型的未来事件：</p>
+<h3 id="1-新闻生成的问题：今天寻找明天的头条新闻"><a href="#1-新闻生成的问题：今天寻找明天的头条新闻" class="headerlink" title="1. 新闻生成的问题：今天寻找明天的头条新闻"></a>1. 新闻生成的问题：今天寻找明天的头条新闻</h3><p>我们的第一种方法使用人工智能来挖掘时事以寻找预测机会。我们部署了一个基于 smolagents 的代理来抓取一些主要新闻网站，分析头版文章，并生成有关其可能结果的预测问题。代理通读并识别有趣的文章，并从其内容中提出具体的、有时限的问题，例如“美联储会在 2025 年 7 月 1 日之前至少降息 0.25% 吗？</p>
 <p>我们通过精心设计的提示来指导这一过程，这些提示指定了什么是好的预测问题——有意义、可验证且提取时间不确定的事件。</p>
 <p><strong>技术栈</strong>：</p>
 <ul>
@@ -2522,11 +2518,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>搜索：需要时随时获取其他上下文</li>
 </ul>
 <p>代理通常在每次抓取会话中生成 5 个问题，时间范围为一周，这意味着我们假设我们将在 7 天后知道问题的答案。这为我们提供了与现实世界事件相关的新鲜评估材料的自然管道。</p>
-<h3 id="2-polymarket-整合利用预测市场"><a class="markdownIt-Anchor" href="#2-polymarket-整合利用预测市场"></a> 2. Polymarket 整合：利用预测市场</h3>
-<p>我们的第二个来源来自 Polymarket。这些问题来自一个预测市场平台，真实参与者在该平台上对未来事件进行预测。我们目前每周摄入大约 8 个问题。</p>
+<h3 id="2-Polymarket-整合：利用预测市场"><a href="#2-Polymarket-整合：利用预测市场" class="headerlink" title="2. Polymarket 整合：利用预测市场"></a>2. Polymarket 整合：利用预测市场</h3><p>我们的第二个来源来自 Polymarket。这些问题来自一个预测市场平台，真实参与者在该平台上对未来事件进行预测。我们目前每周摄入大约 8 个问题。</p>
 <p>但是，原始数据需要过滤。我们应用强过滤来删除有关温度的一般问题以及一些有关股票和加密市场的问题，否则这些问题将太多，无法在我们的基准测试中实际使用。 除此之外，多市场问题对最终“实现”时间的限制较小，事件的实际结果可能要到下个月或年底才能公布。这些仍然是非常相关的问题，但结果的数据收集更加稀疏。</p>
-<h3 id="示例问题"><a class="markdownIt-Anchor" href="#示例问题"></a> 示例问题</h3>
-<p>下面是我们的问题生成管道中得出的内容的示例：</p>
+<h3 id="示例问题"><a href="#示例问题" class="headerlink" title="示例问题"></a>示例问题</h3><p>下面是我们的问题生成管道中得出的内容的示例：</p>
 <table>
 <thead>
 <tr>
@@ -2534,8 +2528,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>多利市场</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>“美联储会在 2025 年 7 月 1 日之前至少降息 0.25% 吗？”</td>
 <td>“6 月份月度通胀率会上涨 0.2% 吗？”</td>
 </tr>
@@ -2543,52 +2536,42 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td>“乌克兰和俄罗斯会在 2025 年 7 月 8 日之前举行和平谈判吗？”</td>
 <td>“佐兰·马姆达尼 （Zohran Mamdani） 在纽约市市长民主党初选中的 RCV 胜率会大于 13% 吗？”</td>
 </tr>
-</tbody>
-</table>
-<h2 id="未来工作台系统评估的三个层次"><a class="markdownIt-Anchor" href="#未来工作台系统评估的三个层次"></a> 未来工作台：系统评估的三个层次</h2>
-<p>下一个问题是，这种类型的基准允许我们衡量什么？该框架在三个不同的层面上运行，使我们能够准确地隔离我们正在测量的内容：</p>
+</tbody></table>
+<h2 id="未来工作台：系统评估的三个层次"><a href="#未来工作台：系统评估的三个层次" class="headerlink" title="未来工作台：系统评估的三个层次"></a>未来工作台：系统评估的三个层次</h2><p>下一个问题是，这种类型的基准允许我们衡量什么？该框架在三个不同的层面上运行，使我们能够准确地隔离我们正在测量的内容：</p>
 <ul>
-<li>
-<p>第 1 级：框架比较在改变框架的同时保持底层 LLM 和工具不变。当基于 LangChain 的代理都使用 GPT-4 和相同的搜索工具时，与使用 CrewAI 构建的代理相比如何？这隔离了不同代理框架的影响。</p>
+<li><p>第 1 级：框架比较在改变框架的同时保持底层 LLM 和工具不变。当基于 LangChain 的代理都使用 GPT-4 和相同的搜索工具时，与使用 CrewAI 构建的代理相比如何？这隔离了不同代理框架的影响。</p>
 </li>
-<li>
-<p>第 2 级：工具性能在比较不同实现的同时修复 LLM 和框架。哪种搜索工具（例如 Tavily、Google、Bing）比其他搜索引擎带来更好的预测，使其他一切保持不变？这揭示了哪些工具实际上提供了价值。与没有工具的模型相比，工具总体上能带来多少价值？</p>
+<li><p>第 2 级：工具性能在比较不同实现的同时修复 LLM 和框架。哪种搜索工具（例如 Tavily、Google、Bing）比其他搜索引擎带来更好的预测，使其他一切保持不变？这揭示了哪些工具实际上提供了价值。与没有工具的模型相比，工具总体上能带来多少价值？</p>
 </li>
-<li>
-<p>第 3 级：模型能力在测试不同的 LLM 时保持框架和工具不变。如果可以访问同一组工具，DeepSeek-V3 是否像 GPT-4 一样有效地使用它们？这衡量纯粹的推理能力。 这种系统方法使我们能够准确了解代理管道中性能增损发生的位置。</p>
+<li><p>第 3 级：模型能力在测试不同的 LLM 时保持框架和工具不变。如果可以访问同一组工具，DeepSeek-V3 是否像 GPT-4 一样有效地使用它们？这衡量纯粹的推理能力。 这种系统方法使我们能够准确了解代理管道中性能增损发生的位置。</p>
 </li>
 </ul>
 <img width="1581" height="1239" alt="image" src="https://github.com/user-attachments/assets/10e64dec-d0fa-4d55-9c1a-e3dc61f7c3db">
+
 <p>该基准测试还可以作为指令遵循的有力测试。代理必须尊重特定的格式要求并生成可以正确解析和执行的作。在实践中，这通常揭示了较小的语言模型在复杂的多步骤推理方面遇到困难的地方。</p>
-<h2 id="预测未来agent和初步结果"><a class="markdownIt-Anchor" href="#预测未来agent和初步结果"></a> 预测未来：agent和初步结果</h2>
-<p>我们使用 SmolAgents 作为所有问题的基线代理框架。我们还计算基本模型的性能。对于预测任务本身，代理可以访问一个有针对性的工具包：</p>
+<h2 id="预测未来：agent和初步结果"><a href="#预测未来：agent和初步结果" class="headerlink" title="预测未来：agent和初步结果"></a>预测未来：agent和初步结果</h2><p>我们使用 SmolAgents 作为所有问题的基线代理框架。我们还计算基本模型的性能。对于预测任务本身，代理可以访问一个有针对性的工具包：</p>
 <ul>
 <li>搜索：用于查找最新信息和专家分析的 Tavily 集成</li>
 <li>网络爬虫：一个简单的网络抓取工具，用于跟进特定来源并获取详细的上下文。</li>
 <li>这种有意精益的设置迫使代理在信息收集方面具有战略性，同时仍然提供明智预测所需的工具。</li>
 </ul>
-<h2 id="初步结果"><a class="markdownIt-Anchor" href="#初步结果"></a> 初步结果</h2>
-<img width="2242" height="1900" alt="image" src="https://github.com/user-attachments/assets/073d579f-da6a-47b7-99e5-2072855007cb">
+<h2 id="初步结果"><a href="#初步结果" class="headerlink" title="初步结果"></a>初步结果</h2><img width="2242" height="1900" alt="image" src="https://github.com/user-attachments/assets/073d579f-da6a-47b7-99e5-2072855007cb">
+
 <p>我们使用 smolagents 作为基线来比较不同的模型（您可以在我们的 HF Space 上找到排行榜）。我们还在没有互联网接入的情况下运行标准语言模型来估计一般先验。正如预期的那样，我们看到代理模型比简单语言模型表现更好;更强的模型显示出更稳定的预测质量。总的来说，我们还发现了不同模型如何尝试处理问题的有趣模式：</p>
-<h3 id="有趣的行动模式"><a class="markdownIt-Anchor" href="#有趣的行动模式"></a> 有趣的行动模式</h3>
-<p>运行此基准测试揭示了对不同模型如何处理信息收集的见解。一个显着的区别是在爬取方面。GPT-4.1 似乎更多地依赖搜索结果。Claude3.7 和 4 更详细地探索了网络空间，并且倾向于更频繁地使用网络抓取;这种彻底的方法还意味着在研究过程中收集更多的输入token，从而增加了成本。</p>
+<h3 id="有趣的行动模式"><a href="#有趣的行动模式" class="headerlink" title="有趣的行动模式"></a>有趣的行动模式</h3><p>运行此基准测试揭示了对不同模型如何处理信息收集的见解。一个显着的区别是在爬取方面。GPT-4.1 似乎更多地依赖搜索结果。Claude3.7 和 4 更详细地探索了网络空间，并且倾向于更频繁地使用网络抓取;这种彻底的方法还意味着在研究过程中收集更多的输入token，从而增加了成本。</p>
 <p>模型展示了有趣的预测方法，例如，回答“6 月份年通胀率会上升 2.6 或更多？</p>
 <ul>
-<li>
-<p>DeepSeekV3 代理通过搜索最近的 CPI 数据（发现当前通胀率为 2.4-2.8%）分析了 2025 年 6 月的通胀前景，将关税影响视为上行压力，并得出通胀将超过 2.6% 的阈值的结论。</p>
+<li><p>DeepSeekV3 代理通过搜索最近的 CPI 数据（发现当前通胀率为 2.4-2.8%）分析了 2025 年 6 月的通胀前景，将关税影响视为上行压力，并得出通胀将超过 2.6% 的阈值的结论。</p>
 </li>
-<li>
-<p>Claude3.7 通过综合研究分析了 2025 年 6 月的通胀（11 次搜索，而 DeepSeekV3 的 3 次搜索），系统地收集了 2025 年 5 月 CPI 数据（同比 2.4%），确定了月度减速趋势（0.2%→0.1%），权衡关税压力与美联储限制性政策，精确计算出所需的 0.2% 差距，并得出结论，最近的减速使得达到 2.6% 的门槛的可能性不大，回答“否”。</p>
+<li><p>Claude3.7 通过综合研究分析了 2025 年 6 月的通胀（11 次搜索，而 DeepSeekV3 的 3 次搜索），系统地收集了 2025 年 5 月 CPI 数据（同比 2.4%），确定了月度减速趋势（0.2%→0.1%），权衡关税压力与美联储限制性政策，精确计算出所需的 0.2% 差距，并得出结论，最近的减速使得达到 2.6% 的门槛的可能性不大，回答“否”。</p>
 </li>
-<li>
-<p>GPT4.1 通过有针对性的市场共识和预测搜索分析了 2025 年 6 月的通胀，确定 2025 年 5 月 CPI 为 2.4%（低于 2.5% 预期），注意到月度增长 0.1%，没有发现预测者对 6 月份 2.6%+ 的预测，并得出结论，鉴于近期低于预期的趋势，从 2.4% 跃升至 2.6% 的可能性不大。</p>
+<li><p>GPT4.1 通过有针对性的市场共识和预测搜索分析了 2025 年 6 月的通胀，确定 2025 年 5 月 CPI 为 2.4%（低于 2.5% 预期），注意到月度增长 0.1%，没有发现预测者对 6 月份 2.6%+ 的预测，并得出结论，鉴于近期低于预期的趋势，从 2.4% 跃升至 2.6% 的可能性不大。</p>
 </li>
 </ul>
 <p>有趣的是，Claude 是唯一一个试图访问劳工统计局网站直接抓取它的模型，但失败了，因为它是一个 .gov 网站，我们不允许此类作。</p>
 <p>这些模型在其输出中表现出不同的推理模式。GPT 的分析侧重于共识预测作为未来事件的关键信号，而不是从当前数据中推断，而 Claude 的方法以其系统的利弊框架和定量差距分析表现出严格的分析结构，而 DeepSeekV3 的输出则明确承认数据局限性和在初始方法遇到限制时进行系统的方法调整。</p>
 <p>这些行为差异揭示了不同模型如何处理信息收集的有趣模式。网络使用和token消耗的变化表明，模型在处理预测任务方面有不同的策略，FutureBench 可以帮助我们衡量和理解这些策略。</p>
-<h2 id="局限性和未来方向"><a class="markdownIt-Anchor" href="#局限性和未来方向"></a> 局限性和未来方向</h2>
-<p>一个挑战是，由于输入标记数量众多，评估成本可能很高。例如，Claude 倾向于频繁访问网页，从而积累了许多输入token。在多轮循环中，这可以使输入token的数量迅速飙升。这会增加任何后续代的成本，即使大多数令牌最终都会被缓存。</p>
+<h2 id="局限性和未来方向"><a href="#局限性和未来方向" class="headerlink" title="局限性和未来方向"></a>局限性和未来方向</h2><p>一个挑战是，由于输入标记数量众多，评估成本可能很高。例如，Claude 倾向于频繁访问网页，从而积累了许多输入token。在多轮循环中，这可以使输入token的数量迅速飙升。这会增加任何后续代的成本，即使大多数令牌最终都会被缓存。</p>
 <p>FutureBench 是一个不断发展的基准，随着我们发现新的发现和更好的模式，我们会不断整合它们。我们希望社区提供反馈，以了解如何更好地获取问题、运行哪些实验以及哪些数据最值得分析。</p>
 
   </div>
@@ -2614,7 +2597,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T07:32:08+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2720,15 +2703,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2025/08/19/gspo/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>GSPO：迈向持续拓展的语言模型强化学习</p>
-          <p class='content'> 引言
-强化学习 （Reinforcement Learning，RL）已成为拓展语言模型、增强其深度推理与问题求解能力的关键技术范式。为了持续拓展 RL，首要前提是确保稳定、鲁棒的训练过程。然...</p>
+          <p class='content'>引言强化学习 （Reinforcement Learning，RL）已成为拓展语言模型、增强其深度推理与问题求解能力的关键技术范式。为了持续拓展 RL，首要前提是确保稳定、鲁棒的训练过程。然而，...</p>
         </a>
       
       
         <a class='next' href='/2025/08/10/trl_vision/'>
           <p class='title'>TRL ⚡️ 中的视觉语言模型对齐<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'> 引言
-视觉语言模型 （VLM） 变得越来越强大，但使其与人类偏好保持一致仍然很重要。在 TRL 中，我们已经展示了如何使用监督微调 （SFT） 和直接偏好优化 （DPO） 对 VLM 进行后期...</p>
+          <p class='content'>引言视觉语言模型 （VLM） 变得越来越强大，但使其与人类偏好保持一致仍然很重要。在 TRL 中，我们已经展示了如何使用监督微调 （SFT） 和直接偏好优化 （DPO） 对 VLM 进行后期训练...</p>
         </a>
       
     </div>
@@ -2789,7 +2770,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-text"> 人工智能的未来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#agent%E5%8F%AF%E4%BB%A5%E9%A2%84%E6%B5%8B%E6%9C%AA%E6%9D%A5%E4%BA%8B%E4%BB%B6%E5%90%97"><span class="toc-text"> agent可以预测未来事件吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5"><span class="toc-text"> 未来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%B0%E9%97%BB%E7%94%9F%E6%88%90%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%8A%E5%A4%A9%E5%AF%BB%E6%89%BE%E6%98%8E%E5%A4%A9%E7%9A%84%E5%A4%B4%E6%9D%A1%E6%96%B0%E9%97%BB"><span class="toc-text"> 1. 新闻生成的问题：今天寻找明天的头条新闻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-polymarket-%E6%95%B4%E5%90%88%E5%88%A9%E7%94%A8%E9%A2%84%E6%B5%8B%E5%B8%82%E5%9C%BA"><span class="toc-text"> 2. Polymarket 整合：利用预测市场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E9%97%AE%E9%A2%98"><span class="toc-text"> 示例问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C%E5%8F%B0%E7%B3%BB%E7%BB%9F%E8%AF%84%E4%BC%B0%E7%9A%84%E4%B8%89%E4%B8%AA%E5%B1%82%E6%AC%A1"><span class="toc-text"> 未来工作台：系统评估的三个层次</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E6%B5%8B%E6%9C%AA%E6%9D%A5agent%E5%92%8C%E5%88%9D%E6%AD%A5%E7%BB%93%E6%9E%9C"><span class="toc-text"> 预测未来：agent和初步结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E7%BB%93%E6%9E%9C"><span class="toc-text"> 初步结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E8%B6%A3%E7%9A%84%E8%A1%8C%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 有趣的行动模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%99%90%E6%80%A7%E5%92%8C%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="toc-text"> 局限性和未来方向</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-text">人工智能的未来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#agent%E5%8F%AF%E4%BB%A5%E9%A2%84%E6%B5%8B%E6%9C%AA%E6%9D%A5%E4%BA%8B%E4%BB%B6%E5%90%97%EF%BC%9F"><span class="toc-text">agent可以预测未来事件吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5"><span class="toc-text">未来</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%B0%E9%97%BB%E7%94%9F%E6%88%90%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A%E4%BB%8A%E5%A4%A9%E5%AF%BB%E6%89%BE%E6%98%8E%E5%A4%A9%E7%9A%84%E5%A4%B4%E6%9D%A1%E6%96%B0%E9%97%BB"><span class="toc-text">1. 新闻生成的问题：今天寻找明天的头条新闻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Polymarket-%E6%95%B4%E5%90%88%EF%BC%9A%E5%88%A9%E7%94%A8%E9%A2%84%E6%B5%8B%E5%B8%82%E5%9C%BA"><span class="toc-text">2. Polymarket 整合：利用预测市场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E9%97%AE%E9%A2%98"><span class="toc-text">示例问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C%E5%8F%B0%EF%BC%9A%E7%B3%BB%E7%BB%9F%E8%AF%84%E4%BC%B0%E7%9A%84%E4%B8%89%E4%B8%AA%E5%B1%82%E6%AC%A1"><span class="toc-text">未来工作台：系统评估的三个层次</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E6%B5%8B%E6%9C%AA%E6%9D%A5%EF%BC%9Aagent%E5%92%8C%E5%88%9D%E6%AD%A5%E7%BB%93%E6%9E%9C"><span class="toc-text">预测未来：agent和初步结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E7%BB%93%E6%9E%9C"><span class="toc-text">初步结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E8%B6%A3%E7%9A%84%E8%A1%8C%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">有趣的行动模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%99%90%E6%80%A7%E5%92%8C%E6%9C%AA%E6%9D%A5%E6%96%B9%E5%90%91"><span class="toc-text">局限性和未来方向</span></a></li></ol>
   </div>
 </section>
 
@@ -3196,7 +3177,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3431,7 +3412,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/agent/","name":"agent"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/08/17/agent_future/","name":"回到未来：评估人工智能代理预测未来事件"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"回到未来：评估人工智能代理预测未来事件","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/08/17/agent_future/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/08/17/agent_future/","wordCount":0,"datePublished":"2025-08-17T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.961Z","articleSection":"agent","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/agent/","name":"agent"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/08/17/agent_future/","name":"回到未来：评估人工智能代理预测未来事件"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"回到未来：评估人工智能代理预测未来事件","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/08/17/agent_future/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/08/17/agent_future/","wordCount":0,"datePublished":"2025-08-17T16:00:00.000Z","dateModified":"2026-08-17T07:32:08.960Z","articleSection":"agent","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

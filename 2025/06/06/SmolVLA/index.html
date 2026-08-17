@@ -43,11 +43,11 @@
 <meta property="og:title" content="SmolVLA：让机器人更懂&#39;看听说做&#39;的轻量化解决方案">
 <meta property="og:url" content="https://nicemxm.github.io/2025/06/06/SmolVLA/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言 今天，我们介绍了SmolVLA，这是一个轻量级（450M参数）的开源视觉-语言-动作（VLA）模型，专为机器人领域设计，并且可以在消费级硬件上运行。  仅使用开源社区共享的数据集进行预训练，数据集标签为lerobot。 SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（LIBERO，Meta-World）和实际任务（SO100, SO101）上超过了强基线模型，如">
+<meta property="og:description" content="引言今天，我们介绍了SmolVLA，这是一个轻量级（450M参数）的开源视觉-语言-动作（VLA）模型，专为机器人领域设计，并且可以在消费级硬件上运行。  仅使用开源社区共享的数据集进行预训练，数据集标签为lerobot。 SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（LIBERO，Meta-World）和实际任务（SO100, SO101）上超过了强基线模型，如AC">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-06-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:41:16.960Z">
+<meta property="article:modified_time" content="2026-08-17T07:32:08.960Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786948910807),
+    lastupdate: new Date(1786951943027),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2308,7 +2308,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='top'>
     
     
-      <p class="title">OpenAI</p>
+      <p class="title">OpenHarness</p>
     
     
   </div>
@@ -2325,10 +2325,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div class='list-h'>
         
           
-            <a href="/v4/getting-started/"
+            <a href="/archives/"
               
               
-              active-action="action-v4getting-started">
+              active-action="action-archives">
               <p>文档</p>
             </a>
           
@@ -2498,8 +2498,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
-<p>今天，我们介绍了SmolVLA，这是一个轻量级（450M参数）的开源视觉-语言-动作（VLA）模型，专为机器人领域设计，并且可以在消费级硬件上运行。</p>
+    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>今天，我们介绍了SmolVLA，这是一个轻量级（450M参数）的开源视觉-语言-动作（VLA）模型，专为机器人领域设计，并且可以在消费级硬件上运行。</p>
 <ul>
 <li>仅使用开源社区共享的数据集进行预训练，数据集标签为lerobot。</li>
 <li>SmolVLA-450M的表现优于许多更大的 VLA 模型，并且在仿真任务（LIBERO，Meta-World）和实际任务（SO100, SO101）上超过了强基线模型，如ACT。</li>
@@ -2508,8 +2507,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>在过去的几年里，Transformers 技术推动了人工智能的显著进展，从能够进行类人推理的语言模型到理解图像和文本的多模态系统。然而，在实际的机器人领域，进展则相对较慢。机器人仍然难以在各种物体、环境和任务之间进行有效的泛化。这一有限的进展源于 缺乏高质量、多样化的数据，以及缺乏能够 像人类一样在物理世界中进行推理和行动 的模型。</p>
 <p>为应对这些挑战，近期的研究开始转向 视觉-语言-动作（VLA）模型，旨在将感知、语言理解和动作预测统一到一个架构中。VLA 模型通常以原始视觉观测和自然语言指令为输入，输出相应的机器人动作。尽管前景广阔，但大部分 VLA 的最新进展仍然被封闭在使用大规模私人数据集训练的专有模型背后，通常需要昂贵的硬件配置和大量的工程资源。因此，更广泛的机器人研究社区在复制和扩展这些模型时面临着重大的障碍。</p>
 <p>SmolVLA 填补了这一空白，提供了一个开源、高效的轻量级 VLA 模型，可以在 仅使用公开可用数据集和消费级硬件 的情况下进行训练。通过发布模型权重并使用非常经济的开源硬件，SmolVLA 旨在实现视觉-语言-动作模型的普及，并加速朝着通用机器人代理的研究进展。</p>
-<h2 id="认识-smolvla"><a class="markdownIt-Anchor" href="#认识-smolvla"></a> 认识 SmolVLA</h2>
-<p>SmolVLA-450M 是我们开源的、功能强大的轻量级视觉-语言-动作（VLA）模型。它具备以下特点：</p>
+<h2 id="认识-SmolVLA"><a href="#认识-SmolVLA" class="headerlink" title="认识 SmolVLA"></a>认识 SmolVLA</h2><p>SmolVLA-450M 是我们开源的、功能强大的轻量级视觉-语言-动作（VLA）模型。它具备以下特点：</p>
 <ul>
 <li>足够小，可以在 CPU 上运行，单个消费级 GPU 上训练，甚至可以在 MacBook 上运行！</li>
 <li>训练使用的是公开的、社区共享的机器人数据</li>
@@ -2525,51 +2523,42 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ul>
 <p>尽管使用的训练样本不到 30k, 比其他 VLA 模型少了一个数量级, 但 SmolVLA 在仿真和真实世界中的表现 与更大的模型相当，甚至超过它们。</p>
 <p>为了让实时机器人更加易用，我们引入了异步推理堆栈。该技术将机器人执行动作的方式与理解它们所看到和听到的内容分开。由于这种分离，机器人可以在快速变化的环境中更快速地响应。</p>
-<h2 id="如何使用-smolvla"><a class="markdownIt-Anchor" href="#如何使用-smolvla"></a> 如何使用 SmolVLA</h2>
-<p>SmolVLA 设计时考虑了易用性和集成性——无论您是要在自己的数据上进行微调，还是将其插入现有的机器人堆栈中，都非常方便。</p>
-<h3 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h3>
-<p>首先，安装所需的依赖项：</p>
+<h2 id="如何使用-SmolVLA"><a href="#如何使用-SmolVLA" class="headerlink" title="如何使用 SmolVLA"></a>如何使用 SmolVLA</h2><p>SmolVLA 设计时考虑了易用性和集成性——无论您是要在自己的数据上进行微调，还是将其插入现有的机器人堆栈中，都非常方便。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先，安装所需的依赖项：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/huggingface/lerobot.git</span><br><span class="line">cd lerobot</span><br><span class="line">pip install -e &quot;.[smolvla]&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="微调预训练模型"><a class="markdownIt-Anchor" href="#微调预训练模型"></a> 微调预训练模型</h3>
-<p>使用我们预训练的 450M 模型 smolvla_base 和 lerobot 训练框架进行微调：</p>
+
+<h3 id="微调预训练模型"><a href="#微调预训练模型" class="headerlink" title="微调预训练模型"></a>微调预训练模型</h3><p>使用我们预训练的 450M 模型 smolvla_base 和 lerobot 训练框架进行微调：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python lerobot/scripts/train.py \</span><br><span class="line">  --policy.path=lerobot/smolvla_base \</span><br><span class="line">  --dataset.repo_id=lerobot/svla_so100_stacking \</span><br><span class="line">  --batch_size=64 \</span><br><span class="line">  --steps=200000</span><br></pre></td></tr></table></figure>
-<h3 id="从头开始训练"><a class="markdownIt-Anchor" href="#从头开始训练"></a> 从头开始训练</h3>
-<p>如果你想基于架构（预训练的 VLM + 动作专家）进行训练，而不是从预训练的检查点开始：</p>
+
+<h3 id="从头开始训练"><a href="#从头开始训练" class="headerlink" title="从头开始训练"></a>从头开始训练</h3><p>如果你想基于架构（预训练的 VLM + 动作专家）进行训练，而不是从预训练的检查点开始：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python lerobot/scripts/train.py \</span><br><span class="line">  --policy.type=smolvla \</span><br><span class="line">  --dataset.repo_id=lerobot/svla_so100_stacking \</span><br><span class="line">  --batch_size=64 \</span><br><span class="line">  --steps=200000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>你还可以直接加载 SmolVLAPolicy：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">policy = SmolVLAPolicy.from_pretrained(&quot;lerobot/smolvla_base&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="方法"><a class="markdownIt-Anchor" href="#方法"></a> 方法</h3>
-<p>SmolVLA 不仅是一个轻量级但强大的模型，还是一种用于训练和评估通用机器人策略的方法。在这一部分，我们介绍了 SmolVLA 背后的 模型架构 和用于评估的 异步推理 设置，这一设置已被证明更具适应性，并能更快速地恢复。</p>
+
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>SmolVLA 不仅是一个轻量级但强大的模型，还是一种用于训练和评估通用机器人策略的方法。在这一部分，我们介绍了 SmolVLA 背后的 模型架构 和用于评估的 异步推理 设置，这一设置已被证明更具适应性，并能更快速地恢复。</p>
 <p>SmolVLA 由两个核心组件组成：一个处理多模态输入的 视觉-语言模型（VLM） 和一个输出机器人控制命令的 动作专家。下面，我们将分享 SmolVLA 架构的主要组件和异步推理的详细信息。更多细节可以在技术报告 中找到。</p>
-<h3 id="主要架构"><a class="markdownIt-Anchor" href="#主要架构"></a> 主要架构</h3>
-<h4 id="视觉-语言模型vlm"><a class="markdownIt-Anchor" href="#视觉-语言模型vlm"></a> 视觉-语言模型（VLM）</h4>
-<p>我们使用 SmolVLM2 作为我们的 VLM 主干。它经过优化，能够处理多图像输入，并包含一个 SigLIP 视觉编码器和一个 SmolLM2 语言解码器。</p>
+<h3 id="主要架构"><a href="#主要架构" class="headerlink" title="主要架构"></a>主要架构</h3><h4 id="视觉-语言模型（VLM）"><a href="#视觉-语言模型（VLM）" class="headerlink" title="视觉-语言模型（VLM）"></a>视觉-语言模型（VLM）</h4><p>我们使用 SmolVLM2 作为我们的 VLM 主干。它经过优化，能够处理多图像输入，并包含一个 SigLIP 视觉编码器和一个 SmolLM2 语言解码器。</p>
 <ul>
 <li>图像标记 通过视觉编码器提取</li>
 <li>语言指令 被标记化并直接输入解码器</li>
 <li>传感运动状态 通过线性层投影到一个标记上，与语言模型的标记维度对齐</li>
 </ul>
 <p>解码器层处理连接的图像、语言和状态标记。得到的特征随后传递给动作专家。</p>
-<h5 id="动作专家流匹配变换器"><a class="markdownIt-Anchor" href="#动作专家流匹配变换器"></a> 动作专家：流匹配变换器</h5>
-<p>SmolVLA 的 动作专家 是一个轻量Transformer（约1亿参数），它能基于视觉语言模型（VLM）的输出，生成未来机器人动作序列块（action chunks）。它是采用 流匹配目标 进行训练的，通过引导噪声样本回归真实数据分布来学习动作生成。与离散动作表示（例如通过标记化）强大但通常需要自回归解码、推理时速度较慢不同，流匹配允许 直接、非自回归预测连续动作，从而实现高精度的实时控制。</p>
+<h5 id="动作专家：流匹配变换器"><a href="#动作专家：流匹配变换器" class="headerlink" title="动作专家：流匹配变换器"></a>动作专家：流匹配变换器</h5><p>SmolVLA 的 动作专家 是一个轻量Transformer（约1亿参数），它能基于视觉语言模型（VLM）的输出，生成未来机器人动作序列块（action chunks）。它是采用 流匹配目标 进行训练的，通过引导噪声样本回归真实数据分布来学习动作生成。与离散动作表示（例如通过标记化）强大但通常需要自回归解码、推理时速度较慢不同，流匹配允许 直接、非自回归预测连续动作，从而实现高精度的实时控制。</p>
 <p>更直观地说，在训练过程中，我们将随机噪声添加到机器人的真实动作序列中，并要求模型预测将其“修正”回正确轨迹的“修正向量”。这在动作空间上形成了一个平滑的向量场，帮助模型学习准确且稳定的控制策略。</p>
-<p>我们使用 Transfomer 架构实现这一目标，并采用 交替注意力块，同时将其隐藏层大小减少到 <strong>VLM 的 75%</strong>，保持模型轻量化，便于部署。</p>
-<h4 id="高效性和稳健性的设计选择"><a class="markdownIt-Anchor" href="#高效性和稳健性的设计选择"></a> 高效性和稳健性的设计选择</h4>
-<p>将视觉-语言模型与动作预测模块结合起来，是近期 VLA 系统（如 Pi0、GR00T、Diffusion Policy）中的常见设计模式。我们在此过程中识别了几项架构选择，这些选择显著提高了系统的稳健性和性能。在 SmolVLA 中，我们应用了三项关键技术：减少视觉标记的数量、跳过 VLM 中的高层以及 在动作专家中交替使用交叉注意力和自注意力层。</p>
-<h4 id="视觉标记减少"><a class="markdownIt-Anchor" href="#视觉标记减少"></a> 视觉标记减少</h4>
-<p>高分辨率图像有助于提高感知能力，但也可能显著减慢推理速度。为了找到平衡，SmolVLA 在训练和推理过程中每帧限制视觉标记数量为 64。例如，一个 512×512 的图像被压缩成仅 64 个标记，而不是 1024 个，使用 PixelShuffle 作为高效的重排技术。虽然底层的视觉-语言模型（VLM）最初使用图像平铺技术进行预训练，以获得更广泛的覆盖，但SmolVLA 在运行时仅使用全局图像，以保持推理的轻量化和快速性。</p>
-<h4 id="通过跳过层加速推理"><a class="markdownIt-Anchor" href="#通过跳过层加速推理"></a> 通过跳过层加速推理</h4>
-<p>我们并不总是依赖于 VLM 的最终输出层，这一层成本高且有时效果不佳，我们选择使用 中间层的特征。先前的研究表明，早期的层通常能提供更好的下游任务表示。 在 SmolVLA 中，动作专家只关注最多配置层 NN 的 VLM 特征进行训练，配置为总层数的一半。这减少了 VLM 和动作专家的计算成本，显著加速了推理，并且性能损失最小。</p>
-<h4 id="交替使用交叉注意力和自注意力"><a class="markdownIt-Anchor" href="#交替使用交叉注意力和自注意力"></a> 交替使用交叉注意力和自注意力</h4>
-<p>在动作专家内部，注意力层交替进行：</p>
+<p>我们使用 Transfomer 架构实现这一目标，并采用 交替注意力块，同时将其隐藏层大小减少到 **VLM 的 75%**，保持模型轻量化，便于部署。</p>
+<h4 id="高效性和稳健性的设计选择"><a href="#高效性和稳健性的设计选择" class="headerlink" title="高效性和稳健性的设计选择"></a>高效性和稳健性的设计选择</h4><p>将视觉-语言模型与动作预测模块结合起来，是近期 VLA 系统（如 Pi0、GR00T、Diffusion Policy）中的常见设计模式。我们在此过程中识别了几项架构选择，这些选择显著提高了系统的稳健性和性能。在 SmolVLA 中，我们应用了三项关键技术：减少视觉标记的数量、跳过 VLM 中的高层以及 在动作专家中交替使用交叉注意力和自注意力层。</p>
+<h4 id="视觉标记减少"><a href="#视觉标记减少" class="headerlink" title="视觉标记减少"></a>视觉标记减少</h4><p>高分辨率图像有助于提高感知能力，但也可能显著减慢推理速度。为了找到平衡，SmolVLA 在训练和推理过程中每帧限制视觉标记数量为 64。例如，一个 512×512 的图像被压缩成仅 64 个标记，而不是 1024 个，使用 PixelShuffle 作为高效的重排技术。虽然底层的视觉-语言模型（VLM）最初使用图像平铺技术进行预训练，以获得更广泛的覆盖，但SmolVLA 在运行时仅使用全局图像，以保持推理的轻量化和快速性。</p>
+<h4 id="通过跳过层加速推理"><a href="#通过跳过层加速推理" class="headerlink" title="通过跳过层加速推理"></a>通过跳过层加速推理</h4><p>我们并不总是依赖于 VLM 的最终输出层，这一层成本高且有时效果不佳，我们选择使用 中间层的特征。先前的研究表明，早期的层通常能提供更好的下游任务表示。 在 SmolVLA 中，动作专家只关注最多配置层 NN 的 VLM 特征进行训练，配置为总层数的一半。这减少了 VLM 和动作专家的计算成本，显著加速了推理，并且性能损失最小。</p>
+<h4 id="交替使用交叉注意力和自注意力"><a href="#交替使用交叉注意力和自注意力" class="headerlink" title="交替使用交叉注意力和自注意力"></a>交替使用交叉注意力和自注意力</h4><p>在动作专家内部，注意力层交替进行：</p>
 <ul>
 <li>交叉注意力（CA），其中动作标记关注 VLM 的特征</li>
 <li>自注意力（SA），其中动作标记关注彼此（因果性地——只关注过去的标记）</li>
 <li>我们发现这种 交替设计 比仅使用完整的注意力块要轻量且更有效。仅依赖于 CA 或仅依赖于 SA 的模型，往往会牺牲平滑性或基础性。</li>
 </ul>
 <p>在 SmolVLA 中，CA 确保了动作能够很好地与感知和指令相匹配，而 SA 则提高了 时间平滑性，这对于现实世界中的控制尤其重要，因为抖动的预测可能会导致不安全或不稳定的行为。</p>
-<h3 id="异步推理"><a class="markdownIt-Anchor" href="#异步推理"></a> 异步推理</h3>
-<p>现代视觉运动策略输出 动作片段 一系列需要执行的动作。有两种管理方式：</p>
+<h3 id="异步推理"><a href="#异步推理" class="headerlink" title="异步推理"></a>异步推理</h3><p>现代视觉运动策略输出 动作片段 一系列需要执行的动作。有两种管理方式：</p>
 <ul>
 <li>同步（sync）： 机器人执行一个片段，然后暂停，等待下一个片段的计算。这种方式简单，但会造成延迟，机器人无法响应新的输入。</li>
 <li>异步（async）： 在执行当前片段时，机器人已经将最新的观察结果发送到 策略服务器（可能托管在 GPU 上）以获取下一个片段。这避免了空闲时间，并提高了反应速度。</li>
@@ -2581,39 +2570,32 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>片段融合： 通过简单的合并规则将连续片段的重叠动作拼接在一起，以避免抖动。</li>
 </ol>
 <p>我们非常激动能发布异步推理，因为它保证了更强的适应性和更好的性能，而无需更改模型。简而言之，异步推理通过重叠执行和远程预测保持机器人响应迅速。</p>
-<h3 id="社区数据集"><a class="markdownIt-Anchor" href="#社区数据集"></a> 社区数据集</h3>
-<p>虽然视觉和语言模型依赖像 LAION、ImageNet 和 Common Crawl 这样的网络规模数据集，但机器人学缺乏类似的资源。没有“机器人互联网”。相反，数据在不同类型的机器人、传感器、控制方案和格式之间是碎片化的——形成了不相连的“数据岛”。在我们的 上一篇文章 中，我们探讨了如何通过开放和协作的努力来解决这种碎片化问题。正如 ImageNet 通过提供一个大而多样的基准来促进计算机视觉的突破，我们相信 社区驱动的机器人数据集 可以在通用机器人策略中发挥相同的基础性作用。</p>
+<h3 id="社区数据集"><a href="#社区数据集" class="headerlink" title="社区数据集"></a>社区数据集</h3><p>虽然视觉和语言模型依赖像 LAION、ImageNet 和 Common Crawl 这样的网络规模数据集，但机器人学缺乏类似的资源。没有“机器人互联网”。相反，数据在不同类型的机器人、传感器、控制方案和格式之间是碎片化的——形成了不相连的“数据岛”。在我们的 上一篇文章 中，我们探讨了如何通过开放和协作的努力来解决这种碎片化问题。正如 ImageNet 通过提供一个大而多样的基准来促进计算机视觉的突破，我们相信 社区驱动的机器人数据集 可以在通用机器人策略中发挥相同的基础性作用。</p>
 <p>SmolVLA 是我们朝着这个愿景迈出的第一步：它在精心挑选的公开可用、社区贡献的数据集上进行预训练，这些数据集旨在反映现实世界中的变化。我们并不是单纯地优化数据集的大小，而是关注多样性：各种行为、摄像头视角和体现方式，促进转移和泛化。</p>
 <p>SmolVLA 使用的所有训练数据来自 LeRobot Community Datasets，这是在 Hugging Face Hub 上通过 lerobot 标签共享的机器人数据集。数据集来自各种不同的环境，从实验室到客厅，这些数据集代表了一种开放、去中心化的努力，旨在扩展现实世界的机器人数据。</p>
 <p>我们使用了由 Alexandre Chapin 和 Ville Kuosmanen 创建的自定义 过滤工具，根据帧数、视觉质量和任务覆盖范围来选择数据集。在经过细致的人工审核后（特别感谢 Marina Barannikov），我们策划了一个由 487 个高质量数据集 组成的集合，聚焦于 SO100 机器人臂，并统一标准为 30 FPS。这产生了大约 1000 万帧——至少是 其他流行基准数据集的一个数量级小，但其多样性显著更高。</p>
-<h3 id="改进任务标注"><a class="markdownIt-Anchor" href="#改进任务标注"></a> 改进任务标注</h3>
-<p>社区数据集中的一个常见问题是任务描述的噪声或缺失。许多样本缺少标注，或者包含像“task desc”或“Move”、“Pick”等模糊的标签。为了提高质量并标准化数据集之间的文本输入，我们使用了 Qwen2.5-VL-3B-Instruct 来生成简洁、面向动作的描述。</p>
+<h3 id="改进任务标注"><a href="#改进任务标注" class="headerlink" title="改进任务标注"></a>改进任务标注</h3><p>社区数据集中的一个常见问题是任务描述的噪声或缺失。许多样本缺少标注，或者包含像“task desc”或“Move”、“Pick”等模糊的标签。为了提高质量并标准化数据集之间的文本输入，我们使用了 Qwen2.5-VL-3B-Instruct 来生成简洁、面向动作的描述。</p>
 <p>给定样本帧和原始标签，模型被提示在 30 个字符以内重写指令，从动词开始（例如，“Pick”，“Place”，“Open”）。</p>
 <p>使用的提示语如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">以下是当前的任务描述：&#123;current_task&#125;。生成一个非常简短、清晰且完整的一句话，描述机器人臂执行的动作（最多 30 个字符）。不要包含不必要的词语。</span><br><span class="line">简洁明了。</span><br><span class="line">以下是一些示例：拾取立方体并将其放入盒子，打开抽屉等等。</span><br><span class="line">直接以动词开始，如“Pick”、“Place”、“Open”等。</span><br><span class="line">与提供的示例类似，机器人臂执行的主要动作是什么？</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="标准化摄像头视角"><a class="markdownIt-Anchor" href="#标准化摄像头视角"></a> 标准化摄像头视角</h3>
-<p>另一个挑战是摄像头命名不一致。一些数据集使用了清晰的名称，如 top 或 wrist.right，而其他一些则使用了模糊的标签，如 images.laptop，其含义有所不同。<br>
-为了解决这个问题，我们手动检查了数据集，并将每个摄像头视角映射到标准化的方案：</p>
+
+<h3 id="标准化摄像头视角"><a href="#标准化摄像头视角" class="headerlink" title="标准化摄像头视角"></a>标准化摄像头视角</h3><p>另一个挑战是摄像头命名不一致。一些数据集使用了清晰的名称，如 top 或 wrist.right，而其他一些则使用了模糊的标签，如 images.laptop，其含义有所不同。<br>为了解决这个问题，我们手动检查了数据集，并将每个摄像头视角映射到标准化的方案：</p>
 <ul>
 <li>OBS_IMAGE_1: 从上往下的视角</li>
 <li>OBS_IMAGE_2: 腕部安装视角</li>
 <li>OBS_IMAGE_3+: 其他视角</li>
 </ul>
-<p>我们进一步隔离了社区数据集预训练和多任务微调的贡献。没有在 LeRobot 社区数据集上进行预训练，SmolVLA 在 SO100 上最初的成功率为 <strong>51.7%</strong>。在社区收集的数据上进行预训练后，性能跃升至 <strong>78.3%</strong>，提高了 <strong>+26.6%</strong>。多任务微调进一步提升了性能，甚至在低数据环境下也表现出强大的任务迁移能力。</p>
-<h3 id="结果"><a class="markdownIt-Anchor" href="#结果"></a> 结果</h3>
-<p>我们在仿真和真实世界的基准测试中评估了 SmolVLA，以测试其泛化能力、效率和稳健性。尽管 SmolVLA 是紧凑的，但它在性能上始终超越或与显著更大的模型和基于更大规模机器人数据预训练的策略相匹配。</p>
-<p>在真实世界环境中，SmolVLA 在两个不同的任务套件上进行了评估：SO100 和 SO101。这些任务包括拾取-放置、堆叠和排序，涵盖了分布内和分布外的物体配置。<br>
-在 SO101 上，SmolVLA 还在泛化能力上表现出色：</p>
+<p>我们进一步隔离了社区数据集预训练和多任务微调的贡献。没有在 LeRobot 社区数据集上进行预训练，SmolVLA 在 SO100 上最初的成功率为 **51.7%**。在社区收集的数据上进行预训练后，性能跃升至 **78.3%**，提高了 **+26.6%**。多任务微调进一步提升了性能，甚至在低数据环境下也表现出强大的任务迁移能力。</p>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>我们在仿真和真实世界的基准测试中评估了 SmolVLA，以测试其泛化能力、效率和稳健性。尽管 SmolVLA 是紧凑的，但它在性能上始终超越或与显著更大的模型和基于更大规模机器人数据预训练的策略相匹配。</p>
+<p>在真实世界环境中，SmolVLA 在两个不同的任务套件上进行了评估：SO100 和 SO101。这些任务包括拾取-放置、堆叠和排序，涵盖了分布内和分布外的物体配置。<br>在 SO101 上，SmolVLA 还在泛化能力上表现出色：</p>
 <p>最后，我们在同步和异步推理模式下评估了 SmolVLA。异步推理将动作执行与模型推理解耦，使得策略在机器人移动时也能作出反应。</p>
 <p>两种模式的任务成功率相似（约 78%），但异步推理：</p>
 <ul>
-<li>使任务完成时间 <strong>快约 30%</strong>（9.7 秒 vs 13.75 秒）</li>
+<li>使任务完成时间 **快约 30%**（9.7 秒 vs 13.75 秒）</li>
 <li>在固定时间设置下 完成任务数量翻倍（19 个 vs 9 个立方体）</li>
 </ul>
 <p>这使得在动态环境中，尤其是在物体变化或外部干扰的情况下，SmolVLA 具有更高的响应性和稳健的真实世界表现。</p>
-<h3 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h3>
-<p>SmolVLA 是我们为构建开放、高效、可重复的机器人基础模型所做的贡献。尽管它体积小，但在一系列真实世界和仿真任务中，它的表现与更大、更专有的模型相当，甚至超越了它们。通过完全依赖社区贡献的数据集和经济实惠的硬件，SmolVLA 降低了研究人员、教育工作者和爱好者的入门门槛。<br>
-但这仅仅是开始。SmolVLA 不仅仅是一个模型——它是朝着可扩展、协作机器人方向发展的开源运动的一部分。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>SmolVLA 是我们为构建开放、高效、可重复的机器人基础模型所做的贡献。尽管它体积小，但在一系列真实世界和仿真任务中，它的表现与更大、更专有的模型相当，甚至超越了它们。通过完全依赖社区贡献的数据集和经济实惠的硬件，SmolVLA 降低了研究人员、教育工作者和爱好者的入门门槛。<br>但这仅仅是开始。SmolVLA 不仅仅是一个模型——它是朝着可扩展、协作机器人方向发展的开源运动的一部分。</p>
 
   </div>
   
@@ -2638,7 +2620,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T07:32:08+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2744,16 +2726,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2025/06/10/DeepResearch/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>DeepResearch：搜索代理</p>
-          <p class='content'> 引言
-OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根据摘要回答问题的系统。该系统令人印象深刻，当我们第一次尝试时，它让我们大吃一惊。
-博文中的主要结果之一是通...</p>
+          <p class='content'>引言OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根据摘要回答问题的系统。该系统令人印象深刻，当我们第一次尝试时，它让我们大吃一惊。
+博文中的主要结果之一是通用 ...</p>
         </a>
       
       
         <a class='next' href='/2025/05/29/qwen_onmi/'>
           <p class='title'>Qwen_onmi_7B<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'> 摘要
-本篇论文介绍了一种名为Qwen2.5-Omni的端到端多模态模型，该模型可以感知包括文本、图像、音频和视频在内的多种模态，并在流式处理中同时生成文本和自然语音响应。为了实现多模态信息输入...</p>
+          <p class='content'>摘要本篇论文介绍了一种名为Qwen2.5-Omni的端到端多模态模型，该模型可以感知包括文本、图像、音频和视频在内的多种模态，并在流式处理中同时生成文本和自然语音响应。为了实现多模态信息输入的流...</p>
         </a>
       
     </div>
@@ -2814,7 +2794,7 @@ OpenAI 发布了 Deep Research，这是一个浏览网页以总结内容并根�
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86-smolvla"><span class="toc-text"> 认识 SmolVLA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-smolvla"><span class="toc-text"> 如何使用 SmolVLA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text"> 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E8%B0%83%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 微调预训练模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="toc-text"> 从头开始训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-text"> 方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%9E%B6%E6%9E%84"><span class="toc-text"> 主要架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%86%E8%A7%89-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8Bvlm"><span class="toc-text"> 视觉-语言模型（VLM）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%E4%B8%93%E5%AE%B6%E6%B5%81%E5%8C%B9%E9%85%8D%E5%8F%98%E6%8D%A2%E5%99%A8"><span class="toc-text"> 动作专家：流匹配变换器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E6%95%88%E6%80%A7%E5%92%8C%E7%A8%B3%E5%81%A5%E6%80%A7%E7%9A%84%E8%AE%BE%E8%AE%A1%E9%80%89%E6%8B%A9"><span class="toc-text"> 高效性和稳健性的设计选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%86%E8%A7%89%E6%A0%87%E8%AE%B0%E5%87%8F%E5%B0%91"><span class="toc-text"> 视觉标记减少</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E8%B7%B3%E8%BF%87%E5%B1%82%E5%8A%A0%E9%80%9F%E6%8E%A8%E7%90%86"><span class="toc-text"> 通过跳过层加速推理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%9B%BF%E4%BD%BF%E7%94%A8%E4%BA%A4%E5%8F%89%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%92%8C%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B"><span class="toc-text"> 交替使用交叉注意力和自注意力</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E6%8E%A8%E7%90%86"><span class="toc-text"> 异步推理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BE%E5%8C%BA%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text"> 社区数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E4%BB%BB%E5%8A%A1%E6%A0%87%E6%B3%A8"><span class="toc-text"> 改进任务标注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E6%91%84%E5%83%8F%E5%A4%B4%E8%A7%86%E8%A7%92"><span class="toc-text"> 标准化摄像头视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-text"> 结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text"> 结论</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86-SmolVLA"><span class="toc-text">认识 SmolVLA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-SmolVLA"><span class="toc-text">如何使用 SmolVLA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E8%B0%83%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B"><span class="toc-text">微调预训练模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="toc-text">从头开始训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%9E%B6%E6%9E%84"><span class="toc-text">主要架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%86%E8%A7%89-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%88VLM%EF%BC%89"><span class="toc-text">视觉-语言模型（VLM）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%E4%B8%93%E5%AE%B6%EF%BC%9A%E6%B5%81%E5%8C%B9%E9%85%8D%E5%8F%98%E6%8D%A2%E5%99%A8"><span class="toc-text">动作专家：流匹配变换器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E6%95%88%E6%80%A7%E5%92%8C%E7%A8%B3%E5%81%A5%E6%80%A7%E7%9A%84%E8%AE%BE%E8%AE%A1%E9%80%89%E6%8B%A9"><span class="toc-text">高效性和稳健性的设计选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%86%E8%A7%89%E6%A0%87%E8%AE%B0%E5%87%8F%E5%B0%91"><span class="toc-text">视觉标记减少</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E8%B7%B3%E8%BF%87%E5%B1%82%E5%8A%A0%E9%80%9F%E6%8E%A8%E7%90%86"><span class="toc-text">通过跳过层加速推理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%9B%BF%E4%BD%BF%E7%94%A8%E4%BA%A4%E5%8F%89%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%92%8C%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B"><span class="toc-text">交替使用交叉注意力和自注意力</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E6%8E%A8%E7%90%86"><span class="toc-text">异步推理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BE%E5%8C%BA%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">社区数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E4%BB%BB%E5%8A%A1%E6%A0%87%E6%B3%A8"><span class="toc-text">改进任务标注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E6%91%84%E5%83%8F%E5%A4%B4%E8%A7%86%E8%A7%92"><span class="toc-text">标准化摄像头视角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-text">结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3221,7 +3201,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3456,7 +3436,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/VLA/","name":"VLA"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/06/06/SmolVLA/","name":"SmolVLA：让机器人更懂'看听说做'的轻量化解决方案"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"SmolVLA：让机器人更懂'看听说做'的轻量化解决方案","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/06/06/SmolVLA/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/06/06/SmolVLA/","wordCount":0,"datePublished":"2025-06-06T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.960Z","articleSection":"VLA","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/VLA/","name":"VLA"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/06/06/SmolVLA/","name":"SmolVLA：让机器人更懂'看听说做'的轻量化解决方案"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"SmolVLA：让机器人更懂'看听说做'的轻量化解决方案","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/06/06/SmolVLA/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/06/06/SmolVLA/","wordCount":0,"datePublished":"2025-06-06T16:00:00.000Z","dateModified":"2026-08-17T07:32:08.960Z","articleSection":"VLA","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

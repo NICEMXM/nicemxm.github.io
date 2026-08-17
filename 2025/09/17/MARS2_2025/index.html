@@ -43,11 +43,11 @@
 <meta property="og:title" content="2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望">
 <meta property="og:url" content="https://nicemxm.github.io/2025/09/17/MARS2_2025/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="摘要 本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，越来越多的实验平台推动了通用型大语言模型的不断演进。因此，本届MARS2特别聚焦于现实世界及专业场景，以拓展多模态大语言模型在各类应用中的推理能力。为此，组委会精心推出了两个定制化数据集——Lens和Ads">
+<meta property="og:description" content="摘要本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，越来越多的实验平台推动了通用型大语言模型的不断演进。因此，本届MARS2特别聚焦于现实世界及专业场景，以拓展多模态大语言模型在各类应用中的推理能力。为此，组委会精心推出了两个定制化数据集——Lens和AdsQA">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-09-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:41:16.959Z">
+<meta property="article:modified_time" content="2026-08-17T07:32:08.960Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="MARS">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786948910807),
+    lastupdate: new Date(1786951943027),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2308,7 +2308,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='top'>
     
     
-      <p class="title">OpenAI</p>
+      <p class="title">OpenHarness</p>
     
     
   </div>
@@ -2325,10 +2325,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div class='list-h'>
         
           
-            <a href="/v4/getting-started/"
+            <a href="/archives/"
               
               
-              active-action="action-v4getting-started">
+              active-action="action-archives">
               <p>文档</p>
             </a>
           
@@ -2498,10 +2498,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
-<p>本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，越来越多的实验平台推动了通用型大语言模型的不断演进。因此，本届MARS2特别聚焦于现实世界及专业场景，以拓展多模态大语言模型在各类应用中的推理能力。为此，组委会精心推出了两个定制化数据集——Lens和AdsQA，分别作为测试集，前者支持12种日常场景下的通用推理任务，后者则针对广告视频中的领域特定推理需求。我们对包括通用型大语言模型和特定任务模型在内的40多个基线方法进行了全面评估，并设立了三条竞赛赛道：面向现实场景的视觉定位（VG-RS）、具备空间感知能力的视觉问答（VQOA-SA），以及创意广告视频中的视觉推理（VR-Ads）。最终，来自知名学术机构和产业界的76支团队踊跃报名，其中超过40份有效参赛作品已纳入我们的排名榜单。此外，我们的数据集、代码库（涵盖40多个基线方法及15个以上参赛者的具体方案）以及最新排名结果，均已在MARS2研讨会官网和GitHub组织页面<a target="_blank" rel="noopener" href="https://github.com/mars2workshop/%E4%B8%8A%E5%85%AC%E5%BC%80%E5%8F%91%E5%B8%83%EF%BC%8C%E6%9C%AA%E6%9D%A5%E6%88%91%E4%BB%AC%E5%B0%86%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E5%B9%B6%E5%8F%91%E5%B8%83%E7%9B%B8%E5%85%B3%E6%B4%BB%E5%8A%A8%E7%9A%84%E6%9C%80%E6%96%B0%E5%8A%A8%E6%80%81%E4%B8%8E%E9%80%9A%E7%9F%A5%E3%80%82">https://github.com/mars2workshop/上公开发布，未来我们将持续更新并发布相关活动的最新动态与通知。</a></p>
-<h2 id="1-介绍"><a class="markdownIt-Anchor" href="#1-介绍"></a> 1. 介绍</h2>
-<p>大规模语言模型（LLMs）[91, 93]代表着一项重大突破，可能标志着迈向通用人工智能（AGI）的关键一步。这些模型展现出多种特性，推动了传统深度学习的边界，包括泛化能力与涌现式能力[9]、思维链（CoT）[122]、指令理解与执行[166]，以及工具调用功能[102]等。尤其值得一提的是，配备长链推理能力的大规模语言模型，如OpenAI的o1[49]和DeepSeek-R1[41]，为构建大型推理模型开辟了全新路径。此外，多模态大规模语言模型（MLLMs）进一步拓展了语言模型的应用领域，并推动了多模态机器学习的深入发展[132,133]。</p>
+    <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>本文回顾了2025年多模态推理挑战赛MARS2。我们旨在通过一个大型基准测试，汇聚多模态机器学习与大语言模型领域的不同研究方法，帮助研究人员更深入地把握这一快速发展的前沿动态。与此同时，越来越多的实验平台推动了通用型大语言模型的不断演进。因此，本届MARS2特别聚焦于现实世界及专业场景，以拓展多模态大语言模型在各类应用中的推理能力。为此，组委会精心推出了两个定制化数据集——Lens和AdsQA，分别作为测试集，前者支持12种日常场景下的通用推理任务，后者则针对广告视频中的领域特定推理需求。我们对包括通用型大语言模型和特定任务模型在内的40多个基线方法进行了全面评估，并设立了三条竞赛赛道：面向现实场景的视觉定位（VG-RS）、具备空间感知能力的视觉问答（VQOA-SA），以及创意广告视频中的视觉推理（VR-Ads）。最终，来自知名学术机构和产业界的76支团队踊跃报名，其中超过40份有效参赛作品已纳入我们的排名榜单。此外，我们的数据集、代码库（涵盖40多个基线方法及15个以上参赛者的具体方案）以及最新排名结果，均已在MARS2研讨会官网和GitHub组织页面<a target="_blank" rel="noopener" href="https://github.com/mars2workshop/%E4%B8%8A%E5%85%AC%E5%BC%80%E5%8F%91%E5%B8%83%EF%BC%8C%E6%9C%AA%E6%9D%A5%E6%88%91%E4%BB%AC%E5%B0%86%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E5%B9%B6%E5%8F%91%E5%B8%83%E7%9B%B8%E5%85%B3%E6%B4%BB%E5%8A%A8%E7%9A%84%E6%9C%80%E6%96%B0%E5%8A%A8%E6%80%81%E4%B8%8E%E9%80%9A%E7%9F%A5%E3%80%82">https://github.com/mars2workshop/上公开发布，未来我们将持续更新并发布相关活动的最新动态与通知。</a></p>
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>大规模语言模型（LLMs）[91, 93]代表着一项重大突破，可能标志着迈向通用人工智能（AGI）的关键一步。这些模型展现出多种特性，推动了传统深度学习的边界，包括泛化能力与涌现式能力[9]、思维链（CoT）[122]、指令理解与执行[166]，以及工具调用功能[102]等。尤其值得一提的是，配备长链推理能力的大规模语言模型，如OpenAI的o1[49]和DeepSeek-R1[41]，为构建大型推理模型开辟了全新路径。此外，多模态大规模语言模型（MLLMs）进一步拓展了语言模型的应用领域，并推动了多模态机器学习的深入发展[132,133]。</p>
 <p>鉴于大规模语言模型和多模态机器学习的显著进展，研究人员自然会问：下一步该聚焦于哪些方向？单纯将LLM应用于传统深度学习已能出色解决的任务，不仅不足为奇，也难以带来太多新意。相反，我们应致力于更具挑战性[10]和更专业化的任务[106]——这些任务需要复杂的多模态推理，以及更缓慢、更深入的“系统2”式思考[32]，这一思路借鉴了卡尼曼提出的双过程理论思维视角[56]）。因此，我们组织了“多模态推理与慢速思考：大模型时代的机遇——迈向系统2及更远”MARS研讨会与挑战赛。我们的目标是汇聚来自多个学科的视角，助力研究人员紧跟多模态机器学习及多模态大规模语言模型领域的前沿进展。</p>
 <p><strong>动机与目标</strong> 领域特定问题凸显了如何赋予通用模型专业化的挑战。因此，今年的MARS2聚焦于现实世界和专业场景，以拓展多模态大模型的多模态推理应用范围。具体而言，我们探讨了以下几项挑战：</p>
 <ul>
@@ -2513,17 +2511,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>我们的委员会组建了一支由80多名数据贡献者和基线模型测试人员组成的团队。同时，我们重新发布了两个大规模、量身定制的数据集——Lens[142]和AdsQA[84]，分别用作测试集，前者支持12种日常场景中的通用推理任务，后者则专注于广告视频领域的特定推理需求。此外，我们对超过40种基线模型进行了评估，这些模型既包括通用型多模态大语言模型（MLLMs），也涵盖针对特定任务优化的模型，覆盖了开源及商用两大类别的模型。今年，我们特别设置了三条竞赛赛道：赛道#1——真实场景下的视觉定位任务（VG-RS）；赛道#2——具备空间感知能力的视觉问答任务（VQA-SA）；以及赛道#3——创意广告视频中的视觉推理任务（VR-Ads）。整个挑战赛分为两个阶段，历时两个多月。目前，已有来自知名学术机构和产业界的76支团队报名参赛，累计提交了1200多份作品，其中超过40支队伍脱颖而出，进入下一阶段的角逐。有效提交已纳入我们的最终排名列表。我们的数据集、代码（包括40多项基线方法及15种以上参赛者的方法）以及排名，均已在MARS2研讨会网站和我们的GitHub仓库中公开提供。</p>
 <p>感谢所有贡献者和参与者的共同努力，MARS2研讨会达到了我们的预期。今年的挑战包括：</p>
 <ul>
-<li>
-<p>定制化数据集。我们的数据集Lens和AdsQA各具特色：例如，Lens的样本由人工从社交媒体中精心收集，其中53%的内容发布于2025年1月之后。每个样本均支持Track #1和Track #2，便于研究多模态推理任务的协同效应。而AdsQA则是一个极具挑战性的广告视频问答测试集，据我们所知，这是首次尝试利用广告视频来评估大模型性能的任务。如需了解更多关于Lens和AdsQA的详细信息，请参阅第2.1节。</p>
+<li><p>定制化数据集。我们的数据集Lens和AdsQA各具特色：例如，Lens的样本由人工从社交媒体中精心收集，其中53%的内容发布于2025年1月之后。每个样本均支持Track #1和Track #2，便于研究多模态推理任务的协同效应。而AdsQA则是一个极具挑战性的广告视频问答测试集，据我们所知，这是首次尝试利用广告视频来评估大模型性能的任务。如需了解更多关于Lens和AdsQA的详细信息，请参阅第2.1节。</p>
 </li>
-<li>
-<p>全面的基准测试。我们的贡献者评估了40多种基线模型，涵盖通用型多模态大语言模型和针对特定任务的模型。参与者们提交了40多个有效解决方案，不仅使用了Qwen [7]等开源模型，还采用了TeleMM1等部分商用大模型。这些基线模型及参与者的自研模型规模从30亿参数到720亿参数不等。此次基准测试提供了全方位的对比，深入探讨了“通用模型与专业模型”、“大模型与小模型”、“开源模型与闭源模型”等多个维度的优劣。</p>
+<li><p>全面的基准测试。我们的贡献者评估了40多种基线模型，涵盖通用型多模态大语言模型和针对特定任务的模型。参与者们提交了40多个有效解决方案，不仅使用了Qwen [7]等开源模型，还采用了TeleMM1等部分商用大模型。这些基线模型及参与者的自研模型规模从30亿参数到720亿参数不等。此次基准测试提供了全方位的对比，深入探讨了“通用模型与专业模型”、“大模型与小模型”、“开源模型与闭源模型”等多个维度的优劣。</p>
 </li>
-<li>
-<p>开源的可复现性。我们的委员会已建立了一个GitHub组织：<a target="_blank" rel="noopener" href="https://github.com/mars2workshop%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%B8%AA%E4%B8%93%E9%97%A8%E7%9A%84%E7%BD%91%E9%A1%B5%EF%BC%9Ahttps://mars2workshop.github.io/iccv2025/%EF%BC%8C%E5%85%B6%E4%B8%AD%E5%85%AC%E5%BC%80%E6%8F%90%E4%BE%9B%E4%BA%86%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E5%92%8C%E4%BB%A3%E7%A0%81%EF%BC%88%E5%8C%85%E6%8B%AC40%E5%A4%9A%E9%A1%B9%E5%9F%BA%E7%BA%BF%E6%96%B9%E6%B3%95%E5%8F%8A15%E9%A1%B9%E4%BB%A5%E4%B8%8A%E5%8F%82%E8%B5%9B%E8%80%85%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%89%E3%80%82%E8%BF%99%E5%B0%86%E7%A1%AE%E4%BF%9D%E7%A0%94%E7%A9%B6%E7%BB%93%E6%9E%9C%E7%9A%84%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7%E3%80%82">https://github.com/mars2workshop，以及一个专门的网页：https://mars2workshop.github.io/iccv2025/，其中公开提供了我们的数据集和代码（包括40多项基线方法及15项以上参赛者的方法）。这将确保研究结果的可复现性。</a></p>
+<li><p>开源的可复现性。我们的委员会已建立了一个GitHub组织：<a target="_blank" rel="noopener" href="https://github.com/mars2workshop%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%B8%AA%E4%B8%93%E9%97%A8%E7%9A%84%E7%BD%91%E9%A1%B5%EF%BC%9Ahttps://mars2workshop.github.io/iccv2025/%EF%BC%8C%E5%85%B6%E4%B8%AD%E5%85%AC%E5%BC%80%E6%8F%90%E4%BE%9B%E4%BA%86%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E5%92%8C%E4%BB%A3%E7%A0%81%EF%BC%88%E5%8C%85%E6%8B%AC40%E5%A4%9A%E9%A1%B9%E5%9F%BA%E7%BA%BF%E6%96%B9%E6%B3%95%E5%8F%8A15%E9%A1%B9%E4%BB%A5%E4%B8%8A%E5%8F%82%E8%B5%9B%E8%80%85%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%89%E3%80%82%E8%BF%99%E5%B0%86%E7%A1%AE%E4%BF%9D%E7%A0%94%E7%A9%B6%E7%BB%93%E6%9E%9C%E7%9A%84%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7%E3%80%82">https://github.com/mars2workshop，以及一个专门的网页：https://mars2workshop.github.io/iccv2025/，其中公开提供了我们的数据集和代码（包括40多项基线方法及15项以上参赛者的方法）。这将确保研究结果的可复现性。</a></p>
 </li>
-<li>
-<p>赛后讨论。提交截止后，MARS2委员会已启动多轮讨论，邀请更多贡献者参与，并深入探讨了诸如难样本、边缘案例及有效技巧等有趣议题。尤其值得一提的是，我们重新开放了投稿通道，以便参赛者开展消融研究。</p>
+<li><p>赛后讨论。提交截止后，MARS2委员会已启动多轮讨论，邀请更多贡献者参与，并深入探讨了诸如难样本、边缘案例及有效技巧等有趣议题。尤其值得一提的是，我们重新开放了投稿通道，以便参赛者开展消融研究。</p>
 </li>
 </ul>
 <p>本报告的组织结构。t. 本报告其余部分的组织安排如下：第2节概述了MARS2 2025挑战赛，详细介绍量身定制的数据集（第2.1节）、竞赛赛道（第2.2节）、评估协议（第2.3节）及其他相关细节（第2.4节）。第3节则展示了所提出的解决方案与基线方法，包括具体方法、实现细节及最终排名。第4节我们将探讨当前面临的开放性问题，并展望未来可能的研究方向；最后，本报告于第5节总结全文。</p>
@@ -2551,7 +2545,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T07:32:08+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2657,15 +2651,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2025/10/12/vlm_visual/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>可视化 VLM 的工作原理</p>
-          <p class='content'> 介绍
-视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并...</p>
+          <p class='content'>介绍视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉...</p>
         </a>
       
       
         <a class='next' href='/2025/09/17/choose_llm/'>
           <p class='title'>如何在 2025 年为您的项目选择最佳的开源 LLM<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'> 引言
-选择正确的开源 LLM 并不是要找到“最佳”模型，而是要找到真正适合您的特定用例、硬件、预算和约束的模型。本指南将引导您了解重要的真正决策标准，从性能基准到实际部署注意事项。为了超越理论...</p>
+          <p class='content'>引言选择正确的开源 LLM 并不是要找到“最佳”模型，而是要找到真正适合您的特定用例、硬件、预算和约束的模型。本指南将引导您了解重要的真正决策标准，从性能基准到实际部署注意事项。为了超越理论，该...</p>
         </a>
       
     </div>
@@ -2726,7 +2718,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-text"> 1. 介绍</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-text">1. 介绍</span></a></li></ol>
   </div>
 </section>
 
@@ -3133,7 +3125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3368,7 +3360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/MLLM/","name":"MLLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/09/17/MARS2_2025/","name":"2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/09/17/MARS2_2025/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/09/17/MARS2_2025/","wordCount":0,"datePublished":"2025-09-17T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.959Z","articleSection":"MLLM","keywords":"MARS","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/MLLM/","name":"MLLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/09/17/MARS2_2025/","name":"2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"2025年MARS多模态推理挑战赛：数据集、方法、成果、讨论与展望","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/09/17/MARS2_2025/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/09/17/MARS2_2025/","wordCount":0,"datePublished":"2025-09-17T16:00:00.000Z","dateModified":"2026-08-17T07:32:08.960Z","articleSection":"MLLM","keywords":"MARS","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

@@ -43,11 +43,11 @@
 <meta property="og:title" content="GSPO：迈向持续拓展的语言模型强化学习">
 <meta property="og:url" content="https://nicemxm.github.io/2025/08/19/gspo/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言 强化学习 （Reinforcement Learning，RL）已成为拓展语言模型、增强其深度推理与问题求解能力的关键技术范式。为了持续拓展 RL，首要前提是确保稳定、鲁棒的训练过程。然而，我们观察到现有的 RL 算法（如 GRPO）在长期训练中会暴露出严重的不稳定性问题并招致不可逆转的模型崩溃，阻碍了通过增加计算以获得进一步的性能提升。 为了能够持续拓展 RL，我们提出了 Group S">
+<meta property="og:description" content="引言强化学习 （Reinforcement Learning，RL）已成为拓展语言模型、增强其深度推理与问题求解能力的关键技术范式。为了持续拓展 RL，首要前提是确保稳定、鲁棒的训练过程。然而，我们观察到现有的 RL 算法（如 GRPO）在长期训练中会暴露出严重的不稳定性问题并招致不可逆转的模型崩溃，阻碍了通过增加计算以获得进一步的性能提升。 为了能够持续拓展 RL，我们提出了 Group Seq">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2025-08-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:41:16.962Z">
+<meta property="article:modified_time" content="2026-08-17T07:32:08.961Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786948910807),
+    lastupdate: new Date(1786951943027),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2308,7 +2308,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='top'>
     
     
-      <p class="title">OpenAI</p>
+      <p class="title">OpenHarness</p>
     
     
   </div>
@@ -2325,10 +2325,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div class='list-h'>
         
           
-            <a href="/v4/getting-started/"
+            <a href="/archives/"
               
               
-              active-action="action-v4getting-started">
+              active-action="action-archives">
               <p>文档</p>
             </a>
           
@@ -2498,32 +2498,29 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
-<p>强化学习 （Reinforcement Learning，RL）已成为拓展语言模型、增强其深度推理与问题求解能力的关键技术范式。为了持续拓展 RL，首要前提是确保稳定、鲁棒的训练过程。然而，我们观察到现有的 RL 算法（如 GRPO）在长期训练中会暴露出严重的不稳定性问题并招致不可逆转的模型崩溃，阻碍了通过增加计算以获得进一步的性能提升。</p>
+    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>强化学习 （Reinforcement Learning，RL）已成为拓展语言模型、增强其深度推理与问题求解能力的关键技术范式。为了持续拓展 RL，首要前提是确保稳定、鲁棒的训练过程。然而，我们观察到现有的 RL 算法（如 GRPO）在长期训练中会暴露出严重的不稳定性问题并招致不可逆转的模型崩溃，阻碍了通过增加计算以获得进一步的性能提升。</p>
 <p>为了能够持续拓展 RL，我们提出了 Group Sequence Policy Optimization (GSPO) 算法。不同于过去的 RL 算法，GSPO 定义了序列级别的重要性比率，并在序列层面执行裁剪、奖励和优化。相较于 GRPO，GSPO 在以下方面展现出突出优势：</p>
 <ul>
 <li>强大高效：GSPO 具备显著更高的训练效率，并且能够通过增加计算获得持续的性能提升；</li>
 <li>稳定性出色：GSPO 能够保持稳定的训练过程，并且根本地解决了混合专家（Mixture-of-Experts，MoE）模型的 RL 训练稳定性问题；</li>
-<li>基础设施友好：由于在序列层面执行优化，GSPO 原则上对精度容忍度更高，具有简化 RL 基础设施的诱人前景。<br>
-以上优点促成了最新的 Qwen3 模型（Instruct、Coder、Thinking）的卓越性能。</li>
+<li>基础设施友好：由于在序列层面执行优化，GSPO 原则上对精度容忍度更高，具有简化 RL 基础设施的诱人前景。<br>以上优点促成了最新的 Qwen3 模型（Instruct、Coder、Thinking）的卓越性能。</li>
 </ul>
-<h2 id="序列级别的优化目标"><a class="markdownIt-Anchor" href="#序列级别的优化目标"></a> 序列级别的优化目标</h2>
-<p>设 x 为查询，πθold为用于采样回复的策略，{yi} i=1G为采样得到的回复组，^Ai为各个回复的组内相对优势，π θ为需优化的当前策略。GSPO 采用以下优化目标：</p>
+<h2 id="序列级别的优化目标"><a href="#序列级别的优化目标" class="headerlink" title="序列级别的优化目标"></a>序列级别的优化目标</h2><p>设 x 为查询，πθold为用于采样回复的策略，{yi} i&#x3D;1G为采样得到的回复组，^Ai为各个回复的组内相对优势，π θ为需优化的当前策略。GSPO 采用以下优化目标：</p>
 <p>其中</p>
 <p>这里的 si(θ) 即为 GSPO 基于序列似然定义的重要性比率，其中我们进行了长度归一化以降低方差并统一 si(θ) 的数值范围。</p>
-<h2 id="训练效率与性能"><a class="markdownIt-Anchor" href="#训练效率与性能"></a> 训练效率与性能</h2>
-<p>我们使用基于 Qwen3-30B-A3B-Base 微调得到的冷启动模型进行实验，并汇报其训练奖励曲线以及在 AIME’24、LiveCodeBench 和 CodeForces 等基准上的性能曲线。我们对比 GRPO 作为基线。注意 GRPO 必需采用 Routing Replay 训练策略才能正常收敛（我们将在后文讨论），而 GSPO 则无需该策略。</p>
+<h2 id="训练效率与性能"><a href="#训练效率与性能" class="headerlink" title="训练效率与性能"></a>训练效率与性能</h2><p>我们使用基于 Qwen3-30B-A3B-Base 微调得到的冷启动模型进行实验，并汇报其训练奖励曲线以及在 AIME’24、LiveCodeBench 和 CodeForces 等基准上的性能曲线。我们对比 GRPO 作为基线。注意 GRPO 必需采用 Routing Replay 训练策略才能正常收敛（我们将在后文讨论），而 GSPO 则无需该策略。</p>
 <img width="1802" height="1026" alt="image" src="https://github.com/user-attachments/assets/1245dd0a-6274-4a00-b9ff-fb89d023f146">
+
 <p>从上图可见，GSPO 表现出比 GRPO 显著更高的训练效率，即在同等计算开销下能够取得更优的性能。特别地，我们观察到 GSPO 可以通过增加算力来获得持续的性能提升——这正是我们所期待的算法的可拓展性。最终，我们成功地将 GSPO 应用于最新的 Qwen3 模型的大规模 RL 训练，进一步释放了 RL scaling 的潜能！</p>
 <p>一个有趣的观察是，GSPO 所裁剪的 token 比例比 GRPO 要高上两个数量级（如下图所示），但却具有更高的训练效率。这进一步表明 GRPO 采用的 token 级别的优化目标是有噪和低效的，而 GSPO 的序列级别的优化目标则提供了更可靠、有效的学习信号。</p>
 <img width="1580" height="410" alt="image" src="https://github.com/user-attachments/assets/7c46052a-ffe4-401c-977f-581e5f710fe5">
-<h2 id="对-moe-rl-和基础设施的收益"><a class="markdownIt-Anchor" href="#对-moe-rl-和基础设施的收益"></a> 对 MoE RL 和基础设施的收益</h2>
-<p>我们发现，当采用 GRPO 算法时，MoE 模型的专家激活波动性会使得 RL 训练无法正常收敛。为了解决这一挑战，我们过去采用了**路由回放（Routing Replay）**训练策略，即缓存 πθold中激活的专家，并在计算重要性比率时在 πθ中“回放”这些路由模式。从下图可见，Routing Replay 对于 GRPO 训练 MoE 模型的正常收敛至关重要。然而，Routing Replay 的做法会产生额外的内存和通信开销，并可能限制 MoE 模型的实际可用容量。</p>
+
+<h2 id="对-MoE-RL-和基础设施的收益"><a href="#对-MoE-RL-和基础设施的收益" class="headerlink" title="对 MoE RL 和基础设施的收益"></a>对 MoE RL 和基础设施的收益</h2><p>我们发现，当采用 GRPO 算法时，MoE 模型的专家激活波动性会使得 RL 训练无法正常收敛。为了解决这一挑战，我们过去采用了<strong>路由回放（Routing Replay）</strong>训练策略，即缓存 πθold中激活的专家，并在计算重要性比率时在 πθ中“回放”这些路由模式。从下图可见，Routing Replay 对于 GRPO 训练 MoE 模型的正常收敛至关重要。然而，Routing Replay 的做法会产生额外的内存和通信开销，并可能限制 MoE 模型的实际可用容量。</p>
 <img width="1782" height="572" alt="image" src="https://github.com/user-attachments/assets/bffd4ddc-4145-4c9e-bb96-67b459a9c2b6">
+
 <p>GSPO 的一大突出优势在于彻底消除了对 Routing Replay 的依赖。其核心洞见在于：GSPO 仅关注序列级别的似然，而对个别 token 的似然不敏感。因此，其无需 Routing Replay 等对基础设施负担较大的手段，既简化和稳定了训练过程，又使得模型能够最大化地发挥容量与潜能。</p>
 <p>此外，鉴于 GSPO 仅使用序列级别而非 token 级别的似然进行优化，直观上前者对精度差异的容忍度要高得多。因此，GSPO 使得直接使用推理引擎返回的似然进行优化成为可能，从而无需使用训练引擎进行重计算，这在 partial rollout、多轮 RL 以及训推分离框架等场景中特别有益。</p>
-<h2 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h2>
-<p>我们提出了 Group Sequence Policy Optimization (GSPO)，这是用于训练语言模型的全新 RL 算法。相较于 GRPO，GSPO 在训练稳定性、效率和性能方面展现出显著优势，并在 MoE 模型的大规模 RL 训练中表现出突出的功效。这些优点为最新 Qwen3 模型的卓越性能奠定了算法基础。以 GSPO 作为算法基石，我们将持续推动 RL scaling 的边界，并期待由此带来的智能进步。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>我们提出了 Group Sequence Policy Optimization (GSPO)，这是用于训练语言模型的全新 RL 算法。相较于 GRPO，GSPO 在训练稳定性、效率和性能方面展现出显著优势，并在 MoE 模型的大规模 RL 训练中表现出突出的功效。这些优点为最新 Qwen3 模型的卓越性能奠定了算法基础。以 GSPO 作为算法基石，我们将持续推动 RL scaling 的边界，并期待由此带来的智能进步。</p>
 
   </div>
   
@@ -2548,7 +2545,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T07:32:08+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2654,15 +2651,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2025/09/14/EmbeddingGemma/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>EmbeddingGemma</p>
-          <p class='content'> 引言
-Google 发布了 EmbeddingGemma，这是一种最先进的多语言嵌入模型，非常适合设备上的用例。该模型专为速度和效率而设计，具有 308M 参数的紧凑尺寸和 2K 上下文窗口，...</p>
+          <p class='content'>引言Google 发布了 EmbeddingGemma，这是一种最先进的多语言嵌入模型，非常适合设备上的用例。该模型专为速度和效率而设计，具有 308M 参数的紧凑尺寸和 2K 上下文窗口，为移...</p>
         </a>
       
       
         <a class='next' href='/2025/08/17/agent_future/'>
           <p class='title'>回到未来：评估人工智能代理预测未来事件<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'> 人工智能的未来
-当前大多数 AI 基准测试都侧重于回答有关过去的问题，要么是根据现有知识测试模型（以静态方式，如 HLE 或 GPQA，或增强方式，如 BrowseComp 或 GAIA）或以...</p>
+          <p class='content'>人工智能的未来当前大多数 AI 基准测试都侧重于回答有关过去的问题，要么是根据现有知识测试模型（以静态方式，如 HLE 或 GPQA，或增强方式，如 BrowseComp 或 GAIA）或以前解...</p>
         </a>
       
     </div>
@@ -2723,7 +2718,7 @@ Google 发布了 EmbeddingGemma，这是一种最先进的多语言嵌入模型�
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E7%BA%A7%E5%88%AB%E7%9A%84%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87"><span class="toc-text"> 序列级别的优化目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E6%95%88%E7%8E%87%E4%B8%8E%E6%80%A7%E8%83%BD"><span class="toc-text"> 训练效率与性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9-moe-rl-%E5%92%8C%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E7%9A%84%E6%94%B6%E7%9B%8A"><span class="toc-text"> 对 MoE RL 和基础设施的收益</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text"> 结论</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E7%BA%A7%E5%88%AB%E7%9A%84%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87"><span class="toc-text">序列级别的优化目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E6%95%88%E7%8E%87%E4%B8%8E%E6%80%A7%E8%83%BD"><span class="toc-text">训练效率与性能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9-MoE-RL-%E5%92%8C%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E7%9A%84%E6%94%B6%E7%9B%8A"><span class="toc-text">对 MoE RL 和基础设施的收益</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol>
   </div>
 </section>
 
@@ -3130,7 +3125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3365,7 +3360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/08/19/gspo/","name":"GSPO：迈向持续拓展的语言模型强化学习"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"GSPO：迈向持续拓展的语言模型强化学习","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/08/19/gspo/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/08/19/gspo/","wordCount":0,"datePublished":"2025-08-19T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.962Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2025/08/19/gspo/","name":"GSPO：迈向持续拓展的语言模型强化学习"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"GSPO：迈向持续拓展的语言模型强化学习","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2025/08/19/gspo/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2025/08/19/gspo/","wordCount":0,"datePublished":"2025-08-19T16:00:00.000Z","dateModified":"2026-08-17T07:32:08.961Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

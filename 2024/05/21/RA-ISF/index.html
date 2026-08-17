@@ -43,11 +43,11 @@
 <meta property="og:title" content="RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象">
 <meta property="og:url" content="https://nicemxm.github.io/2024/05/21/RA-ISF/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="论文：arix code：github  1.摘要 大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （RAG） 方法通过整合外部知识来解决这个问题。该模型可以通过检索与查询相关的知识来回答以前无法回答的问题。此方法可提高特定任务在某些方案中的性能。但是，如果检索到不相关的文本，则可能会损害模型性能。在">
+<meta property="og:description" content="论文：arixcode：github 1.摘要大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （RAG） 方法通过整合外部知识来解决这个问题。该模型可以通过检索与查询相关的知识来回答以前无法回答的问题。此方法可提高特定任务在某些方案中的性能。但是，如果检索到不相关的文本，则可能会损害模型性能。在本文中">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2024-05-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-17T06:41:16.960Z">
+<meta property="article:modified_time" content="2026-08-17T07:32:08.960Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="prompt">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1786948910807),
+    lastupdate: new Date(1786951943027),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2308,7 +2308,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='top'>
     
     
-      <p class="title">OpenAI</p>
+      <p class="title">OpenHarness</p>
     
     
   </div>
@@ -2325,10 +2325,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div class='list-h'>
         
           
-            <a href="/v4/getting-started/"
+            <a href="/archives/"
               
               
-              active-action="action-v4getting-started">
+              active-action="action-archives">
               <p>文档</p>
             </a>
           
@@ -2498,51 +2498,36 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <p>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.06840.pdf">arix</a><br>
-code：<a target="_blank" rel="noopener" href="https://github.com/OceannTwT/ra-isf">github</a></p>
-<h2 id="1摘要"><a class="markdownIt-Anchor" href="#1摘要"></a> 1.摘要</h2>
-<p>大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （RAG） 方法通过整合外部知识来解决这个问题。该模型可以通过检索与查询相关的知识来回答以前无法回答的问题。此方法可提高特定任务在某些方案中的性能。但是，如果检索到不相关的文本，则可能会损害模型性能。在本文中，我们提出了检索增强迭代自我反馈（RA-ISF），这是一个迭代分解任务并将其处理为三个子模块的框架，以增强模型的问题解决能力。实验表明，我们的方法优于现有基准，在 GPT3.5、Llama2 等模型上表现良好，显着增强了事实推理能力并减少了幻觉。</p>
-<h2 id="2引言"><a class="markdownIt-Anchor" href="#2引言"></a> 2.引言</h2>
-<p>大型语言模型 （LLM） （Brown et al.， 2020;Chowdhery 等人，2023 年;Touvron 等人，2023 年）在知识推理方面表现出色，并在各个任务领域表现出色（Bang 等人，2023 年;欧阳等人，2022 年）。然而，存储在 LLM 中的参数化知识可能不完整，难以纳入最新知识（Dhingra 等人，2022 年;Huang 等人，2020 年）。为了解决这个问题，检索增强生成 （RAG） 方法可以利用外部知识和文档，提取非参数化知识，并将其合并到模型的提示中，从而将新知识嵌入到语言模型中。这种方法在回答各种开放领域问题方面表现出色。</p>
+    <p>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.06840.pdf">arix</a><br>code：<a target="_blank" rel="noopener" href="https://github.com/OceannTwT/ra-isf">github</a></p>
+<h2 id="1-摘要"><a href="#1-摘要" class="headerlink" title="1.摘要"></a>1.摘要</h2><p>大型语言模型 （LLM） 在许多任务中表现出卓越的性能，但仍然严重依赖存储在其参数中的知识。此外，更新这些知识会产生高昂的培训成本。检索增强生成 （RAG） 方法通过整合外部知识来解决这个问题。该模型可以通过检索与查询相关的知识来回答以前无法回答的问题。此方法可提高特定任务在某些方案中的性能。但是，如果检索到不相关的文本，则可能会损害模型性能。在本文中，我们提出了检索增强迭代自我反馈（RA-ISF），这是一个迭代分解任务并将其处理为三个子模块的框架，以增强模型的问题解决能力。实验表明，我们的方法优于现有基准，在 GPT3.5、Llama2 等模型上表现良好，显着增强了事实推理能力并减少了幻觉。</p>
+<h2 id="2-引言"><a href="#2-引言" class="headerlink" title="2.引言"></a>2.引言</h2><p>大型语言模型 （LLM） （Brown et al.， 2020;Chowdhery 等人，2023 年;Touvron 等人，2023 年）在知识推理方面表现出色，并在各个任务领域表现出色（Bang 等人，2023 年;欧阳等人，2022 年）。然而，存储在 LLM 中的参数化知识可能不完整，难以纳入最新知识（Dhingra 等人，2022 年;Huang 等人，2020 年）。为了解决这个问题，检索增强生成 （RAG） 方法可以利用外部知识和文档，提取非参数化知识，并将其合并到模型的提示中，从而将新知识嵌入到语言模型中。这种方法在回答各种开放领域问题方面表现出色。</p>
 <p>然而，当前的RAG框架面临两大挑战。首先，检索不相关的知识文本会损害LLM解决任务的能力（Shi et al.， 2023a;Mallen 等人，2023 年）。其次，将LLM的现有知识与检索到的知识相结合可能面临困难（Izacard et al.， 2022b）。一些方法已经基于这些问题进行了研究，包括考虑模型的问题解决能力（Wang et al.， 2023a）以及检索到的段落是否与问题相关（Chen et al.， 2023;Asai 等人，2024 年;Yu 等人，2023 年）。然而，目前的解决方案在回答知识密集型问题和不同层次的子问题方面仍然存在缺点。因此，在这个过程中，如何融合知识并利用知识进行问答非常重要。为了克服上述限制，我们引入了检索增强迭代自我反馈（RA-ISF），这是一个通过迭代处理问题来解决问题的框架。具体来说，与直接将检索到的知识附加到提示中不同，我们的方法采用三个子模块进行迭代处理。这三个子模块是自我知识模块、段落相关性模块和问题分解模块。我们还通过 LLM 收集了一系列数据，以评估特定模块是否具备相应的功能。通过训练小型语言模型或仅依靠上下文学习，这些模块可以展示自我知识、相关性判断和问题分解的能力。</p>
 <p>如图 1 所示，RA-ISF 首先使用一个自我知识模块来确定当前问题是否可以根据自己的知识来回答。然后，在采用检索策略时，段落相关性模块将评估，每个检索到的段落都解决了问题。相关段落将被整合到提示中并用于预测。当所有段落都与问题无关时，问题分解模块会将问题分解为子问题，并对这些子问题重复上述步骤。最终，该模型将综合子问题的答案以回答原始问题。</p>
 <p>与以前的RAG方法相比，我们的迭代自我反馈方法更有效地释放了模型的潜力，并更好地将外部知识与模型的固有知识相结合。同时，当模型缺少初始答案或检索到不相关的文本时，RA-ISF可以通过分解问题来解决问题，将这些解决方案组合起来回答原始问题，这是一种有效的问题解决策略。对各种 LLM（例如 GPT3.5 （OpenAI， 2023） 和 Llama-2 （Touvron et al.， 2023））的实验表明，与现有方法相比，RA-ISF 在处理复杂问题方面表现出卓越的性能。</p>
 <p>• 我们推出了 RA-ISF，这是一个创新的检索增强框架，旨在应对各种挑战。此方法通过迭代方法评估模型解决相应问题的能力及其与检索内容的相关性。这种综合评估对于解决复杂问题至关重要。</p>
 <p>• 据我们所知，这是第一次在检索增强框架中使用迭代问题分解方法，它减轻了不相关文本干扰的影响。</p>
-<p>• 我们提出的框架显著提高了不同任务的知识检索性能，展示了我们框架的潜力和鲁棒性<br>
-<img src="../images/2024/05/22/RS-ISF/image1.png" alt="图片" title="数据图"></p>
-<h2 id="3相关工作"><a class="markdownIt-Anchor" href="#3相关工作"></a> 3.相关工作</h2>
-<h3 id="31-检索增强语言模型"><a class="markdownIt-Anchor" href="#31-检索增强语言模型"></a> 3.1 检索增强语言模型</h3>
-<p>检索增强语言模型（LM）通过非参数记忆进行增强，以促进外部知识的获取并提供出处。然而，检索增强任务性能的提高很大程度上取决于检索到的段落的相关性。最近，一些研究开始探索何时将检索用于各种教学。例如，Asai et al. （2024） 将特殊的反馈标记集成到语言模型中，以满足检索的需要，并确认输出的相关性、支持性或完整性。Chen et al. （2023） 研究了具有不同属性和相关性的文本对文本生成性能的影响。一些著作（Mallen et al.， 2023）探讨了将法学硕士的固有知识与上下文文档相结合。Wang et al. （2023b） 通过引导模型获得自我知识能力，提高了回答自我知识问题的表现。同时，其他研究集中在迭代检索增强上（Trivedi 等人，2023 年;Shao et al.， 2023） 和加速检索速度 （Xu et al.， 2023）。</p>
+<p>• 我们提出的框架显著提高了不同任务的知识检索性能，展示了我们框架的潜力和鲁棒性<br><img src="/../images/2024/05/22/RS-ISF/image1.png" alt="图片" title="数据图"></p>
+<h2 id="3-相关工作"><a href="#3-相关工作" class="headerlink" title="3.相关工作"></a>3.相关工作</h2><h3 id="3-1-检索增强语言模型"><a href="#3-1-检索增强语言模型" class="headerlink" title="3.1 检索增强语言模型"></a>3.1 检索增强语言模型</h3><p>检索增强语言模型（LM）通过非参数记忆进行增强，以促进外部知识的获取并提供出处。然而，检索增强任务性能的提高很大程度上取决于检索到的段落的相关性。最近，一些研究开始探索何时将检索用于各种教学。例如，Asai et al. （2024） 将特殊的反馈标记集成到语言模型中，以满足检索的需要，并确认输出的相关性、支持性或完整性。Chen et al. （2023） 研究了具有不同属性和相关性的文本对文本生成性能的影响。一些著作（Mallen et al.， 2023）探讨了将法学硕士的固有知识与上下文文档相结合。Wang et al. （2023b） 通过引导模型获得自我知识能力，提高了回答自我知识问题的表现。同时，其他研究集中在迭代检索增强上（Trivedi 等人，2023 年;Shao et al.， 2023） 和加速检索速度 （Xu et al.， 2023）。</p>
 <p>相比之下，我们的方法结合了模型的检索和理解能力，并降低了其对不相关文本的敏感性。这是通过任务分解范式实现的。通过使用自我反馈迭代处理这三个子模块，我们开发了一个多功能且强大的检索增强框架。</p>
-<h3 id="32-任务分解"><a class="markdownIt-Anchor" href="#32-任务分解"></a> 3.2 任务分解</h3>
-<p>任务分解是解决知识密集型和其他复杂任务的有效方法。它涉及将多轮问题分解为单轮问题，分别回答每个子任务，然后综合这些答案以解决原始任务。Perez et al. （2020） 训练了一个问题分解和任务聚合模型来拆分和集体解决原始问题。Yang et al. （2022） 将问题分解为一系列填槽任务，将自然语言问题转化为 SQL 查询，并通过基于规则的系统实现与 SQL 子句对应的自然语言提示。从最少到最多（周 et al.， 2023）利用大型语言模型的上下文学习能力，通过提供问题分解的例子来解决问题。</p>
+<h3 id="3-2-任务分解"><a href="#3-2-任务分解" class="headerlink" title="3.2 任务分解"></a>3.2 任务分解</h3><p>任务分解是解决知识密集型和其他复杂任务的有效方法。它涉及将多轮问题分解为单轮问题，分别回答每个子任务，然后综合这些答案以解决原始任务。Perez et al. （2020） 训练了一个问题分解和任务聚合模型来拆分和集体解决原始问题。Yang et al. （2022） 将问题分解为一系列填槽任务，将自然语言问题转化为 SQL 查询，并通过基于规则的系统实现与 SQL 子句对应的自然语言提示。从最少到最多（周 et al.， 2023）利用大型语言模型的上下文学习能力，通过提供问题分解的例子来解决问题。</p>
 <p>RA-ISF 利用任务分解来减轻不相关的提示文本对模型的影响（Shi et al.， 2023a），通过迭代回答子问题和整合文本，具有自知之明的应答能力。这增强了解决整个问题的性能。</p>
-<h3 id="33-方法论"><a class="markdownIt-Anchor" href="#33-方法论"></a> 3.3 方法论</h3>
-<p>现有的检索增强方法仍然存在一些缺点。例如，模型可能难以仅根据自己的知识解决问题，并且在检索过程中，它可能会受到不相关文本的影响，从而导致生成错误答案。因此，我们引入了一个升级的检索增强生成框架——检索增强迭代自我反馈（RA-ISF），它通过内部知识理解、外部知识检索和问题分解来提高LLM响应的质量和准确性。</p>
-<h4 id="331-概述"><a class="markdownIt-Anchor" href="#331-概述"></a> 3.3.1 概述</h4>
-<p>如图 1 所示，RA-ISF 涉及三个预训练模型：Mknow、Mrel 和 Mdecom，每个模型分别负责内部知识评估、外部知识检索和问题分解功能。通常，我们输入一个问题并通过 RA-ISF 框架获得其答案。整个过程如下：首先，将输入到Mknow中，以确定是否可以使用内部知识解决。如果可以解决，则直接输出答案。如果没有，请使用检索器搜索问题的相关信息。将检索到的文本与问题相结合，并将它们输入到模型 Mrel 中以评估其相关性。如果相关，请根据这些相关段落生成答案。如果检索到的文本都不相关，则将 qnew 输入到问题分解模型 Mdecom 中，以将其分解为多个子问题 q1、…、qn。接下来，将这些子问题输入回模型 Mknow（如果需要，还可以输入 Mrel、Mdecom）以获得相应的子答案。最后，整合这些子答案以生成最终答案。</p>
-<h4 id="332-ra-isf-训练"><a class="markdownIt-Anchor" href="#332-ra-isf-训练"></a> 3.3.2 RA-ISF 训练</h4>
-<p>在本节中，我们将深入探讨 RA-ISF 中模型的训练过程，包括数据集收集和模型学习。由于这三个模型的训练过程相似，我们将使用 Mknow 模型的训练作为说明性示例.</p>
-<p>数据采集。首先，我们需要构建一个由LLM生成的数据集，具体来说，基于各种训练目标，我们收集相应的问题Q = {Q1， Q2， …， Qn}，并将它们逐一输入到LLM模型中。通过为模型提供执行相应任务的特定指令，并利用少样本提示和上下文学习，我们使模型能够生成对应于每个问题的答案 A = {A1， A2， …， An}。</p>
-<p>我们收集了各种类型的监督训练数据，并通过前面描述的过程，将它们组合到模型的训练数据中。最终，这导致了一个经过训练的数据集 D∗ = {Q， A}。有关Mknow、Mrel、Mdecom数据收集过程的具体细节，模型学习。在收集训练数据 D∗ 后，我们使用预训练语言模型初始化 Msub，并使用标准条件语言建模目标在 D 上对其进行训练∗以最大限度地提高分类的有效性。在这里，我们使用交叉熵损失来表示这一点，表示为：最小 Msub −E（Q，A）∼D∗log PMsub （A |（1）初始模型可以是任何预训练的语言模型。在这里，我们使用 Llama 2-7B 模型初始化 Msub（Touvron 等人，2023 年）。</p>
-<h4 id="333-ra-isf-推理"><a class="markdownIt-Anchor" href="#333-ra-isf-推理"></a> 3.3.3 RA-ISF 推理</h4>
-<p>在本节中，我们详细介绍了 RA-ISF 框架如何推断和预测问题的答案。算法 1 在推理时呈现 RA-ISF 的详细信息。请注意，我们使用三个预训练模型 Mknow、Mrel、Mdecom、LLM 来回答问题 M、检索器 R 和语料库 C。</p>
-<p><strong>自我知识推理</strong>。RA-ISF 框架利用 Mknow 模型来推断问题 qnew 是否可以使用模型自身的知识来解决。如果是这样，则将问题输入到 M 中以直接预测答案 A。正式表达如下：A = arg max ai P（ai |q）。（2）如果 M 不能用自己的知识来解题，我们进入下一步。</p>
-<p><strong>段落相关性推断</strong>。当模型无法利用其内部知识解决问题时，我们使用检索器 R 在语料库 C 中搜索最合适的 k 个段落 P = {p1， p2， . . . ， pk}。由于检索器可能会发现与问题无关的段落，这可能会导致错误的答案，因此我们需要过滤检索到的段落。在这里，我们使用“相关性”作为标准，由模型 Mrel 评估。假设 n（n = 0， 1， . . . ， k） 相关段落 Prel 最终被过滤。如果 n &gt; 0，则将这 n 个段落用作提示，结合 qnew，并输入到模型 M 中，得到最终答案 A。形式表达式如下：A = arg max ai P（ai |qnew，Prel）。（3） 如果 n = 0，这意味着所有检索到的段落都与问题无关，我们继续下一步。</p>
+<h3 id="3-3-方法论"><a href="#3-3-方法论" class="headerlink" title="3.3 方法论"></a>3.3 方法论</h3><p>现有的检索增强方法仍然存在一些缺点。例如，模型可能难以仅根据自己的知识解决问题，并且在检索过程中，它可能会受到不相关文本的影响，从而导致生成错误答案。因此，我们引入了一个升级的检索增强生成框架——检索增强迭代自我反馈（RA-ISF），它通过内部知识理解、外部知识检索和问题分解来提高LLM响应的质量和准确性。</p>
+<h4 id="3-3-1-概述"><a href="#3-3-1-概述" class="headerlink" title="3.3.1 概述"></a>3.3.1 概述</h4><p>如图 1 所示，RA-ISF 涉及三个预训练模型：Mknow、Mrel 和 Mdecom，每个模型分别负责内部知识评估、外部知识检索和问题分解功能。通常，我们输入一个问题并通过 RA-ISF 框架获得其答案。整个过程如下：首先，将输入到Mknow中，以确定是否可以使用内部知识解决。如果可以解决，则直接输出答案。如果没有，请使用检索器搜索问题的相关信息。将检索到的文本与问题相结合，并将它们输入到模型 Mrel 中以评估其相关性。如果相关，请根据这些相关段落生成答案。如果检索到的文本都不相关，则将 qnew 输入到问题分解模型 Mdecom 中，以将其分解为多个子问题 q1、…、qn。接下来，将这些子问题输入回模型 Mknow（如果需要，还可以输入 Mrel、Mdecom）以获得相应的子答案。最后，整合这些子答案以生成最终答案。</p>
+<h4 id="3-3-2-RA-ISF-训练"><a href="#3-3-2-RA-ISF-训练" class="headerlink" title="3.3.2 RA-ISF 训练"></a>3.3.2 RA-ISF 训练</h4><p>在本节中，我们将深入探讨 RA-ISF 中模型的训练过程，包括数据集收集和模型学习。由于这三个模型的训练过程相似，我们将使用 Mknow 模型的训练作为说明性示例.</p>
+<p>数据采集。首先，我们需要构建一个由LLM生成的数据集，具体来说，基于各种训练目标，我们收集相应的问题Q &#x3D; {Q1， Q2， …， Qn}，并将它们逐一输入到LLM模型中。通过为模型提供执行相应任务的特定指令，并利用少样本提示和上下文学习，我们使模型能够生成对应于每个问题的答案 A &#x3D; {A1， A2， …， An}。</p>
+<p>我们收集了各种类型的监督训练数据，并通过前面描述的过程，将它们组合到模型的训练数据中。最终，这导致了一个经过训练的数据集 D∗ &#x3D; {Q， A}。有关Mknow、Mrel、Mdecom数据收集过程的具体细节，模型学习。在收集训练数据 D∗ 后，我们使用预训练语言模型初始化 Msub，并使用标准条件语言建模目标在 D 上对其进行训练∗以最大限度地提高分类的有效性。在这里，我们使用交叉熵损失来表示这一点，表示为：最小 Msub −E（Q，A）∼D∗log PMsub （A |（1）初始模型可以是任何预训练的语言模型。在这里，我们使用 Llama 2-7B 模型初始化 Msub（Touvron 等人，2023 年）。</p>
+<h4 id="3-3-3-RA-ISF-推理"><a href="#3-3-3-RA-ISF-推理" class="headerlink" title="3.3.3 RA-ISF 推理"></a>3.3.3 RA-ISF 推理</h4><p>在本节中，我们详细介绍了 RA-ISF 框架如何推断和预测问题的答案。算法 1 在推理时呈现 RA-ISF 的详细信息。请注意，我们使用三个预训练模型 Mknow、Mrel、Mdecom、LLM 来回答问题 M、检索器 R 和语料库 C。</p>
+<p><strong>自我知识推理</strong>。RA-ISF 框架利用 Mknow 模型来推断问题 qnew 是否可以使用模型自身的知识来解决。如果是这样，则将问题输入到 M 中以直接预测答案 A。正式表达如下：A &#x3D; arg max ai P（ai |q）。（2）如果 M 不能用自己的知识来解题，我们进入下一步。</p>
+<p><strong>段落相关性推断</strong>。当模型无法利用其内部知识解决问题时，我们使用检索器 R 在语料库 C 中搜索最合适的 k 个段落 P &#x3D; {p1， p2， . . . ， pk}。由于检索器可能会发现与问题无关的段落，这可能会导致错误的答案，因此我们需要过滤检索到的段落。在这里，我们使用“相关性”作为标准，由模型 Mrel 评估。假设 n（n &#x3D; 0， 1， . . . ， k） 相关段落 Prel 最终被过滤。如果 n &gt; 0，则将这 n 个段落用作提示，结合 qnew，并输入到模型 M 中，得到最终答案 A。形式表达式如下：A &#x3D; arg max ai P（ai |qnew，Prel）。（3） 如果 n &#x3D; 0，这意味着所有检索到的段落都与问题无关，我们继续下一步。</p>
 <p><strong>问题分解</strong>。如果 qnew 不能用它自己和外部的知识来解决，我们会将复杂的问题分解成一系列更简单的子问题来解决。</p>
-<p>在这个过程中，我们使用 Mdecom 模型将 qnew 分解为多个子问题 Qsub = {q1， …， qn}。随后，我们将每个子问题重新引入 Mknow 模型（根据具体条件确定 Mrel 和 Mdecom 的使用），并得到相应的子答案 Asub。如果一个子问题 qk 被迭代分解了 Dth 次，我们认为模型找不到这个问题的答案，并且 ak 的答案设置为“未知”。一旦我们得到了所有子问题的答案 Asub = {a1， …， an}，我们就会使用所有子问题 Qsub 及其答案 Asub 作为 qnew 的提示。然后将它们全部输入到模型 M 中，以预测该问题的答案 A。形式表达式如下：A = arg max ai P（ai |qnew， Asub， Qsub）。</p>
-<h2 id="4-实验结果"><a class="markdownIt-Anchor" href="#4-实验结果"></a> 4. 实验结果</h2>
-<p><img src="../images/2024/05/22/RS-ISF/image3.png" alt="图片" title="数据图"></p>
-<h3 id="41-消融研究"><a class="markdownIt-Anchor" href="#41-消融研究"></a> 4.1 消融研究</h3>
-<p>为了评估 RA-ISF 不同组成部分的影响，我们设置了三个变体：</p>
+<p>在这个过程中，我们使用 Mdecom 模型将 qnew 分解为多个子问题 Qsub &#x3D; {q1， …， qn}。随后，我们将每个子问题重新引入 Mknow 模型（根据具体条件确定 Mrel 和 Mdecom 的使用），并得到相应的子答案 Asub。如果一个子问题 qk 被迭代分解了 Dth 次，我们认为模型找不到这个问题的答案，并且 ak 的答案设置为“未知”。一旦我们得到了所有子问题的答案 Asub &#x3D; {a1， …， an}，我们就会使用所有子问题 Qsub 及其答案 Asub 作为 qnew 的提示。然后将它们全部输入到模型 M 中，以预测该问题的答案 A。形式表达式如下：A &#x3D; arg max ai P（ai |qnew， Asub， Qsub）。</p>
+<h2 id="4-实验结果"><a href="#4-实验结果" class="headerlink" title="4. 实验结果"></a>4. 实验结果</h2><p><img src="/../images/2024/05/22/RS-ISF/image3.png" alt="图片" title="数据图"></p>
+<h3 id="4-1-消融研究"><a href="#4-1-消融研究" class="headerlink" title="4.1 消融研究"></a>4.1 消融研究</h3><p>为了评估 RA-ISF 不同组成部分的影响，我们设置了三个变体：</p>
 <p>• 无自我知识模块：该变体直接通过段落相关模块处理问题，无需自我知识判断。</p>
 <p>• 无段落相关模块：在自我知识判断后，如果自我知识模块表明答案不能用模型自己的知识来解决，则直接分解问题，而不涉及段落相关模块。</p>
 <p>• 无问题分解模块：通过 PassageRelevant 模块评估段落相关性后，如果没有找到相关段落，答案将被标记为“未知”，并且问题分解模块不会迭代。这意味着 RA-ISF 迭代计数设置为 0。</p>
-<p>我们对 NQ、TriviaQA 和 HotpotQA 数据集进行了测试，并将结果与 RAG、RA-ISF 和 LTM 方法进行了比较。所有实验均使用 GPT3.5 作为基础模型。<br>
-<img src="../images/2024/05/22/RS-ISF/image4.png" alt="图片" title="数据图"></p>
-<h2 id="5-局限性"><a class="markdownIt-Anchor" href="#5-局限性"></a> 5. 局限性</h2>
-<p>RA-ISF创新地引入了三阶段迭代问题解决策略。但是，重要的是要认识到它的局限性和缺点。首先，迭代问题解决会导致问题的过度分支。在特定情况下，如果这种方法不断探索一个问题及其子问题而没有找到解决方案或相关段落，它可能会变得低效。其次，一个问题的不同表述可能会影响问题分解模块的有效性，导致迭代次数和结果之间的微小差异。此外，我们的方法主要依赖于开放域问答数据集。它尚未在数学推理、符号推理等特定领域或医学和法律等专业领域进行测试。未来的研究可以探索它如何与这些数据集一起执行。我们还计划研究更有效地使用检索增强技术并简化其复杂性的方法。</p>
+<p>我们对 NQ、TriviaQA 和 HotpotQA 数据集进行了测试，并将结果与 RAG、RA-ISF 和 LTM 方法进行了比较。所有实验均使用 GPT3.5 作为基础模型。<br><img src="/../images/2024/05/22/RS-ISF/image4.png" alt="图片" title="数据图"></p>
+<h2 id="5-局限性"><a href="#5-局限性" class="headerlink" title="5. 局限性"></a>5. 局限性</h2><p>RA-ISF创新地引入了三阶段迭代问题解决策略。但是，重要的是要认识到它的局限性和缺点。首先，迭代问题解决会导致问题的过度分支。在特定情况下，如果这种方法不断探索一个问题及其子问题而没有找到解决方案或相关段落，它可能会变得低效。其次，一个问题的不同表述可能会影响问题分解模块的有效性，导致迭代次数和结果之间的微小差异。此外，我们的方法主要依赖于开放域问答数据集。它尚未在数学推理、符号推理等特定领域或医学和法律等专业领域进行测试。未来的研究可以探索它如何与这些数据集一起执行。我们还计划研究更有效地使用检索增强技术并简化其复杂性的方法。</p>
 
   </div>
   
@@ -2567,7 +2552,7 @@ code：<a target="_blank" rel="noopener" href="https://github.com/OceannTwT/ra-i
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T06:41:16+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-08-17T07:32:08+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2026年8月17日</p>
@@ -2674,13 +2659,12 @@ code：<a target="_blank" rel="noopener" href="https://github.com/OceannTwT/ra-i
         <a class='prev' href='/2024/05/26/vllm/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>vllm推理加速</p>
           <p class='content'>
- vllm是什么？
-vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。
+vllm是什么？vLLM 是一个快速且易于使用的库，用于 LLM 推理和服务。
 vLLM 速度很快：
 
 最先进的服务吞吐量
 使用 PagedAttention 高效管理注意力键和值内存
-传...</p>
+传入请...</p>
         </a>
       
       
@@ -2688,8 +2672,7 @@ vLLM 速度很快：
           <p class='title'>省略号（...）在大模型中有什么魔法力量?<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>论文链接：2404.15758 (arxiv.org)
 github仓库:github
- 摘要
-来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度...</p>
+摘要来自语言模型的思维链COT响应可提高大多数基准测试的性能。然而，目前尚不清楚这些性能提升在多大程度上可...</p>
         </a>
       
     </div>
@@ -2750,7 +2733,7 @@ github仓库:github
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E6%91%98%E8%A6%81"><span class="toc-text"> 1.摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E5%BC%95%E8%A8%80"><span class="toc-text"> 2.引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text"> 3.相关工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 3.1 检索增强语言模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E4%BB%BB%E5%8A%A1%E5%88%86%E8%A7%A3"><span class="toc-text"> 3.2 任务分解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#33-%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="toc-text"> 3.3 方法论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#331-%E6%A6%82%E8%BF%B0"><span class="toc-text"> 3.3.1 概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#332-ra-isf-%E8%AE%AD%E7%BB%83"><span class="toc-text"> 3.3.2 RA-ISF 训练</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#333-ra-isf-%E6%8E%A8%E7%90%86"><span class="toc-text"> 3.3.3 RA-ISF 推理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text"> 4. 实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#41-%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6"><span class="toc-text"> 4.1 消融研究</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text"> 5. 局限性</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%91%98%E8%A6%81"><span class="toc-text">1.摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%BC%95%E8%A8%80"><span class="toc-text">2.引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text">3.相关工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="toc-text">3.1 检索增强语言模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%BB%E5%8A%A1%E5%88%86%E8%A7%A3"><span class="toc-text">3.2 任务分解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%96%B9%E6%B3%95%E8%AE%BA"><span class="toc-text">3.3 方法论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E6%A6%82%E8%BF%B0"><span class="toc-text">3.3.1 概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-RA-ISF-%E8%AE%AD%E7%BB%83"><span class="toc-text">3.3.2 RA-ISF 训练</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3-RA-ISF-%E6%8E%A8%E7%90%86"><span class="toc-text">3.3.3 RA-ISF 推理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">4. 实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6"><span class="toc-text">4.1 消融研究</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">5. 局限性</span></a></li></ol>
   </div>
 </section>
 
@@ -3157,7 +3140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3392,7 +3375,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/21/RA-ISF/","name":"RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/21/RA-ISF/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/21/RA-ISF/","wordCount":0,"datePublished":"2024-05-21T16:00:00.000Z","dateModified":"2026-08-17T06:41:16.960Z","articleSection":"gpt","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/gpt/","name":"gpt"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/05/21/RA-ISF/","name":"RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"RA-ISF：通过迭代自反馈学习提升RAG大模型事实推理能力、并减少幻觉现象","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/05/21/RA-ISF/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/05/21/RA-ISF/","wordCount":0,"datePublished":"2024-05-21T16:00:00.000Z","dateModified":"2026-08-17T07:32:08.960Z","articleSection":"gpt","keywords":"prompt","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
