@@ -65,12 +65,12 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20' # 使用更新的 Node.js 版本，旧版本18
           
       - name: Install dependencies
         run: |
           npm install -g hexo-cli
-          npm install
+          npm ci # 使用 npm ci 代替 npm install
       
       - name: Generate site
         run: hexo generate
