@@ -149,7 +149,7 @@ theme: volantis
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://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@github.com/NICEMXM/nicemxm.github.io.git
+  repo: git@github.com:NICEMXM/nicemxm.github.io.git
   branch: main
 
 
