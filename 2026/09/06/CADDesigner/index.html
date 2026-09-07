@@ -1,0 +1,3502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1'>
+  <meta name="generator" content="Hexo 7.2.0">
+  <meta name="Volantis" content="6.0.0-alpha.1">
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+  <link rel="canonical" href="https://nicemxm.github.io/2026/09/06/caddesigner/"/>
+  <!-- 渲染优化 -->
+    <meta http-equiv='x-dns-prefetch-control' content='on' />
+      <link rel='dns-prefetch' href='https://unpkg.com'>
+      <link rel="preconnect" href="https://unpkg.com" crossorigin>
+      <link rel='dns-prefetch' href='https://cdn.bootcdn.net'>
+      <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content=" default-src 'self' https:; block-all-mixed-content; base-uri 'self' https:; form-action 'self' https:; worker-src 'self' https:; connect-src 'self' https: *; img-src 'self' data: https: *; media-src 'self' https: *; font-src 'self' data: https: *; frame-src 'self' https: *; manifest-src 'self' https: *; child-src https:; script-src 'self' https: 'unsafe-inline' *; style-src 'self' https: 'unsafe-inline' *; ">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <!-- import head_begin begin -->
+  <!-- import head_begin end -->
+  <!-- Custom Files headBegin begin-->
+  
+  <!-- Custom Files headBegin end-->
+    <link rel="shortcut icon" type='image/x-icon' href="https://gcore.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  <link rel="preload" href="/css/style.css" as="style">
+  <link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- feed -->
+      <link rel="alternate" href="/atom.xml" title="hello deeplearning" type="application/atom+xml">
+  <!-- 页面元数据 -->
+  <title>CAD设计师：基于通用智能体的概念性CAD模型生成 - hello deeplearning</title>
+  <meta name="keywords" content="CAD,null">
+  <meta desc name="description" content="hello deeplearning - mxm - hello deeplearning">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAD设计师：基于通用智能体的概念性CAD模型生成">
+<meta property="og:url" content="https://nicemxm.github.io/2026/09/06/CADDesigner/index.html">
+<meta property="og:site_name" content="hello deeplearning">
+<meta property="og:description" content="论文 摘要计算机辅助设计（CAD）广泛应用于概念设计和参数化三维建模，但通常需要设计师具备较高的专业水平。为降低入门门槛、促进早期阶段的CAD建模，我们推出了一款基于大语言模型的CAD设计助手——CADDesigner。该助手可同时接受文本描述和草图作为输入，与用户展开互动对话，通过全面的需求分析不断优化并明确设计要求。CADDesigner基于一种新颖的显式上下文指令范式（ECIP），能够生成高">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2026-09-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-07T06:36:16.419Z">
+<meta property="article:author" content="mxm">
+<meta property="article:tag" content="CAD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+  <style>
+    /* 首屏样式 */
+    #safearea {
+  display: none;
+}
+:root {
+  --color-site-body: #f4f4f4;
+  --color-site-bg: #f4f4f4;
+  --color-site-inner: #fff;
+  --color-site-footer: #666;
+  --color-card: #fff;
+  --color-text: #444;
+  --color-block: #f6f6f6;
+  --color-inlinecode: #c74f00;
+  --color-codeblock: #fff7ea;
+  --color-h1: #3a3a3a;
+  --color-h2: #3a3a3a;
+  --color-h3: #333;
+  --color-h4: #444;
+  --color-h5: #555;
+  --color-h6: #666;
+  --color-p: #444;
+  --color-list: #666;
+  --color-list-hl: #30ad91;
+  --color-meta: #888;
+  --color-read-bkg: #e0d8c8;
+  --color-read-post: #f8f1e2;
+  --color-copyright-bkg: #f5f5f5;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+html {
+  color: var(--color-text);
+  width: 100%;
+  height: 100%;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  font-size: 16px;
+}
+html >::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+html >::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+html >::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+html >::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+body {
+  background-color: var(--color-site-body);
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body.modal-active {
+  overflow: hidden;
+}
+@media screen and (max-width: 680px) {
+  body.modal-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+a {
+  color: #2092ec;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+a:hover {
+  color: #ff5722;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ul,
+ol {
+  padding-left: 0;
+}
+ul li,
+ol li {
+  list-style: none;
+}
+header {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+img {
+  border: 0;
+  background: none;
+  max-width: 100%;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height: 0;
+  border: 0;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-bottom: 1px solid rgba(68,68,68,0.1);
+}
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+@supports (backdrop-filter: blur(20px)) {
+  .blur {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+.shadow {
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.shadow.floatable {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.shadow.floatable:hover {
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+}
+#l_cover {
+  min-height: 64px;
+}
+.cover-wrapper {
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: 100vh;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  color: var(--color-site-inner);
+  padding: 0 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -100px;
+}
+.cover-wrapper .cover-body {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cover-wrapper#full {
+  height: calc(100vh + 100px);
+  padding-bottom: 100px;
+}
+.cover-wrapper#half {
+  max-height: 640px;
+  min-height: 400px;
+  height: calc(36vh - 64px + 200px);
+}
+.cover-wrapper #scroll-down {
+  width: 100%;
+  height: 64px;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+.cover-wrapper #scroll-down .scroll-down-effects {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  position: absolute;
+  width: 24px;
+  left: calc(50% - 12px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: scroll-down-effect 1.5s infinite;
+  -webkit-animation: scroll-down-effect 1.5s infinite;
+  -khtml-animation: scroll-down-effect 1.5s infinite;
+  -moz-animation: scroll-down-effect 1.5s infinite;
+  -o-animation: scroll-down-effect 1.5s infinite;
+  -ms-animation: scroll-down-effect 1.5s infinite;
+}
+@-moz-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  margin-top: 64px;
+  margin-bottom: 100px;
+}
+.cover-wrapper .cover-body,
+.cover-wrapper .cover-body .top,
+.cover-wrapper .cover-body .bottom {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  max-width: 100%;
+}
+.cover-wrapper .cover-body .bottom {
+  margin-top: 32px;
+}
+.cover-wrapper .cover-body .title {
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-size: 3.125rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.cover-wrapper .cover-body .subtitle {
+  font-size: 20px;
+}
+.cover-wrapper .cover-body .logo {
+  max-height: 120px;
+  max-width: calc(100% - 4 * 16px);
+}
+@media screen and (min-height: 1024px) {
+  .cover-wrapper .cover-body .title {
+    font-size: 3rem;
+  }
+  .cover-wrapper .cover-body .subtitle {
+    font-size: 1.05rem;
+  }
+  .cover-wrapper .cover-body .logo {
+    max-height: 150px;
+  }
+}
+.cover-wrapper .cover-body .m_search {
+  position: relative;
+  max-width: calc(100% - 16px);
+  width: 320px;
+  vertical-align: middle;
+}
+.cover-wrapper .cover-body .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  width: 100%;
+}
+.cover-wrapper .cover-body .m_search .icon,
+.cover-wrapper .cover-body .m_search .input {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.cover-wrapper .cover-body .m_search .icon {
+  position: absolute;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  line-height: 2.5rem;
+  width: 32px;
+  top: 0;
+  left: 5px;
+  color: rgba(68,68,68,0.75);
+}
+.cover-wrapper .cover-body .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  padding-left: 36px;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: var(--color-text);
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .cover-body .m_search .input {
+    padding-left: 36px;
+  }
+}
+.cover-wrapper .cover-body .m_search .input:hover {
+  background: rgba(255,255,255,0.8);
+}
+.cover-wrapper .cover-body .m_search .input:focus {
+  background: #fff;
+}
+.cover-wrapper .list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -khtml-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  align-items: stretch;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.cover-wrapper .list-h a {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  font-weight: 600;
+}
+.cover-wrapper .list-h a img {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  margin: 4px;
+  min-width: 40px;
+  max-width: 44px;
+}
+@media screen and (max-width: 768px) {
+  .cover-wrapper .list-h a img {
+    min-width: 36px;
+    max-width: 40px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .list-h a img {
+    margin: 2px 4px;
+    min-width: 32px;
+    max-width: 36px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .cover-wrapper .list-h a img {
+    min-width: 28px;
+    max-width: 32px;
+  }
+}
+.cover-wrapper {
+  max-width: 100%;
+}
+.cover-wrapper.search .bottom .menu {
+  margin-top: 16px;
+}
+.cover-wrapper.search .bottom .menu .list-h a {
+  white-space: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 2px;
+  margin: 4px;
+  color: var(--color-site-inner);
+  opacity: 0.75;
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom: 2px solid transparent;
+}
+.cover-wrapper.search .bottom .menu .list-h a i {
+  margin-right: 4px;
+}
+.cover-wrapper.search .bottom .menu .list-h a p {
+  font-size: 0.9375rem;
+}
+.cover-wrapper.search .bottom .menu .list-h a:hover,
+.cover-wrapper.search .bottom .menu .list-h a.active,
+.cover-wrapper.search .bottom .menu .list-h a:active {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  border-bottom: 2px solid var(--color-site-inner);
+}
+.cover-wrapper #parallax-window {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.parallax-mirror {
+  animation-delay: 0s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@font-face {
+  font-family: 'UbuntuMono';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Varela Round';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+.l_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.l_header.auto {
+  transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  -khtml-transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -ms-transition: opacity 0.4s ease;
+  visibility: hidden;
+}
+.l_header.auto.show {
+  opacity: 1 !important;
+  -webkit-opacity: 1 !important;
+  -moz-opacity: 1 !important;
+  visibility: visible;
+}
+.l_header .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.l_header #wrapper {
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.l_header #wrapper .nav-main,
+.l_header #wrapper .nav-sub {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -khtml-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+}
+.l_header #wrapper .nav-main {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.l_header #wrapper.sub .nav-main {
+  transform: translateY(-64px);
+  -webkit-transform: translateY(-64px);
+  -khtml-transform: translateY(-64px);
+  -moz-transform: translateY(-64px);
+  -o-transform: translateY(-64px);
+  -ms-transform: translateY(-64px);
+}
+.l_header #wrapper .nav-sub {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  height: 64px;
+  width: calc(100% - 2 * 16px);
+  position: absolute;
+}
+.l_header #wrapper .nav-sub ::-webkit-scrollbar {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (min-width: 2048px) {
+  .l_header #wrapper .nav-sub {
+    max-width: 55vw;
+    margin: auto;
+  }
+}
+.l_header #wrapper.sub .nav-sub {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+}
+.l_header #wrapper .title {
+  position: relative;
+  color: var(--color-text);
+  padding-left: 24px;
+  max-height: 64px;
+}
+.l_header #wrapper .nav-main .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+}
+.l_header #wrapper .nav-main .title img {
+  height: 64px;
+}
+.l_header .nav-sub {
+  max-width: 1080px;
+  margin: auto;
+}
+.l_header .nav-sub .title {
+  font-weight: bold;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  line-height: 1.2;
+  max-height: 64px;
+  white-space: normal;
+  flex-shrink: 1;
+}
+.l_header .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  line-height: 64px;
+  align-items: center;
+}
+.l_header .switcher .s-toc {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .l_header .switcher .s-toc {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+  }
+}
+.l_header .switcher >li {
+  height: 48px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  margin: 2px;
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li {
+    margin: 0 1px;
+    height: 48px;
+  }
+}
+.l_header .switcher >li >a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0.85em 1.1em;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  color: #3dd9b6;
+}
+.l_header .switcher >li >a:hover {
+  border: none;
+}
+.l_header .switcher >li >a.active,
+.l_header .switcher >li >a:active {
+  border: none;
+  background: var(--color-site-bg);
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li >a {
+    width: 36px;
+    height: 48px;
+  }
+}
+.l_header .nav-sub .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+}
+.l_header .m_search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  height: 64px;
+  width: 240px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (max-width: 1024px) {
+  .l_header .m_search {
+    width: 44px;
+    min-width: 44px;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+  }
+  .l_header .m_search:hover {
+    width: 240px;
+  }
+  .l_header .m_search:hover input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search:hover .input {
+    width: 100%;
+  }
+  .l_header .m_search:hover .input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search {
+    min-width: 0;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.l_header .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.l_header .m_search .icon {
+  position: absolute;
+  width: 36px;
+  left: 5px;
+  color: var(--color-meta);
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .icon {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+.l_header .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+  width: 100%;
+  color: var(--color-text);
+  background: #fafafa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 40px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search .input:focus {
+    box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .input {
+    background: var(--color-block);
+    padding-left: 8px;
+    border: none;
+  }
+  .l_header .m_search .input:hover,
+  .l_header .m_search .input:focus {
+    border: none;
+  }
+}
+@media (max-width: 500px) {
+  .l_header .m_search {
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    transition: all 0.28s ease;
+    -webkit-transition: all 0.28s ease;
+    -khtml-transition: all 0.28s ease;
+    -moz-transition: all 0.28s ease;
+    -o-transition: all 0.28s ease;
+    -ms-transition: all 0.28s ease;
+  }
+  .l_header .m_search .input {
+    border-radius: 32px;
+    -webkit-border-radius: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+  }
+  .l_header.z_search-open .m_search {
+    width: 100%;
+  }
+  .l_header.z_search-open .m_search .input {
+    width: calc(100% - 120px);
+  }
+}
+ul.m-pc >li>a {
+  color: inherit;
+  border-bottom: 2px solid transparent;
+}
+ul.m-pc >li>a:active,
+ul.m-pc >li>a.active {
+  border-bottom: 2px solid #3dd9b6;
+}
+ul.m-pc li:hover >ul.list-v,
+ul.list-v li:hover >ul.list-v {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.nav-list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  align-items: stretch;
+}
+ul.nav-list-h>li {
+  position: relative;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  height: 100%;
+  line-height: 2.4;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+ul.nav-list-h>li >a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+}
+ul.list-v {
+  z-index: 1;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: absolute;
+  background: var(--color-card);
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  margin-top: -6px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 8px 0;
+}
+ul.list-v.show {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.list-v hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+ul.list-v >li {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+ul.list-v >li.header {
+  font-size: 0.78125rem;
+  font-weight: bold;
+  line-height: 2em;
+  color: var(--color-meta);
+  margin: 8px 16px 4px;
+}
+ul.list-v >li.header i {
+  margin-right: 8px;
+}
+ul.list-v >li ul {
+  margin-left: 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: -40px;
+}
+ul.list-v .aplayer-container {
+  min-height: 64px;
+  padding: 6px 16px;
+}
+ul.list-v >li>a {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  color: var(--color-list);
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px 0 16px;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+@media screen and (max-width: 1024px) {
+  ul.list-v >li>a {
+    line-height: 40px;
+  }
+}
+ul.list-v >li>a >i {
+  margin-right: 8px;
+}
+ul.list-v >li>a:active,
+ul.list-v >li>a.active {
+  color: var(--color-list-hl);
+}
+ul.list-v >li>a:hover {
+  color: var(--color-list-hl);
+  background: var(--color-site-bg);
+}
+.l_header .menu >ul>li>a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding: 0 8px;
+}
+.l_header .menu >ul>li>a >i {
+  margin-right: 4px;
+}
+.l_header ul.nav-list-h>li {
+  color: var(--color-list);
+  line-height: 64px;
+}
+.l_header ul.nav-list-h>li >a {
+  max-height: 64px;
+  overflow: hidden;
+  color: inherit;
+}
+.l_header ul.nav-list-h>li >a:active,
+.l_header ul.nav-list-h>li >a.active {
+  color: #3dd9b6;
+}
+.l_header ul.nav-list-h>li:hover>a {
+  color: var(--color-list-hl);
+}
+.l_header ul.nav-list-h>li i.music {
+  animation: rotate-effect 1.5s linear infinite;
+  -webkit-animation: rotate-effect 1.5s linear infinite;
+  -khtml-animation: rotate-effect 1.5s linear infinite;
+  -moz-animation: rotate-effect 1.5s linear infinite;
+  -o-animation: rotate-effect 1.5s linear infinite;
+  -ms-animation: rotate-effect 1.5s linear infinite;
+}
+@-moz-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+.menu-phone li ul.list-v {
+  right: calc(100% - 0.5 * 16px);
+}
+.menu-phone li ul.list-v ul {
+  right: calc(100% - 0.5 * 16px);
+}
+#wrapper {
+  max-width: 1080px;
+  margin: auto;
+}
+@media screen and (min-width: 2048px) {
+  #wrapper {
+    max-width: 55vw;
+  }
+}
+#wrapper .menu {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  margin: 0 16px 0 0;
+}
+#wrapper .menu .list-v ul {
+  left: calc(100% - 0.5 * 16px);
+}
+.menu-phone {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: 16px;
+  right: 8px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.menu-phone ul {
+  right: calc(100% - 0.5 * 16px);
+}
+@media screen and (max-width: 500px) {
+  .menu-phone {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: block;
+  }
+}
+.l_header {
+  max-width: 65vw;
+  left: calc((100% - 65vw) * 0.5);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 2048px) {
+  .l_header {
+    max-width: 1112px;
+    left: calc((100% - 1112px) * 0.5);
+  }
+}
+@media screen and (max-width: 1112px) {
+  .l_header {
+    left: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .l_header #wrapper .nav-main .title {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .l_header #wrapper .nav-sub {
+    width: 100%;
+  }
+  .l_header #wrapper .nav-sub .title {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding: 8px 16px;
+  }
+  .l_header #wrapper .switcher {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+    margin-right: 8px;
+  }
+  .l_header .menu {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .list-v li {
+    max-width: 270px;
+  }
+}
+#u-search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px;
+  z-index: 1001;
+}
+@media screen and (max-width: 680px) {
+  #u-search {
+    padding: 0px;
+  }
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+    '.kill-t{'+
+      'font-size: 2rem;'+
+    '}'+
+    '.kill-c{'+
+      'font-size: 1.2rem;'+
+    '}'+
+		'#l_header,#l_body{'+
+			'display: none;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        `<span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>`+
+        `<span class="kill-c">微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</span><br/>`+
+        `<a target="_blank" rel="noopener" href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/"><strong>了解详情 ></strong></a>`+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+    .kill-t{
+      font-size: 2rem;
+    }
+    .kill-c{
+      font-size: 1.2rem;
+    }
+		#l_header,#l_body{
+			display: none;
+		}
+	</style>
+    <div class="kill-noscript">
+        <span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>
+        <span class="kill-c">本页面需要浏览器支持（启用）JavaScript</span><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+
+  <script>
+  /************这个文件存放不需要重载的全局变量和全局函数*********/
+  window.volantis = {}; // volantis 全局变量
+  volantis.debug = "env"; // 调试模式
+  volantis.dom = {}; // 页面Dom see: /source/js/app.js etc.
+  /******************** volantis.dom.$ ********************************/
+  // 注：这里没有选择器，也没有forEach一次只处理一个dom，这里重新封装主题常用的dom方法，返回的是dom对象，对象包含了以下方法，同时保留dom的原生API
+  function volantisDom(ele) {
+    if (!ele) ele = document.createElement("div")
+    this.ele = ele;
+    // ==============================================================
+    this.ele.find = (c) => {
+      let q = this.ele.querySelector(c)
+      if (q)
+        return new volantisDom(q)
+    }
+    // ==============================================================
+    this.ele.hasClass = (c) => {
+      return this.ele.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+    }
+    this.ele.addClass = (c) => {
+      this.ele.classList.add(c);
+      return this.ele
+    }
+    this.ele.removeClass = (c) => {
+      this.ele.classList.remove(c);
+      return this.ele
+    }
+    this.ele.toggleClass = (c) => {
+      if (this.ele.hasClass(c)) {
+        this.ele.removeClass(c)
+      } else {
+        this.ele.addClass(c)
+      }
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.on = (c, f) => {
+      this.ele.addEventListener(c, f, false)
+      return this.ele
+    }
+    this.ele.click = (f, r) => {
+      this.ele.on("click", f, r)
+      return this.ele
+    }
+    this.ele.scroll = (f, r) => {
+      this.ele.on("scroll", f, r)
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.html = (c) => {
+      // if(c=== undefined){
+      //   return this.ele.innerHTML
+      // }else{
+      this.ele.innerHTML = c
+      return this.ele
+      // }
+    }
+    // ==============================================================
+    this.ele.hide = (c) => {
+      this.ele.style.display = "none"
+      return this.ele
+    }
+    this.ele.show = (c) => {
+      this.ele.style.display = "block"
+      return this.ele
+    }
+    // ==============================================================
+    return this.ele
+  }
+  volantis.dom.$ = (ele) => {
+    return !!ele ? new volantisDom(ele) : null;
+  }
+  /******************** RunItem ********************************/
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          volantis.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+  /******************** RightMenu ********************************/
+  // volantis.rightmenu.handle(callBack[,"callBackName"]) 外部菜单项控制
+  // 可在 volantis.mouseEvent 处获取右键事件
+  volantis.rightmenu = {};
+  volantis.rightmenu.method = {
+    handle: new RunItem(),
+  }
+  volantis.rightmenu = Object.assign(volantis.rightmenu, {
+    handle: volantis.rightmenu.method.handle.push,
+  });
+  /********************  Dark Mode  ********************************/
+  // /layout/_partial/scripts/darkmode.ejs
+  // volantis.dark.mode 当前模式 dark or light
+  // volantis.dark.toggle() 暗黑模式触发器
+  // volantis.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  volantis.dark = {};
+  volantis.dark.method = {
+    toggle: new RunItem(),
+  };
+  volantis.dark = Object.assign(volantis.dark, {
+    push: volantis.dark.method.toggle.push,
+  });
+  /********************  Message  ********************************/
+  // VolantisApp.message
+  /********************  isMobile  ********************************/
+  // /source/js/app.js
+  // volantis.isMobile
+  // volantis.isMobileOld
+  /********************脚本动态加载函数********************************/
+  // volantis.js(src, cb)  cb 可以传入onload回调函数 或者 JSON对象 例如: volantis.js("src", ()=>{}) 或 volantis.js("src", {defer:true,onload:()=>{}})
+  // volantis.css(src)
+
+  // 返回Promise对象，如下方法同步加载资源，这利于处理文件资源之间的依赖关系，例如：APlayer 需要在 MetingJS 之前加载
+  // (async () => {
+  //     await volantis.js("...theme.plugins.aplayer.js.aplayer...")
+  //     await volantis.js("...theme.plugins.aplayer.js.meting...")
+  // })();
+
+  // 已经加入了setTimeout
+  volantis.js = (src, cb) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+  volantis.css = (src) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  }
+  /********************按需加载的插件********************************/
+  // volantis.import.jQuery().then(()=>{})
+  volantis.import = {
+    jQuery: () => {
+      if (typeof jQuery == "undefined") {
+        return volantis.js("https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js")
+      } else {
+        return new Promise(resolve => {
+          resolve()
+        });
+      }
+    }
+  }
+  /********************** requestAnimationFrame ********************************/
+  // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+  // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+  volantis.requestAnimationFrame = (fn) => {
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+    }
+    window.requestAnimationFrame(fn)
+  }
+  /************************ layoutHelper *****************************************/
+  volantis.layoutHelper = (helper, html, opt) => {
+    opt = Object.assign({ clean: false}, opt)
+    function myhelper(helper, html, clean) {
+      volantis.tempDiv = document.createElement("div");
+      volantis.tempDiv.innerHTML = html;
+      let layoutHelper = document.querySelector("#layoutHelper-" + helper)
+      if (layoutHelper) {
+        if (clean) {
+          layoutHelper.innerHTML = ""
+        }
+        layoutHelper.append(volantis.tempDiv);
+      }
+    }
+    myhelper(helper, html, opt.clean)
+  }
+  /****************************** 滚动事件处理 ****************************************/
+  volantis.scroll = {
+    engine: new RunItem(),
+    unengine: new RunItem(),
+  };
+  volantis.scroll = Object.assign(volantis.scroll, {
+    push: volantis.scroll.engine.push,
+  });
+  // 滚动条距离顶部的距离
+  volantis.scroll.getScrollTop = () => {
+    let scrollPos;
+    if (window.pageYOffset) {
+      scrollPos = window.pageYOffset;
+    } else if (document.compatMode && document.compatMode != 'BackCompat') {
+      scrollPos = document.documentElement.scrollTop;
+    } else if (document.body) {
+      scrollPos = document.body.scrollTop;
+    }
+    return scrollPos;
+  }
+  volantis.scroll.scrollHeight = function () {
+    return Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+    )
+  }
+  volantis.scroll.offsetHeight = function () {
+    return Math.max(
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    )
+  }
+  volantis.scroll.progress = function () {
+    return volantis.scroll.getScrollTop() / (volantis.scroll.scrollHeight() - volantis.scroll.offsetHeight())
+  }
+  // 使用 requestAnimationFrame 处理滚动事件
+  // `volantis.scroll.del` 中存储了一个数值, 该数值检测一定时间间隔内滚动条滚动的位移, 数值的检测频率是浏览器的刷新频率. 数值为正数时, 表示向下滚动. 数值为负数时, 表示向上滚动.
+  volantis.scroll.handleScrollEvents = () => {
+    volantis.scroll.lastScrollTop = volantis.scroll.getScrollTop()
+    function loop() {
+      const scrollTop = volantis.scroll.getScrollTop();
+      if (volantis.scroll.lastScrollTop !== scrollTop) {
+        volantis.scroll.del = scrollTop - volantis.scroll.lastScrollTop;
+        volantis.scroll.lastScrollTop = scrollTop;
+        // if (volantis.scroll.del > 0) {
+        //   console.log("向下滚动");
+        // } else {
+        //   console.log("向上滚动");
+        // }
+        // 注销过期的unengine未滚动事件
+        volantis.scroll.unengine.list = []
+        volantis.scroll.engine.start();
+      } else {
+        volantis.scroll.unengine.start();
+      }
+      volantis.requestAnimationFrame(loop)
+    }
+    volantis.requestAnimationFrame(loop)
+  }
+  volantis.scroll.handleScrollEvents()
+  volantis.scroll.ele = null;
+  // 触发页面滚动至目标元素位置
+  volantis.scroll.to = (ele, option = {}) => {
+    if (!ele) return;
+    volantis.scroll.ele = ele;
+    // 默认配置
+    opt = {
+      top: ele.getBoundingClientRect().top + document.documentElement.scrollTop,
+      behavior: "smooth"
+    }
+    // 定义配置
+    if ("top" in option) {
+      opt.top = option.top
+    }
+    if ("behavior" in option) {
+      opt.behavior = option.behavior
+    }
+    if ("addTop" in option) {
+      opt.top += option.addTop
+    }
+    if (!("observerDic" in option)) {
+      option.observerDic = 100
+    }
+    // 滚动
+    window.scrollTo(opt);
+    // 监视器
+    // 监视并矫正元素滚动到指定位置
+    // 用于处理 lazyload 引起的 cls 导致的定位失败问题
+    // option.observer = false
+    if (option.observer) {
+      setTimeout(() => {
+        if (volantis.scroll.ele != ele) {
+          return
+        }
+        volantis.scroll.unengine.push(() => {
+          let me = ele.getBoundingClientRect().top
+          if (!(me >= -option.observerDic && me <= option.observerDic)) {
+            volantis.scroll.to(ele, option)
+          }
+          volantis.scroll.unengine.remove("unengineObserver")
+        }, "unengineObserver")
+      }, 1000)
+    }
+  }
+  /********************** Content Visibility ********************************/
+  // 见 source/css/first.styl 如果遇到任何问题 删除 .post-story 即可
+  // 一个元素被声明 content-visibility 属性后 如果元素不在 viewport 中 浏览器不会计算其后代元素样式和属性 从而节省 Style & Layout 耗时
+  // content-visibility 的副作用: 锚点失效 等等(实验初期 暂不明确), 使用此方法清除样式
+  volantis.cleanContentVisibility = () => {
+    if (document.querySelector(".post-story")) {
+      console.log("cleanContentVisibility");
+      document.querySelectorAll(".post-story").forEach(e => {
+        e.classList.remove("post-story")
+      })
+    }
+  }
+  /******************************************************************************/
+  /******************************************************************************/
+  /******************************************************************************/
+  //图像加载出错时的处理
+  function errorImgAvatar(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg";
+    img.onerror = null;
+  }
+  function errorImgCover(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg";
+    img.onerror = null;
+  }
+  /******************************************************************************/
+</script>
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  pdata.commentConfig={};
+  volantis.GLOBAL_CONFIG ={
+    root: '/',
+    debug: "env",
+    default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
+    lastupdate: new Date(1788762998110),
+    cdn: {
+      izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
+      izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
+      fancybox_css: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css',
+      fancybox_js: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js'
+    },
+    sidebar: {
+      for_page: ["blogger","category","tagcloud","donate"],
+      for_post: ["toc"],
+      webinfo: {
+        lastupd: {
+          enable: true,
+          friendlyShow: true
+        },
+        runtime: {
+          data: "2024/05/14",
+          unit: "天"
+        }
+      }
+    },
+    plugins: {
+      message: {"enable":true,"icon":{"default":"fa-solid fa-info-circle light-blue","quection":"fa-solid fa-question-circle light-blue"},"time":{"default":5000,"quection":20000},"position":"topRight","transitionIn":"bounceInLeft","transitionOut":"fadeOutRight","titleColor":"var(--color-text)","messageColor":"var(--color-text)","backgroundColor":"var(--color-card)","zindex":2147483647,"copyright":{"enable":true,"title":"知识共享许可协议","message":"请遵守 CC BY-NC-SA 4.0 协议。","icon":"far fa-copyright light-blue"},"aplayer":{"enable":true,"play":"fa-solid fa-play","pause":"fa-solid fa-pause"},"rightmenu":{"enable":true,"notice":true}},
+      
+      aplayer: {
+        id: 494561791,
+        enable:true
+      },
+      
+      
+    },
+    search: {
+      
+
+      
+        dataPath: (("/" || "/").endsWith("/") ? "/" || "/" : "//" || "/") + "content.json",
+      
+
+      
+    },
+    languages: {
+      
+        search: {
+          hits_empty: "找不到您查询的内容：${query}",
+          hits_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒",
+        }
+      
+    }
+  }
+</script>
+  <!-- import head_end begin -->
+  <!-- import head_end end -->
+  <!-- Custom Files headEnd begin-->
+  
+  <!-- Custom Files headEnd end-->
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://unpkg.com/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://unpkg.com/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  <body itemscope itemtype="https://schema.org.cn/WebPage">
+    <!-- import body_begin begin-->
+    <!-- import body_begin end-->
+    <!-- Custom Files bodyBegin begin-->
+    
+    <!-- Custom Files bodyBegin end-->
+    <header itemscope itemtype="https://schema.org.cn/WPHeader" id="l_header" class="l_header auto shadow floatable blur " style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone'>
+        <li><a id="s-comment" class="fa-solid fa-comments fa-fw" target="_self" title="comment"></a></li>
+        
+          <li><a id="s-toc" class="s-toc fa-solid fa-list fa-fw" target="_self" title="toc"></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+      
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fa-solid fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+      
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fa-solid fa-search fa-fw" target="_self" title="search"></a></li>
+				
+				<li>
+          <a class="s-menu fa-solid fa-bars fa-fw" target="_self" title="menu"></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+
+      <!-- Custom Files header begin -->
+      
+      <!-- Custom Files header end -->
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+      <div class="cover-wrapper post search" id='half'>
+        
+  <div id="parallax-window"></div>
+
+<div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">OpenHarness</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="A Wonderful journey" />
+          <i class="icon fa-solid fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              active-action="action-home">
+              <p>文档</p>
+            </a>
+          
+            <a href="/faqs/"
+              
+              
+              active-action="action-faqs">
+              <p>帮助</p>
+            </a>
+          
+            <a href="/examples/"
+              
+              
+              active-action="action-examples">
+              <p>示例</p>
+            </a>
+          
+            <a href="/contributors/"
+              
+              
+              active-action="action-contributors">
+              <p>社区</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              active-action="action-archives">
+              <p>博客</p>
+            </a>
+          
+            <a target="_blank" rel="noopener" href="https://github.com/"
+              
+              
+              active-action="action-https:githubcom">
+              <p>源码</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    
+  
+</div>
+
+      <div id="safearea">
+        <div class="body-wrapper">
+          
+<div id="l_main" class=''>
+  <article itemscope itemtype="https://schema.org.cn/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2026/09/06/CADDesigner/">
+  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
+    <meta itemprop="name" content="hello deeplearning">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
+    <meta itemprop="name" content="hello deeplearning">
+    <meta itemprop="description" content="">
+  </span>
+  
+
+
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title" itemprop="name headline">
+        CAD设计师：基于通用智能体的概念性CAD模型生成
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="https://schema.org.cn/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/apple-touch-icon.png">
+    <p itemprop="name">mxm</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  
+  
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/Agent/">Agent</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+        <a href="/categories/Agent/" itemprop="url"><span itemprop="name">Agent</span></a>
+      </span>
+    
+  </div>
+  
+
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2026-09-06T16:00:00+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2026年9月7日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+<div class="new-meta-item browse">
+  <a class='notlink'>
+    <p>
+      <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="busuanzi_value_page_pv">
+        <i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i>
+      </span>
+        
+      <span>次浏览</span>
+    </p>
+  </a>
+</div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fa-solid fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：15.3k 字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fa-solid fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：53 分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2508.01031">论文</a></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>计算机辅助设计（CAD）广泛应用于概念设计和参数化三维建模，但通常需要设计师具备较高的专业水平。为降低入门门槛、促进早期阶段的CAD建模，我们推出了一款基于大语言模型的CAD设计助手——CADDesigner。该助手可同时接受文本描述和草图作为输入，与用户展开互动对话，通过全面的需求分析不断优化并明确设计要求。CADDesigner基于一种新颖的显式上下文指令范式（ECIP），能够生成高质量的CAD建模代码。在生成过程中，助手会融入迭代式的视觉反馈，以持续提升模型质量。生成的设计案例可存储于结构化的知识库中，从而形成一种持续积累知识、推动代码生成未来改进的机制。实验结果表明，CADDesigner在概念CAD模型生成任务上表现具有竞争力，并优于多个代表性基线模型。 </p>
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>计算机辅助设计（CAD）模型的概念设计通常始于不完整或抽象的规格说明，这就要求设计师将粗略的想法转化为精确的参数化模型。利用传统CAD软件创建这类三维模型往往需要深厚的专业知识以及对复杂建模操作的熟练掌握，这可能成为新手用户的障碍，并拖慢产品开发的早期阶段。传统的CAD平台——如OnShape、AutoCAD、SolidWorks和CATIA——主要依赖于手动草图绘制与拉伸操作流程，使得迭代原型设计既耗时又容易出错。然而，近年来人工智能领域的突破，尤其是大型语言模型（LLM）的兴起，为实现CAD模型自动生成带来了广阔前景，从而降低了入门门槛，加速了设计工作流程。<br>早期关于自动CAD模型生成的研究主要聚焦于参数化建模方法[1,2,3,4]。然而，这些方法受限于训练数据的多样性不足以及模型输出的表达能力，只能支持有限的一组CAD操作。近期利用大语言模型进行CAD代码生成的研究展现出克服这些局限性的潜力[5,6,7]。经过微调的大语言模型能够理解多模态用户输入，并生成相应的CAD建模代码。不过，对开源大语言模型进行微调需要大量的GPU资源，而高质量的CAD训练数据集仍然稀缺，这在一定程度上限制了所生成代码的多样性和质量。 </p>
+<p>为应对这些挑战，我们提出了CADDesigner，一种基于大语言模型的智能体，用于概念性CAD设计。CADDesigner可同时接受文本描述和草图作为输入，并与用户展开互动对话，以不断完善设计方案。 该系统将基于知识的代码生成与迭代式视觉反馈相结合，使智能体能够生成高质量的CAD建模代码，从而更精准地契合用户的设计意图。<br>为进一步提升代码生成质量，我们提出了一种面向大语言模型的表示方式——显式上下文命令式范式（ECIP）。该范式通过构建于CadQuery [8] 之上的轻量级API层实现，能够显式地表示建模上下文，并将CAD操作重构为一种显式的命令式工作流，从而实现更清晰的状态转换、更可靠的代码生成以及更便捷的迭代修正，同时保持与CadQuery语义的一致性。图1展示了由CADDesigner生成的代表性结果，我们的主要贡献总结如下： </p>
+<ul>
+<li>我们推出了一款名为CADDesigner的框架，用于概念性CAD模型的生成。CADDesigner接受文本描述和草图作为用户输入，并集成了需求分析工具、基于知识约束的代码生成工具以及基于视觉的错误纠正功能，以生成满足用户意图的CAD脚本。</li>
+<li>我们提出了一种基于命令式函数调用结构的显式上下文命令式范式，用于CAD建模脚本的生成。该范式将各个CAD操作解耦，并通过显式类型注解、适合大语言模型的错误表示以及自我进化能力，提升了代码生成的质量。它支持广泛的建模操作，包括拉伸、旋转、圆角、倒角、扫掠、放样等。</li>
+</ul>
+<p>本文的其余部分组织如下。我们首先回顾相关研究工作。随后，我们介绍所提出的CAD建模代码生成框架——CAD-Designer，以及为提升代码质量而设计的全新代码生成范式。接下来，我们详细描述我们的……<br>实验设置并展示结果。最后，我们进行了全面的分析与比较，以突出所提出方法的优势与局限性。</p>
+<h2 id="2-相关工作"><a href="#2-相关工作" class="headerlink" title="2. 相关工作"></a>2. 相关工作</h2><p>本节对与我们工作相关的四个关键领域进行了全面回顾：参数化CAD建模、基于大语言模型的CAD生成、基于智能体的模型生成，以及参数化CAD建模SDK。 </p>
+<h3 id="2-1-参数化CAD模型生成"><a href="#2-1-参数化CAD模型生成" class="headerlink" title="2.1.参数化CAD模型生成"></a>2.1.参数化CAD模型生成</h3><p>参数化CAD模型生成方法通常采用监督学习技术，以生成一系列CAD命令序列，这些序列可导入CAD建模软件，从而生成可编辑的参数化文件[9, 1]。诸如DeepCAD [1]、Fusion 360 Gallery [9]、SkexGen [10]和Diffusion-CAD [11]等系统均采用了经过定制训练的神经网络架构，以生成命令序列。然而，这些系统主要仅支持草图绘制和拉伸等基础建模操作，难以推广至更为复杂的建模流程。<br>其他研究[3, 12, 13]探索了从点云数据重建CAD模型的方法，旨在从无序的三维观测中恢复出结构化的几何形状。更近的研究方法[14, 15]进一步尝试直接从非结构化的RGB图像（无论是单视角还是多视角）推断出可编辑的结构化CAD模型，从而弥合了二维视觉理解与三维CAD建模之间的鸿沟。尽管取得了这些进展，现有的方法在生成复杂CAD模型方面仍存在局限性，主要原因是训练数据的多样性受限以及输出表示能力有限。 </p>
+<h3 id="2-2-基于大语言模型的CAD模型生成"><a href="#2-2-基于大语言模型的CAD模型生成" class="headerlink" title="2.2.基于大语言模型的CAD模型生成"></a>2.2.基于大语言模型的CAD模型生成</h3><p>经过微调的大语言模型和视觉-语言模型（VLM）已成为CAD模型生成的一个重要方向，能够根据多模态输入合成CAD命令序列或Python代码。Cad-LLM [16] 和 CadVLM[17] 利用微调后的大型语言模型，从草图和图像中生成参数化模型。CAD-MLLM[18] 针对多模态输入——包括文本、图像和点云——进行参数化模型生成。CAD-Llama[5] 提出了一种分层标注流程，可将命令序列转换为语义结构化的CAD代码。随后，通过自适应预训练和指令微调，使大型语言模型能够生成高保真度的参数化3D模型。CAD-Recode[7] 将点云转换为序列化表示，然后利用预训练大型语言模型（Qwen2-1.5B[19]）生成相应的CAD代码。Text-to-CadQuery [20] 则直接将文本描述映射为CadQuery代码，充分利用预训练大型语言模型在Python生成和空间推理方面的强大能力。</p>
+<p>尽管这些方法展现了强大的生成能力，但它们仍受限于若干因素：大规模模型微调的计算成本、许多商业大语言模型的封闭性，以及用于CAD的高质量、多样化训练数据集的稀缺性。 </p>
+<h3 id="2-3-基于代理的CAD模型生成"><a href="#2-3-基于代理的CAD模型生成" class="headerlink" title="2.3. 基于代理的CAD模型生成"></a>2.3. 基于代理的CAD模型生成</h3><p>另一个研究方向聚焦于利用提示工程和超大规模基础模型构建CAD生成智能体，从而无需额外训练。CAD-Assistant [21] 提出了一种通用的CAD智能体框架，该框架整合了视觉与语言模型（VLLM）作为规划器，可为FreeCAD [22] 生成Python代码，实现了跨多种CAD任务的零样本能力。SeekCAD [23] 则结合了检索增强生成（RAG）、视觉反馈以及思维链（CoT）机制，以自优化方式生成定制化的CAD建模代码。3D-PreMise [24] 探讨了大语言模型在程序合成领域的潜力与局限性，旨在操控三维软件并生成参数化控制的形状。CADCodeVerify [25] 则引入了迭代验证与精炼循环，借助视觉语言模型提出并解答有关所生成CAD输出的验证问题。<br>与这些作品形成对比，CADDesigner接受多模态用户输入——文本和草图——以捕捉详细信息。 </p>
+<p>设计需求，与用户进行互动式优化，并通过可视化反馈和迭代优化提升代码质量和模型保真度。 </p>
+<h3 id="2-4-参数化CAD建模SDK"><a href="#2-4-参数化CAD建模SDK" class="headerlink" title="2.4. 参数化CAD建模SDK"></a>2.4. 参数化CAD建模SDK</h3><p>除了建模方法之外，现有的CAD建模SDK在基于代码的CAD生成中发挥着至关重要的作用，作为底层表示形式。大多数基于Python的参数化CAD框架均构建于广泛使用的边界表示建模内核——OpenCASCADE Technology（OCCT）之上。CadQuery提供了一个高级Python接口，其流畅的API基于方法链式调用和工作平面抽象[8]，通过隐式上下文传播，实现了简洁明了的建模流程。Build123d则采用了不同的设计思路，基于上下文管理器（例如with语句）以及通过重载Python中的运算符实现运算符式建模，从而与原生Python结构实现更紧密的集成，并提升了模块化程度[26]。 </p>
+<p>然而，这些SDK并非专为基于大语言模型的代码生成而设计。CadQuery的流畅API依赖于隐式的内部状态转换，这可能会掩盖中间建模上下文，增加大语言模型追踪各操作间依赖关系的难度。尽管build123d明确声明了上下文，但它在复杂建模中所依赖的符号运算符（@、+、一）可能使基于大语言模型的代码生成难以清晰地表达语义意图，尤其与显式函数调用接口相比更是如此。这种隐式上下文处理方式以及缺乏明确语义定义，可能导致生成的代码模糊不清、可靠性降低。这些局限性促使我们亟需一种更明确且更利于大语言模型的CAD表示，我们通过提出的显式上下文强制范式（ECIP）来解决这一问题。 </p>
+<h2 id="3-CAD建模架构"><a href="#3-CAD建模架构" class="headerlink" title="3. CAD建模架构"></a>3. CAD建模架构</h2><p>在本节中，我们介绍了CADDesigner架构，该架构采用了一种类似ReAct的智能体，与一组多样化的集成CAD工具交互，以迭代地生成并优化CAD模型。整体框架如图2所示。</p>
+<h3 id="3-1-使用ReAct智能体而非工作流"><a href="#3-1-使用ReAct智能体而非工作流" class="headerlink" title="3.1. 使用ReAct智能体而非工作流"></a>3.1. 使用ReAct智能体而非工作流</h3><p>CADDesigner采用了一种基于ReAct风格[27]的以智能体为中心的架构，其中，一个中央智能体通过迭代推理、工具执行和反馈整合来掌控整个建模流程。<br>与传统的硬编码工作流不同，我们的架构采用基于提示的工作流规范，其中系统提示为智能体编码了流程指导。这种设计实现了灵活且可修订的任务编排，因为工作流并非静态编程，而是在运行时由智能体进行解释执行。因此，用户可在流程的任何阶段进行干预，例如添加约束条件、纠正指示或调整目标，从而形成真正可中断且人机协同的建模周期。<br>ReAct风格的循环包括推理、行动和反思：智能体将粗略输入扩展为参数化规范，生成可执行代码，呈现输出结果，评估效果，并迭代优化模型，直至满足用户意图。通过将控制权集中于智能体内部，我们在规格不足或不断变化的设计任务中，实现自适应工具使用以及可解释的、交互式的CAD自动化。 </p>
+<h3 id="3-2-CAD工具"><a href="#3-2-CAD工具" class="headerlink" title="3.2. CAD工具"></a>3.2. CAD工具</h3><p>智能编排依赖于一套多样化的面向CAD的工具。每种工具都针对设计到建模流程中的特定阶段，并在ReAct智能体的统筹下协同工作。本小节将介绍集成在我们流程中的CAD工具。</p>
+<h3 id="3-2-1-核心CAD工具集"><a href="#3-2-1-核心CAD工具集" class="headerlink" title="3.2.1. 核心CAD工具集"></a>3.2.1. 核心CAD工具集</h3><p>CADDesigner采用多种专为CAD设计的工具，以支持其从设计到建模的流程。其中的核心是四个工具，分别记作T&#x3D;{T1, T2, T3, T4}，每个工具都承担着独特的功能。 </p>
+<ul>
+<li>需求细化工具T：I→D将用户提供的多模态输入I映射为详细的设计描述D，从而将初始需求细化为结构化设计规范。</li>
+<li>代码生成工具T2：D→C将最终确定的设计描述转换为可执行的CAD建模代码C。T2设计并采用了一种全新的CAD代码生成范式。相关内容详见第4节。</li>
+<li>命令执行工具T3：C → M 通过运行Shell命令，将生成的Python代码C执行为对应的CAD模型。</li>
+<li>视觉反馈工具T4：{M,D}→(P, F) 输出一个高级终止信号P ∈ {0,1}，其中P &#x3D; 1触发终止，以及用于细化的结构化诊断反馈F。在该工具内部，将生成模型M的多视图渲染结果。我们用“”来表示这一渲染结果。因此，T4可分解为两个步骤：T1：M→，以及T2：{，D}→(P,F)。</li>
+</ul>
+<p>这些核心工具的顺序组合构成了主要的功能流程：</p>
+<p>该管道配备了一个闭环校正机制：在生成视觉反馈）后，系统调用T2以获取(P, F)。如果P&#x3D;0，则利用反馈F通过T3→T2→T来指导修订设计的生成；如果P&#x3D;1，则流程成功结束；否则，循环将持续进行，直至T2返回终止信号。 </p>
+<h4 id="3-2-2-辅助工具集"><a href="#3-2-2-辅助工具集" class="headerlink" title="3.2.2. 辅助工具集"></a>3.2.2. 辅助工具集</h4><p>除了核心CAD工具集之外，CADDesigner还集成了若干辅助工具，以支持高效的上下文管理和系统交互。这些工具包括：</p>
+<ul>
+<li>SketchPad工具：一种灵活的键值存储工具，旨在缓解基于大语言模型的智能体中出现的上下文爆炸问题。SketchPad允许智能体在设计过程中的任何时刻存储任意的中间数据。包括图像路径、参考代码片段、执行结果等。通过将上下文数据存储为带键的条目，而非反复嵌入完整数据，这显著减小了大语言模型的上下文大小。SketchPad还支持自动摘要、基于标签的搜索以及过时条目的自动失效功能，从而实现灵活且可扩展的上下文管理。</li>
+<li>文件操作工具：这些工具提供基本的文件读取和写入功能，使代理能够在CAD设计流程中根据需要存储或加载文件。与SketchPad类似，文件内容或引用被高效地存储和访问，以避免产生过大的上下文开销。</li>
+</ul>
+<p>这些辅助工具共同补充了核心CAD工具集，使CADDesigner代理能够在复杂的多轮交互中实现稳健、高效和可扩展的运行。 </p>
+<h3 id="3-3-需求分析"><a href="#3-3-需求分析" class="headerlink" title="3.3. 需求分析"></a>3.3. 需求分析</h3><p>在概念设计阶段，设计师通常只有粗略的描述或草图，因此很难精确地确定详细的模型参数以及建模流程。为了解决这一问题，我们通过开展需求分析来帮助设计师明确并细化他们的设计意图。</p>
+<p>设用户提供的初始信息集合为I CItxt×Iimg，其中Itxt表示可能的文本输入集合（包括空文本），Limg表示可能的图像输入集合（包括空图像0）。设P为一组足以生成当前设计任务CAD模型的参数。CADDesigner进行详细设计的过程可表示为Fdesign：I→Ddetail，其中Ddetail表示包含特定参数的详细设计，且满足PCDdetail。这一过程由T完成。在此阶段，CADDesigner通过交互方式使不同学科领域的用户得以实现其设计意图。用户对详细设计的修改过程被建模为一个迭代函数： </p>
+<p>其中，U 是用户修订操作的集合。经过 n 次修订迭代后，我们得到 Dfinal al&#x3D;R”(Ddetail,)，随后该结果将被传递到下一阶段。</p>
+<h3 id="3-4-知识约束的代码生成"><a href="#3-4-知识约束的代码生成" class="headerlink" title="3.4. 知识约束的代码生成"></a>3.4. 知识约束的代码生成</h3><p>Dfinal 是用户确认的详细设计。代码生成工具T2接收Dfinal并生成CAD建模代码的过程可表示为G:Dfinal-C。为了支持代码生成，构建了一个结构化的知识库KC。KC包含一组函数注释Anno C C以及一组基础模型案例Case C KC，它们为代码生成工具提供了语义和结构上的参考。在知识库的协助下，代码生成过程被扩展至：</p>
+<p>其中，C’表示通过引用知识库生成的代码，与未使用知识库所生成的代码C相比，其语义和结构都更加丰富。代码执行完成后，将返回执行结果，其中包括详细的几何元数据（参见第4.2.1节“元数据与标记”），例如模型部分区域的体积和测量值等信息。如果执行成功，代码可顺利运行并生成模型M&#x3D;T3(C)，随后该模型将被传递至下一阶段；若执行失败，则会返回结构化的错误信息，以指导下一迭代的代码生成G’生成新代码。这一反馈循环有助于对代码进行逐步修正，从而提高代码生成的成功率。因此，知识库为代码生成提供了至关重要的语义与结构支持，而结合执行反馈的迭代过程则进一步提升了代码生成的成功几率。此外，执行时产生的几何元数据以及可查询的CAD原生表示形式，还为基于尺寸敏感性和约束关系的验证提供了结构化信号，超越了单纯的视觉检查。 </p>
+<h3 id="3-5-基于视觉的迭代误差校正"><a href="#3-5-基于视觉的迭代误差校正" class="headerlink" title="3.5.基于视觉的迭代误差校正"></a>3.5.基于视觉的迭代误差校正</h3><p>由T1对生成的CAD模型M拍摄多视角快照，形成图像集I&#x3D;{Img1, Img2,…, Img6}（分别对应前视、顶视、左视、后视、底视、右视）。CADDesigner通过使用一个高阶终止信号P∈{0,1}以及基于多视角观测生成的结构化诊断反馈，评估该模型是否满足用户的最终意图Dfinal。<br>在内部，P由T2决定，这涉及两个组成部分：</p>
+<ul>
+<li>视觉问题生成Fvq：V×Dfinal→Q，根据用户需求和多视角图像1’，生成一组针对性的视觉问题Q&#x3D;{q1,q2,…,qn}。</li>
+<li>视觉反馈生成Fvf：V×Q→(P,F)，该模块分析多视角图像？以解答问题Q，并输出明确的视觉反馈F以及二元决策P。当P&#x3D;0时，系统将视觉反馈F返回至代码生成阶段，以重新生成代码；当P&#x3D;1时，则将结果交付给用户进行最终判断。用户的建模满意度由Sat：M→{0,1}决定。若Sat(M)&#x3D;1，将模型M加入案例库KC，即Case’ &#x3D;Caseu{M}；若Sat(M)&#x3D;0，则重新进入代码生成阶段。</li>
+</ul>
+<p>在整个过程中，除用户反馈链接（R和Sat）外，所有状态转换Trans：State→State’均由CADDesigner独立确定。 </p>
+<h2 id="4-CAD代码生成范式"><a href="#4-CAD代码生成范式" class="headerlink" title="4. CAD代码生成范式"></a>4. CAD代码生成范式</h2><p>在本节中，我们从四个方面详细介绍了全新的CAD代码生成范式：显式上下文指令范式（ECIP），及其实际应用。 通过基于ECIP的CAD API实现，面向大语言模型的CAD代码设计，以及可重用建模知识库的构建。</p>
+<h3 id="4-1-显式上下文祈使范式"><a href="#4-1-显式上下文祈使范式" class="headerlink" title="4.1. 显式上下文祈使范式"></a>4.1. 显式上下文祈使范式</h3><p>近年来，许多作品都采用CadQuery（CQ）代码作为中间表示，用于生成CAD模型。CadQuery通常采用一种流畅的API设计范式[8]，其中操作通过链式方法调用的方式表达，从而实现高度可读且简洁的建模流程。这种风格依赖于一个隐式的内部上下文C，该上下文会跟踪当前的建模状态，并在各操作之间自动传递。形式上，每个操作fk都会利用参数Pk更新隐藏状态Ck：<br>因此，一个链式表达式可以写成：</p>
+<p>尽管这种隐式状态简洁明了，却可能使语义依赖关系不够清晰，从而增加基于大语言模型的自动化代码生成的难度，因为这些模型必须跟踪中间上下文。相比之下，PythonOCC等低级API则要求为每次操作显式提供输入，虽然语义明确，但代码冗长且细节繁杂，缺乏高层次的抽象与易用性。<br>为解决这些局限性，我们提出了显式上下文命令范式（ECIP），该范式强制对每个操作的所有输入对象和参数进行显式传递。形式上，每个操作gk将显式输入状态Sk和参数pk映射到一个新的状态Sk+1： </p>
+<p>因此，建模工作流被表示为一系列显式状态转换：</p>
+<p>其中所有中间状态Sk均为显式变量。 </p>
+<p>图3展示了CadQuery与ECIP之间典型的代码对比。CadQuery（左图）采用链式方法调用，通过隐式传递上下文，使代码简洁紧凑，但插入标准Python语句或循环时灵活性较低。相比之下，ECIP（右图）显式传递所有输入，从而能够使用诸如for循环和变量赋值等标准Python控制流结构，这有助于提升模块化程度、增强代码可读性并简化调试过程。因此，ECIP兼具低级API的清晰性与高级建模的表达力，从而提高了基于智能体的CAD代码生成的准确性和可解释性。这并不意味着CadQuery无法支持更显式的编码风格；相反，ECIP将这种显式性标准化为一种更适合大语言模型导向生成与优化的形式。 </p>
+<h3 id="4-2-符合ECIP的CAD-API设计"><a href="#4-2-符合ECIP的CAD-API设计" class="headerlink" title="4.2. 符合ECIP的CAD API设计"></a>4.2. 符合ECIP的CAD API设计</h3><p>ECIP（在实际项目中称为SimpleCADAPI）是一种基于CadQuery的occ_impl.shapes模块构建的命令式Python API。它作为一种面向大语言模型的中间表示，与CadQuery保持语义一致。几何类（例如，顶点、边、实体）被实现为对CadQuery对象的轻量级封装，从而确保与CadQuery原生操作的完全互操作性。</p>
+<p>该设计遵循开闭原则：核心几何类型对修改保持封闭，而操作与扩展则通过额外的函数引入。此外，SimpleCADAPI与NumPy库完全兼容，可直接在CAD实体上实现高效的数学计算与几何变换。它为每项操作提供了明确的输入输出接口，便于基于大语言模型的代码生成、迭代修正及模块化组合，同时保留了CadQuery的高级建模能力。SimpleCADAPI主要由两个部分组成：核心模块和API模块。 </p>
+<h4 id="4-2-1-核心模块"><a href="#4-2-1-核心模块" class="headerlink" title="4.2.1. 核心模块"></a>4.2.1. 核心模块</h4><p>核心模块封装了基本的几何类型和原始操作。通过封装底层的OpenCASCADE TopoDS_Shape类，它为几何对象建立了一套清晰的层次结构和语义框架，同时管理坐标系、支持标记与元数据附加，并实施严格的类型标注和异常处理。<br>几何对象层次结构：核心模块定义了一个分层的几何对象模型，包含以下主要类，所有这些类均继承自TaggedMixin，以提供统一的标记和元数据管理：</p>
+<p>(1) 顶点：三维空间中的0维点。</p>
+<p>(2) 边：连接顶点的一维曲线。</p>
+<p>(3) 线：由边组成的有序集合，可形成开放或闭合的链。</p>
+<p>(4) 面：由导线定义的二维有界曲面（外边界和孔洞）。</p>
+<p>(5) 壳：由面构成的部分或完整壳体的集合。</p>
+<p>(6)实体：具有可定义体积属性的封闭三维体。</p>
+<p>(7)化合物：用于分组或装配构造的几何实体的任意集合。</p>
+<ul>
+<li>坐标系与工作平面：ECIP采用统一的坐标系框架，以确保几何建模与变换的一致性和精确性。该框架包括：</li>
+</ul>
+<p>(1)坐标系：表示一个具有明确原点、X轴方向和法向量的三维空间框架，为空间变换提供了一种抽象表示。<br>(2) WORLD_CS：一个全局单例坐标系实例，用于定义默认参考帧。它遵循右手规则，原点位于[0,0,0]，X轴指向默认宽度方向，Y轴指向默认高度方向，Z轴向上。<br>(3) SimpleWorkplane：通过上下文管理器管理局部坐标系，支持具有定义原点和方向的嵌套坐标框架。当变量未在块内直接引用时，返回的工作平面对象遵循_wp命名约定，以确保与linter和大型语言模型的兼容性。这简化了相对几何操作，并支持复杂的建模工作流程。</p>
+<ul>
+<li>元数据与标记：ECIP通过轻量级标记-元数据层，统一了语义标记与几何元数据。每个实体都维护着用户可见的标记和结构化元数据，同时运行时血缘关系被单独存储，以避免污染建模数据。这一设计支持三种互补机制。首先，原始构造函数执行基于几何的标记。例如，make_box_rsolid会根据面法线、边结构及原始类型，自动为面级别分配诸如“顶面”、“底面”、“左&#x2F;右面”和“侧面”等语义标记。其次，派生操作在进行几何或拓扑编辑后，通过拓扑追踪附加语义标记。ECIP封装了OpenCASCADE的构建器，并调用Modified()、Generated()和IsDeleted()等方法来计算TopoDelta。随后，生成的面会自动被赋予具备操作感知的语义标记（例如，origin.tool、op.cut.generated、origin.body）。这种方法避免了依赖索引的脆弱记账方式，并在布尔运算与特征操作中保持了语义血缘关系的完整性。第三，ECIP将结构化的几何元数据与形状一同存储，包括原始类型、长方体尺寸（x、y、z）、圆柱体轴线与高度、球体中心与半径、坐标系快照、拓扑引用（topo_ref）以及紧凑的选择器提示信息（例如，中心、法线、面积、长度、体积和包围盒）。这些元数据可序列化，并可直接由QL谓词消费，如ql.tag(…)和ql.meta(…)。<br>几何选择查询语言（QL）：Sim-pleCADAPI 提供了一个专门的查询语言模块（QL），用于声明式几何选择。QL 选择器完全可序列化，支持选择操作的透明日志记录与回放。选择器通过串联入口点函数（例如，ql.edges()、ql.faces()）来构建。</li>
+</ul>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Table_1_5_.png" alt="image"></p>
+<p>谓词（例如，ql.tag()、ql.meta()）、排序键（例如，ql.center_axis()、ql.geo）以及基数约束（例如，.take(n)、.exactly(n)）。至关重要的是，QL统一了两种互补的选取模式：一种是基于TopoDelta追踪所衍生的语义线性关系的查询，另一种则是基于形状属性的直接几何选取。下面的示例展示了在统一工作流中同时运用这两种行为。</p>
+<h4 id="4-2-2-APIModule"><a href="#4-2-2-APIModule" class="headerlink" title="4.2.2. APIModule"></a>4.2.2. APIModule</h4><p>API模块建立在核心模块之上，为高级建模任务提供了更高级的复合操作和适合大语言模型的接口。其设计主要包含以下两个方面：</p>
+<ul>
+<li>核心建模功能：一套全面的CAD建模功能，共计超过50项，按类别组织，包括创建、变换、三维操作、布尔运算、高级功能、图案生成、标记与选择以及导出等。这些功能使用户或代理能够灵活地组合复杂的建模流程，同时保持明确的状态转换和清晰的语义。为便于用户使用，部分原始构造器会公开宽度、高度和深度等语义维度名称；但API文档中则将这些维度明确绑定至世界坐标轴，分别对应x、y和z。功能类别概览、代表性示例及数量统计见表1。<br>自动化与自我维护：为保持一致性并支持持续演进，API模块集成了一个自动化流水线，具备以下功能：</li>
+</ul>
+<p>(1) 源代码解析：自动解析用户定义的Python源文件，以提取并整合新的或更新的建模功能到公共API中。</p>
+<p>(2) 功能分类：扫描并分类源代码，以生成最新的API初始化文件和别名映射，从而确保公共暴露的一致性。</p>
+<p>(3) 文档生成：提取函数签名和文档字符串，生成结构化的Markdown文档，以提升易用性和可维护性。</p>
+<p>(4) 知识库同步：将生成的文档与外部知识库同步，实现基于关键词的索引和更佳的可追溯性。</p>
+<h3 id="4-3-适合大语言模型的CAD代码设计"><a href="#4-3-适合大语言模型的CAD代码设计" class="headerlink" title="4.3. 适合大语言模型的CAD代码设计"></a>4.3. 适合大语言模型的CAD代码设计</h3><p>除了ECIP范式及其API实现之外，我们还融入了若干互补的设计特性，旨在提升大语言模型智能体准确生成和调试CAD建模代码的能力。 </p>
+<h4 id="4-3-1-结构化错误信息"><a href="#4-3-1-结构化错误信息" class="headerlink" title="4.3.1. 结构化错误信息"></a>4.3.1. 结构化错误信息</h4><p>CadQuery的错误处理机制通常会生成通用或部分非结构化的错误信息，这在某些场景下会使自动化调试和代码修正变得更加困难。为促进基于大语言模型的代码生成获得更有效的指导，ECIP引入了细粒度的结构化错误信息，这些信息以三元组的形式在原子操作级别进行表示：</p>
+<p>其中，ErrCau 用于标识故障的根本原因，ErrLoc 则指明了脚本中错误的确切位置，CorrAct 则提出了可能的纠正措施。这种结构化的格式提供了可操作的反馈信息，LLM 可以利用这些信息来改进故障定位，并实现代码的自动化修复。 </p>
+<h4 id="4-3-2-显式类型注解"><a href="#4-3-2-显式类型注解" class="headerlink" title="4.3.2. 显式类型注解"></a>4.3.2. 显式类型注解</h4><p>类型歧义通常会导致错误的代码生成，尤其是在处理线框和边等关系密切的几何实体时。ECIP通过为函数采用规范化的命名约定并强制显式类型注解，从而缓解了这一问题，其模式如下：</p>
+<p>其中，ActionName 表示 CAD 操作，r 是一个固定前缀，用于指示“返回值”，ReturnType 则明确声明了返回对象的类型。这确保了即使不查阅文档，仅凭函数签名本身就能传达类型信息，从而减少大语言模型推理过程中的歧义。此外，每个函数还附有全面且经过类型注解的文档说明。这种显式的类型信息能够降低歧义，并提高大语言模型生成代码的准确性。 </p>
+<h4 id="4-3-3-自我演进的复合操作"><a href="#4-3-3-自我演进的复合操作" class="headerlink" title="4.3.3. 自我演进的复合操作"></a>4.3.3. 自我演进的复合操作</h4><p>为促进知识积累与抽象，ECIP支持定义复合操作——即通过封装一系列原子操作而形成的更高级别构造。这些复合操作会被保存为该语言中的新操作，使智能体能够在后续任务中直接调用它们。</p>
+<p>这种自我演进机制能够有效扩展语言可用操作的集合，从而实现对复杂建模模式的复用，例如螺钉、法兰或其他参数化特征。从原理上讲，这有助于提高一次性生成的成功率，使大语言模型智能体能够更高效地复用积累的领域知识。 </p>
+<h3 id="4-4-代码框架知识库"><a href="#4-4-代码框架知识库" class="headerlink" title="4.4.代码框架知识库"></a>4.4.代码框架知识库</h3><p>大型语言模型具备强大的生成和推理能力，但往往难以满足CAD API的细粒度语义需求，例如精确的参数格式。 几何约束以及操作特定的返回类型。这些限制常常导致命令签名被误解或输入被虚构，从而引发代码生成不稳定。 </p>
+<p>为了在建模过程中提供明确且基于领域的指导，我们构建了一个结构化知识库KC，并将其与检索增强生成（RAG）相结合。通过检索获取的函数注释和示例案例可提供准确的API语义，以补充大语言模型的隐式先验，从而帮助提升生成的可靠性。该知识库KC由两个关键组成部分构成：</p>
+<ul>
+<li><p>函数注解（Anno）：API函数的语义描述，包括参数格式、返回类型和使用说明；</p>
+</li>
+<li><p>案例示例（案例）：最初由人工精选的示例组成，使用过程中逐步扩充。</p>
+</li>
+</ul>
+<p>为了实现KC的自动化构建，我们设计了一条基于规则的处理流程，可直接从源代码中提取并整理相关信息。具体而言，我们从Python注解和类型提示中收集函数签名、参数类型及返回类型，并将其与函数级文档字符串中提供的相应自然语言描述进行匹配。这一过程生成了结构化且语义一致的API文档语料库。 </p>
+<h4 id="4-4-l-用于检索的结构化表示"><a href="#4-4-l-用于检索的结构化表示" class="headerlink" title="4.4.l. 用于检索的结构化表示"></a>4.4.l. 用于检索的结构化表示</h4><p>我们进一步将提取的知识整理成标准化的文档格式，以支持RAG。每个API条目均以结构化的Markdown文档形式呈现，遵循统一模板，包括带类型注解的函数签名、功能描述、参数说明、返回值、可能抛出的异常以及实际使用示例。所有条目均采用二级Markdown标题，以确保结构的一致性。<br>这种标准化表示法可提高检索准确性，减少自然语言查询中的歧义，并增强模型及开发人员的可解释性。例如，CAD操作“chamfer_rsolid”会明确指定其输入类型（如实体对象、边对象列表以及浮点距离参数）并附上使用示例，从而使检索器能够根据正确的API语义和使用模式匹配查询。 </p>
+<h4 id="4-4-2-语义友好分块"><a href="#4-4-2-语义友好分块" class="headerlink" title="4.4.2. 语义友好分块"></a>4.4.2. 语义友好分块</h4><p>在构建KC的向量化表示时，我们采用了一种基于API文档标准化Markdown结构的、定制化的语义友好分块策略。具体而言，每个二级标题（##）都被视为界定语义块的边界。这一设计确保了语义完整性（每个分块构成一个自包含的单元，例如方法或参数描述）、语义独立性（不同分块可模块化地进行处理和检索）以及结构一致性（分块方式尊重文档本身的固有结构，避免随意或中途截断）。 与朴素的固定长度分块相比，这种策略能够保持API文档的逻辑完整性，并确保在生成过程中所获取的内容保持连贯且可直接使用。 </p>
+<p>为进一步提高检索精度，我们为每个块附加了锚定关键词，这些关键词明确地概括了其语义上下文。这些锚定词由API名称、章节标签以及一小撮具有代表性的内容标记组成。例如，对应于倒角_rsolid目的章节的块可能包含：</p>
+<p>[倒角_实体, 目的, 倒角, 边缘, 过渡]</p>
+<p>这些锚点充当明确的语义信号，可增强基于嵌入的检索与相关性评分，从而在保留原始文档语义的同时，提升召回率和精确率。总体而言，这一设计确保了推理阶段的检索能够生成连贯且上下文完整的知识片段，有效指导下游代码生成，并提高基于大语言模型的CAD推理的鲁棒性。 </p>
+<h2 id="5-实验与比较"><a href="#5-实验与比较" class="headerlink" title="5. 实验与比较"></a>5. 实验与比较</h2><p>本节详细介绍了CADDesigner的实现，以及为评估其在CAD建模代码生成中的性能而开展的全面实验评估。</p>
+<h3 id="5-1-实施细节"><a href="#5-1-实施细节" class="headerlink" title="5.1. 实施细节"></a>5.1. 实施细节</h3><p>我们在一台配备8核Intel CPU的工作站上，使用Python 3.12对我们的CAD建模代码生成算法进行了评估。该系统基于一个定制化的智能体框架实现，该框架通过RAGFlow利用检索增强生成（RAG）技术。对于基于嵌入的检索，我们采用了bge-large-zh-v1.5嵌入模型来对知识库文档进行编码。检索过程采用了一种混合相似度评分方法，其中向量相似度与关键词相似度分别以0.6和0.4的权重进行加权组合。最终，我们会检索出最相关的前3篇文档（top-k&#x3D;3），用于后续的代码生成任务。在大语言模型服务方面，主智能体及代码生成工具（T2）均采用Claude-4-Sonnet；而需求细化（T1）以及两个视觉反馈子工具（视觉问题生成与视觉反馈生成）则基于Gemini-2.5-Flash。推理时，我们设置了0.7的温度值和0.9的核采样（top-p）参数，以平衡多样性和连贯性。所有实验均未引入用户反馈循环（R和Sat），因此所报告的结果不包含由用户认可驱动的在线案例累积数据。 </p>
+<h3 id="5-2-数据集"><a href="#5-2-数据集" class="headerlink" title="5.2. 数据集"></a>5.2. 数据集</h3><p>我们的实验是在大规模的Deep-CAD数据集[1]上进行的，该数据集包含约17.8万个参数化CAD模型，这些模型以草图与拉伸的形式呈现。仿照SkexGen [10]，我们首先去除重复的模型，以减少冗余。从训练集中，我们随机选取1000个模型来初始化RAG知识库。此外，我们还开发了一个转换脚本，用于将……转化为……</p>
+<p>将每个模型的参数化命令序列转换为ECIP代码片段，并作为案例纳入RAG知识库。为了进行评估，我们从去重后的DeepCAD测试集构建了两个测试子集。第一个子集包含200个模型，这些模型采用均匀分层抽样方式选取，依据命令序列中的命令数量（1-10、11-20、21-30、31-40、41+）进行划分，以确保覆盖不同复杂度水平。第二个子集则从同一去重后的测试集中随机抽取1000个模型，用于与先前的文本到CAD方法进行对比。对于每个抽样的模型，我们从固定相机视角渲染一张代表性图像，用作实验的视觉输入；而文本输入则取自DeepCAD数据集中提供的抽象级别描述。 </p>
+<h3 id="5-3-评估指标"><a href="#5-3-评估指标" class="headerlink" title="5.3.评估指标"></a>5.3.评估指标</h3><p>为评估生成的CAD模型的几何保真度，我们采用了若干种标准的形状相似性度量指标。设S表示参考模型，G表示生成的模型，X和X’分别代表它们对应的点云。这些度量指标从体素和点云两个角度，对生成模型与真实几何之间的吻合程度进行评价。</p>
+<p>交并比（IoU）用于衡量生成模型与真实值之间的相似度。 其中，G n S 表示参考模型与生成模型之间的重叠体积，G u S 则代表两者的总体积并集。数值为1表示完全对齐，而0则表示完全没有重叠。 </p>
+<p>倒角距离（CD）计算从X和Y采样的点云之间的逐点邻近度。 </p>
+<p>豪斯多夫距离（HD）是一种用于量化两个点集之间相似性的度量方法，主要用于评估物体轮廓的相似性。 </p>
+<p>其中，d(x, y) 表示点 x 和 y 之间的欧几里得距离，sup（上确界）和 inf（下确界）分别表示最小上界和最大下界。</p>
+<p>为确保比较的公平性和可重复性，所有几何度量均依据标准化的度量计算协议进行评估，包括归一化、配准、体素化和点云采样等步骤，这些步骤在所有方法和基线中均一致应用。 </p>
+<ul>
+<li><p>归一化与配准：所有网格和采样点云首先进行归一化处理，使其位于单位立方体[-0.5, 0.5]内。对于成对比较，采用迭代最近点（ICP）算法对预测形状与真实形状进行刚性配准，以消除因平移和旋转带来的差异。</p>
+</li>
+<li><p>IoU体素化：在计算IoU时，两个网格均采用固定体素大小0.02进行体素化。体素网格定义于两个模型边界框的并集之上，并额外增加两个体素的边距，以确保完全覆盖。</p>
+</li>
+<li><p>点云采样：对于切角距离（CD）和豪斯多夫距离（HD），从每个网格的表面均匀采样2048个点。所有方法均保持相同的采样密度。</p>
+</li>
+</ul>
+<p>此外，我们引入了几种面向过程的指标，用于在消融设置下分析建模的稳定性、可靠性和效率：Pass@1表示首次尝试即生成有效代码的案例占比，反映了生成的准确性；AVG Re（平均重试次数）则捕捉了迭代修正循环中所需的平均重试次数，用以衡量收敛效率；SUC表示成功生成语法上有效的CAD模型的案例比例，即这些模型能够无错误地执行和渲染。需要注意的是，语法上有效的模型并不一定与输入描述在语义上完全一致。Tokens用于衡量生成单个CAD模型所消耗的平均标记数；Latency则用于衡量生成单个CAD模型所需的平均时间。 </p>
+<h3 id="5-4-综合消融研究"><a href="#5-4-综合消融研究" class="headerlink" title="5.4. 综合消融研究"></a>5.4. 综合消融研究</h3><p>为全面验证我们CADDesigner智能体的设计选择以及不同组件的实效性，我们采用第5.2节所述的200模型测试子集，开展了四组消融实验：一组聚焦于ECIP设计，另一组评估CAD工具与输入模态的影响，第三组分析不同大语言模型后端的作用，第四组则探究模型复杂度对标记使用量和生成延迟的影响。除非另有说明，所有实验均采用纯文本输入进行。 </p>
+<h4 id="5-4-1-ECIP设计组件的影响"><a href="#5-4-1-ECIP设计组件的影响" class="headerlink" title="5.4.1. ECIP设计组件的影响"></a>5.4.1. ECIP设计组件的影响</h4><p>为了说明ECIP设计选择的优势，例如对大语言模型友好的错误处理机制以及ECIP系统的整体架构，我们对三种ECIP变体进行了评估：完整ECIP、不包含详细错误系统的ECIP，以及不包含返回值类型注解的ECIP。</p>
+<p>表2中的结果显示，完整的ECIP配置在所有变体中实现了最佳的整体性能。当移除错误处理机制（ECIP无错误）时，Pass@1略微下降，从0.45降至0.41；平均召回率（AVG Re）则从1.86升至2.62；成功比例（SUC）降至81.5%。这表明，尽管智能体最初仍能生成正确的代码，但缺乏详细的…… </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Table_2_9_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Table_3_0_.png" alt="image"></p>
+<p>反馈会减缓迭代修正过程中的收敛速度，并降低整体成功率。相比之下，移除类型注解（ECIP无类型）会导致Pass@1大幅下降，从0.45降至0.32，这表明在缺乏明确类型指导的情况下，初始代码生成更容易出现语义错误。平均重试次数（AVG Re）为2.30，高于完整ECIP，但仍低于不含错误处理的ECIP，且成功率也降至90.5%。这说明，类型注解有助于将关键的建模意图编码到提示中，但一些类型错误仍可通过重试得到纠正。总体而言，我们观察到一种清晰的角色分工：错误处理帮助智能体在迭代过程中快速从错误中恢复，而类型注解则通过减少语义歧义来提升首次尝试的准确率。 </p>
+<h4 id="5-4-2-CAD工具与输入方式的影响"><a href="#5-4-2-CAD工具与输入方式的影响" class="headerlink" title="5.4.2. CAD工具与输入方式的影响"></a>5.4.2. CAD工具与输入方式的影响</h4><p>为进一步分析CADDesigner中各关键组件的单独贡献，我们评估了七个变体，分别标记为A至G，它们各自对应如下：A）从知识库中移除功能注释Anno；B）移除基础模型案例Case；C）禁用需求细化工具T1；D）禁用视觉反馈工具T4；E）采用纯文本输入的完整CADDesigner流程；F）采用纯图像输入的完整流程；G）采用文本与图像混合输入的完整流程。除变体F和G外，其余所有变体均仅使用文本输入。<br>表3总结了基于多个评估指标的定量结果。在模型A中，移除语义API标注（Anno）会导致智能体无法可靠地识别可用操作及其用法，从而无法生成有效的模型。这表明，结构化的函数级标注在为基于智能体的CAD代码生成提供基础并引导其向正确解决方案收敛方面发挥着关键作用。<br>模型B、C和D分别禁用关键系统组件——案例示例（Case）、需求细化（T1）和视觉反馈（T）。与仅包含文本的版本相比，  三个模型在IoU指标上均表现出性能下降（分别为0.2650、0.2726、0.2522，而基准值为0.3041），这表明每个组件都对生成稳健且准确的模型起到了积极贡献。具体而言，移除结构化案例和需求细化会增加早期阶段生成过程中的语义歧义；而关闭视觉反馈则导致IoU出现最显著的下降，凸显了视觉反馈在迭代优化及整体结构正确性方面的关键作用。<br>将输入模态从仅文本（模型E）切换为仅图像（模型F），可显著提升性能，这表明仅靠抽象的文本描述往往不足以完整地指定几何细节，而图像则能提供更丰富的空间线索，有助于CAD建模。模型G同时融合了文本与图像作为输入，在所有指标上均取得了最佳效果，这说明文本信息能够有效补充视觉上下文，从而解决仅凭图像难以推断的模糊之处。 </p>
+<p>总体而言，这些结果表明，结构化的API知识、协调一致的工具使用以及多模态输入共同促进了高保真且稳健的CAD模型生成。 </p>
+<h4 id="5-4-3-LLM后端的影响"><a href="#5-4-3-LLM后端的影响" class="headerlink" title="5.4.3. LLM后端的影响"></a>5.4.3. LLM后端的影响</h4><p>为探究不同大语言模型（LLM）后端对CAD代码生成的影响，我们开展了一项消融研究，将CADDesigner代码生成工具（T2）所用的LLM后端分别替换为三种代表性模型：Claude-4-Sonnet、Gemini-2.5-Pro和GPT-5.2-Codex。每种后端均在ECIP代码范式下，针对200个测试模型进行评估。</p>
+<p>定量结果见表4。我们观察到，CADDesigner在所评估的三种大语言模型后端上均表现出一致的性能。其中，Claude-4-Sonnet的几何保真度最高，这反映在其略高的交并比（IoU）以及更低的顶点距离（CD）和表面距离（HD）值上。Gemini-2.5-Pro和GPT-5.2-Codex的表现相当接近，与Claude-4-Sonnet相比，它们的顶点距离和表面距离仅存在细微差异。这些观察表明，在能力相近的大语言模型中，CADDesigner能够生成稳定且可靠的CAD代码。ECIP表示法明确地管理着中间建模状态，而基于知识约束的生成框架则提供了结构化的指导和参考案例，有助于代码生成工具（T2）生成在结构上正确且语义上合理的脚本。总体而言，这些结果表明，CADDesigner在这些后端上的CAD代码生成表现基本一致，适度的差异主要源于底层大语言模型的不同特性。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Figure_4_7_.png" alt="image"> </p>
+<h4 id="5-4-4-模型复杂度对推理成本的影响"><a href="#5-4-4-模型复杂度对推理成本的影响" class="headerlink" title="5.4.4 模型复杂度对推理成本的影响"></a>5.4.4 模型复杂度对推理成本的影响</h4><p>我们在CADDesigner中评估了模型复杂度对推理成本的影响。具体而言，我们重点关注两个主要指标：Token数量和延迟时间。至于内存消耗，CADDesigner主要依赖外部大语言模型API，因此GPU显存开销可以忽略不计；而主要的内存占用则来自RAG组件（例如RAGFlow），这些组件的内存使用量相对稳定，不会随着模型复杂度的增加而显著增长。我们按每10条指令为一个区间，将模型分组归类。对于每个复杂度区间，我们报告该区间内所有模型的平均Token数量和平均延迟时间。如图4所示，随着模型复杂度的提升，Token数量和延迟时间均呈上升趋势。这一现象是意料之中的，因为更复杂的模型要求智能体生成更长的CAD操作序列，并在代码生成过程中执行更多的推理步骤。然而，这种增长幅度相对温和，并非急剧攀升。从1至10条指令到41条及以上，Token用量和延迟时间稳步增长，未出现剧烈飙升，这表明系统的推理开销并未因模型复杂度的增加而大幅上升。这种表现可归因于CADDesigner的设计特点：ECIP中明确的上下文表示以及T模块中结构化的代码生成流程，有助于保持推理过程的稳定性，避免产生冗余或过长的中间步骤。因此，推理成本能够以可控的方式随模型复杂度变化而增长。<br>我们进一步考察了在全部200个测试模型中，流水线各组件的平均贡献。图5展示了主要代理和CAD工具在Token数量与延迟方面的平均占比。代码生成工具T2在Token数量和延迟两方面均占据了最大份额。需求细化工具T和视觉反馈工具T4各自所占比例相对较小，而命令执行工具T3则对延迟有适度贡献，但并不消耗Token。至于主要代理本身，在这两个指标上的贡献都微乎其微。这些观察结果表明，T2是驱动Token成本和延迟成本的主要因素，而其他组件对整体推理成本的影响有限。 </p>
+<h3 id="5-5-比较方法"><a href="#5-5-比较方法" class="headerlink" title="5.5.比较方法"></a>5.5.比较方法</h3><p>我们从两个互补的视角对比CADDesigner：(1) 不同的CAD表示范式</p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Figure_5_2_.png" alt="image"></p>
+<p>用于代码生成，以及（2）现有的文本到CAD生成方法。</p>
+<h4 id="5-5-1-CAD表示范式的比较"><a href="#5-5-1-CAD表示范式的比较" class="headerlink" title="5.5.1. CAD表示范式的比较"></a>5.5.1. CAD表示范式的比较</h4><p>我们首先在200个测试模型上评估了不同CAD表示范式对代码生成性能的影响。具体而言，我们将我们提出的ECIP范式与两种广泛使用的替代方案——CadQuery和build123d进行了对比。为确保比较的公平性，我们按照第5.1节所述，在相同的智能体框架中用CadQuery和build123d替换了基于ECIP的代码生成组件，同时保持其他所有组件不变。此外，我们还分别为CadQuery和build123d配备了基于其官方文档构建的RAG模块。所有方法均采用纯文本输入进行评估。在此，ECIP、CadQuery和build123d应被理解为用于生成的不同的代码表示风格或API接口，而非本质上不同的几何内核。</p>
+<p>表5中呈现的定量结果表明，所评估的CAD代码表示之间存在明显差异。ECIP在交并比（IoU）和成功收敛率（SUC）方面均表现最佳，且平均重叠误差（AVG Re）最低，这表明其具有更强的几何保真度以及更可靠的迭代收敛性。由于ECIP是在CadQuery之上实现的一个轻量级表示层，因此这些差异主要应从代码表示和大语言模型可用性的层面来理解，而非底层几何引擎本身。尤其值得注意的是，尽管CadQuery也支持与ECIP部分重叠的编码模式，但其常用的流畅式接口并未明确规范面向语言模型的中间建模上下文。相比之下，ECIP则始终如一地对</p>
+<p>将每项操作转化为显式的对象与参数转换，这使得基于大语言模型的智能体在依赖关系跟踪、代码生成和迭代优化等方面更加可靠。Build123d取得了最高的Pass@1指标和最短的延迟，表明其简洁的语法往往能快速转换为可执行代码。然而，其较低的IoU以及较高的CD和HD表明，可执行代码并不一定意味着几何精度，这可能源于它对重载符号运算符的依赖，使得大语言模型难以像解释显式函数调用那样准确地理解建模语义。总体而言，这些结果凸显了面向大语言模型的CAD编码中各种表示风格之间的权衡：虽然能够简化大语言模型代码生成的API有助于提升早期成功率并缩短执行时间，但可能会牺牲几何精度。<br>为进一步评估ECIP、CadQuery和build123d之间的稳健性和分布差异，我们分析了200个测试模型中IoU、CD和HD的分布情况。如图6所示，ECIP的IoU中位数更高，CD和HD值更低，且分布更加紧凑，这表明其几何保真度更为一致。相比之下，CadQuery和build123d的变异性更大，CD和HD值也更高，凸显出其CAD模型生成的精确性和可靠性较低。这些结果表明，ECIP在所评估的模型中表现出更准确、更一致的性能。 </p>
+<h4 id="5-5-2-与现有方法的比较"><a href="#5-5-2-与现有方法的比较" class="headerlink" title="5.5.2. 与现有方法的比较"></a>5.5.2. 与现有方法的比较</h4><p>我们进一步将我们的方法与两种基于学习的文本到CAD生成方法进行了对比：Text2CAD[4]、cadrille [28]，以及一种基于智能体的方法：CADCodeVerify [25]。 </p>
+<ul>
+<li>Text2CAD提出了一种基于端到端Transformer的自回归网络，可从输入文本生成参数化CAD模型。 </li>
+<li>cadrille 提出了一种两阶段的CAD重建流程：首先在大规模程序生成数据上进行有监督微调（SFT），随后利用在线反馈进行强化学习微调。 </li>
+<li>CADCodeVerify 提出了一种利用验证问题和视觉反馈进行设计验证的代理。</li>
+</ul>
+<p>在评估过程中，我们采用第5.2节中所述的1K模型子集，该子集是从去重后的DeepCAD测试集中随机抽取的。对于每个实例，我们以抽象文本描述作为输入。随后，我们使用他们发布的权重以及我们的方法进行推理，以生成结果。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Figure_6_1_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Figure_7_8_.png" alt="image"></p>
+<p>图7：Text2CAD、CADCodeVerify、cadrille与我们方法的生成结果对比。CADDesigner实现了最佳的输入对齐效果。Text2CAD和CADCodeVerify表现中等，而cadrille由于从专家级训练到抽象输入的泛化能力不足，生成的输出语法上有效但语义上存在错误。</p>
+<p>用于指标计算。如表6和图7所示，实验结果表明，CADDesigner的表现最佳。CADDesigner在提示与结果的匹配度方面表现最优，其次是CADCodeVerify和Text2CAD。尽管cadrille的SUC得分较高，表明其在大多数情况下能够生成语法上有效的CAD模型，但可视化结果显示，这些输出通常与输入指令毫无关联（见图7）。这一失败的原因在于，cadrille从专家级指令到抽象指令的泛化能力较差：它会生成…… </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1508067271876841472/1508067271876841472_cut_Figure_8_4_.png" alt="image"></p>
+<p>结构上有效但语义上无关的模型。相比之下，其他方法生成的输出在语法和语义上均具有不同程度的有效性，而我们的方法则最为一致。 </p>
+<p>此外，我们还将我们的方法与cadrille在基于图像的输入上进行了对比，以进一步说明二者各自的建模能力。如图8所示，CADDesigner始终能够生成与输入图像高度吻合的CAD模型，这得益于其更具表现力的CAD操作空间。尤其值得注意的是，一些模型需要具备旋转对称结构，而这种结构天然可通过旋转操作构建；CADDesigner明确支持此类操作，但cadrille却无法实现，因此在后者的输出中会出现几何缺失或变形现象。此外，对于具有丰富几何细节和重复性结构的模型，使用数组或图案化构造等高级CAD操作能更有效地加以描述。CADDesigner能够充分利用这些高级API，以简洁而精确的方式生成此类结构；相比之下，cadrille主要依赖于低级的挤出操作，往往导致生成的几何结果不够忠实。 </p>
+<p>这些结果表明，除了句法有效性之外，具备表达力强且语义一致的CAD操作对于生成忠实于图像的CAD模型至关重要。 </p>
+<h3 id="5-6-视觉结果展示"><a href="#5-6-视觉结果展示" class="headerlink" title="5.6. 视觉结果展示"></a>5.6. 视觉结果展示</h3><p>我们还提供了基于草图-文本输入生成的定性结果，代表性示例见图9。此处所呈现的内容源自DeepCAD数据集、CADCodeVerify数据集，以及涵盖多种几何形状的数据集，包括标准工业部件（例如螺栓、法兰和管件），以及更为复杂的模型与装配体。</p>
+<h3 id="5-7-限制"><a href="#5-7-限制" class="headerlink" title="5.7. 限制"></a>5.7. 限制</h3><p>尽管CADDesigner的延迟会随着模型复杂度的增加而相对可控地增长，但在交互式使用场景中，其端到端响应时间仍不可忽视，尤其是在复杂模型生成和多轮迭代优化过程中。如图5所示的分析表明，代码生成模块（T2）是导致系统总体延迟的主要因素。因此，提升推理效率仍是一项至关重要的挑战。<br>此外，当前的框架尚未充分融入工业设计实践中所需的领域特定知识，例如制造约束、公差要求、装配语义以及标准化工程规范。因此，在特定工业领域进行复杂模型生成与验证的能力仍有待进一步提升。 </p>
+<h2 id="6-结论与未来工作"><a href="#6-结论与未来工作" class="headerlink" title="6. 结论与未来工作"></a>6. 结论与未来工作</h2><p>我们提出了一种名为CADDesigner的新框架，用于自动生成CAD建模代码，并结合显式上下文指令式范式，以生成高质量的CAD建模脚本。实验结果表明，CADDesigner在概念性CAD设计任务中表现具有竞争力，并优于所评估的基线方法。CADDesigner尤其适用于快速原型设计和早期概念性CAD建模阶段，在这些阶段，用户意图往往较为抽象，而迭代优化则发挥着至关重要的作用。<br>在今后的工作中，我们计划通过引入基于学习的方法来扩展CADDesigner，该方法可接受点云和B-rep数据作为输入，使系统能够通过数据驱动的训练学习几何与拓扑约束。此外，我们还致力于进一步优化框架的推理效率，并引入特定领域的工业案例及功能约束，从而提升我们的方法在工业场景中处理复杂模型的生成能力和效率。 </p>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+      <!-- 打赏组件 -->
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-09-07T06:36:16+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2026年9月7日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/CAD/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>CAD</p></a></div>
+  <span hidden itemprop="keywords">CAD</span>
+  
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nicemxm.github.io/2026/09/06/CADDesigner/&title=CAD设计师：基于通用智能体的概念性CAD模型生成 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://nicemxm.github.io/2026/09/06/CADDesigner/&title=CAD设计师：基于通用智能体的概念性CAD模型生成 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://nicemxm.github.io/2026/09/06/CADDesigner/&title=CAD设计师：基于通用智能体的概念性CAD模型生成 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC70lEQVR42u3aSXLDMAwEQP3/08kH4hIxIB3Bbt68UWT7MgXg+rH+XBcCMGDAgAEDZgzMFa74wTe/756jex8wYMCAAQMGzDyY0xer7vPqe6vPT+8DBgwYMGDAgJkLcxuAbr6/+n714KsBs30fMGDAgAEDBszXwpwKbqfOBwYMGDBgwIABc6qQVS10gQEDBgwYMGC+F2ZXMOsO/Oxq0P1bJxIMGDBgwIAB8zaYeGD4oa//fTIcDBgwYMCAAXMcpruqD64Gxl3Bb/k+YMCAAQMGDJgxMGlAWoVKC1rdBlp8fjBgwIABAwbMeJhTDbU0KFYHh1aDYnmiCgwYMGDAgAHzGJh0gKd7sC7g7kEnMGDAgAEDBsw8mDTg7S5Ape9vD6JgwIABAwYMmHEw1YHn7sV3BcBqo+52PzBgwIABAwbMGJg06K0O4lQLSLsKWjEoGDBgwIABA2YcTBrM0s/TgtipgSEwYMCAAQMGzHyYdkAqBsNq0KuucuMODBgwYMCAAfOxMGmjLN339LmWC1VgwIABAwYMmMfBrBaIVgtPuy74rsEkMGDAgAEDBsxcmLThVQ5Ob2q4dYMjGDBgwIABA2YuTFp42tbwChtwu+4DBgwYMGDAgJkD0x3sqV5w9XVaOGvvDwYMGDBgwIAZB3Oq4VWF3vXHxH8YGDBgwIABA2YcTDqAU31wtSF2ar+X+4ABAwYMGDBgxsPsWmnDrNqoq8K+hAQDBgwYMGDAfCxMtYCVFp66+6eDTGDAgAEDBgyYOTC7AlxaGOoGwXSA6TbggQEDBgwYMGAeD3OFq3uxtOF2qmEHBgwYMGDAgJkLszvQnRo0Oh0cwYABAwYMGDBzYboNtXTwpxrEug03MGDAgAEDBgyYaiMsHRyqfv6YgAcGDBgwYMCAeTzM7kZb3DBbDJzlhhsYMGDAgAED5vEw1YZbN5ClwawbKMGAAQMGDBgwnwPTbVylBaRdhadugw8MGDBgwIABMw/GAgMGDBgwYMAMW78M+2OsVhTPegAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://nicemxm.github.io/2026/09/06/CADDesigner/&text=CAD设计师：基于通用智能体的概念性CAD模型生成 - hello deeplearning"
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2026/08/31/GLM-5/'>
+          <p class='title'>GLM-5：从共鸣编码到agent工程<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>摘要我们隆重推出GLM-5，这是一款新一代基础模型，旨在推动从情绪编码范式向智能体工程的转型。GLM-5继承了其前代模型的智能体、推理与编码（ARC）能力，并引入了DSA技术，大幅降低了训练与推...</p>
+        </a>
+      
+    </div>
+  
+  <!-- 文章推荐 -->
+  
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/2026/09/06/CADDesigner/index.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside id='l_side' itemscope itemtype="https://schema.org.cn/WPSideBar">
+  
+
+  
+    
+    
+      
+    
+  
+
+
+<div class="widget-sticky">
+
+  
+  
+
+
+<section class="widget toc-wrapper desktop mobile" id="toc-div" >
+  
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="toc-text">1. 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text">2. 相关工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%8F%82%E6%95%B0%E5%8C%96CAD%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90"><span class="toc-text">2.1.参数化CAD模型生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%9F%BA%E4%BA%8E%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84CAD%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90"><span class="toc-text">2.2.基于大语言模型的CAD模型生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%9F%BA%E4%BA%8E%E4%BB%A3%E7%90%86%E7%9A%84CAD%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%88%90"><span class="toc-text">2.3. 基于代理的CAD模型生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%8F%82%E6%95%B0%E5%8C%96CAD%E5%BB%BA%E6%A8%A1SDK"><span class="toc-text">2.4. 参数化CAD建模SDK</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-CAD%E5%BB%BA%E6%A8%A1%E6%9E%B6%E6%9E%84"><span class="toc-text">3. CAD建模架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BD%BF%E7%94%A8ReAct%E6%99%BA%E8%83%BD%E4%BD%93%E8%80%8C%E9%9D%9E%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-text">3.1. 使用ReAct智能体而非工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-CAD%E5%B7%A5%E5%85%B7"><span class="toc-text">3.2. CAD工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-%E6%A0%B8%E5%BF%83CAD%E5%B7%A5%E5%85%B7%E9%9B%86"><span class="toc-text">3.2.1. 核心CAD工具集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7%E9%9B%86"><span class="toc-text">3.2.2. 辅助工具集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-text">3.3. 需求分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%9F%A5%E8%AF%86%E7%BA%A6%E6%9D%9F%E7%9A%84%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90"><span class="toc-text">3.4. 知识约束的代码生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E5%9F%BA%E4%BA%8E%E8%A7%86%E8%A7%89%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%AF%AF%E5%B7%AE%E6%A0%A1%E6%AD%A3"><span class="toc-text">3.5.基于视觉的迭代误差校正</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-CAD%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E8%8C%83%E5%BC%8F"><span class="toc-text">4. CAD代码生成范式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%98%BE%E5%BC%8F%E4%B8%8A%E4%B8%8B%E6%96%87%E7%A5%88%E4%BD%BF%E8%8C%83%E5%BC%8F"><span class="toc-text">4.1. 显式上下文祈使范式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%AC%A6%E5%90%88ECIP%E7%9A%84CAD-API%E8%AE%BE%E8%AE%A1"><span class="toc-text">4.2. 符合ECIP的CAD API设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="toc-text">4.2.1. 核心模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-APIModule"><span class="toc-text">4.2.2. APIModule</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E9%80%82%E5%90%88%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84CAD%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="toc-text">4.3. 适合大语言模型的CAD代码设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-%E7%BB%93%E6%9E%84%E5%8C%96%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF"><span class="toc-text">4.3.1. 结构化错误信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-2-%E6%98%BE%E5%BC%8F%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">4.3.2. 显式类型注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-3-%E8%87%AA%E6%88%91%E6%BC%94%E8%BF%9B%E7%9A%84%E5%A4%8D%E5%90%88%E6%93%8D%E4%BD%9C"><span class="toc-text">4.3.3. 自我演进的复合操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E4%BB%A3%E7%A0%81%E6%A1%86%E6%9E%B6%E7%9F%A5%E8%AF%86%E5%BA%93"><span class="toc-text">4.4.代码框架知识库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-l-%E7%94%A8%E4%BA%8E%E6%A3%80%E7%B4%A2%E7%9A%84%E7%BB%93%E6%9E%84%E5%8C%96%E8%A1%A8%E7%A4%BA"><span class="toc-text">4.4.l. 用于检索的结构化表示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-2-%E8%AF%AD%E4%B9%89%E5%8F%8B%E5%A5%BD%E5%88%86%E5%9D%97"><span class="toc-text">4.4.2. 语义友好分块</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E9%AA%8C%E4%B8%8E%E6%AF%94%E8%BE%83"><span class="toc-text">5. 实验与比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%AE%9E%E6%96%BD%E7%BB%86%E8%8A%82"><span class="toc-text">5.1. 实施细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">5.2. 数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="toc-text">5.3.评估指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E7%BB%BC%E5%90%88%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6"><span class="toc-text">5.4. 综合消融研究</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-1-ECIP%E8%AE%BE%E8%AE%A1%E7%BB%84%E4%BB%B6%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">5.4.1. ECIP设计组件的影响</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-2-CAD%E5%B7%A5%E5%85%B7%E4%B8%8E%E8%BE%93%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">5.4.2. CAD工具与输入方式的影响</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-3-LLM%E5%90%8E%E7%AB%AF%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">5.4.3. LLM后端的影响</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-4-%E6%A8%A1%E5%9E%8B%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%AF%B9%E6%8E%A8%E7%90%86%E6%88%90%E6%9C%AC%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">5.4.4 模型复杂度对推理成本的影响</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-%E6%AF%94%E8%BE%83%E6%96%B9%E6%B3%95"><span class="toc-text">5.5.比较方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1-CAD%E8%A1%A8%E7%A4%BA%E8%8C%83%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">5.5.1. CAD表示范式的比较</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-2-%E4%B8%8E%E7%8E%B0%E6%9C%89%E6%96%B9%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">5.5.2. 与现有方法的比较</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-%E8%A7%86%E8%A7%89%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-text">5.6. 视觉结果展示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7-%E9%99%90%E5%88%B6"><span class="toc-text">5.7. 限制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%BB%93%E8%AE%BA%E4%B8%8E%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C"><span class="toc-text">6. 结论与未来工作</span></a></li></ol>
+  </div>
+</section>
+
+  
+
+</div>
+
+  <!-- Custom Files side begin -->
+  
+  <!-- Custom Files side end -->
+</aside>
+
+
+
+        </div>
+        
+  
+  <footer class="footer clearfix"  itemscope itemtype="https://schema.org.cn/WPFooter">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    
+      <meting-js
+        theme='#1BCDFC'
+        autoplay='false'
+        volume='0.7'
+        loop='all'
+        order='list'
+        fixed='false'
+        list-max-height='320px'
+        server='tencent'
+        type='playlist'
+        id='494561791'
+        list-folded='true'>
+      </meting-js>
+    
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper" itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1" target="_blank" class="codename">Volantis</a>
+        作为主题，总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © since 2024 05</a></p>
+
+        </div>
+      
+    
+    <!-- Custom Files footer begin-->
+    
+    <!-- Custom Files footer end-->
+  </footer>
+
+
+        <a id="s-top" class="fa-solid fa-arrow-up fa-fw" title="top"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+  /******************** volantis.dom ********************************/
+  // 页面选择器 将dom对象缓存起来 see: /source/js/app.js etc.
+  volantis.dom.bodyAnchor = volantis.dom.$(document.getElementById("safearea")); // 页面主体
+  volantis.dom.topBtn = volantis.dom.$(document.getElementById('s-top')); // 向上
+  volantis.dom.wrapper = volantis.dom.$(document.getElementById('wrapper')); // 整个导航栏
+  volantis.dom.coverAnchor = volantis.dom.$(document.querySelector('#l_cover .cover-wrapper')); // 1个
+  volantis.dom.switcher = volantis.dom.$(document.querySelector('#l_header .switcher .s-search')); // 搜索按钮   移动端 1个
+  volantis.dom.header = volantis.dom.$(document.getElementById('l_header')); // 移动端导航栏
+  volantis.dom.search = volantis.dom.$(document.querySelector('#l_header .m_search')); // 搜索框 桌面端 移动端 1个
+  volantis.dom.mPhoneList = volantis.dom.$(document.querySelectorAll('#l_header .m-phone .list-v')); //  手机端 子菜单 多个
+</script>
+
+<script>
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css");
+  
+  
+  volantis.css("https://unpkg.com/font-awesome-animation@1.1.1/css/font-awesome-animation.min.css");
+  
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.css");
+  
+</script>
+
+<!-- required -->
+
+
+<!-- internal -->
+
+<script src="/js/app.js"></script>
+
+
+
+
+<!-- rightmenu要在darkmode之前（ToggleButton） darkmode要在comments之前（volantis.dark.push）-->
+
+
+
+<script>
+  function loadIssuesJS() {
+    
+      const sites_api = document.getElementById('sites-api');
+      if (sites_api != undefined && typeof SitesJS === 'undefined') {
+        volantis.js("/js/plugins/tags/sites.js")
+      }
+    
+    
+      const friends_api = document.getElementById('friends-api');
+      if (friends_api != undefined && typeof FriendsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/friends.js")
+      }
+    
+    
+      const contributors_api = document.getElementById('contributors-api');
+      if (contributors_api != undefined && typeof ContributorsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/contributors.js")
+      }
+    
+  };
+  loadIssuesJS()
+</script>
+
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: ["#"],
+	maxRPS: 6,
+	hoverDelay: 0
+  };
+</script>
+<script defer src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/flying-pages/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css");
+
+  
+    (async () => {
+      // APlayer 需要在  MetingJS 之前加载
+      await volantis.js("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js")
+      await volantis.js("https://unpkg.com/meting@2.0.1/dist/Meting.min.js")
+    
+    })();
+
+    function SetAPlayerPlugin(){
+      let Metings = document.querySelectorAll('meting-js');
+      if (Metings.length === 0) {return;};
+      if (Metings[0].aplayer && Metings[0].aplayer.on) {
+        // improve the accessibility https://web.dev/button-name/
+        document.querySelectorAll(".aplayer-icon-menu").forEach(e=>{
+          e.setAttribute("aria-label","Aplayer Menu")
+        })
+        // message see: /layout/_plugins/message/script.ejs
+        
+          try {
+            setTimeout(() => {
+              Metings.forEach((item, index) => {
+                const aplayerItem = item.aplayer; if(!aplayerItem) return;
+                const rightAplayerCheck = 'true' === 'true'
+                  && item.meta.id === '494561791';
+                if(rightAplayerCheck && typeof RightMenuAplayer !="undefined") RightMenuAplayer.checkAPlayer();
+                if(aplayerItem.events.events.play.every(item => {return item.name !== 'messagePlay'})) {
+                  aplayerItem.on('play', function messagePlay() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                        icon: 'fa-solid fa-play',
+                        transitionIn: 'flipInX',
+                        transitionOut: 'flipOutX'
+                      });
+                    }, 100)
+                  });
+                }
+                if(aplayerItem.events.events.pause.every(item => {return item.name !== 'messagePause'})) {
+                  aplayerItem.on('pause', function messagePause() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      // 歌曲播放结束也会触发 pause 事件，为了避免错误提示，等待一会儿
+                      if(aplayerItem.paused) {
+                        VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                          icon: 'fa-solid fa-pause',
+                          transitionIn: 'flipInX',
+                          transitionOut: 'flipOutX'
+                        });
+                      }
+                    }, 100)
+                  });
+                }
+              });
+            }, 500)
+          } catch (error) { console.error(error); }
+        
+      }else{
+        volantis.requestAnimationFrame(SetAPlayerPlugin)
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+      SetAPlayerPlugin();
+    });
+  
+</script>
+
+
+
+
+      <script>
+  volantis.layoutHelper("comments",`<div id="giscus_container"></div>`)
+
+  volantis.giscus = {};
+
+  function check_giscus() {
+    if (volantis.dark.mode === "dark") {
+      volantis.giscus.Theme = 'dark';
+    } else {
+      volantis.giscus.Theme = 'light';
+    }
+
+    return document.getElementById("giscus_container");
+  }
+
+  function p_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+    let cfg = Object.assign({"theme":{"light":"light","dark":"dark"}},pdata.commentConfig)
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://giscus.app/client.js');
+    Object.keys(cfg).forEach(k=>{
+      if (k != "theme") {
+        script.setAttribute('data-'+k, cfg[k]);
+      }
+    })
+    script.setAttribute('data-theme', volantis.giscus.Theme);
+    script.setAttribute('crossorigin', "anonymous");
+    HEAD.appendChild(script);
+  }
+
+  function dark_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+
+    const message = {
+      setConfig: {
+        theme: volantis.giscus.Theme
+      }
+    };
+    const giscusIframe = document.querySelector('iframe.giscus-frame');
+    giscusIframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  p_giscus();
+  volantis.dark.push(dark_giscus);
+</script>
+
+    
+
+
+
+
+  <script defer src="https://npm.elemecdn.com/penndu@1.0.0/bsz.js"></script>
+
+
+<!-- optional -->
+
+  <script>
+  async function loadSearchScript() {
+    
+        
+    
+    return volantis.js("/js/search/hexo.js");
+  }
+
+  function loadSearchService() {
+    loadSearchScript();
+    document.querySelectorAll(".input.u-search-input").forEach((e) => {
+      e.removeEventListener("focus", loadSearchService, false);
+    });
+
+    document.querySelectorAll(".u-search-form").forEach((e) => {
+      e.addEventListener("submit", (event) => {
+        event.preventDefault();
+      }, false);
+    });
+  }
+
+  // 打开并搜索 字符串 s
+  function OpenSearch(s) {
+    if (typeof SearchService === 'undefined')
+      loadSearchScript().then(() => {
+        SearchService.setQueryText(s);
+        SearchService.search();
+      });
+    else {
+      SearchService.setQueryText(s);
+      SearchService.search();
+    }
+  }
+
+  // 访问含有 ?s=xxx  的链接时打开搜索 // 与搜索引擎 structured data 相关: /scripts/helpers/structured-data/lib/config.js
+  if (window.location.search && /^\?s=/g.test(window.location.search)) {
+    let queryText = decodeURI(window.location.search)
+      .replace(/\ /g, "-")
+      .replace(/^\?s=/g, "");
+    OpenSearch(queryText);
+  }
+
+  // 搜索输入框获取焦点时加载搜索
+  document.querySelectorAll(".input.u-search-input").forEach((e) => {
+    e.addEventListener("focus", loadSearchService, false);
+  });
+</script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.js"></script>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+  Waves.attach('.flat-btn', ['waves-button']);
+  Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+  Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+  Waves.attach('.flat-box', ['waves-block']);
+  Waves.attach('.float-box', ['waves-block', 'waves-float']);
+  Waves.attach('.waves-image');
+  Waves.init();
+});
+</script>
+
+
+
+  
+<script src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/comment_typing/comment_typing.js"></script>
+
+
+
+
+  <script>
+
+
+
+  function p_highlightjs_copyCode(){
+    if (!(document.querySelector(".highlight .code pre") ||
+      document.querySelector(".article pre code"))) {
+      return;
+    }
+    VolantisApp.utilCopyCode(".highlight .code pre, .article pre code")
+  }
+  volantis.requestAnimationFrame(p_highlightjs_copyCode)
+
+</script>
+
+
+
+
+
+
+
+
+  <script>
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp"];
+  let index = 0;
+  let IntervalParallax = null;
+
+  function parallax(){
+    let ParallaxWindow = document.querySelector("#parallax-window");
+    
+    Parallax.window = ParallaxWindow;
+    Parallax.options.fade = 1500;
+    Parallax.cache = 1;
+    next_parallax();
+    Parallax.init();
+    if (imgs.length>1) {
+      IntervalParallax = setInterval(function () {
+        next_parallax();
+      }, '10000');
+    }
+  }
+
+  function next_parallax() {
+    if (typeof Parallax == "undefined") {
+      return
+    }
+    
+      if (!document.querySelector("#full")&&!document.querySelector("#half")) {
+        return
+      }
+    
+    if (imgs.length>=1) {
+      Parallax.options.src = imgs[index % imgs.length];
+      Parallax.start();
+      index++;
+      if (Parallax.cache) {
+        fetch(imgs[index % imgs.length] +"?t=" + new Date().getTime());
+        if (index == imgs.length) {
+          Parallax.cache = 0;
+        }
+      }
+    }
+  }
+  var runningOnBrowser = typeof window !== "undefined";
+  var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+  if (!isBot) {
+    volantis.js('/js/plugins/parallax.js').then(()=>{
+      parallax()
+    })
+  }
+</script>
+
+
+
+
+  <script>
+  function load_swiper() {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    volantis.css("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.css");
+    volantis.js("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.js").then(() => {
+      p_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function p_swiper() {
+    volantis.swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+</script>
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.min.css");
+  volantis.js("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js").then(() => {
+    Pace.options.restartOnPushState = false;
+    // 阅读进度
+    volantis.scroll.push(() => {
+      Pace.stop();
+      Pace.trigger('start');
+      Pace.bar.update(volantis.scroll.progress() * 100);
+      document.body.className = document.body.className.replaceAll("pace-running ","");
+    },"阅读进度")
+    // todo：配置项开关, 哪些页面添加阅读进度
+  })
+</script>
+
+
+
+
+<script>
+  function listenSidebarTOC() {
+    const navItems = document.querySelectorAll(".toc li");
+    if (!navItems.length) return;
+    const targets = []
+    const sections = Array.from(navItems).forEach((element) => {
+      const link = element.querySelector(".toc-link");
+      const target = document.getElementById(
+        link.getAttribute("href") ? decodeURI(link.getAttribute("href")).replace("#", "") : link.getAttribute("toc-action").split("toc-")[1] // 兼容 hexo-blog-encrypt
+      );
+      targets.push(target)
+      // 解除 a 标签 href 的 锚点定位, a 标签 href 的 锚点定位 会随机启用?? 产生错位???
+      if (link.getAttribute("href")) {
+        link.setAttribute("toc-action", "toc-" + decodeURI(link.getAttribute("href")).replace("#", ""))
+        link.removeAttribute("href")
+      }
+      // 配置 点击 触发新的锚点定位
+      if (target && target.id) {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          // 这里的 addTop 是通过错位使得 toc 自动展开.
+          volantis.scroll.to(target, { addTop: 5, observer: true })
+          // Anchor id
+          history.pushState(null, document.title, "#" + target.id);
+        });
+      }
+      return target;
+    });
+
+    function activateNavByIndex(target) {
+      if (target.classList.contains("active-current")) return;
+
+      document.querySelectorAll(".toc .active").forEach((element) => {
+        element.classList.remove("active", "active-current");
+      });
+      target.classList.add("active", "active-current");
+      let parent = target.parentNode;
+      while (!parent.matches(".toc")) {
+        if (parent.matches("li")) parent.classList.add("active");
+        parent = parent.parentNode;
+      }
+    }
+
+    // 方案一：
+    volantis.activateNavIndex = 0
+    activateNavByIndex(navItems[volantis.activateNavIndex])
+    if (targets[0]) {
+      volantis.scroll.push(() => {
+        if (targets[0].getBoundingClientRect().top >= 0) {
+          volantis.activateNavIndex = 0
+        } else if (targets[targets.length - 1].getBoundingClientRect().top < 0) {
+          volantis.activateNavIndex = targets.length - 1
+        } else {
+          for (let index = 0; index < targets.length; index++) {
+            const target0 = targets[index];
+            const target1 = targets[(index + 1) % targets.length];
+            if (target0.getBoundingClientRect().top < 0 && target1.getBoundingClientRect().top >= 0) {
+              volantis.activateNavIndex = index
+              break;
+            }
+          }
+        }
+        activateNavByIndex(navItems[volantis.activateNavIndex])
+      })
+    }
+
+    // 方案二：
+    // IntersectionObserver 不是完美精确到像素级别 也不是低延时性的
+    // function findIndex(entries) {
+    //   let index = 0;
+    //   let entry = entries[index];
+    //   if (entry.boundingClientRect.top > 0) {
+    //     index = sections.indexOf(entry.target);
+    //     return index === 0 ? 0 : index - 1;
+    //   }
+    //   for (; index < entries.length; index++) {
+    //     if (entries[index].boundingClientRect.top <= 0) {
+    //       entry = entries[index];
+    //     } else {
+    //       return sections.indexOf(entry.target);
+    //     }
+    //   }
+    //   return sections.indexOf(entry.target);
+    // }
+    // function createIntersectionObserver(marginTop) {
+    //   marginTop = Math.floor(marginTop + 10000);
+    //   let intersectionObserver = new IntersectionObserver(
+    //     (entries, observe) => {
+    //       let scrollHeight = document.documentElement.scrollHeight;
+    //       if (scrollHeight > marginTop) {
+    //         observe.disconnect();
+    //         createIntersectionObserver(scrollHeight);
+    //         return;
+    //       }
+    //       let index = findIndex(entries);
+    //       activateNavByIndex(navItems[index]);
+    //     }, {
+    //       rootMargin: marginTop + "px 0px -100% 0px",
+    //       threshold: 0,
+    //     }
+    //   );
+    //   sections.forEach((element) => {
+    //     element && intersectionObserver.observe(element);
+    //   });
+    // }
+    // createIntersectionObserver(document.documentElement.scrollHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    volantis.requestAnimationFrame(listenSidebarTOC)
+  });
+</script>
+
+
+
+
+
+<script>
+  document.onreadystatechange = function () {
+    if (document.readyState == 'complete') {
+      // 页面加载完毕 样式加载失败，或是当前网速慢，或是开启了省流模式
+      const { saveData, effectiveType } = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {}
+      if (getComputedStyle(document.querySelector("#safearea"), null)["display"] == "none" || saveData || /2g/.test(effectiveType)) {
+        document.querySelectorAll(".reveal").forEach(function (e) {
+          e.style["opacity"] = "1";
+        });
+        document.querySelector("#safearea").style["display"] = "block";
+      }
+    }
+  }
+</script>
+
+
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/Agent/","name":"Agent"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/09/06/CADDesigner/","name":"CAD设计师：基于通用智能体的概念性CAD模型生成"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"CAD设计师：基于通用智能体的概念性CAD模型生成","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/09/06/CADDesigner/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/09/06/CADDesigner/","wordCount":0,"datePublished":"2026-09-06T16:00:00.000Z","dateModified":"2026-09-07T06:36:16.419Z","articleSection":"Agent","keywords":"CAD","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+
+
+
+
+    </div>
+    <!-- import body_end begin-->
+    <!-- import body_end end-->
+    <!-- Custom Files bodyEnd begin-->
+    
+    <!-- Custom Files bodyEnd end-->
+  </body>
+</html>
