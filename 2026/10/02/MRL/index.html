@@ -1,0 +1,3382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1'>
+  <meta name="generator" content="Hexo 7.2.0">
+  <meta name="Volantis" content="6.0.0-alpha.1">
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+  <link rel="canonical" href="https://nicemxm.github.io/2026/10/02/mrl/"/>
+  <!-- 渲染优化 -->
+    <meta http-equiv='x-dns-prefetch-control' content='on' />
+      <link rel='dns-prefetch' href='https://unpkg.com'>
+      <link rel="preconnect" href="https://unpkg.com" crossorigin>
+      <link rel='dns-prefetch' href='https://cdn.bootcdn.net'>
+      <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content=" default-src 'self' https:; block-all-mixed-content; base-uri 'self' https:; form-action 'self' https:; worker-src 'self' https:; connect-src 'self' https: *; img-src 'self' data: https: *; media-src 'self' https: *; font-src 'self' data: https: *; frame-src 'self' https: *; manifest-src 'self' https: *; child-src https:; script-src 'self' https: 'unsafe-inline' *; style-src 'self' https: 'unsafe-inline' *; ">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <!-- import head_begin begin -->
+  <!-- import head_begin end -->
+  <!-- Custom Files headBegin begin-->
+  
+  <!-- Custom Files headBegin end-->
+    <link rel="shortcut icon" type='image/x-icon' href="https://gcore.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  <link rel="preload" href="/css/style.css" as="style">
+  <link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- feed -->
+      <link rel="alternate" href="/atom.xml" title="hello deeplearning" type="application/atom+xml">
+  <!-- 页面元数据 -->
+  <title>embedding模型中MRL（Matryoshka表示学习）是什么 - hello deeplearning</title>
+  <meta name="keywords" content="表示学习,null">
+  <meta desc name="description" content="hello deeplearning - mxm - hello deeplearning">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="embedding模型中MRL（Matryoshka表示学习）是什么">
+<meta property="og:url" content="https://nicemxm.github.io/2026/10/02/MRL/index.html">
+<meta property="og:site_name" content="hello deeplearning">
+<meta property="og:description" content="摘要学习得到的表示是现代机器学习系统的核心组成部分，可服务于众多下游任务。在训练这些表示时，往往难以预先获知各个下游任务的计算与统计约束。在此背景下，固定容量的刚性表示要么过于冗余，要么能力不足，难以适应具体任务需求。这促使我们思考：能否设计一种灵活的表示，使其能够根据下游任务的计算资源差异进行自适应？  我们的主要贡献是提出“套娃表示学习”（Matryoshka Representation L">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2026-10-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-08T09:31:00.033Z">
+<meta property="article:author" content="mxm">
+<meta property="article:tag" content="表示学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+  <style>
+    /* 首屏样式 */
+    #safearea {
+  display: none;
+}
+:root {
+  --color-site-body: #f4f4f4;
+  --color-site-bg: #f4f4f4;
+  --color-site-inner: #fff;
+  --color-site-footer: #666;
+  --color-card: #fff;
+  --color-text: #444;
+  --color-block: #f6f6f6;
+  --color-inlinecode: #c74f00;
+  --color-codeblock: #fff7ea;
+  --color-h1: #3a3a3a;
+  --color-h2: #3a3a3a;
+  --color-h3: #333;
+  --color-h4: #444;
+  --color-h5: #555;
+  --color-h6: #666;
+  --color-p: #444;
+  --color-list: #666;
+  --color-list-hl: #30ad91;
+  --color-meta: #888;
+  --color-read-bkg: #e0d8c8;
+  --color-read-post: #f8f1e2;
+  --color-copyright-bkg: #f5f5f5;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+html {
+  color: var(--color-text);
+  width: 100%;
+  height: 100%;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  font-size: 16px;
+}
+html >::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+html >::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+html >::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+html >::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+body {
+  background-color: var(--color-site-body);
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body.modal-active {
+  overflow: hidden;
+}
+@media screen and (max-width: 680px) {
+  body.modal-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+a {
+  color: #2092ec;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+a:hover {
+  color: #ff5722;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ul,
+ol {
+  padding-left: 0;
+}
+ul li,
+ol li {
+  list-style: none;
+}
+header {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+img {
+  border: 0;
+  background: none;
+  max-width: 100%;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height: 0;
+  border: 0;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-bottom: 1px solid rgba(68,68,68,0.1);
+}
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+@supports (backdrop-filter: blur(20px)) {
+  .blur {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+.shadow {
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.shadow.floatable {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.shadow.floatable:hover {
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+}
+#l_cover {
+  min-height: 64px;
+}
+.cover-wrapper {
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: 100vh;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  color: var(--color-site-inner);
+  padding: 0 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -100px;
+}
+.cover-wrapper .cover-body {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cover-wrapper#full {
+  height: calc(100vh + 100px);
+  padding-bottom: 100px;
+}
+.cover-wrapper#half {
+  max-height: 640px;
+  min-height: 400px;
+  height: calc(36vh - 64px + 200px);
+}
+.cover-wrapper #scroll-down {
+  width: 100%;
+  height: 64px;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+.cover-wrapper #scroll-down .scroll-down-effects {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  position: absolute;
+  width: 24px;
+  left: calc(50% - 12px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: scroll-down-effect 1.5s infinite;
+  -webkit-animation: scroll-down-effect 1.5s infinite;
+  -khtml-animation: scroll-down-effect 1.5s infinite;
+  -moz-animation: scroll-down-effect 1.5s infinite;
+  -o-animation: scroll-down-effect 1.5s infinite;
+  -ms-animation: scroll-down-effect 1.5s infinite;
+}
+@-moz-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  margin-top: 64px;
+  margin-bottom: 100px;
+}
+.cover-wrapper .cover-body,
+.cover-wrapper .cover-body .top,
+.cover-wrapper .cover-body .bottom {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  max-width: 100%;
+}
+.cover-wrapper .cover-body .bottom {
+  margin-top: 32px;
+}
+.cover-wrapper .cover-body .title {
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-size: 3.125rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.cover-wrapper .cover-body .subtitle {
+  font-size: 20px;
+}
+.cover-wrapper .cover-body .logo {
+  max-height: 120px;
+  max-width: calc(100% - 4 * 16px);
+}
+@media screen and (min-height: 1024px) {
+  .cover-wrapper .cover-body .title {
+    font-size: 3rem;
+  }
+  .cover-wrapper .cover-body .subtitle {
+    font-size: 1.05rem;
+  }
+  .cover-wrapper .cover-body .logo {
+    max-height: 150px;
+  }
+}
+.cover-wrapper .cover-body .m_search {
+  position: relative;
+  max-width: calc(100% - 16px);
+  width: 320px;
+  vertical-align: middle;
+}
+.cover-wrapper .cover-body .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  width: 100%;
+}
+.cover-wrapper .cover-body .m_search .icon,
+.cover-wrapper .cover-body .m_search .input {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.cover-wrapper .cover-body .m_search .icon {
+  position: absolute;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  line-height: 2.5rem;
+  width: 32px;
+  top: 0;
+  left: 5px;
+  color: rgba(68,68,68,0.75);
+}
+.cover-wrapper .cover-body .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  padding-left: 36px;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: var(--color-text);
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .cover-body .m_search .input {
+    padding-left: 36px;
+  }
+}
+.cover-wrapper .cover-body .m_search .input:hover {
+  background: rgba(255,255,255,0.8);
+}
+.cover-wrapper .cover-body .m_search .input:focus {
+  background: #fff;
+}
+.cover-wrapper .list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -khtml-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  align-items: stretch;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.cover-wrapper .list-h a {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  font-weight: 600;
+}
+.cover-wrapper .list-h a img {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  margin: 4px;
+  min-width: 40px;
+  max-width: 44px;
+}
+@media screen and (max-width: 768px) {
+  .cover-wrapper .list-h a img {
+    min-width: 36px;
+    max-width: 40px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .list-h a img {
+    margin: 2px 4px;
+    min-width: 32px;
+    max-width: 36px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .cover-wrapper .list-h a img {
+    min-width: 28px;
+    max-width: 32px;
+  }
+}
+.cover-wrapper {
+  max-width: 100%;
+}
+.cover-wrapper.search .bottom .menu {
+  margin-top: 16px;
+}
+.cover-wrapper.search .bottom .menu .list-h a {
+  white-space: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 2px;
+  margin: 4px;
+  color: var(--color-site-inner);
+  opacity: 0.75;
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom: 2px solid transparent;
+}
+.cover-wrapper.search .bottom .menu .list-h a i {
+  margin-right: 4px;
+}
+.cover-wrapper.search .bottom .menu .list-h a p {
+  font-size: 0.9375rem;
+}
+.cover-wrapper.search .bottom .menu .list-h a:hover,
+.cover-wrapper.search .bottom .menu .list-h a.active,
+.cover-wrapper.search .bottom .menu .list-h a:active {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  border-bottom: 2px solid var(--color-site-inner);
+}
+.cover-wrapper #parallax-window {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.parallax-mirror {
+  animation-delay: 0s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@font-face {
+  font-family: 'UbuntuMono';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Varela Round';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+.l_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.l_header.auto {
+  transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  -khtml-transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -ms-transition: opacity 0.4s ease;
+  visibility: hidden;
+}
+.l_header.auto.show {
+  opacity: 1 !important;
+  -webkit-opacity: 1 !important;
+  -moz-opacity: 1 !important;
+  visibility: visible;
+}
+.l_header .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.l_header #wrapper {
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.l_header #wrapper .nav-main,
+.l_header #wrapper .nav-sub {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -khtml-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+}
+.l_header #wrapper .nav-main {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.l_header #wrapper.sub .nav-main {
+  transform: translateY(-64px);
+  -webkit-transform: translateY(-64px);
+  -khtml-transform: translateY(-64px);
+  -moz-transform: translateY(-64px);
+  -o-transform: translateY(-64px);
+  -ms-transform: translateY(-64px);
+}
+.l_header #wrapper .nav-sub {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  height: 64px;
+  width: calc(100% - 2 * 16px);
+  position: absolute;
+}
+.l_header #wrapper .nav-sub ::-webkit-scrollbar {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (min-width: 2048px) {
+  .l_header #wrapper .nav-sub {
+    max-width: 55vw;
+    margin: auto;
+  }
+}
+.l_header #wrapper.sub .nav-sub {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+}
+.l_header #wrapper .title {
+  position: relative;
+  color: var(--color-text);
+  padding-left: 24px;
+  max-height: 64px;
+}
+.l_header #wrapper .nav-main .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+}
+.l_header #wrapper .nav-main .title img {
+  height: 64px;
+}
+.l_header .nav-sub {
+  max-width: 1080px;
+  margin: auto;
+}
+.l_header .nav-sub .title {
+  font-weight: bold;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  line-height: 1.2;
+  max-height: 64px;
+  white-space: normal;
+  flex-shrink: 1;
+}
+.l_header .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  line-height: 64px;
+  align-items: center;
+}
+.l_header .switcher .s-toc {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .l_header .switcher .s-toc {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+  }
+}
+.l_header .switcher >li {
+  height: 48px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  margin: 2px;
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li {
+    margin: 0 1px;
+    height: 48px;
+  }
+}
+.l_header .switcher >li >a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0.85em 1.1em;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  color: #3dd9b6;
+}
+.l_header .switcher >li >a:hover {
+  border: none;
+}
+.l_header .switcher >li >a.active,
+.l_header .switcher >li >a:active {
+  border: none;
+  background: var(--color-site-bg);
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li >a {
+    width: 36px;
+    height: 48px;
+  }
+}
+.l_header .nav-sub .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+}
+.l_header .m_search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  height: 64px;
+  width: 240px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (max-width: 1024px) {
+  .l_header .m_search {
+    width: 44px;
+    min-width: 44px;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+  }
+  .l_header .m_search:hover {
+    width: 240px;
+  }
+  .l_header .m_search:hover input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search:hover .input {
+    width: 100%;
+  }
+  .l_header .m_search:hover .input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search {
+    min-width: 0;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.l_header .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.l_header .m_search .icon {
+  position: absolute;
+  width: 36px;
+  left: 5px;
+  color: var(--color-meta);
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .icon {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+.l_header .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+  width: 100%;
+  color: var(--color-text);
+  background: #fafafa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 40px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search .input:focus {
+    box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .input {
+    background: var(--color-block);
+    padding-left: 8px;
+    border: none;
+  }
+  .l_header .m_search .input:hover,
+  .l_header .m_search .input:focus {
+    border: none;
+  }
+}
+@media (max-width: 500px) {
+  .l_header .m_search {
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    transition: all 0.28s ease;
+    -webkit-transition: all 0.28s ease;
+    -khtml-transition: all 0.28s ease;
+    -moz-transition: all 0.28s ease;
+    -o-transition: all 0.28s ease;
+    -ms-transition: all 0.28s ease;
+  }
+  .l_header .m_search .input {
+    border-radius: 32px;
+    -webkit-border-radius: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+  }
+  .l_header.z_search-open .m_search {
+    width: 100%;
+  }
+  .l_header.z_search-open .m_search .input {
+    width: calc(100% - 120px);
+  }
+}
+ul.m-pc >li>a {
+  color: inherit;
+  border-bottom: 2px solid transparent;
+}
+ul.m-pc >li>a:active,
+ul.m-pc >li>a.active {
+  border-bottom: 2px solid #3dd9b6;
+}
+ul.m-pc li:hover >ul.list-v,
+ul.list-v li:hover >ul.list-v {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.nav-list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  align-items: stretch;
+}
+ul.nav-list-h>li {
+  position: relative;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  height: 100%;
+  line-height: 2.4;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+ul.nav-list-h>li >a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+}
+ul.list-v {
+  z-index: 1;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: absolute;
+  background: var(--color-card);
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  margin-top: -6px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 8px 0;
+}
+ul.list-v.show {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.list-v hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+ul.list-v >li {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+ul.list-v >li.header {
+  font-size: 0.78125rem;
+  font-weight: bold;
+  line-height: 2em;
+  color: var(--color-meta);
+  margin: 8px 16px 4px;
+}
+ul.list-v >li.header i {
+  margin-right: 8px;
+}
+ul.list-v >li ul {
+  margin-left: 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: -40px;
+}
+ul.list-v .aplayer-container {
+  min-height: 64px;
+  padding: 6px 16px;
+}
+ul.list-v >li>a {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  color: var(--color-list);
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px 0 16px;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+@media screen and (max-width: 1024px) {
+  ul.list-v >li>a {
+    line-height: 40px;
+  }
+}
+ul.list-v >li>a >i {
+  margin-right: 8px;
+}
+ul.list-v >li>a:active,
+ul.list-v >li>a.active {
+  color: var(--color-list-hl);
+}
+ul.list-v >li>a:hover {
+  color: var(--color-list-hl);
+  background: var(--color-site-bg);
+}
+.l_header .menu >ul>li>a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding: 0 8px;
+}
+.l_header .menu >ul>li>a >i {
+  margin-right: 4px;
+}
+.l_header ul.nav-list-h>li {
+  color: var(--color-list);
+  line-height: 64px;
+}
+.l_header ul.nav-list-h>li >a {
+  max-height: 64px;
+  overflow: hidden;
+  color: inherit;
+}
+.l_header ul.nav-list-h>li >a:active,
+.l_header ul.nav-list-h>li >a.active {
+  color: #3dd9b6;
+}
+.l_header ul.nav-list-h>li:hover>a {
+  color: var(--color-list-hl);
+}
+.l_header ul.nav-list-h>li i.music {
+  animation: rotate-effect 1.5s linear infinite;
+  -webkit-animation: rotate-effect 1.5s linear infinite;
+  -khtml-animation: rotate-effect 1.5s linear infinite;
+  -moz-animation: rotate-effect 1.5s linear infinite;
+  -o-animation: rotate-effect 1.5s linear infinite;
+  -ms-animation: rotate-effect 1.5s linear infinite;
+}
+@-moz-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+.menu-phone li ul.list-v {
+  right: calc(100% - 0.5 * 16px);
+}
+.menu-phone li ul.list-v ul {
+  right: calc(100% - 0.5 * 16px);
+}
+#wrapper {
+  max-width: 1080px;
+  margin: auto;
+}
+@media screen and (min-width: 2048px) {
+  #wrapper {
+    max-width: 55vw;
+  }
+}
+#wrapper .menu {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  margin: 0 16px 0 0;
+}
+#wrapper .menu .list-v ul {
+  left: calc(100% - 0.5 * 16px);
+}
+.menu-phone {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: 16px;
+  right: 8px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.menu-phone ul {
+  right: calc(100% - 0.5 * 16px);
+}
+@media screen and (max-width: 500px) {
+  .menu-phone {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: block;
+  }
+}
+.l_header {
+  max-width: 65vw;
+  left: calc((100% - 65vw) * 0.5);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 2048px) {
+  .l_header {
+    max-width: 1112px;
+    left: calc((100% - 1112px) * 0.5);
+  }
+}
+@media screen and (max-width: 1112px) {
+  .l_header {
+    left: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .l_header #wrapper .nav-main .title {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .l_header #wrapper .nav-sub {
+    width: 100%;
+  }
+  .l_header #wrapper .nav-sub .title {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding: 8px 16px;
+  }
+  .l_header #wrapper .switcher {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+    margin-right: 8px;
+  }
+  .l_header .menu {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .list-v li {
+    max-width: 270px;
+  }
+}
+#u-search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px;
+  z-index: 1001;
+}
+@media screen and (max-width: 680px) {
+  #u-search {
+    padding: 0px;
+  }
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+    '.kill-t{'+
+      'font-size: 2rem;'+
+    '}'+
+    '.kill-c{'+
+      'font-size: 1.2rem;'+
+    '}'+
+		'#l_header,#l_body{'+
+			'display: none;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        `<span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>`+
+        `<span class="kill-c">微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</span><br/>`+
+        `<a target="_blank" rel="noopener" href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/"><strong>了解详情 ></strong></a>`+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+    .kill-t{
+      font-size: 2rem;
+    }
+    .kill-c{
+      font-size: 1.2rem;
+    }
+		#l_header,#l_body{
+			display: none;
+		}
+	</style>
+    <div class="kill-noscript">
+        <span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>
+        <span class="kill-c">本页面需要浏览器支持（启用）JavaScript</span><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+
+  <script>
+  /************这个文件存放不需要重载的全局变量和全局函数*********/
+  window.volantis = {}; // volantis 全局变量
+  volantis.debug = "env"; // 调试模式
+  volantis.dom = {}; // 页面Dom see: /source/js/app.js etc.
+  /******************** volantis.dom.$ ********************************/
+  // 注：这里没有选择器，也没有forEach一次只处理一个dom，这里重新封装主题常用的dom方法，返回的是dom对象，对象包含了以下方法，同时保留dom的原生API
+  function volantisDom(ele) {
+    if (!ele) ele = document.createElement("div")
+    this.ele = ele;
+    // ==============================================================
+    this.ele.find = (c) => {
+      let q = this.ele.querySelector(c)
+      if (q)
+        return new volantisDom(q)
+    }
+    // ==============================================================
+    this.ele.hasClass = (c) => {
+      return this.ele.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+    }
+    this.ele.addClass = (c) => {
+      this.ele.classList.add(c);
+      return this.ele
+    }
+    this.ele.removeClass = (c) => {
+      this.ele.classList.remove(c);
+      return this.ele
+    }
+    this.ele.toggleClass = (c) => {
+      if (this.ele.hasClass(c)) {
+        this.ele.removeClass(c)
+      } else {
+        this.ele.addClass(c)
+      }
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.on = (c, f) => {
+      this.ele.addEventListener(c, f, false)
+      return this.ele
+    }
+    this.ele.click = (f, r) => {
+      this.ele.on("click", f, r)
+      return this.ele
+    }
+    this.ele.scroll = (f, r) => {
+      this.ele.on("scroll", f, r)
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.html = (c) => {
+      // if(c=== undefined){
+      //   return this.ele.innerHTML
+      // }else{
+      this.ele.innerHTML = c
+      return this.ele
+      // }
+    }
+    // ==============================================================
+    this.ele.hide = (c) => {
+      this.ele.style.display = "none"
+      return this.ele
+    }
+    this.ele.show = (c) => {
+      this.ele.style.display = "block"
+      return this.ele
+    }
+    // ==============================================================
+    return this.ele
+  }
+  volantis.dom.$ = (ele) => {
+    return !!ele ? new volantisDom(ele) : null;
+  }
+  /******************** RunItem ********************************/
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          volantis.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+  /******************** RightMenu ********************************/
+  // volantis.rightmenu.handle(callBack[,"callBackName"]) 外部菜单项控制
+  // 可在 volantis.mouseEvent 处获取右键事件
+  volantis.rightmenu = {};
+  volantis.rightmenu.method = {
+    handle: new RunItem(),
+  }
+  volantis.rightmenu = Object.assign(volantis.rightmenu, {
+    handle: volantis.rightmenu.method.handle.push,
+  });
+  /********************  Dark Mode  ********************************/
+  // /layout/_partial/scripts/darkmode.ejs
+  // volantis.dark.mode 当前模式 dark or light
+  // volantis.dark.toggle() 暗黑模式触发器
+  // volantis.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  volantis.dark = {};
+  volantis.dark.method = {
+    toggle: new RunItem(),
+  };
+  volantis.dark = Object.assign(volantis.dark, {
+    push: volantis.dark.method.toggle.push,
+  });
+  /********************  Message  ********************************/
+  // VolantisApp.message
+  /********************  isMobile  ********************************/
+  // /source/js/app.js
+  // volantis.isMobile
+  // volantis.isMobileOld
+  /********************脚本动态加载函数********************************/
+  // volantis.js(src, cb)  cb 可以传入onload回调函数 或者 JSON对象 例如: volantis.js("src", ()=>{}) 或 volantis.js("src", {defer:true,onload:()=>{}})
+  // volantis.css(src)
+
+  // 返回Promise对象，如下方法同步加载资源，这利于处理文件资源之间的依赖关系，例如：APlayer 需要在 MetingJS 之前加载
+  // (async () => {
+  //     await volantis.js("...theme.plugins.aplayer.js.aplayer...")
+  //     await volantis.js("...theme.plugins.aplayer.js.meting...")
+  // })();
+
+  // 已经加入了setTimeout
+  volantis.js = (src, cb) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+  volantis.css = (src) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  }
+  /********************按需加载的插件********************************/
+  // volantis.import.jQuery().then(()=>{})
+  volantis.import = {
+    jQuery: () => {
+      if (typeof jQuery == "undefined") {
+        return volantis.js("https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js")
+      } else {
+        return new Promise(resolve => {
+          resolve()
+        });
+      }
+    }
+  }
+  /********************** requestAnimationFrame ********************************/
+  // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+  // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+  volantis.requestAnimationFrame = (fn) => {
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+    }
+    window.requestAnimationFrame(fn)
+  }
+  /************************ layoutHelper *****************************************/
+  volantis.layoutHelper = (helper, html, opt) => {
+    opt = Object.assign({ clean: false}, opt)
+    function myhelper(helper, html, clean) {
+      volantis.tempDiv = document.createElement("div");
+      volantis.tempDiv.innerHTML = html;
+      let layoutHelper = document.querySelector("#layoutHelper-" + helper)
+      if (layoutHelper) {
+        if (clean) {
+          layoutHelper.innerHTML = ""
+        }
+        layoutHelper.append(volantis.tempDiv);
+      }
+    }
+    myhelper(helper, html, opt.clean)
+  }
+  /****************************** 滚动事件处理 ****************************************/
+  volantis.scroll = {
+    engine: new RunItem(),
+    unengine: new RunItem(),
+  };
+  volantis.scroll = Object.assign(volantis.scroll, {
+    push: volantis.scroll.engine.push,
+  });
+  // 滚动条距离顶部的距离
+  volantis.scroll.getScrollTop = () => {
+    let scrollPos;
+    if (window.pageYOffset) {
+      scrollPos = window.pageYOffset;
+    } else if (document.compatMode && document.compatMode != 'BackCompat') {
+      scrollPos = document.documentElement.scrollTop;
+    } else if (document.body) {
+      scrollPos = document.body.scrollTop;
+    }
+    return scrollPos;
+  }
+  volantis.scroll.scrollHeight = function () {
+    return Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+    )
+  }
+  volantis.scroll.offsetHeight = function () {
+    return Math.max(
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    )
+  }
+  volantis.scroll.progress = function () {
+    return volantis.scroll.getScrollTop() / (volantis.scroll.scrollHeight() - volantis.scroll.offsetHeight())
+  }
+  // 使用 requestAnimationFrame 处理滚动事件
+  // `volantis.scroll.del` 中存储了一个数值, 该数值检测一定时间间隔内滚动条滚动的位移, 数值的检测频率是浏览器的刷新频率. 数值为正数时, 表示向下滚动. 数值为负数时, 表示向上滚动.
+  volantis.scroll.handleScrollEvents = () => {
+    volantis.scroll.lastScrollTop = volantis.scroll.getScrollTop()
+    function loop() {
+      const scrollTop = volantis.scroll.getScrollTop();
+      if (volantis.scroll.lastScrollTop !== scrollTop) {
+        volantis.scroll.del = scrollTop - volantis.scroll.lastScrollTop;
+        volantis.scroll.lastScrollTop = scrollTop;
+        // if (volantis.scroll.del > 0) {
+        //   console.log("向下滚动");
+        // } else {
+        //   console.log("向上滚动");
+        // }
+        // 注销过期的unengine未滚动事件
+        volantis.scroll.unengine.list = []
+        volantis.scroll.engine.start();
+      } else {
+        volantis.scroll.unengine.start();
+      }
+      volantis.requestAnimationFrame(loop)
+    }
+    volantis.requestAnimationFrame(loop)
+  }
+  volantis.scroll.handleScrollEvents()
+  volantis.scroll.ele = null;
+  // 触发页面滚动至目标元素位置
+  volantis.scroll.to = (ele, option = {}) => {
+    if (!ele) return;
+    volantis.scroll.ele = ele;
+    // 默认配置
+    opt = {
+      top: ele.getBoundingClientRect().top + document.documentElement.scrollTop,
+      behavior: "smooth"
+    }
+    // 定义配置
+    if ("top" in option) {
+      opt.top = option.top
+    }
+    if ("behavior" in option) {
+      opt.behavior = option.behavior
+    }
+    if ("addTop" in option) {
+      opt.top += option.addTop
+    }
+    if (!("observerDic" in option)) {
+      option.observerDic = 100
+    }
+    // 滚动
+    window.scrollTo(opt);
+    // 监视器
+    // 监视并矫正元素滚动到指定位置
+    // 用于处理 lazyload 引起的 cls 导致的定位失败问题
+    // option.observer = false
+    if (option.observer) {
+      setTimeout(() => {
+        if (volantis.scroll.ele != ele) {
+          return
+        }
+        volantis.scroll.unengine.push(() => {
+          let me = ele.getBoundingClientRect().top
+          if (!(me >= -option.observerDic && me <= option.observerDic)) {
+            volantis.scroll.to(ele, option)
+          }
+          volantis.scroll.unengine.remove("unengineObserver")
+        }, "unengineObserver")
+      }, 1000)
+    }
+  }
+  /********************** Content Visibility ********************************/
+  // 见 source/css/first.styl 如果遇到任何问题 删除 .post-story 即可
+  // 一个元素被声明 content-visibility 属性后 如果元素不在 viewport 中 浏览器不会计算其后代元素样式和属性 从而节省 Style & Layout 耗时
+  // content-visibility 的副作用: 锚点失效 等等(实验初期 暂不明确), 使用此方法清除样式
+  volantis.cleanContentVisibility = () => {
+    if (document.querySelector(".post-story")) {
+      console.log("cleanContentVisibility");
+      document.querySelectorAll(".post-story").forEach(e => {
+        e.classList.remove("post-story")
+      })
+    }
+  }
+  /******************************************************************************/
+  /******************************************************************************/
+  /******************************************************************************/
+  //图像加载出错时的处理
+  function errorImgAvatar(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg";
+    img.onerror = null;
+  }
+  function errorImgCover(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg";
+    img.onerror = null;
+  }
+  /******************************************************************************/
+</script>
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  pdata.commentConfig={};
+  volantis.GLOBAL_CONFIG ={
+    root: '/',
+    debug: "env",
+    default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
+    lastupdate: new Date(1791451873076),
+    cdn: {
+      izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
+      izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
+      fancybox_css: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css',
+      fancybox_js: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js'
+    },
+    sidebar: {
+      for_page: ["blogger","category","tagcloud","donate"],
+      for_post: ["toc"],
+      webinfo: {
+        lastupd: {
+          enable: true,
+          friendlyShow: true
+        },
+        runtime: {
+          data: "2024/05/14",
+          unit: "天"
+        }
+      }
+    },
+    plugins: {
+      message: {"enable":true,"icon":{"default":"fa-solid fa-info-circle light-blue","quection":"fa-solid fa-question-circle light-blue"},"time":{"default":5000,"quection":20000},"position":"topRight","transitionIn":"bounceInLeft","transitionOut":"fadeOutRight","titleColor":"var(--color-text)","messageColor":"var(--color-text)","backgroundColor":"var(--color-card)","zindex":2147483647,"copyright":{"enable":true,"title":"知识共享许可协议","message":"请遵守 CC BY-NC-SA 4.0 协议。","icon":"far fa-copyright light-blue"},"aplayer":{"enable":true,"play":"fa-solid fa-play","pause":"fa-solid fa-pause"},"rightmenu":{"enable":true,"notice":true}},
+      
+      aplayer: {
+        id: 494561791,
+        enable:true
+      },
+      
+      
+    },
+    search: {
+      
+
+      
+        dataPath: (("/" || "/").endsWith("/") ? "/" || "/" : "//" || "/") + "content.json",
+      
+
+      
+    },
+    languages: {
+      
+        search: {
+          hits_empty: "找不到您查询的内容：${query}",
+          hits_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒",
+        }
+      
+    }
+  }
+</script>
+  <!-- import head_end begin -->
+  <!-- import head_end end -->
+  <!-- Custom Files headEnd begin-->
+  
+  <!-- Custom Files headEnd end-->
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://unpkg.com/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://unpkg.com/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  <body itemscope itemtype="https://schema.org.cn/WebPage">
+    <!-- import body_begin begin-->
+    <!-- import body_begin end-->
+    <!-- Custom Files bodyBegin begin-->
+    
+    <!-- Custom Files bodyBegin end-->
+    <header itemscope itemtype="https://schema.org.cn/WPHeader" id="l_header" class="l_header auto shadow floatable blur " style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone'>
+        <li><a id="s-comment" class="fa-solid fa-comments fa-fw" target="_self" title="comment"></a></li>
+        
+          <li><a id="s-toc" class="s-toc fa-solid fa-list fa-fw" target="_self" title="toc"></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+      
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fa-solid fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+      
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fa-solid fa-search fa-fw" target="_self" title="search"></a></li>
+				
+				<li>
+          <a class="s-menu fa-solid fa-bars fa-fw" target="_self" title="menu"></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+
+      <!-- Custom Files header begin -->
+      
+      <!-- Custom Files header end -->
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+      <div class="cover-wrapper post search" id='half'>
+        
+  <div id="parallax-window"></div>
+
+<div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">OpenHarness</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="A Wonderful journey" />
+          <i class="icon fa-solid fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              active-action="action-home">
+              <p>文档</p>
+            </a>
+          
+            <a href="/faqs/"
+              
+              
+              active-action="action-faqs">
+              <p>帮助</p>
+            </a>
+          
+            <a href="/examples/"
+              
+              
+              active-action="action-examples">
+              <p>示例</p>
+            </a>
+          
+            <a href="/contributors/"
+              
+              
+              active-action="action-contributors">
+              <p>社区</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              active-action="action-archives">
+              <p>博客</p>
+            </a>
+          
+            <a target="_blank" rel="noopener" href="https://github.com/"
+              
+              
+              active-action="action-https:githubcom">
+              <p>源码</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    
+  
+</div>
+
+      <div id="safearea">
+        <div class="body-wrapper">
+          
+<div id="l_main" class=''>
+  <article itemscope itemtype="https://schema.org.cn/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2026/10/02/MRL/">
+  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
+    <meta itemprop="name" content="hello deeplearning">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
+    <meta itemprop="name" content="hello deeplearning">
+    <meta itemprop="description" content="">
+  </span>
+  
+
+
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title" itemprop="name headline">
+        embedding模型中MRL（Matryoshka表示学习）是什么
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="https://schema.org.cn/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/apple-touch-icon.png">
+    <p itemprop="name">mxm</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  
+  
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/embedding%E6%A8%A1%E5%9E%8B/">embedding模型</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+        <a href="/categories/embedding%E6%A8%A1%E5%9E%8B/" itemprop="url"><span itemprop="name">embedding模型</span></a>
+      </span>
+    
+  </div>
+  
+
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2026-10-02T16:00:00+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2026年10月3日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+<div class="new-meta-item browse">
+  <a class='notlink'>
+    <p>
+      <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="busuanzi_value_page_pv">
+        <i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i>
+      </span>
+        
+      <span>次浏览</span>
+    </p>
+  </a>
+</div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fa-solid fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：10k 字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fa-solid fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：35 分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>学习得到的表示是现代机器学习系统的核心组成部分，可服务于众多下游任务。在训练这些表示时，往往难以预先获知各个下游任务的计算与统计约束。在此背景下，固定容量的刚性表示要么过于冗余，要么能力不足，难以适应具体任务需求。这促使我们思考：能否设计一种灵活的表示，使其能够根据下游任务的计算资源差异进行自适应？  我们的主要贡献是提出“套娃表示学习”（Matryoshka Representation Learning, MRL），该方法以不同粒度编码信息，使单个嵌入能够动态适配下游任务的计算约束。MRL对现有表示学习流程的改动极小，在推理与部署阶段亦不引入额外开销。MRL学习得到的由粗到细的表示，其精度与表达能力至少与独立训练的低维表示相当。此外，所学套娃表示的灵活性还带来了以下优势：(a) 在保持相同精度的前提下，用于ImageNet-1K分类时，嵌入规模可缩小多达14倍；(b) 在ImageNet-1K和ImageNet-4K上的大规模检索任务中，实际运行速度最高可提升14倍；(c) 在长尾少样本分类任务上，准确率最高可提升2%，同时其鲁棒性与原始表示相当。  最后，我们证明MRL能够无缝扩展至面向Web规模的数据集（如ImageNet、JFT），并覆盖多种模态——视觉（ViT、ResNet）、视觉+语言（ALIGN）以及语言（BERT）。MRL的代码与预训练模型已在<a target="_blank" rel="noopener" href="https://github.com/RAIVNLab/MRL%E5%BC%80%E6%BA%90%E5%8F%91%E5%B8%83%E3%80%82">https://github.com/RAIVNLab/MRL开源发布。</a> </p>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>学习得到的表示[57]是现实世界机器学习系统[66, 91]的基本构建模块。这些表示经过一次训练后被冻结，以d维形式编码了丰富的信息，并可用于执行多项下游任务[4]。深度表示的部署通常分为两个步骤：(1) 进行一次代价高昂但开销恒定的前向传播以计算表示[29]；以及 (2) 将该表示用于下游应用[50, 89]。在流水线的后半部分，计算开销会随着嵌入维度、数据规模(N)以及标签空间(L)的增大而增长。在互联网规模的场景下[15, 85]，这一利用阶段的开销甚至超过了特征计算阶段的开销。此外，这些表示的刚性使得即便在资源与精度约束各异、亟需灵活性的情况下，仍不得不跨多个任务采用高维嵌入向量。<br>人类对自然世界的感知具有天然的由粗到细的粒度[28, 32]。然而，或许由于基于梯度的训练所固有的归纳偏差[84]，深度学习模型往往倾向于将“信息”在整个表示向量中均匀扩散。在现有的扁平化且固定的表示形式中，通常需要通过训练多个低维模型[29]、联合优化不同容量的子网络[9, 100]或事后压缩[38, 60]等方式来实现期望的弹性。然而，这些方法无一能够很好地满足自适应大规模部署的需求，要么……<br>由于训练与维护开销、对全部数据进行多次昂贵的前向传播、为多份编码数据副本付出存储与内存成本，以及代价高昂的在线特征选择或精度显著下降等问题，我们通过编码从粗到细的表示——其精度与独立训练的对应模型相当——以极小的额外开销学习到一种可在推理阶段无需额外成本即可自适应部署的表示。<br>我们提出了一种名为“套娃表示学习”（Matryoshka Representation Learning, MRL）的方法，以在学习到的表示中引入灵活性。MRL通过以嵌套方式显式优化O(log(d))个低维向量，在同一个高维空间中学习不同容量的表示，因此得名“套娃”。MRL能够适配任何现有的表示学习流程，并且易于扩展至计算机视觉与自然语言处理领域的诸多标准任务。图1展示了套娃表示学习（MRL）的核心思想，以及所学套娃表示的自适应部署策略。<br>嵌套式表示的前m个维度，其中m∈[d]，是一个信息丰富的低维向量，在无需额外训练成本的情况下，其精度与独立训练得到的m维表示相当。随着维度的增加，嵌套式表示所蕴含的信息量也随之提升，从而形成一种由粗到细的层次化表示，且在整个过程中几乎不增加显著的训练开销或部署负担。MRL为该表示向量赋予了所需的灵活性与多保真度，能够在精度与计算开销之间实现近似最优的权衡。凭借这些优势，MRL支持基于精度与计算约束的自适应部署策略。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1236624309882908672/1236624309882908672_cut_Figure_1.png" alt="image"></p>
+<p>Matryoshka表示法在不显著降低准确率的前提下，能够有效提升大规模分类与检索的效率。尽管粗—细层次的套娃表示法具有多种潜在应用，本文重点探讨其在现实世界机器学习系统中的两大核心模块：大规模分类与检索。在分类任务中，我们采用自适应级联机制，结合经MRL训练得到的可变尺寸表示，大幅缩减了达到特定准确率所需的嵌入维度。例如，在ImageNet-1K数据集上，MRL配合自适应分类方案可在与基线相当的准确率下，将表示规模缩小多达14倍（参见第4.2.1节）。同样地，我们在自适应检索系统中也引入了MRL。对于给定的查询，我们首先利用查询嵌入的前几维进行候选检索的初步筛选，随后逐步增加维度对检索结果进行重排序。这一方法的简单实现相较于使用标准嵌入向量的单次检索系统，理论上可带来128倍的浮点运算量加速、实际运行时间缩短14倍；值得注意的是，MRL的检索准确率与单次检索相当（参见第4.3.1节）。最后，由于MRL显式学习了由粗到细的表示向量，直观上其各维度之间应共享更多语义信息（图5），这在长尾持续学习场景中体现为最高可达2%的准确率提升，同时保持与原始嵌入相当的鲁棒性。此外，凭借其粗—细粒度的特性，MRL还可用于分析样本间的分类难度以及信息瓶颈问题。 </p>
+<h2 id="我们作出了以下主要贡献："><a href="#我们作出了以下主要贡献：" class="headerlink" title="我们作出了以下主要贡献："></a>我们作出了以下主要贡献：</h2><ol>
+<li>我们提出马特罗什卡表示学习（MRL），以获得灵活的表示（马特罗什卡表示），用于自适应部署（第3节）。</li>
+<li>利用MRL实现大规模分类与检索，速度最高可提升14倍且保持高精度（第4节）。 </li>
+<li>在多种模态间实现MRL的无缝适配（视觉—ResNet与ViT、视觉+语言—ALIGN、语言—BERT），并支持Web规模的数据集（ImageNet-1K&#x2F;4K、JFT-300M以及ALIGN数据集）。 </li>
+<li>在其他下游任务的背景下对MRL表示的进一步分析（第5节）。</li>
+</ol>
+<h2 id="2-相关工作"><a href="#2-相关工作" class="headerlink" title="2. 相关工作"></a>2. 相关工作</h2><p>表示学习。像ImageNet[16, 76]和JFT[85]这样的大规模数据集，推动了计算机视觉领域通用表示的学习[4, 98]。这些表示通常通过监督学习以及自监督或无监督学习范式进行训练。监督预训练[29, 51, 82]将表示学习视为一个多类&#x2F;多标签分类问题，而自监督或无监督学习则通过诸如实例分类[97]和重建[31, 63]等代理任务来学习表示。近期在对比学习[27]方面的进展[12, 30]，使得从网络规模的数据中进行学习成为可能[21]，并为大容量跨模态模型提供了强大支撑[18, 46, 71, 101]。同样地，自然语言处理应用也建立在大型语言模型之上[40]，这些模型通过自监督或无监督的方式进行预训练[68, 75]，采用掩码语言建模[19]或自回归训练[70]。<br>马特罗什卡表示学习（MRL）与上述所有方案互为补充，并且只需付出极小的额外开销即可加以适配（第3节）。MRL无需额外成本即可为表示赋予多精度特性，从而支持基于数据与任务的自适应部署（第4节）。<br>高效分类与检索。在推理阶段，分类与检索的效率既可从高昂但恒定的深度特征提取开销的角度来考察，也可从与标签空间规模及数据量呈正比的搜索开销角度加以分析。高效的神经网络通过多种算法[25, 54]以及设计上的权衡[39, 53, 87]来应对前者。然而，当采用强大的特征提取器时，与规模相关的主要问题往往源于其对标签数量（L）、数据规模（N）以及表示维度（d）的线性依赖，从而同时给内存、磁盘和处理器带来巨大压力。<br>在计算[3, 43, 69]和内存[20]方面，基于近似最近邻搜索（ANNS）[62]或利用底层层次结构[17, 55]的方法，标签数量的次线性复杂度依赖关系已得到充分研究。就表示规模而言，降维[77, 88]、哈希技术[14, 52, 78]以及特征选择[64]往往能在一定程度上缓解O(d)尺度下的计算开销，但代价是精度会显著下降。最后，大多数现实世界的检索系统[11, 15]通常由大规模嵌入式检索[10, 66]驱动，而其成本随着不断增长的网络数据量呈指数级上升。尽管分类[89, 99]能够将相似内容归为一类，但配备能够检索出所有相关实例的能力同样至关重要[7]。近似最近邻搜索（ANNS）[42]通过高效的索引构建[14]与遍历策略[5, 6]，使用户能够针对特定查询从数据库中快速获取最相似的文档或图像。广泛使用的HNSW算法[62]（时间复杂度为O(d log(N)））在精度上可与精确检索（O(dN)）相媲美，但为此需要付出以图结构为基础的索引在内存与磁盘上的额外开销[44]。<br>MRL通过学习多精度的套娃表示，有效缓解了对嵌入维度d的线性依赖。低维套娃表示在无需进行多次昂贵的前向传播的情况下，其精度与独立训练的对应模型相当。套娃表示在高维向量与其高效的近似最近邻搜索（ANNS）索引之间提供了一种中间抽象，其核心是嵌套于原始表示向量之中的自适应嵌入（第4节）。此外，前述的各项效率优化技术均具有互补性，可直接应用于由MRL学习得到的套娃表示。<br>在高效神经网络的相关研究中[9, 93, 100]，有若干工作致力于将不同容量的子网络嵌入到同一个更大的网络之中。然而，每个逐步缩小的子网络都可能拥有不同的权重，并且通常需要单独执行前向传播以提取最终的特征表示。这种做法不利于自适应推理，因为每次都需要对整个检索数据库重新编码，而这一过程往往伴随着代价高昂、且针对不同容量的子网络分别进行的前向计算。此外，一些研究[23, 26, 65, 59]探讨了表征与目标空间的内在维度与冗余性，并提出了基于最小描述长度的原则[74]。最后，Rippel 等人提出的有序表征方法[73]在自编码器框架下采用嵌套式丢弃策略，以学习层次化的表征结构。MRL 在其形式化设计上独具特色：它仅针对 O(log(d)) 层次的嵌套维度进行优化，而非 O(d)。尽管如此，MRL 仍能通过在各优化后的套娃式表征尺寸之间进行插值，将信息有效扩散至中间维度（如图5所示），从而使得大规模部署成为可能。 </p>
+<h2 id="3-Matryoshka表示学习"><a href="#3-Matryoshka表示学习" class="headerlink" title="3. Matryoshka表示学习"></a>3. Matryoshka表示学习</h2><p>对于任意自然数 d，考虑一个由表示大小构成的集合 M ⊂ [d]。对于输入域 X 中的一个数据点 x，我们的目标是学习一个 d 维的表示向量 z ∈ R^d。对于 M 中的每一个 m，<br>马特罗什卡表示学习（MRL）使得嵌入向量 z1:m ∈ Rm 的前 m 个维度中的每一个，都能够独立地成为数据点 x 的可迁移且通用的表示。我们通过一个由可学习参数 θF 参数化的深度神经网络 F(·; θF): X → Rd 来获得 z，即 z :&#x3D; F(x; θF)。多粒度特性则通过所选取的维度集合 M 来捕获，该集合的元素个数小于 log(d)，即 |M| ≤ ⌊log(d)⌋。通常，集合 M 采用逐次对半划分的方式，直至表示的维度规模达到信息瓶颈的低值。我们在第4节中针对每种表示学习场景讨论了相应的设计选择。<br>为便于阐述，我们首先给出基于多分类的全监督表示学习的公式。嵌套式表示学习将这一典型设置扩展为同一任务上的多尺度表示学习问题。例如，我们在ImageNet-1K数据集上训练ResNet50[29]，该模型将一张224×224像素的图像映射为一个维度为d&#x3D;2048的表示向量，随后通过一个线性分类器在L&#x3D;1000个类别中作出预测yˆ。对于嵌套式表示学习，我们选取M&#x3D;{8, 16, …, 1024, 2048}作为嵌套的尺度集合。<br>假设我们给定一个带标签的数据集 D&#x3D;{(x1, y1),…,(xN, yN)}，其中 xi ∈ X 是输入点，yi ∈[L] 是 xi 的标签，对所有 i ∈[N] 成立。MRL 通过标准的经验风险最小化方法，为每个嵌套维度 m ∈ M 分别优化多分类损失，并使用一个由参数 W(m) ∈ RL×m 表示的独立线性分类器。所有损失在分别按其相对重要性（cm ≥ 0，m∈M）进行缩放后予以聚合。也就是说，我们求解<br>其中，L: RL ×[L]→ R+ 是多分类 softmax 交叉熵损失函数。这是一个标准的优化问题，可采用次梯度下降法求解。我们为所有 m ∈ M 设定了统一的重要性尺度 cm&#x3D; 1；有关消融实验请参见第5节。最后，尽管仅针对 O(log(d)) 个嵌套维度进行优化，MRL 仍能生成精确的表示，并且在介于所选表示粒度之间的维度上具有插值特性（见第4.2节）。<br>我们称这种形式化为套娃表示学习（Matryoshka Representation Learning, MRL）。一种自然的高效实现方式是在所有线性分类器之间进行权重共享，即定义一组公共权重 W ∈ ℝ^{L×d}，令 W(m) &#x3D; W_{1:m}。这将使由线性分类器带来的内存开销几乎降低一半，在输出空间极其庞大的情形下尤为重要[89, 99]。这一变体被称为高效套娃表示学习（MRL–E）。有关套娃表示学习（MRL）的基本构建模块，请参见附录A中的算法1和算法2。<br>对学习框架的适配性。MRL能够在大规模网络环境下，以极小的改动无缝适配大多数表示学习框架（第4.1节）。例如，MRL在掩码语言建模任务中的适配可简化为MRL–E，这是由于输入嵌入矩阵与线性分类器之间存在权重共享。对于对比学习，无论是在视觉任务中还是在视觉与语言联合任务中，MRL均作用于彼此进行对比的嵌入表示。此外，为获得最佳效果，需针对每个嵌套维度分别处理表示的归一化问题（更多细节请参见附录C）。 </p>
+<h2 id="4-应用"><a href="#4-应用" class="headerlink" title="4. 应用"></a>4. 应用</h2><p>在本节中，我们针对一系列多样化的应用场景，探讨了Matryoshka表示学习（MRL）方法，并对其所学的多保真度表示进行了全面评估。此外，我们还展示了所学套娃表示在下游任务中的应用，以支持灵活的大规模部署，具体包括：(a) 自适应分类（AC）和 (b) 自适应检索（AR）。 </p>
+<h3 id="4-1-表示学习"><a href="#4-1-表示学习" class="headerlink" title="4.1 表示学习"></a>4.1 表示学习</h3><p>我们针对多种表示学习场景对套娃表示学习（MRL）进行了适配：(a) 视觉领域的监督学习——在ImageNet-1K数据集上使用ResNet50[29]，在JFT-300M数据集上使用ViT-B&#x2F;16[22]；(b) 视觉与语言的对比学习——基于ALIGN模型，采用ViT-B&#x2F;16作为视觉编码器、BERT作为语言编码器，并在ALIGN数据集[46]上进行训练；(c) 隐蔽语言建模——在英文维基百科和BooksCorpus[102]上使用BERT[19]。有关模型架构、数据集及训练细节，请参阅附录B和附录C。<br>图2：ResNet50模型在ImageNet-1K上的线性分类准确率。对于每种表示维度，MRL的准确率均与独立训练的全连接网络相当。<br>图3：ResNet50模型在ImageNet-1K数据集上的1-NN准确率，用于衡量其对下游任务的表征质量。在所有表征维度下，MRL均优于所有基线方法。<br>我们并未为所有MRL实验逐一搜索最优超参数，而是沿用与独立训练的基线模型相同的超参数。ResNet50输出2048维的表示，而ViT-B&#x2F;16和BERT-Base则为每个数据点分别输出768维的嵌入。我们分别将M&#x3D;{8, 16, 32, 64, 128, 256, 512, 1024, 2048}和M&#x3D;{12, 24, 48, 96, 192, 384, 768}作为显式优化的嵌套维度。最后，我们将MRL和MRL–E模型与独立训练的低维（固定特征）表示（FF）、降维方法（SVD）、子网络方法（可瘦身网络[100]）以及最高容量FF模型中随机选取的特征进行了全面比较。<br>在第4.2节中，我们通过线性分类&#x2F;探测（LP）以及1-最近邻（1-NN）分类的准确率来评估所学表示的质量与表达能力。实验表明，MRL模型能够在保持同等精度的同时，摆脱对资源密集型、独立训练的粗粒度到细粒度表示模型的依赖。最后，我们还证明，尽管MRL模型仅针对|M|维进行优化，却能以插值的方式将信息在所有d维之间进行扩散，从而为自适应部署提供所需的最细粒度表示。 </p>
+<h3 id="4-2-分类"><a href="#4-2-分类" class="headerlink" title="4.2 分类"></a>4.2 分类</h3><p>图2比较了在ImageNet-1K数据集上训练并评估的ResNet50模型的线性分类准确率。在所有维度大小下，ResNet50–MRL模型的准确率至少与各全连接（FF）模型相当；而MRL–E模型从16维开始，其准确率也始终不超过1%的差距。同样地，图3展示了通过1-NN分类准确率对学习到的表示质量的比较——其中以包含130万样本的训练集作为数据库，以5万样本的验证集作为查询集。对于低维情况，套娃表示的准确率比固定特征表示高出最多2%，而在其他维度上则保持相当的水平。1-NN准确率作为一种无需额外训练成本的优秀代理指标，能够有效衡量学习到的表示在下游任务中的实用性。<br>我们还评估了在 JFT-300M 数据集上训练的 ViT‑B&#x2F;16 模型所生成的表征质量，并将其与 ALIGN 模型中的 ViT‑B&#x2F;16 视觉编码器进行对比——这两种方法均采用面向大规模网络的实验设置。由于这些实验成本较高，我们仅训练容量最高的固定特征模型，并在低维空间中选取随机特征用于评估。鉴于其相对低廉的训练开销，同时能够为下游任务提供多粒度的表征，面向大规模网络的设置对于 MRL 来说极具吸引力。图 4 在 ImageNet‑1K 上以 1‑NN 进行评估的结果表明，针对 JFT 和 ALIGN 的所有 MRL 模型均具有很高的精度，并且在低维空间中实现了优异的代价—精度权衡。这些实验表明，MRL 能够无缝扩展至大规模模型和面向大规模网络的数据集，同时在这一过程中提供了原本难以承受的多粒度表征。我们在 BERT 的预训练阶段也得到了类似的观察结果，更多细节请参见附录 D.2。此外，我们的实验还显示，随着表征维度的降低，事后压缩（SVD）、基于随机特征的线性探测以及子网络式的可伸缩网络等方法相较于 MRL 的精度会显著下降。最后，图 5 表明，尽管 MRL 显式地优化了 O(log(d)) 层级嵌套的表征结构——从而消除了对 O(d) 的依赖[73]——但粗粒度到细粒度的信息仍会在所有 d 个维度上进行插值，从而为自适应部署提供了最大的灵活性。<br>图4：在JFT-300M数据集上训练的ViT-B&#x2F;16模型在ImageNet-1K上的1-NN分类准确率，作为ALIGN方法的一部分。MRL能够以极低的训练开销无缝扩展至Web规模。 </p>
+<h3 id="4-2-1-自适应分类"><a href="#4-2-1-自适应分类" class="headerlink" title="4.2.1 自适应分类"></a>4.2.1 自适应分类</h3><p>Matryoshka 表示中的灵活性以及从粗粒度到细粒度的多级表示结构，使得能够实现用于自适应分类（AC）[28]的模型级联[90]。与标准的模型级联[95]不同，MRL 无需进行多次代价高昂的神经网络前向传播。为了利用经过训练的 MRL 模型执行自适应分类，我们在一个保留的验证集上为每个嵌套分类器学习其最大 softmax 概率[33]的阈值。随后，我们依据这些阈值决定何时切换到 MRL 模型中更高维度的表示（例如 8→16→32）。附录 D.1 详细讨论了用于自适应分类的级联机制中阈值的实现与学习方法。<br>图6展示了在ImageNet-1K数据集上，基于ResNet50的级联MRL表示（MRL–AC）与独立训练的固定特征（FF）模型之间的对比。我们根据级联中使用的最终维度，计算了MRL–AC的期望表示大小。结果表明，MRL–AC的准确率与512维的FF模型相当，均为76.30%，但其期望维度仅约为37；同时，其性能仅比2048维的FF基线低0.8%。值得注意的是，在相近的表示规模下，所有MRL–AC模型的准确率均显著高于相应的FF基线。MRL–AC在达到相同准确率时，所需表示规模最多可缩小约14倍，这在标签空间不断扩大的情况下能够有效提升计算效率[89]。最后，我们的实验结果还表明，样本与类别在难度上存在差异，这一问题将在第5节及附录J中予以分析。 </p>
+<h3 id="4-3-检索"><a href="#4-3-检索" class="headerlink" title="4.3 检索"></a>4.3 检索</h3><p>基于学习得到的表示的最近邻搜索为众多检索与搜索应用提供了强大支持[15, 91, 11, 66]。在本节中，我们探讨了预训练的ResNet50模型在两个大规模数据集——ImageNet-1K[76]和ImageNet-4K——上的图像检索性能。其中，ImageNet-1K的数据库规模约为130万张图像，查询集包含5万张样本，均匀覆盖1000个类别；我们还介绍了ImageNet-4K，其数据库规模约为420万张图像，查询集约20万张样本，均匀覆盖4202个类别（详细信息见附录B）。对ResNet50进行一次前向传播需消耗4 GFLOPs，而在ImageNet-1K上执行精确检索时，每条查询的计算开销约为2.6 GFLOPs。尽管检索开销仅占总成本的40%，但随着数据库规模的扩大，检索成本仍呈线性增长。对于ImageNet-4K而言，精确搜索的计算开销已成为性能瓶颈（每条查询需8.6 GFLOPs）。在这两种场景下，由于数据库规模庞大，内存与磁盘使用也常常成为制约因素。然而，在大多数实际应用中，精确搜索的复杂度为O(dN)，通常会被近似最近邻搜索（ANNS）方法所取代，例如HNSW[62]，其时间复杂度为O(d log(N))，在精度损失极小的情况下，以额外的内存开销为代价实现了更高的效率。<br>图像检索的目标是利用预训练模型获得的特征表示，找出与查询图像属于同一类别的图像。在本节中，我们采用平均精度@10（mAP@10）来比较检索性能，该指标能够全面反映大规模相关图像检索场景下的表现。我们以MFLOPs为单位，通过精确搜索计算每次查询的计算开销。所有嵌入向量均进行单位化处理，并基于L2距离度量进行检索。最后，我们报告…… </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1236624309882908672/1236624309882908672_cut_Figure_6.png" alt="image"></p>
+<p>一套涵盖 mAP@k 和 P@k（k&#x3D;{10, 25, 50, 100}）的全面指标，以及精确搜索和 HNSW 的实际运行时长。更多细节请参见附录 E 和附录 F。<br>图7比较了在ImageNet-1K数据集上，ResNet50特征表示在不同维度下的mAP@10性能，涵盖MRL、MRL–E、全连接网络（FF）、可剪枝网络，以及基于SVD和随机特征选择的后处理向量压缩方法。其中，套娃表示通常具有最高的准确率，且相比全连接网络基线最高可提升3%。与分类任务类似，在检索任务中，后处理压缩和可剪枝网络基线在维度降至256维以下时，mAP@10会出现显著下降。附录E进一步讨论了相同模型在ImageNet-4K数据集上的mAP@10指标。<br>MRL 模型能够在多种粒度下实现精准检索，而无需为面向大规模的数据库额外进行多次模型前向传播。相比之下，FF 模型会生成独立的索引库，其存储与切换成本往往高得难以承受。嵌套式表示（Matryoshka Representations）支持自适应检索（AR），从而避免在所有数据及下游任务中都使用全容量表示（d&#x3D;2048）。此外，作为 ANNS 流水线组成部分的各类向量压缩技术[60, 45]均与嵌套式表示相辅相成，能够进一步优化效率与精度之间的权衡。 </p>
+<h4 id="4-3-1-自适应检索"><a href="#4-3-1-自适应检索" class="headerlink" title="4.3.1 自适应检索"></a>4.3.1 自适应检索</h4><p>我们在自适应检索（AR）场景下对MRL进行了基准测试[50]。对于给定的查询图像，我们首先利用低维表示（例如Ds&#x3D;16）从数据库中获取一个包含K&#x3D;200张图像的候选列表，随后再基于高容量表示（例如Dr&#x3D;2048）进行重排序。在以top‑rank性能为核心目标的实际应用场景中，采用mAP@k指标衡量时，与使用固定维度表示的单次检索相比，AR能够在计算和内存开销方面带来显著优势。最后，与任何检索流程一样，AR中最耗时的环节是用于候选筛选的最近邻搜索。例如，即使仅对200个2048维的候选图像进行朴素的重排序，其计算量也仅为40万FLOPs。尽管我们在所有AR实验中均报告了每条查询的精确搜索开销，但该流程中的候选筛选阶段仍可通过ANNS（HNSW）加以加速。附录I详细讨论了精确搜索的计算成本、HNSW索引的内存开销以及两种实现方案的实测耗时。我们注意到，在候选筛选阶段使用具有32个邻居的HNSW并不会降低检索精度。<br>图8展示了在ImageNet-1K数据集上，采用Matryoshka表示的自适应检索与使用ResNet50固定特征的单次检索之间的计算量—精度权衡。我们观察到，所有AR设置均位于不同表示维度下单次检索的帕累托前沿之上。特别是在ImageNet-1K上，我们证明了当Ds&#x3D;16、Dr&#x3D;2048时，该AR模型的精度与d&#x3D;2048的单次检索相当，而在理论层面效率高出约128倍，实际运行速度则快约14倍（基于同一硬件上采用HNSW算法的对比）。在ImageNet-4K上也呈现出类似的趋势，但鉴于该数据集难度的提升，我们需将Ds设为64，由此分别带来约32倍和6倍的理论与实际加速。最后，尽管K&#x3D;200在我们的自适应检索实验中表现良好，我们在附录K.2中对候选集合大小k进行了消融分析，发现当k超过一定阈值后，精度提升便趋于停滞。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1236624309882908672/1236624309882908672_cut_Figure_8.png" alt="image"></p>
+<p>这一点进一步强化了套娃表示学习与自适应检索的应用场景。<br>即便采用自适应检索，也难以确定Ds与Dr的取值。为在一定程度上缓解这一问题，我们提出了漏斗式检索——一种适用于自适应检索的一致性级联方法。漏斗通过一系列容量逐步增大的表示进行反复重排与筛选，从而不断精简初始候选集。每经过一次重排，候选集规模减半，而表示维度则翻倍。例如，在ImageNet-1K数据集上，一个漏斗的候选集规模按200 → 100 → 50 → 25 → 10递进，同时伴随Matryoshka表示中的表示维度依次为16 → 32 → 64 → 128 → 256 → 2048。这种方案在理论上比单次2048维检索效率高约128倍（更多结果详见附录F）。上述实验结果充分展示了MRL与AR在大规模多阶段搜索系统中的应用潜力[15]。 </p>
+<h2 id="5-进一步分析与消融实验"><a href="#5-进一步分析与消融实验" class="headerlink" title="5. 进一步分析与消融实验"></a>5. 进一步分析与消融实验</h2><p>鲁棒性。我们评估了在 ImageNet-1K 上训练的 MRL 模型在域外数据集——ImageNetV2、ImageNetR、ImageNetA 和 Sketch[72, 34, 35, 94]——上的鲁棒性，并将其与 FF 基线进行对比。附录 H 中的表 17 表明，用于分类的 Matryoshka 表示至少与原始表示同样具有鲁棒性，同时在 ImageNet-A 上将性能提升了 0.6%，相对提升达 20%。此外，我们还以检索任务为背景，将 ImageNetV2 作为查询集，针对 ImageNet-1K 数据库开展鲁棒性分析。附录 E 中的表 9 显示，与 FF 基线相比，MRL 模型在检索任务中的鲁棒性更强，mAP@10 性能最高可高出 3%。这一发现也提示，有必要进一步探究在基于近邻搜索的分类与检索场景下，相较于标准的线性探测设置，模型的鲁棒性表现。此外，我们还发现，ALIGN-MRL 的零样本鲁棒性（见附录 H 表 18）与 Wortsman 等人[96]的观察结果相一致。最后，附录 D.2 中的表 6 进一步表明，MRL 还能扩大正样本与随机图像‑文本对之间的余弦相似度跨度。<br>少样本学习与长尾学习。我们基于最近邻类均值[79]，对MRL模型在少样本学习任务上的表现进行了全面评估。附录G中的表15表明，通过MRL学习得到的表示在不同样本数量和类别数下，其性能与全连接层（FF）表示相当。<br>在FLUID[92]——一种长尾序列学习框架——上进行评估时，嵌套式表征实现了独特的模式。我们观察到，MRL在分布尾部的新类别上可带来高达2%的准确率提升，且并未牺牲其他类别的准确率（参见附录G中的表16）。此外，我们发现，在预训练阶段的各类别中，低维与高维表征之间的准确率差异微乎其微。我们推测，当每类的训练样本数量较少时，需要更高维度的表征来实现类别间的有效区分。这一结果进一步表明，不同任务根据其难度程度，往往需要不同的模型容量。<br>维度间的分歧。在套娃表示中，信息的密集程度往往导致随着模型容量的增大，准确率逐步提升。然而，我们观察到…… </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1236624309882908672/1236624309882908672_cut_Figure_9.png" alt="image"></p>
+<p>图9：MRL模型在8维、16维、32维和2048维空间中预测结果的Grad-CAM[80]演化过程。（a）8维表示由于场景中存在其他相关物体（且视野范围较大）而产生混淆，预测结果为“浴帽”；（b）8维模型在同一“蟒蛇”这一超类内仍出现混淆；（c）8维和16维模型错误地将注意力集中在玩偶的眼睛上（“太阳镜”），而未能聚焦于在更高维度下正确被关注的“运动衫”；在这些情形下，MRL表现出良好的鲁棒性，并展现出跨维度意见分歧的潜在应用场景。<br>这一趋势并非普遍适用，某些实例与类别在低维空间中进行评估时更为准确（参见附录J中的图12）。通过将实例完美地映射到恰当的维度，MRL的分类准确率最高可提升4.6%。与此同时，低维模型的性能往往较低，这要么源于ImageNet层级结构中同一超类内部的混淆[24]，要么源于存在多个感兴趣的目标。图9展示了8维表示下的两个此类示例。这些结果连同附录J，共同表明MRL有望成为一种系统化的框架，用于分析信息瓶颈的效用与效率。<br>超类准确率。随着信息瓶颈的缩小，细粒度类别上的整体准确率迅速下降（图3）。然而，在超类层面进行评估时，这种下降并不那么显著（附录J中的表24）。图10展示了这一现象。<br>图10：在MRL与FF模型中，随着表示规模的变化，31类ImageNet-1K超类分类任务的表现，展示了通过紧密的信息瓶颈对潜在层次结构的捕捉。<br>这一现象在MRL和FF两种模型中均有所体现；其中，MRL在各个维度上都更为准确。这表明，尽管紧致的信息瓶颈在细粒度分类任务中的表现并不十分理想，却能够捕获用于粗粒度分类的必要语义信息，从而为检索与分类的自适应路由提供有效支持。Matryoshka表示的多保真度特性使得单个模型即可自然地刻画类别标签的内在层次结构。最后，图11展示了MRL在各超类上的准确率变化趋势。以“garment”为例，其在区分同一超类内不同类别时，额外维度的引入带来了显著的性能提升，从8维到16维的表征转换使准确率最高提升了11%。此外，我们还观察到，“oscine（鸣禽）”等超类在图像中表现出清晰的前景—背景区分，因此采用8维表征进行预测时，也能够在该超类内部实现良好的类别间可分性。 </p>
+<h3 id="5-1-消融术"><a href="#5-1-消融术" class="headerlink" title="5.1 消融术"></a>5.1 消融术</h3><p>附录K中的表26表明，通过代价低廉的局部微调，即可在现成的预训练模型中启用套娃表示，从而为MRL的普及应用铺平道路。与此同时，附录C中的表27显示，通过对嵌套损失项进行最优加权，我们能够在不降低精度的前提下提升低维表示的分类性能。附录C中的表28和表29分别针对初始粒度与粒度间距的选择进行了消融分析。表28再次印证了设计决策：避免将分类精度较低的极低维度作为MRL的初始粒度；而表29则证实了受各维度上精度趋于饱和现象启发的对数式粒度间距的有效性。最后，附录K.2中的表30和表31表明，检索性能会随着短名单维度与长度的增加而在某一临界点达到饱和，且该饱和点取决于数据集的复杂程度。 </p>
+<h2 id="6-讨论与结论"><a href="#6-讨论与结论" class="headerlink" title="6. 讨论与结论"></a>6. 讨论与结论</h2><p>第5.1节的结果揭示了MRL的一些值得关注的短板，这些短板也为未来的研究指明了合理的方向：  (1) 通过优化嵌套损失的权重，实现精度与效率之间的帕累托最优权衡——一种潜在的解决方案可能源自即时神经网络[41]中的自适应损失平衡机制。  (2) 在不同精度下采用不同的损失函数，以针对性地解决自适应部署中的某一特定问题——例如，在8维空间中追求高召回率，而在2048维空间中注重鲁棒性。  (3) 在套娃表示之上学习一种可微分的k维树等搜索数据结构，从而实现面向数据集与表示的检索。  (4) 最后，将多目标MRL与端到端可学习的搜索数据结构相结合进行联合优化，以在Web规模的搜索应用中实现数据驱动的自适应大规模检索。<br>综上所述，我们提出了嵌套式表示学习（Matryoshka Representation Learning, MRL），这是一种灵活的表示学习方法，能够在单个嵌入向量中以多种粒度编码信息。这使得MRL能够根据下游任务的统计复杂度以及可用的计算资源进行自适应调整。我们证明，MRL既可用于大规模自适应分类，也可用于自适应检索。在标准基准测试上，尽管MRL的平均表示规模仅为固定特征基线的1&#x2F;14，其准确率却与之相当。此外，基于嵌套式表示的自适应精排与重排序系统，在FLOPs消耗降低128倍、实际运行时间缩短14倍的同时，仍能实现与基线相当的mAP@10。最后，针对模型推理与向量搜索的多数高效化技术均与MRL相辅相成，进一步助力其在计算资源极度受限的场景下的部署。 </p>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+      <!-- 打赏组件 -->
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-10-08T09:31:00+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2026年10月8日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>表示学习</p></a></div>
+  <span hidden itemprop="keywords">表示学习</span>
+  
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nicemxm.github.io/2026/10/02/MRL/&title=embedding模型中MRL（Matryoshka表示学习）是什么 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://nicemxm.github.io/2026/10/02/MRL/&title=embedding模型中MRL（Matryoshka表示学习）是什么 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://nicemxm.github.io/2026/10/02/MRL/&title=embedding模型中MRL（Matryoshka表示学习）是什么 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC+klEQVR42u3aQY7bQAwEQP//08k9iKFhkxJMu+a40ErD8qVB8vXH+e95IQADBgwYMGDWwLzC8+//v3vfu+euvv/uucvCuvWAAQMGDBgwYNbBHAegQ5irC58WVgVq1wMGDBgwYMCAWQuTBrpqwJoKfqc/3HE9YMCAAQMGDJifgak2qLrQ6ffAgAEDBgwYMGC6F5kOcOuTLxgwYMCAAQNmDKZ7sbSBVR24VQPo45NIMGDAgAEDBsxjMNUz3Yi6q7FVrgcMGDBgwIABswZm+ty1SPTUAQMGDBgwYMDsgak2hO4qMH3PaWPruNEFBgwYMGDAgFkLky7yVAdpKfTU/coBDwwYMGDAgAGzHub0Q9VB2VTwKwe6qYAHBgwYMGDAgHkcptoQij8YAqaNqdPvXU4iwYABAwYMGDAfC3PaGOouAk3DTb33MvmCAQMGDBgwYNbDpAOw7nNVgO4iExgwYMCAAQNmH0x60bsC3lSjq7xoBAYMGDBgwIBZDzM9iOs2lqYWk+KNKjBgwIABAwbMx8Hc1XhKoarBLH1/eaMKDBgwYMCAAbMOZjpwTZ3pe4ABAwYMGDBg9sJUG1BpQ2gKYrqBBgYMGDBgwIDZB5Mu/qQXmR70Ve9fnkSCAQMGDBgwYD4WJg101WB3OlBLG2RTPwwYMGDAgAEDZg9Md6BWbSyloOngrRwswYABAwYMGDDrYbqFTwW1bsHVgR4YMGDAgAEDZi9MN0jdVVh3QAgGDBgwYMCA+V6YNIhNDc7SUw1wl4BgwIABAwYMmDUwd12s+lx1IHc8QEsHbmDAgAEDBgyYj4d5hSeF6S4Knd7n9L1gwIABAwYMmP0w1UBXDWbdQdn0QBAMGDBgwIAB830waYBKA+D0AlAaOMGAAQMGDBgwvwvzFPTxAlARFAwYMGDAgAHzezDVv3cLnv5BwIABAwYMGDDfA1MduJ3+/RSku/CcNrrAgAEDBgwYMHth0gFWGsTSQVm38EtQMGDAgAEDBswaGAcMGDBgwIABs+z8BYT4azRevjX+AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://nicemxm.github.io/2026/10/02/MRL/&text=embedding模型中MRL（Matryoshka表示学习）是什么 - hello deeplearning"
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2026/10/06/inspatio-world/'>
+          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>INSPATIO-WORLD：一种基于时空自回归建模的实时4D世界模拟器</p>
+          <p class='content'>GitHub
+论文
+
+摘要构建具有空间一致性和实时交互性的世界模型，仍然是计算机视觉领域的一项根本性挑战。当前的视频生成范式往往面临空间持久性不足与视觉真实感欠缺的问题，难以支持流畅无缝的场景导...</p>
+        </a>
+      
+      
+        <a class='next' href='/2026/09/09/llm_data_manage/'>
+          <p class='title'>分层数据管理<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>摘要人工智能的发展可以被视为一种以数据驱动的学习范式的演进，其中数据组织与利用方式的不断迭代持续推动着模型能力的提升。尽管取得了显著进展，当前的大语言模型（LLM）研究仍主要依赖于单向的数据规模...</p>
+        </a>
+      
+    </div>
+  
+  <!-- 文章推荐 -->
+  
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/2026/10/02/MRL/index.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside id='l_side' itemscope itemtype="https://schema.org.cn/WPSideBar">
+  
+
+  
+    
+    
+      
+    
+  
+
+
+<div class="widget-sticky">
+
+  
+  
+
+
+<section class="widget toc-wrapper desktop mobile" id="toc-div" >
+  
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-text">1. 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E4%BD%9C%E5%87%BA%E4%BA%86%E4%BB%A5%E4%B8%8B%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE%EF%BC%9A"><span class="toc-text">我们作出了以下主要贡献：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text">2. 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Matryoshka%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0"><span class="toc-text">3. Matryoshka表示学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%BA%94%E7%94%A8"><span class="toc-text">4. 应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E8%A1%A8%E7%A4%BA%E5%AD%A6%E4%B9%A0"><span class="toc-text">4.1 表示学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%88%86%E7%B1%BB"><span class="toc-text">4.2 分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%87%AA%E9%80%82%E5%BA%94%E5%88%86%E7%B1%BB"><span class="toc-text">4.2.1 自适应分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%A3%80%E7%B4%A2"><span class="toc-text">4.3 检索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-%E8%87%AA%E9%80%82%E5%BA%94%E6%A3%80%E7%B4%A2"><span class="toc-text">4.3.1 自适应检索</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%86%E6%9E%90%E4%B8%8E%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C"><span class="toc-text">5. 进一步分析与消融实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%B6%88%E8%9E%8D%E6%9C%AF"><span class="toc-text">5.1 消融术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%AE%A8%E8%AE%BA%E4%B8%8E%E7%BB%93%E8%AE%BA"><span class="toc-text">6. 讨论与结论</span></a></li></ol>
+  </div>
+</section>
+
+  
+
+</div>
+
+  <!-- Custom Files side begin -->
+  
+  <!-- Custom Files side end -->
+</aside>
+
+
+
+        </div>
+        
+  
+  <footer class="footer clearfix"  itemscope itemtype="https://schema.org.cn/WPFooter">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    
+      <meting-js
+        theme='#1BCDFC'
+        autoplay='false'
+        volume='0.7'
+        loop='all'
+        order='list'
+        fixed='false'
+        list-max-height='320px'
+        server='tencent'
+        type='playlist'
+        id='494561791'
+        list-folded='true'>
+      </meting-js>
+    
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper" itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1" target="_blank" class="codename">Volantis</a>
+        作为主题，总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © since 2024 05</a></p>
+
+        </div>
+      
+    
+    <!-- Custom Files footer begin-->
+    
+    <!-- Custom Files footer end-->
+  </footer>
+
+
+        <a id="s-top" class="fa-solid fa-arrow-up fa-fw" title="top"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+  /******************** volantis.dom ********************************/
+  // 页面选择器 将dom对象缓存起来 see: /source/js/app.js etc.
+  volantis.dom.bodyAnchor = volantis.dom.$(document.getElementById("safearea")); // 页面主体
+  volantis.dom.topBtn = volantis.dom.$(document.getElementById('s-top')); // 向上
+  volantis.dom.wrapper = volantis.dom.$(document.getElementById('wrapper')); // 整个导航栏
+  volantis.dom.coverAnchor = volantis.dom.$(document.querySelector('#l_cover .cover-wrapper')); // 1个
+  volantis.dom.switcher = volantis.dom.$(document.querySelector('#l_header .switcher .s-search')); // 搜索按钮   移动端 1个
+  volantis.dom.header = volantis.dom.$(document.getElementById('l_header')); // 移动端导航栏
+  volantis.dom.search = volantis.dom.$(document.querySelector('#l_header .m_search')); // 搜索框 桌面端 移动端 1个
+  volantis.dom.mPhoneList = volantis.dom.$(document.querySelectorAll('#l_header .m-phone .list-v')); //  手机端 子菜单 多个
+</script>
+
+<script>
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css");
+  
+  
+  volantis.css("https://unpkg.com/font-awesome-animation@1.1.1/css/font-awesome-animation.min.css");
+  
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.css");
+  
+</script>
+
+<!-- required -->
+
+
+<!-- internal -->
+
+<script src="/js/app.js"></script>
+
+
+
+
+<!-- rightmenu要在darkmode之前（ToggleButton） darkmode要在comments之前（volantis.dark.push）-->
+
+
+
+<script>
+  function loadIssuesJS() {
+    
+      const sites_api = document.getElementById('sites-api');
+      if (sites_api != undefined && typeof SitesJS === 'undefined') {
+        volantis.js("/js/plugins/tags/sites.js")
+      }
+    
+    
+      const friends_api = document.getElementById('friends-api');
+      if (friends_api != undefined && typeof FriendsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/friends.js")
+      }
+    
+    
+      const contributors_api = document.getElementById('contributors-api');
+      if (contributors_api != undefined && typeof ContributorsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/contributors.js")
+      }
+    
+  };
+  loadIssuesJS()
+</script>
+
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: ["#"],
+	maxRPS: 6,
+	hoverDelay: 0
+  };
+</script>
+<script defer src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/flying-pages/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css");
+
+  
+    (async () => {
+      // APlayer 需要在  MetingJS 之前加载
+      await volantis.js("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js")
+      await volantis.js("https://unpkg.com/meting@2.0.1/dist/Meting.min.js")
+    
+    })();
+
+    function SetAPlayerPlugin(){
+      let Metings = document.querySelectorAll('meting-js');
+      if (Metings.length === 0) {return;};
+      if (Metings[0].aplayer && Metings[0].aplayer.on) {
+        // improve the accessibility https://web.dev/button-name/
+        document.querySelectorAll(".aplayer-icon-menu").forEach(e=>{
+          e.setAttribute("aria-label","Aplayer Menu")
+        })
+        // message see: /layout/_plugins/message/script.ejs
+        
+          try {
+            setTimeout(() => {
+              Metings.forEach((item, index) => {
+                const aplayerItem = item.aplayer; if(!aplayerItem) return;
+                const rightAplayerCheck = 'true' === 'true'
+                  && item.meta.id === '494561791';
+                if(rightAplayerCheck && typeof RightMenuAplayer !="undefined") RightMenuAplayer.checkAPlayer();
+                if(aplayerItem.events.events.play.every(item => {return item.name !== 'messagePlay'})) {
+                  aplayerItem.on('play', function messagePlay() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                        icon: 'fa-solid fa-play',
+                        transitionIn: 'flipInX',
+                        transitionOut: 'flipOutX'
+                      });
+                    }, 100)
+                  });
+                }
+                if(aplayerItem.events.events.pause.every(item => {return item.name !== 'messagePause'})) {
+                  aplayerItem.on('pause', function messagePause() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      // 歌曲播放结束也会触发 pause 事件，为了避免错误提示，等待一会儿
+                      if(aplayerItem.paused) {
+                        VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                          icon: 'fa-solid fa-pause',
+                          transitionIn: 'flipInX',
+                          transitionOut: 'flipOutX'
+                        });
+                      }
+                    }, 100)
+                  });
+                }
+              });
+            }, 500)
+          } catch (error) { console.error(error); }
+        
+      }else{
+        volantis.requestAnimationFrame(SetAPlayerPlugin)
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+      SetAPlayerPlugin();
+    });
+  
+</script>
+
+
+
+
+      <script>
+  volantis.layoutHelper("comments",`<div id="giscus_container"></div>`)
+
+  volantis.giscus = {};
+
+  function check_giscus() {
+    if (volantis.dark.mode === "dark") {
+      volantis.giscus.Theme = 'dark';
+    } else {
+      volantis.giscus.Theme = 'light';
+    }
+
+    return document.getElementById("giscus_container");
+  }
+
+  function p_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+    let cfg = Object.assign({"theme":{"light":"light","dark":"dark"}},pdata.commentConfig)
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://giscus.app/client.js');
+    Object.keys(cfg).forEach(k=>{
+      if (k != "theme") {
+        script.setAttribute('data-'+k, cfg[k]);
+      }
+    })
+    script.setAttribute('data-theme', volantis.giscus.Theme);
+    script.setAttribute('crossorigin', "anonymous");
+    HEAD.appendChild(script);
+  }
+
+  function dark_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+
+    const message = {
+      setConfig: {
+        theme: volantis.giscus.Theme
+      }
+    };
+    const giscusIframe = document.querySelector('iframe.giscus-frame');
+    giscusIframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  p_giscus();
+  volantis.dark.push(dark_giscus);
+</script>
+
+    
+
+
+
+
+  <script defer src="https://npm.elemecdn.com/penndu@1.0.0/bsz.js"></script>
+
+
+<!-- optional -->
+
+  <script>
+  async function loadSearchScript() {
+    
+        
+    
+    return volantis.js("/js/search/hexo.js");
+  }
+
+  function loadSearchService() {
+    loadSearchScript();
+    document.querySelectorAll(".input.u-search-input").forEach((e) => {
+      e.removeEventListener("focus", loadSearchService, false);
+    });
+
+    document.querySelectorAll(".u-search-form").forEach((e) => {
+      e.addEventListener("submit", (event) => {
+        event.preventDefault();
+      }, false);
+    });
+  }
+
+  // 打开并搜索 字符串 s
+  function OpenSearch(s) {
+    if (typeof SearchService === 'undefined')
+      loadSearchScript().then(() => {
+        SearchService.setQueryText(s);
+        SearchService.search();
+      });
+    else {
+      SearchService.setQueryText(s);
+      SearchService.search();
+    }
+  }
+
+  // 访问含有 ?s=xxx  的链接时打开搜索 // 与搜索引擎 structured data 相关: /scripts/helpers/structured-data/lib/config.js
+  if (window.location.search && /^\?s=/g.test(window.location.search)) {
+    let queryText = decodeURI(window.location.search)
+      .replace(/\ /g, "-")
+      .replace(/^\?s=/g, "");
+    OpenSearch(queryText);
+  }
+
+  // 搜索输入框获取焦点时加载搜索
+  document.querySelectorAll(".input.u-search-input").forEach((e) => {
+    e.addEventListener("focus", loadSearchService, false);
+  });
+</script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.js"></script>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+  Waves.attach('.flat-btn', ['waves-button']);
+  Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+  Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+  Waves.attach('.flat-box', ['waves-block']);
+  Waves.attach('.float-box', ['waves-block', 'waves-float']);
+  Waves.attach('.waves-image');
+  Waves.init();
+});
+</script>
+
+
+
+  
+<script src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/comment_typing/comment_typing.js"></script>
+
+
+
+
+  <script>
+
+
+
+  function p_highlightjs_copyCode(){
+    if (!(document.querySelector(".highlight .code pre") ||
+      document.querySelector(".article pre code"))) {
+      return;
+    }
+    VolantisApp.utilCopyCode(".highlight .code pre, .article pre code")
+  }
+  volantis.requestAnimationFrame(p_highlightjs_copyCode)
+
+</script>
+
+
+
+
+
+
+
+
+  <script>
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp"];
+  let index = 0;
+  let IntervalParallax = null;
+
+  function parallax(){
+    let ParallaxWindow = document.querySelector("#parallax-window");
+    
+    Parallax.window = ParallaxWindow;
+    Parallax.options.fade = 1500;
+    Parallax.cache = 1;
+    next_parallax();
+    Parallax.init();
+    if (imgs.length>1) {
+      IntervalParallax = setInterval(function () {
+        next_parallax();
+      }, '10000');
+    }
+  }
+
+  function next_parallax() {
+    if (typeof Parallax == "undefined") {
+      return
+    }
+    
+      if (!document.querySelector("#full")&&!document.querySelector("#half")) {
+        return
+      }
+    
+    if (imgs.length>=1) {
+      Parallax.options.src = imgs[index % imgs.length];
+      Parallax.start();
+      index++;
+      if (Parallax.cache) {
+        fetch(imgs[index % imgs.length] +"?t=" + new Date().getTime());
+        if (index == imgs.length) {
+          Parallax.cache = 0;
+        }
+      }
+    }
+  }
+  var runningOnBrowser = typeof window !== "undefined";
+  var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+  if (!isBot) {
+    volantis.js('/js/plugins/parallax.js').then(()=>{
+      parallax()
+    })
+  }
+</script>
+
+
+
+
+  <script>
+  function load_swiper() {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    volantis.css("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.css");
+    volantis.js("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.js").then(() => {
+      p_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function p_swiper() {
+    volantis.swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+</script>
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.min.css");
+  volantis.js("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js").then(() => {
+    Pace.options.restartOnPushState = false;
+    // 阅读进度
+    volantis.scroll.push(() => {
+      Pace.stop();
+      Pace.trigger('start');
+      Pace.bar.update(volantis.scroll.progress() * 100);
+      document.body.className = document.body.className.replaceAll("pace-running ","");
+    },"阅读进度")
+    // todo：配置项开关, 哪些页面添加阅读进度
+  })
+</script>
+
+
+
+
+<script>
+  function listenSidebarTOC() {
+    const navItems = document.querySelectorAll(".toc li");
+    if (!navItems.length) return;
+    const targets = []
+    const sections = Array.from(navItems).forEach((element) => {
+      const link = element.querySelector(".toc-link");
+      const target = document.getElementById(
+        link.getAttribute("href") ? decodeURI(link.getAttribute("href")).replace("#", "") : link.getAttribute("toc-action").split("toc-")[1] // 兼容 hexo-blog-encrypt
+      );
+      targets.push(target)
+      // 解除 a 标签 href 的 锚点定位, a 标签 href 的 锚点定位 会随机启用?? 产生错位???
+      if (link.getAttribute("href")) {
+        link.setAttribute("toc-action", "toc-" + decodeURI(link.getAttribute("href")).replace("#", ""))
+        link.removeAttribute("href")
+      }
+      // 配置 点击 触发新的锚点定位
+      if (target && target.id) {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          // 这里的 addTop 是通过错位使得 toc 自动展开.
+          volantis.scroll.to(target, { addTop: 5, observer: true })
+          // Anchor id
+          history.pushState(null, document.title, "#" + target.id);
+        });
+      }
+      return target;
+    });
+
+    function activateNavByIndex(target) {
+      if (target.classList.contains("active-current")) return;
+
+      document.querySelectorAll(".toc .active").forEach((element) => {
+        element.classList.remove("active", "active-current");
+      });
+      target.classList.add("active", "active-current");
+      let parent = target.parentNode;
+      while (!parent.matches(".toc")) {
+        if (parent.matches("li")) parent.classList.add("active");
+        parent = parent.parentNode;
+      }
+    }
+
+    // 方案一：
+    volantis.activateNavIndex = 0
+    activateNavByIndex(navItems[volantis.activateNavIndex])
+    if (targets[0]) {
+      volantis.scroll.push(() => {
+        if (targets[0].getBoundingClientRect().top >= 0) {
+          volantis.activateNavIndex = 0
+        } else if (targets[targets.length - 1].getBoundingClientRect().top < 0) {
+          volantis.activateNavIndex = targets.length - 1
+        } else {
+          for (let index = 0; index < targets.length; index++) {
+            const target0 = targets[index];
+            const target1 = targets[(index + 1) % targets.length];
+            if (target0.getBoundingClientRect().top < 0 && target1.getBoundingClientRect().top >= 0) {
+              volantis.activateNavIndex = index
+              break;
+            }
+          }
+        }
+        activateNavByIndex(navItems[volantis.activateNavIndex])
+      })
+    }
+
+    // 方案二：
+    // IntersectionObserver 不是完美精确到像素级别 也不是低延时性的
+    // function findIndex(entries) {
+    //   let index = 0;
+    //   let entry = entries[index];
+    //   if (entry.boundingClientRect.top > 0) {
+    //     index = sections.indexOf(entry.target);
+    //     return index === 0 ? 0 : index - 1;
+    //   }
+    //   for (; index < entries.length; index++) {
+    //     if (entries[index].boundingClientRect.top <= 0) {
+    //       entry = entries[index];
+    //     } else {
+    //       return sections.indexOf(entry.target);
+    //     }
+    //   }
+    //   return sections.indexOf(entry.target);
+    // }
+    // function createIntersectionObserver(marginTop) {
+    //   marginTop = Math.floor(marginTop + 10000);
+    //   let intersectionObserver = new IntersectionObserver(
+    //     (entries, observe) => {
+    //       let scrollHeight = document.documentElement.scrollHeight;
+    //       if (scrollHeight > marginTop) {
+    //         observe.disconnect();
+    //         createIntersectionObserver(scrollHeight);
+    //         return;
+    //       }
+    //       let index = findIndex(entries);
+    //       activateNavByIndex(navItems[index]);
+    //     }, {
+    //       rootMargin: marginTop + "px 0px -100% 0px",
+    //       threshold: 0,
+    //     }
+    //   );
+    //   sections.forEach((element) => {
+    //     element && intersectionObserver.observe(element);
+    //   });
+    // }
+    // createIntersectionObserver(document.documentElement.scrollHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    volantis.requestAnimationFrame(listenSidebarTOC)
+  });
+</script>
+
+
+
+
+
+<script>
+  document.onreadystatechange = function () {
+    if (document.readyState == 'complete') {
+      // 页面加载完毕 样式加载失败，或是当前网速慢，或是开启了省流模式
+      const { saveData, effectiveType } = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {}
+      if (getComputedStyle(document.querySelector("#safearea"), null)["display"] == "none" || saveData || /2g/.test(effectiveType)) {
+        document.querySelectorAll(".reveal").forEach(function (e) {
+          e.style["opacity"] = "1";
+        });
+        document.querySelector("#safearea").style["display"] = "block";
+      }
+    }
+  }
+</script>
+
+
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/embedding模型/","name":"embedding模型"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/02/MRL/","name":"embedding模型中MRL（Matryoshka表示学习）是什么"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"embedding模型中MRL（Matryoshka表示学习）是什么","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/02/MRL/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/02/MRL/","wordCount":0,"datePublished":"2026-10-02T16:00:00.000Z","dateModified":"2026-10-08T09:31:00.033Z","articleSection":"embedding模型","keywords":"表示学习","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+
+
+
+
+    </div>
+    <!-- import body_end begin-->
+    <!-- import body_end end-->
+    <!-- Custom Files bodyEnd begin-->
+    
+    <!-- Custom Files bodyEnd end-->
+  </body>
+</html>
