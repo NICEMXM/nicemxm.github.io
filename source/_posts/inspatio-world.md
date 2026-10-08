@@ -1,6 +1,6 @@
 ---
 title: INSPATIO-WORLD：一种基于时空自回归建模的实时4D世界模拟器
-date: 2025-04-01
+date: 2026-10-07
 author: mxm
 categories:
   - 世界模型
