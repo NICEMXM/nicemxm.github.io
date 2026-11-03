@@ -43,11 +43,11 @@
 <meta property="og:title" content="大模型自身记忆模块进化-额外embedding层又是什么">
 <meta property="og:url" content="https://nicemxm.github.io/2026/10/15/self_llm_memory/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="transformer中的传统embedding层是什么？transformer中的传统embedding层是通常称为Token Embedding Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，第一个 Transformer Block 之前。它不属于任何一个 Transformer Block 内部，而是整个模型的“入口层”。 📍 整体流程中的位">
+<meta property="og:description" content="transformer中的传统embedding层是什么？ transformer中的传统embedding层是通常称为Token Embedding Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，第一个 Transformer Block 之前。它不属于任何一个 Transformer Block 内部，而是整个模型的“入口层”。  📍 整体流程">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2026-10-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-29T07:02:34.468Z">
+<meta property="article:modified_time" content="2026-11-03T01:43:13.210Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1793257366490),
+    lastupdate: new Date(1793670205326),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,13 +2498,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="transformer中的传统embedding层是什么？"><a href="#transformer中的传统embedding层是什么？" class="headerlink" title="transformer中的传统embedding层是什么？"></a>transformer中的传统embedding层是什么？</h2><p>transformer中的传统embedding层是通常称为Token Embedding</p>
+    <h2 id="transformer中的传统embedding层是什么"><a class="markdownIt-Anchor" href="#transformer中的传统embedding层是什么"></a> transformer中的传统embedding层是什么？</h2>
+<p>transformer中的传统embedding层是通常称为Token Embedding</p>
 <p>Token Embedding 在 Transformer 里的位置非常明确：<strong>模型的最前端，第一个 Transformer Block 之前</strong>。它不属于任何一个 Transformer Block 内部，而是整个模型的“入口层”。</p>
-<h3 id="📍-整体流程中的位置"><a href="#📍-整体流程中的位置" class="headerlink" title="📍 整体流程中的位置"></a>📍 整体流程中的位置</h3><p>以仅解码器（Decoder-only）的 GPT &#x2F; Qwen 类模型为例：</p>
+<h3 id="整体流程中的位置"><a class="markdownIt-Anchor" href="#整体流程中的位置"></a> 📍 整体流程中的位置</h3>
+<p>以仅解码器（Decoder-only）的 GPT / Qwen 类模型为例：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">输入 token IDs</span><br><span class="line">    ↓</span><br><span class="line">Token Embedding 层        ← 就在这里</span><br><span class="line">    ↓</span><br><span class="line">得到 (batch, seq_len, hidden_size) 的向量</span><br><span class="line">    ↓</span><br><span class="line">加位置信息 / Dropout</span><br><span class="line">    ↓</span><br><span class="line">Transformer Block 1</span><br><span class="line">    ↓</span><br><span class="line">Transformer Block 2</span><br><span class="line">    ↓</span><br><span class="line">...</span><br><span class="line">    ↓</span><br><span class="line">Transformer Block N</span><br><span class="line">    ↓</span><br><span class="line">最终 LayerNorm</span><br><span class="line">    ↓</span><br><span class="line">LM Head（线性层）→ logits</span><br></pre></td></tr></table></figure>
-
-<p>所以，Token Embedding 是<strong>所有注意力层和 FFN&#x2F;MoE 层之前</strong>的一步。</p>
-<h3 id="🧩-它具体做什么"><a href="#🧩-它具体做什么" class="headerlink" title="🧩 它具体做什么"></a>🧩 它具体做什么</h3><p>Token Embedding 本质上是一个<strong>查表操作</strong>：</p>
+<p>所以，Token Embedding 是<strong>所有注意力层和 FFN/MoE 层之前</strong>的一步。</p>
+<h3 id="它具体做什么"><a class="markdownIt-Anchor" href="#它具体做什么"></a> 🧩 它具体做什么</h3>
+<p>Token Embedding 本质上是一个<strong>查表操作</strong>：</p>
 <ul>
 <li>输入：离散的 token ID，形状 <code>(batch, seq_len)</code></li>
 <li>查表矩阵：形状 <code>(vocab_size, hidden_size)</code></li>
@@ -2517,16 +2519,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>Token Embedding 矩阵形状就是 <code>[248320, 2048]</code></li>
 </ul>
 <p>每个 token ID 会从这个矩阵中取出对应的一行，变成 2048 维向量，然后送入后面的 Transformer 层。</p>
-<h3 id="🔄-与位置编码的关系"><a href="#🔄-与位置编码的关系" class="headerlink" title="🔄 与位置编码的关系"></a>🔄 与位置编码的关系</h3><p>在原始 Transformer 中：</p>
+<h3 id="与位置编码的关系"><a class="markdownIt-Anchor" href="#与位置编码的关系"></a> 🔄 与位置编码的关系</h3>
+<p>在原始 Transformer 中：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Input Embedding + Positional Encoding → Encoder/Decoder</span><br></pre></td></tr></table></figure>
-
 <p>位置编码是直接加到 Token Embedding 上的。</p>
 <p>但在现代大模型（包括 Qwen 系列）中，常用 <strong>RoPE（旋转位置编码）</strong>。RoPE 不是在输入阶段加到 embedding 上，而是在<strong>每一层自注意力内部</strong>，对 Q 和 K 向量施加旋转。因此：</p>
 <ul>
 <li>Token Embedding 仍然在模型最前端；</li>
 <li>位置信息注入的位置变了，但不影响 Token Embedding 的位置。</li>
 </ul>
-<h3 id="🧱-它和-Transformer-Block-内部的关系"><a href="#🧱-它和-Transformer-Block-内部的关系" class="headerlink" title="🧱 它和 Transformer Block 内部的关系"></a>🧱 它和 Transformer Block 内部的关系</h3><p>Transformer Block 通常包含：</p>
+<h3 id="它和-transformer-block-内部的关系"><a class="markdownIt-Anchor" href="#它和-transformer-block-内部的关系"></a> 🧱 它和 Transformer Block 内部的关系</h3>
+<p>Transformer Block 通常包含：</p>
 <ol>
 <li>自注意力（Self-Attention）</li>
 <li>FFN 或 MoE</li>
@@ -2539,139 +2542,156 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>MoE 的稀疏路由发生在 Transformer Block 内部的 FFN 部分；</li>
 <li>Token Embedding 本身不参与专家路由。</li>
 </ul>
-<h2 id="除了token-embedding还有其它的么？"><a href="#除了token-embedding还有其它的么？" class="headerlink" title="除了token embedding还有其它的么？"></a>除了token embedding还有其它的么？</h2><p>除了token embedding层，为了进一步增加模型记忆能力，还有如DeepSeek的<strong>Engram模块</strong>和Qwen3.8-Flash-Next的<strong>N-gram Embedding</strong>。</p>
-<h3 id="🧠-N-gram-Embedding"><a href="#🧠-N-gram-Embedding" class="headerlink" title="🧠 N-gram Embedding"></a>🧠 N-gram Embedding</h3><p>如果模型同时有 Token Embedding 和 N-gram Embedding，比如之前提到的 Qwen3.8-Flash-Next：</p>
+<h2 id="除了token-embedding还有其它的么"><a class="markdownIt-Anchor" href="#除了token-embedding还有其它的么"></a> 除了token embedding还有其它的么？</h2>
+<p>除了token embedding层，为了进一步增加模型记忆能力，还有如DeepSeek的<strong>Engram模块</strong>和Qwen3.8-Flash-Next的<strong>N-gram Embedding</strong>。</p>
+<h3 id="n-gram-embedding"><a class="markdownIt-Anchor" href="#n-gram-embedding"></a> 🧠 N-gram Embedding</h3>
+<p>如果模型同时有 Token Embedding 和 N-gram Embedding，比如之前提到的 Qwen3.8-Flash-Next：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">token IDs</span><br><span class="line">    ↓</span><br><span class="line">Token Embedding  +  N-gram Embedding</span><br><span class="line">    ↓</span><br><span class="line">融合后的向量</span><br><span class="line">    ↓</span><br><span class="line">Transformer Block 1 ...</span><br></pre></td></tr></table></figure>
-
 <p>两者都在<strong>输入阶段</strong>，在第一个 Transformer Block 之前完成融合，然后一起送入主干网络。</p>
-<h3 id="DeepSeek-Engram-Embedding"><a href="#DeepSeek-Engram-Embedding" class="headerlink" title="DeepSeek Engram Embedding"></a>DeepSeek Engram Embedding</h3><p>DeepSeek Engram 是一个<strong>条件记忆模块</strong>，其核心思想是将大模型中“记忆”与“计算”这两种不同性质的负载解耦。它通过 O(1) 复杂度的哈希查找来直接检索静态知识，从而将宝贵的 GPU 计算资源解放出来，专注于更复杂的逻辑推理。</p>
-<h3 id="🧠-核心机制：如何实现“查表式”记忆？"><a href="#🧠-核心机制：如何实现“查表式”记忆？" class="headerlink" title="🧠 核心机制：如何实现“查表式”记忆？"></a>🧠 核心机制：如何实现“查表式”记忆？</h3><p>Engram 的工作流程可以概括为“检索”与“融合”两个阶段，其设计非常精巧，确保检索到的记忆能被恰当地使用。</p>
-<p><strong>第一阶段：确定性检索 (Retrieval)</strong><br>这个过程是将输入的局部上下文映射到静态的记忆表中，全程无需神经网络计算。</p>
+<h3 id="deepseek-engram-embedding"><a class="markdownIt-Anchor" href="#deepseek-engram-embedding"></a> DeepSeek Engram Embedding</h3>
+<p>DeepSeek Engram 是一个<strong>条件记忆模块</strong>，其核心思想是将大模型中“记忆”与“计算”这两种不同性质的负载解耦。它通过 O(1) 复杂度的哈希查找来直接检索静态知识，从而将宝贵的 GPU 计算资源解放出来，专注于更复杂的逻辑推理。</p>
+<h3 id="核心机制如何实现查表式记忆"><a class="markdownIt-Anchor" href="#核心机制如何实现查表式记忆"></a> 🧠 核心机制：如何实现“查表式”记忆？</h3>
+<p>Engram 的工作流程可以概括为“检索”与“融合”两个阶段，其设计非常精巧，确保检索到的记忆能被恰当地使用。</p>
+<p><strong>第一阶段：确定性检索 (Retrieval)</strong><br>
+这个过程是将输入的局部上下文映射到静态的记忆表中，全程无需神经网络计算。</p>
 <ol>
 <li><strong>Tokenizer 压缩</strong>：首先，模型会对输入的 token 进行归一化处理（如统一大小写、去除重音），将语义上等价的 token 映射到同一个 ID，从而压缩词表规模，提高记忆密度。</li>
 <li><strong>N-gram 切片与多头哈希</strong>：对于序列中的每个位置，Engram 会提取其前面的 N-gram（例如 2-gram, 3-gram, 4-gram）。然后，使用<strong>多个独立的哈希头</strong>对每个 N-gram 进行哈希计算，每个哈希头负责索引记忆表中一个独立的“桶”区间，这大大降低了哈希冲突的概率。</li>
 <li><strong>O(1) 查表</strong>：利用计算出的哈希值，直接从巨大的静态嵌入表中取出对应的向量行。这个过程是<strong>确定性的</strong>，时间复杂度为常数级 O(1)，与记忆表的总大小无关。</li>
 </ol>
-<p><strong>第二阶段：上下文感知融合 (Fusion)</strong><br>检索到的记忆是静态的，可能带有噪声或与当前语境不符。因此，Engram 需要一个“门控”机制来决定是否采纳这些记忆。</p>
+<p><strong>第二阶段：上下文感知融合 (Fusion)</strong><br>
+检索到的记忆是静态的，可能带有噪声或与当前语境不符。因此，Engram 需要一个“门控”机制来决定是否采纳这些记忆。</p>
 <ul>
-<li><strong>门控机制 (Gating)<strong>：模型会利用当前层的隐藏状态（已经过注意力机制，包含了全局上下文信息）生成一个</strong>门控信号</strong>。这个信号通过与检索到的记忆向量进行交互，计算出一个 0 到 1 之间的值。</li>
+<li><strong>门控机制 (Gating)</strong>：模型会利用当前层的隐藏状态（已经过注意力机制，包含了全局上下文信息）生成一个<strong>门控信号</strong>。这个信号通过与检索到的记忆向量进行交互，计算出一个 0 到 1 之间的值。</li>
 <li><strong>残差融合</strong>：如果检索到的记忆与当前上下文高度相关，门控值会趋近于 1，记忆被融入主干网络；反之，如果记忆与语境矛盾，门控值会趋近于 0，记忆被抑制，避免生硬注入。最终，门控后的记忆以<strong>残差连接</strong>的方式加到隐藏状态上。</li>
 </ul>
-<h3 id="⚙️-在-DeepSeek-V4-1-Flash-中的具体实现"><a href="#⚙️-在-DeepSeek-V4-1-Flash-中的具体实现" class="headerlink" title="⚙️ 在 DeepSeek-V4.1-Flash 中的具体实现"></a>⚙️ 在 DeepSeek-V4.1-Flash 中的具体实现</h3><p>Engram 在 DeepSeek-V4.1-Flash 中得到了实际应用，其配置如下：</p>
+<h3 id="️-在-deepseek-v41-flash-中的具体实现"><a class="markdownIt-Anchor" href="#️-在-deepseek-v41-flash-中的具体实现"></a> ⚙️ 在 DeepSeek-V4.1-Flash 中的具体实现</h3>
+<p>Engram 在 DeepSeek-V4.1-Flash 中得到了实际应用，其配置如下：</p>
 <table>
 <thead>
 <tr>
-<th align="left">配置项</th>
-<th align="left">具体参数</th>
+<th style="text-align:left">配置项</th>
+<th style="text-align:left">具体参数</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>Engram 层位置</strong></td>
-<td align="left">模型的<strong>第 1 层和第 14 层</strong>（零索引）</td>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Engram 层位置</strong></td>
+<td style="text-align:left">模型的<strong>第 1 层和第 14 层</strong>（零索引）</td>
 </tr>
 <tr>
-<td align="left"><strong>记忆表规模</strong></td>
-<td align="left">每层约 <strong>3.84 亿行</strong>，条目为 256 字节的 FP8 格式，单层表权重约 <strong>200 GB</strong></td>
+<td style="text-align:left"><strong>记忆表规模</strong></td>
+<td style="text-align:left">每层约 <strong>3.84 亿行</strong>，条目为 256 字节的 FP8 格式，单层表权重约 <strong>200 GB</strong></td>
 </tr>
 <tr>
-<td align="left"><strong>总参数占比</strong></td>
-<td align="left">Engram 贡献了 <strong>196B</strong> 参数，与 552B 的主干参数共同构成模型</td>
+<td style="text-align:left"><strong>总参数占比</strong></td>
+<td style="text-align:left">Engram 贡献了 <strong>196B</strong> 参数，与 552B 的主干参数共同构成模型</td>
 </tr>
 <tr>
-<td align="left"><strong>N-gram 阶数</strong></td>
-<td align="left">**{2, 3, 4}**，即同时使用 2-gram、3-gram 和 4-gram</td>
+<td style="text-align:left"><strong>N-gram 阶数</strong></td>
+<td style="text-align:left"><strong>{2, 3, 4}</strong>，即同时使用 2-gram、3-gram 和 4-gram</td>
 </tr>
 <tr>
-<td align="left"><strong>哈希头数量</strong></td>
-<td align="left"><strong>8 个</strong>哈希头，每个阶数的总嵌入维度为 2048</td>
+<td style="text-align:left"><strong>哈希头数量</strong></td>
+<td style="text-align:left"><strong>8 个</strong>哈希头，每个阶数的总嵌入维度为 2048</td>
 </tr>
 <tr>
-<td align="left"><strong>每头表大小</strong></td>
-<td align="left">每个哈希头索引约 <strong>1600 万</strong>个条目</td>
+<td style="text-align:left"><strong>每头表大小</strong></td>
+<td style="text-align:left">每个哈希头索引约 <strong>1600 万</strong>个条目</td>
 </tr>
 <tr>
-<td align="left"><strong>每 Token 访问量</strong></td>
-<td align="left">每个 token 位置在每层请求 <strong>24 行</strong>，跨模型约 <strong>12.4 KiB</strong>，在 4 卡部署下每卡约 <strong>3.1 KiB</strong></td>
+<td style="text-align:left"><strong>每 Token 访问量</strong></td>
+<td style="text-align:left">每个 token 位置在每层请求 <strong>24 行</strong>，跨模型约 <strong>12.4 KiB</strong>，在 4 卡部署下每卡约 <strong>3.1 KiB</strong></td>
 </tr>
 <tr>
-<td align="left"><strong>推理内存占用</strong></td>
-<td align="left">约 <strong>189 GiB</strong>，可通过 <code>--engram-config &#39;&#123;&quot;cpu_offload&quot;:true&#125;&#39;</code> 卸载至主机内存</td>
+<td style="text-align:left"><strong>推理内存占用</strong></td>
+<td style="text-align:left">约 <strong>189 GiB</strong>，可通过 <code>--engram-config '&#123;&quot;cpu_offload&quot;:true&#125;'</code> 卸载至主机内存</td>
 </tr>
-</tbody></table>
-<h3 id="🔄-训练与推理的解耦设计"><a href="#🔄-训练与推理的解耦设计" class="headerlink" title="🔄 训练与推理的解耦设计"></a>🔄 训练与推理的解耦设计</h3><p>Engram 的设计哲学是“训练时联合，推理时解耦”。</p>
+</tbody>
+</table>
+<h3 id="训练与推理的解耦设计"><a class="markdownIt-Anchor" href="#训练与推理的解耦设计"></a> 🔄 训练与推理的解耦设计</h3>
+<p>Engram 的设计哲学是“训练时联合，推理时解耦”。</p>
 <ul>
 <li><strong>训练阶段</strong>：Engram 嵌入表与主干网络<strong>联合端到端训练</strong>。但由于其规模巨大（百亿级参数），单卡无法容纳，训练时采用 <strong>All-to-All 通信</strong>将嵌入表<strong>分片（Shard）到多张 GPU</strong> 上，让所有 GPU 协同更新。</li>
 <li><strong>推理阶段</strong>：训练完成后，庞大的 Engram 表可以<strong>完全卸载到主机内存（DRAM）甚至 SSD</strong>。推理时，系统利用查找地址的<strong>确定性</strong>，通过后台 RDMA（远程直接内存访问）<strong>异步预取</strong>所需嵌入行，与 GPU 上的 Transformer 计算重叠进行，从而避免占用宝贵的 HBM 显存。</li>
 </ul>
-<h3 id="⚖️-与-MoE-的互补关系"><a href="#⚖️-与-MoE-的互补关系" class="headerlink" title="⚖️ 与 MoE 的互补关系"></a>⚖️ 与 MoE 的互补关系</h3><p>Engram 与 MoE（混合专家）是互补的稀疏化技术，共同构成了 DeepSeek 的“双重稀疏”架构。</p>
+<h3 id="️-与-moe-的互补关系"><a class="markdownIt-Anchor" href="#️-与-moe-的互补关系"></a> ⚖️ 与 MoE 的互补关系</h3>
+<p>Engram 与 MoE（混合专家）是互补的稀疏化技术，共同构成了 DeepSeek 的“双重稀疏”架构。</p>
 <table>
 <thead>
 <tr>
-<th align="left">对比维度</th>
-<th align="left"><strong>MoE（条件计算）</strong></th>
-<th align="left"><strong>Engram（条件记忆）</strong></th>
+<th style="text-align:left">对比维度</th>
+<th style="text-align:left"><strong>MoE（条件计算）</strong></th>
+<th style="text-align:left"><strong>Engram（条件记忆）</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>稀疏化对象</strong></td>
-<td align="left"><strong>计算路径</strong>：每次只激活部分专家网络进行计算</td>
-<td align="left"><strong>存储路径</strong>：每次只查找部分记忆表条目</td>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>稀疏化对象</strong></td>
+<td style="text-align:left"><strong>计算路径</strong>：每次只激活部分专家网络进行计算</td>
+<td style="text-align:left"><strong>存储路径</strong>：每次只查找部分记忆表条目</td>
 </tr>
 <tr>
-<td align="left"><strong>扩展维度</strong></td>
-<td align="left">通过增加专家数量扩展模型<strong>容量与能力</strong></td>
-<td align="left">通过增加记忆表规模扩展模型<strong>知识储量</strong></td>
+<td style="text-align:left"><strong>扩展维度</strong></td>
+<td style="text-align:left">通过增加专家数量扩展模型<strong>容量与能力</strong></td>
+<td style="text-align:left">通过增加记忆表规模扩展模型<strong>知识储量</strong></td>
 </tr>
 <tr>
-<td align="left"><strong>每 Token 成本</strong></td>
-<td align="left">随激活专家数增加而增加</td>
-<td align="left">**O(1)**，与记忆表总大小无关</td>
+<td style="text-align:left"><strong>每 Token 成本</strong></td>
+<td style="text-align:left">随激活专家数增加而增加</td>
+<td style="text-align:left"><strong>O(1)</strong>，与记忆表总大小无关</td>
 </tr>
 <tr>
-<td align="left"><strong>角色定位</strong></td>
-<td align="left">负责<strong>动态推理</strong>与<strong>组合泛化</strong></td>
-<td align="left">负责<strong>静态知识</strong>与<strong>模式检索</strong></td>
+<td style="text-align:left"><strong>角色定位</strong></td>
+<td style="text-align:left">负责<strong>动态推理</strong>与<strong>组合泛化</strong></td>
+<td style="text-align:left">负责<strong>静态知识</strong>与<strong>模式检索</strong></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>DeepSeek 的论文指出，在固定的参数和算力预算下，将 <strong>20% 至 25%</strong> 的稀疏参数分配给 Engram 能获得最优的性能平衡，这被称为“<strong>U 型扩展定律</strong>”。</p>
-<h3 id="DeepSeek-Engram模块和Qwen3-8-Flash-Next-N-gram-Embedding-的异同？"><a href="#DeepSeek-Engram模块和Qwen3-8-Flash-Next-N-gram-Embedding-的异同？" class="headerlink" title="DeepSeek Engram模块和Qwen3.8-Flash-Next N-gram Embedding 的异同？"></a>DeepSeek Engram模块和Qwen3.8-Flash-Next N-gram Embedding 的异同？</h3><p>DeepSeek的<strong>Engram模块</strong>和Qwen3.8-Flash-Next的<strong>N-gram Embedding</strong>，<strong>同属“条件记忆”这一大类的稀疏化技术，但并非完全相同</strong>。Qwen的N-gram Embedding在设计上明确受到了DeepSeek Engram的启发，可视为其一种<strong>更精简、面向工程落地的变体</strong>。</p>
+<h3 id="deepseek-engram模块和qwen38-flash-next-n-gram-embedding-的异同"><a class="markdownIt-Anchor" href="#deepseek-engram模块和qwen38-flash-next-n-gram-embedding-的异同"></a> DeepSeek Engram模块和Qwen3.8-Flash-Next N-gram Embedding 的异同？</h3>
+<p>DeepSeek的<strong>Engram模块</strong>和Qwen3.8-Flash-Next的<strong>N-gram Embedding</strong>，<strong>同属“条件记忆”这一大类的稀疏化技术，但并非完全相同</strong>。Qwen的N-gram Embedding在设计上明确受到了DeepSeek Engram的启发，可视为其一种<strong>更精简、面向工程落地的变体</strong>。</p>
 <p>它们的核心思想一致：都通过哈希查找N-gram来直接获取静态记忆，以O(1)的时间复杂度扩展模型的知识容量，并把记忆负载从主干的动态计算中剥离出来。</p>
-<h3 id="🧬-核心机制对比：同源异流"><a href="#🧬-核心机制对比：同源异流" class="headerlink" title="🧬 核心机制对比：同源异流"></a>🧬 核心机制对比：同源异流</h3><p>尽管核心思想一致，但两者在具体实现上体现了不同的设计哲学。</p>
+<h3 id="核心机制对比同源异流"><a class="markdownIt-Anchor" href="#核心机制对比同源异流"></a> 🧬 核心机制对比：同源异流</h3>
+<p>尽管核心思想一致，但两者在具体实现上体现了不同的设计哲学。</p>
 <table>
 <thead>
 <tr>
-<th align="left">对比维度</th>
-<th align="left"><strong>DeepSeek Engram</strong></th>
-<th align="left"><strong>Qwen3.8-Flash-Next N-gram Embedding</strong></th>
+<th style="text-align:left">对比维度</th>
+<th style="text-align:left"><strong>DeepSeek Engram</strong></th>
+<th style="text-align:left"><strong>Qwen3.8-Flash-Next N-gram Embedding</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left"><strong>设计哲学</strong></td>
-<td align="left"><strong>架构探索型</strong>：追求更复杂、更精细的记忆机制，以充分释放“条件记忆”的潜力。</td>
-<td align="left"><strong>工程实用型</strong>：追求极致的精简和效率，以最低的工程代价获得核心收益。</td>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>设计哲学</strong></td>
+<td style="text-align:left"><strong>架构探索型</strong>：追求更复杂、更精细的记忆机制，以充分释放“条件记忆”的潜力。</td>
+<td style="text-align:left"><strong>工程实用型</strong>：追求极致的精简和效率，以最低的工程代价获得核心收益。</td>
 </tr>
 <tr>
-<td align="left"><strong>Token处理</strong></td>
-<td align="left">压缩Tokenizer，合并语义相同的token，减少存储和哈希冲突。</td>
-<td align="left"><strong>直接哈希原始Token ID</strong>，去掉压缩步骤，简化流程，避免信息损失。</td>
+<td style="text-align:left"><strong>Token处理</strong></td>
+<td style="text-align:left">压缩Tokenizer，合并语义相同的token，减少存储和哈希冲突。</td>
+<td style="text-align:left"><strong>直接哈希原始Token ID</strong>，去掉压缩步骤，简化流程，避免信息损失。</td>
 </tr>
 <tr>
-<td align="left"><strong>注入位置</strong></td>
-<td align="left"><strong>多个早期层</strong>（如第2层和第15层），在不同深度注入记忆，实现更全面的增强。</td>
-<td align="left"><strong>单层</strong>（第2层），在模型最早期注入，用最小的结构改动获取核心收益。</td>
+<td style="text-align:left"><strong>注入位置</strong></td>
+<td style="text-align:left"><strong>多个早期层</strong>（如第2层和第15层），在不同深度注入记忆，实现更全面的增强。</td>
+<td style="text-align:left"><strong>单层</strong>（第2层），在模型最早期注入，用最小的结构改动获取核心收益。</td>
 </tr>
 <tr>
-<td align="left"><strong>融合机制</strong></td>
-<td align="left"><strong>上下文感知门控</strong>：使用当前隐藏状态作为Query，动态决定是否采纳检索到的记忆，避免生硬注入。</td>
-<td align="left"><strong>门控融合</strong>：同样采用门控机制，但整体结构更精简，目标是在最少参数下实现有效的条件记忆。</td>
+<td style="text-align:left"><strong>融合机制</strong></td>
+<td style="text-align:left"><strong>上下文感知门控</strong>：使用当前隐藏状态作为Query，动态决定是否采纳检索到的记忆，避免生硬注入。</td>
+<td style="text-align:left"><strong>门控融合</strong>：同样采用门控机制，但整体结构更精简，目标是在最少参数下实现有效的条件记忆。</td>
 </tr>
 <tr>
-<td align="left"><strong>记忆表规模</strong></td>
-<td align="left">在27B模型实验中，Engram记忆表参数约 <strong>5.7B</strong>，占总参数 **21.3%**。</td>
-<td align="left">在125B主模型外，额外配置 <strong>51B</strong> 的N-gram Embedding参数，占比更高。</td>
+<td style="text-align:left"><strong>记忆表规模</strong></td>
+<td style="text-align:left">在27B模型实验中，Engram记忆表参数约 <strong>5.7B</strong>，占总参数 <strong>21.3%</strong>。</td>
+<td style="text-align:left">在125B主模型外，额外配置 <strong>51B</strong> 的N-gram Embedding参数，占比更高。</td>
 </tr>
-</tbody></table>
-<h3 id="💎-总结"><a href="#💎-总结" class="headerlink" title="💎 总结"></a>💎 总结</h3><p>DeepSeek Engram 像是一个<strong>功能完备的“概念验证”架构</strong>，它探索了条件记忆的多种可能性（如多层级注入、Token压缩、复杂的门控融合），为后续研究提供了宝贵的理论基础和设计范式。</p>
+</tbody>
+</table>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 💎 总结</h3>
+<p>DeepSeek Engram 像是一个<strong>功能完备的“概念验证”架构</strong>，它探索了条件记忆的多种可能性（如多层级注入、Token压缩、复杂的门控融合），为后续研究提供了宝贵的理论基础和设计范式。</p>
 <p>Qwen的N-gram Embedding则是一个<strong>高度工程化的“产品级”实现</strong>。它直接借鉴了Engram的核心思想，但在工程上做了大量“减法”——去掉Token压缩、只在单层注入、简化融合机制——以最小的复杂度和计算开销，获得了条件记忆带来的主要收益（扩展容量、降低计算）。这种“精简”策略，使得51B的庞大嵌入表能够被有效地卸载到主机内存并进行预取，最终在125B MoE模型上实现了每token仅激活6B参数的高效率。</p>
 <p>因此，它们是<strong>同一技术路线上的不同实现</strong>：Engram是更复杂的“探路者”，而Qwen的N-gram Embedding是更精简的“实践者”。</p>
 
@@ -2698,10 +2718,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-10-29T07:02:34+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-11-03T01:43:13+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2026年10月29日</p>
+    <p>更新于：2026年11月3日</p>
   </a>
 </div>
 
@@ -2804,13 +2824,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2026/10/21/deepseek-v4.1-flash/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>deepseek-v4.1-flash：突破KV缓存压缩的极限</p>
-          <p class='content'>摘要长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据传输...</p>
+          <p class='content'> 摘要
+长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据...</p>
         </a>
       
       
         <a class='next' href='/2026/10/13/Unlimited_OCR/'>
           <p class='title'>Unlimited OCR<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>摘要近期，以DeepSeek OCR为代表的端到端OCR模型再次将OCR推上风口浪尖。一种普遍观点认为，采用大型语言模型（LLM）作为解码器，能够充分利用语言的先验分布，从而提升OCR性能。然而...</p>
+          <p class='content'> 摘要
+近期，以DeepSeek OCR为代表的端到端OCR模型再次将OCR推上风口浪尖。一种普遍观点认为，采用大型语言模型（LLM）作为解码器，能够充分利用语言的先验分布，从而提升OCR性能。...</p>
         </a>
       
     </div>
@@ -2871,7 +2893,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#transformer%E4%B8%AD%E7%9A%84%E4%BC%A0%E7%BB%9Fembedding%E5%B1%82%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">transformer中的传统embedding层是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8D-%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-text">📍 整体流程中的位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%A9-%E5%AE%83%E5%85%B7%E4%BD%93%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">🧩 它具体做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%84-%E4%B8%8E%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">🔄 与位置编码的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%B1-%E5%AE%83%E5%92%8C-Transformer-Block-%E5%86%85%E9%83%A8%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">🧱 它和 Transformer Block 内部的关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%A4%E4%BA%86token-embedding%E8%BF%98%E6%9C%89%E5%85%B6%E5%AE%83%E7%9A%84%E4%B9%88%EF%BC%9F"><span class="toc-text">除了token embedding还有其它的么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%A0-N-gram-Embedding"><span class="toc-text">🧠 N-gram Embedding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DeepSeek-Engram-Embedding"><span class="toc-text">DeepSeek Engram Embedding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%A0-%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%EF%BC%9A%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E2%80%9C%E6%9F%A5%E8%A1%A8%E5%BC%8F%E2%80%9D%E8%AE%B0%E5%BF%86%EF%BC%9F"><span class="toc-text">🧠 核心机制：如何实现“查表式”记忆？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9A%99%EF%B8%8F-%E5%9C%A8-DeepSeek-V4-1-Flash-%E4%B8%AD%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-text">⚙️ 在 DeepSeek-V4.1-Flash 中的具体实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%84-%E8%AE%AD%E7%BB%83%E4%B8%8E%E6%8E%A8%E7%90%86%E7%9A%84%E8%A7%A3%E8%80%A6%E8%AE%BE%E8%AE%A1"><span class="toc-text">🔄 训练与推理的解耦设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9A%96%EF%B8%8F-%E4%B8%8E-MoE-%E7%9A%84%E4%BA%92%E8%A1%A5%E5%85%B3%E7%B3%BB"><span class="toc-text">⚖️ 与 MoE 的互补关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DeepSeek-Engram%E6%A8%A1%E5%9D%97%E5%92%8CQwen3-8-Flash-Next-N-gram-Embedding-%E7%9A%84%E5%BC%82%E5%90%8C%EF%BC%9F"><span class="toc-text">DeepSeek Engram模块和Qwen3.8-Flash-Next N-gram Embedding 的异同？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%AC-%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94%EF%BC%9A%E5%90%8C%E6%BA%90%E5%BC%82%E6%B5%81"><span class="toc-text">🧬 核心机制对比：同源异流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%92%8E-%E6%80%BB%E7%BB%93"><span class="toc-text">💎 总结</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#transformer%E4%B8%AD%E7%9A%84%E4%BC%A0%E7%BB%9Fembedding%E5%B1%82%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text"> transformer中的传统embedding层是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-text"> 📍 整体流程中的位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%83%E5%85%B7%E4%BD%93%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text"> 🧩 它具体做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text"> 🔄 与位置编码的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%83%E5%92%8C-transformer-block-%E5%86%85%E9%83%A8%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text"> 🧱 它和 Transformer Block 内部的关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%A4%E4%BA%86token-embedding%E8%BF%98%E6%9C%89%E5%85%B6%E5%AE%83%E7%9A%84%E4%B9%88"><span class="toc-text"> 除了token embedding还有其它的么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#n-gram-embedding"><span class="toc-text"> 🧠 N-gram Embedding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deepseek-engram-embedding"><span class="toc-text"> DeepSeek Engram Embedding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%9F%A5%E8%A1%A8%E5%BC%8F%E8%AE%B0%E5%BF%86"><span class="toc-text"> 🧠 核心机制：如何实现“查表式”记忆？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%B8%8F-%E5%9C%A8-deepseek-v41-flash-%E4%B8%AD%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-text"> ⚙️ 在 DeepSeek-V4.1-Flash 中的具体实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%8E%E6%8E%A8%E7%90%86%E7%9A%84%E8%A7%A3%E8%80%A6%E8%AE%BE%E8%AE%A1"><span class="toc-text"> 🔄 训练与推理的解耦设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%B8%8F-%E4%B8%8E-moe-%E7%9A%84%E4%BA%92%E8%A1%A5%E5%85%B3%E7%B3%BB"><span class="toc-text"> ⚖️ 与 MoE 的互补关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deepseek-engram%E6%A8%A1%E5%9D%97%E5%92%8Cqwen38-flash-next-n-gram-embedding-%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-text"> DeepSeek Engram模块和Qwen3.8-Flash-Next N-gram Embedding 的异同？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94%E5%90%8C%E6%BA%90%E5%BC%82%E6%B5%81"><span class="toc-text"> 🧬 核心机制对比：同源异流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text"> 💎 总结</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -3278,7 +3300,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3513,7 +3535,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/15/self_llm_memory/","name":"大模型自身记忆模块进化-额外embedding层又是什么"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"大模型自身记忆模块进化-额外embedding层又是什么","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/15/self_llm_memory/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/15/self_llm_memory/","wordCount":0,"datePublished":"2026-10-15T16:00:00.000Z","dateModified":"2026-10-29T07:02:34.468Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/15/self_llm_memory/","name":"大模型自身记忆模块进化-额外embedding层又是什么"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"大模型自身记忆模块进化-额外embedding层又是什么","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/15/self_llm_memory/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/15/self_llm_memory/","wordCount":0,"datePublished":"2026-10-15T16:00:00.000Z","dateModified":"2026-11-03T01:43:13.210Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

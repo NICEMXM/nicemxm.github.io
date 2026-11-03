@@ -1961,7 +1961,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1793257366490),
+    lastupdate: new Date(1793670205326),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2520,9 +2520,75 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="https://schema.org.cn/Article" >
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2026/11/02/moss/">
+  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
+    <meta itemprop="name" content="hello deeplearning">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
+    <meta itemprop="name" content="hello deeplearning">
+    <meta itemprop="description" content="">
+  </span>
+  
+  
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  
+    
+    <h2 class="article-title"  itemprop="name headline">
+      <a href="/2026/11/02/moss/"  itemprop="url">
+        MOSS图像技术报告
+      </a>
+    </h2>
+  
+  <div class='md article-desc' itemprop="articleBody">
+    
+      
+         摘要
+近期的闭源图像生成系统能够从简单构图到信息密集的图形，生成丰富多样的视觉内容；然而，开放权重的文生图模型在处理密集文本与复杂布局方面仍面临挑战。为缩小这一差距，我们提出了 MOSS-Image，一个兼具高保真视觉合成与意图感知式构图的开放生成系统。首先，我们基于精心设计的训练方案，从零开始预训练了一种 50 亿参数的单流扩散 Transformer（DiT），实现了双语长文本渲染与精...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time itemprop="dateCreated datePublished" datetime="2026-11-03T00:00:00+08:00">2026-11-03</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/">文生图</a>
+          
+            <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+              <a href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" itemprop="url"><span itemprop="name">文生图</span></a>
+            </span>
+          
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2026/11/02/moss/' itemprop="url">
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -2553,8 +2619,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        引言当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。
-相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高效微...
+         引言
+当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。
+相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高...
       
     
   </div>
@@ -2617,7 +2684,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据传输带宽。这些对计算、存储和带宽的多重需求共同构成了进一步降低部署成本的主要瓶颈。为应对这一挑战，我们推出了DeepSeek-V4.1-Flash——一款具有5520亿个骨干参数、支持长达百万token上...
+         摘要
+长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据传输带宽。这些对计算、存储和带宽的多重需求共同构成了进一步降低部署成本的主要瓶颈。为应对这一挑战，我们推出了DeepSeek-V4.1-Flash——一款具有5520亿个骨干参数、支持长达百万toke...
       
     
   </div>
@@ -2680,9 +2748,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-        transformer中的传统embedding层是什么？transformer中的传统embedding层是通常称为Token Embedding
+         transformer中的传统embedding层是什么？
+transformer中的传统embedding层是通常称为Token Embedding
 Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，第一个 Transformer Block 之前。它不属于任何一个 Transformer Block 内部，而是整个模型的“入口层”。
-📍 整体流程...
+ 📍 整...
       
     
   </div>
@@ -2745,7 +2814,8 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要近期，以DeepSeek OCR为代表的端到端OCR模型再次将OCR推上风口浪尖。一种普遍观点认为，采用大型语言模型（LLM）作为解码器，能够充分利用语言的先验分布，从而提升OCR性能。然而，其弊端也同样明显：随着输出序列长度的增加，累积的KV缓存会显著推高内存开销，并导致生成速度逐步下降。这与人类在执行长时序复制任务时效率不降形成鲜明对比。在本技术报告中，我们提出了一种名为Unlimi...
+         摘要
+近期，以DeepSeek OCR为代表的端到端OCR模型再次将OCR推上风口浪尖。一种普遍观点认为，采用大型语言模型（LLM）作为解码器，能够充分利用语言的先验分布，从而提升OCR性能。然而，其弊端也同样明显：随着输出序列长度的增加，累积的KV缓存会显著推高内存开销，并导致生成速度逐步下降。这与人类在执行长时序复制任务时效率不降形成鲜明对比。在本技术报告中，我们提出了一种名为Unli...
       
     
   </div>
@@ -2877,7 +2947,9 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
         GitHub
 论文
 
-摘要构建具有空间一致性和实时交互性的世界模型，仍然是计算机视觉领域的一项根本性挑战。当前的视频生成范式往往面临空间持久性不足与视觉真实感欠缺的问题，难以支持流畅无缝的场景导航。在复杂环境中。为应对这些挑战，我们提出了 INSPATIO-WoRLD，一种新颖的实时框架，能够从单张参考视频中恢复并生成高保真、动态的交互式场景。我们的方法核心是一种时空自回归（STAR）架构，...
+ 摘要
+构建具有空间一致性和实时交互性的世界模型，仍然是计算机视觉领域的一项根本性挑战。当前的视频生成范式往往面临空间持久性不足与视觉真实感欠缺的问题，难以支持流畅无缝的场景导航。
+在复杂环境中。为应对这些挑战，我们提出了 INSPATIO-WoRLD，一种新颖的实时框架，能够从单张参考视频中恢复并生成高保真、动态的交互式场景。我们的方法核心是一种时空自回归（STAR）...
       
     
   </div>
@@ -2940,7 +3012,8 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要学习得到的表示是现代机器学习系统的核心组成部分，可服务于众多下游任务。在训练这些表示时，往往难以预先获知各个下游任务的计算与统计约束。在此背景下，固定容量的刚性表示要么过于冗余，要么能力不足，难以适应具体任务需求。这促使我们思考：能否设计一种灵活的表示，使其能够根据下游任务的计算资源差异进行自适应？  我们的主要贡献是提出“套娃表示学习”（Matryoshka Representatio...
+         摘要
+学习得到的表示是现代机器学习系统的核心组成部分，可服务于众多下游任务。在训练这些表示时，往往难以预先获知各个下游任务的计算与统计约束。在此背景下，固定容量的刚性表示要么过于冗余，要么能力不足，难以适应具体任务需求。这促使我们思考：能否设计一种灵活的表示，使其能够根据下游任务的计算资源差异进行自适应？  我们的主要贡献是提出“套娃表示学习”（Matryoshka Representat...
       
     
   </div>
@@ -3003,7 +3076,8 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-        摘要人工智能的发展可以被视为一种以数据驱动的学习范式的演进，其中数据组织与利用方式的不断迭代持续推动着模型能力的提升。尽管取得了显著进展，当前的大语言模型（LLM）研究仍主要依赖于单向的数据规模扩张范式，而在数据获取的可得性、采集成本以及训练效率等方面正日益面临瓶颈。在本工作中，我们提出，通用人工智能（AGI）的发展正进入一个数据—模型协同演化的全新阶段：模型主动引导数据管理，而高质量数据又...
+         摘要
+人工智能的发展可以被视为一种以数据驱动的学习范式的演进，其中数据组织与利用方式的不断迭代持续推动着模型能力的提升。尽管取得了显著进展，当前的大语言模型（LLM）研究仍主要依赖于单向的数据规模扩张范式，而在数据获取的可得性、采集成本以及训练效率等方面正日益面临瓶颈。在本工作中，我们提出，通用人工智能（AGI）的发展正进入一个数据—模型协同演化的全新阶段：模型主动引导数据管理，而高质量数...
       
     
   </div>
@@ -3067,7 +3141,8 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
     
       
         论文
-摘要计算机辅助设计（CAD）广泛应用于概念设计和参数化三维建模，但通常需要设计师具备较高的专业水平。为降低入门门槛、促进早期阶段的CAD建模，我们推出了一款基于大语言模型的CAD设计助手——CADDesigner。该助手可同时接受文本描述和草图作为输入，与用户展开互动对话，通过全面的需求分析不断优化并明确设计要求。CADDesigner基于一种新颖的显式上下文指令范式（ECIP），能够...
+ 摘要
+计算机辅助设计（CAD）广泛应用于概念设计和参数化三维建模，但通常需要设计师具备较高的专业水平。为降低入门门槛、促进早期阶段的CAD建模，我们推出了一款基于大语言模型的CAD设计助手——CADDesigner。该助手可同时接受文本描述和草图作为输入，与用户展开互动对话，通过全面的需求分析不断优化并明确设计要求。CADDesigner基于一种新颖的显式上下文指令范式（ECIP），...
       
     
   </div>
@@ -3089,69 +3164,6 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
       
         <div>
           <a class='readmore' href='/2026/09/06/CADDesigner/' itemprop="url">
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="https://schema.org.cn/Article" >
-  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2026/08/31/GLM-5/">
-  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
-    <meta itemprop="name" content="hello deeplearning">
-  </span>
-  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
-    <meta itemprop="name" content="hello deeplearning">
-    <meta itemprop="description" content="">
-  </span>
-  
-  
-  
-    <span hidden>
-      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
-    </span>
-  
-  
-    
-    <h2 class="article-title"  itemprop="name headline">
-      <a href="/2026/08/31/GLM-5/"  itemprop="url">
-        GLM-5：从共鸣编码到agent工程
-      </a>
-    </h2>
-  
-  <div class='md article-desc' itemprop="articleBody">
-    
-      
-        摘要我们隆重推出GLM-5，这是一款新一代基础模型，旨在推动从情绪编码范式向智能体工程的转型。GLM-5继承了其前代模型的智能体、推理与编码（ARC）能力，并引入了DSA技术，大幅降低了训练与推理成本，同时保持了长上下文的高精度。为提升模型对齐与自主性，我们开发了一套全新的异步强化学习基础设施，通过将生成过程与训练过程解耦，显著提高了模型训练后的效率。此外，我们还提出了一系列创新的异步智能体...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time itemprop="dateCreated datePublished" datetime="2026-09-01T00:00:00+08:00">2026-09-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/LLM/">LLM</a>
-          
-            <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
-              <a href="/categories/LLM/" itemprop="url"><span itemprop="name">LLM</span></a>
-            </span>
-          
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2026/08/31/GLM-5/' itemprop="url">
             阅读全文
           </a>
         </div>
@@ -3350,7 +3362,7 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
           <li><a class="flat-box"
             title="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/"
             active-action="action-categoriesE69687E7949FE59BBE"
-            ><div class='name'>文生图</div><div class='badge'>(2)</div></a></li>
+            ><div class='name'>文生图</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"
@@ -3799,7 +3811,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
   let index = 0;
   let IntervalParallax = null;
 

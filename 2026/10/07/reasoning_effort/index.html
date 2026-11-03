@@ -47,7 +47,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2026-10-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-29T07:02:34.468Z">
+<meta property="article:modified_time" content="2026-11-03T01:43:13.210Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="generate">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1793257366490),
+    lastupdate: new Date(1793670205326),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2503,18 +2503,22 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>前几个月，OpenAI 发布了 GPT-5.6 模型家族。它有三种规模，每种大约有五到六种推理强度设置。</p>
 <p>图1：GPT 5.6 Sol 模型在不同推理强度设置下。（Ultra 的基准数字目前不可用，但应该与 Max 相对相似，因为它使用类似的努力水平，但通过四个子代理加速工作。）</p>
 <p>所以是的，推理模型将继续存在。它们已成为现代模型发布的标准部分。</p>
-<h2 id="1-推理模型的简要定义"><a href="#1-推理模型的简要定义" class="headerlink" title="1. 推理模型的简要定义"></a>1. 推理模型的简要定义</h2><p>当谈论几乎任何机器学习或 AI 技术或子领域时，一个教训是我们通常不应该从字面上理解技术术语。例如，机器学习&#x2F;AI 中的人工神经网络并不像人脑那样的生物神经网络那样工作。</p>
+<h2 id="1-推理模型的简要定义"><a class="markdownIt-Anchor" href="#1-推理模型的简要定义"></a> 1. 推理模型的简要定义</h2>
+<p>当谈论几乎任何机器学习或 AI 技术或子领域时，一个教训是我们通常不应该从字面上理解技术术语。例如，机器学习/AI 中的人工神经网络并不像人脑那样的生物神经网络那样工作。</p>
 <p>类似地，当谈论“推理模型”时，我们不应期望这些模型像人类一样字面推理。在 AI 和 LLM 研究语境中，“推理模型”意味着一个输出中间推理轨迹的模型，这就像一个中间响应，逐步处理问题或任务。</p>
 <p>最好用一个例子来解释。</p>
 <p>图3：传统 LLM 答案（左）与推理模型答案（右）的图示。</p>
-<h2 id="2-训练和推理扩展推理模型的简要概述"><a href="#2-训练和推理扩展推理模型的简要概述" class="headerlink" title="2. 训练和推理扩展推理模型的简要概述"></a>2. 训练和推理扩展推理模型的简要概述</h2><p>基本上有两种方式提高（推理）任务性能：训练扩展和推理扩展。</p>
+<h2 id="2-训练和推理扩展推理模型的简要概述"><a class="markdownIt-Anchor" href="#2-训练和推理扩展推理模型的简要概述"></a> 2. 训练和推理扩展推理模型的简要概述</h2>
+<p>基本上有两种方式提高（推理）任务性能：训练扩展和推理扩展。</p>
 <p>图4：训练扩展和推理扩展是提高 LLM 和推理模型问题解决能力的两种方式。图基于《用 LLM 学习推理》。</p>
 <p>让我们先简要谈谈训练。</p>
-<h3 id="2-1-训练推理模型"><a href="#2-1-训练推理模型" class="headerlink" title="2.1 训练推理模型"></a>2.1 训练推理模型</h3><p>简而言之，DeepSeek-R1 提出使用可验证奖励强化学习（RLVR）训练 LLM，将其转变为推理模型。RLVR 是一种为可验证数据领域提供奖励信号（0&#x3D;错误，1&#x3D;正确）的技术。这里的可验证数据领域是数学（我们可以使用 SymPy 或 WolframAlpha 等符号数学检查器检查结果）和代码（我们可以使用编译器或单元测试，或 LeetCode 等集成平台检查正确性）。</p>
+<h3 id="21-训练推理模型"><a class="markdownIt-Anchor" href="#21-训练推理模型"></a> 2.1 训练推理模型</h3>
+<p>简而言之，DeepSeek-R1 提出使用可验证奖励强化学习（RLVR）训练 LLM，将其转变为推理模型。RLVR 是一种为可验证数据领域提供奖励信号（0=错误，1=正确）的技术。这里的可验证数据领域是数学（我们可以使用 SymPy 或 WolframAlpha 等符号数学检查器检查结果）和代码（我们可以使用编译器或单元测试，或 LeetCode 等集成平台检查正确性）。</p>
 <p>图5：RLVR 训练期间准确性和格式奖励的图示。</p>
 <p>值得注意的是，推理轨迹本身并未用于训练或更新模型。尽管他们尝试使用这种中间响应信息进行训练，但 DeepSeek-R1 论文报告称这对模型训练没有帮助，因此最终未使用。（是否以及如何通过过程奖励模型将中间推理轨迹纳入训练信号，是一个活跃的研究领域。）</p>
 <p>图6：在 RLVR 期间忽略中间推理轨迹；只有最终答案和响应格式决定奖励。</p>
-<h3 id="2-2-“啊哈”时刻"><a href="#2-2-“啊哈”时刻" class="headerlink" title="2.2 “啊哈”时刻"></a>2.2 “啊哈”时刻</h3><p>无论如何，仅基于输出奖励进行训练，如图7所示，足以让模型学会如何推理问题，这意味着它会学会写中间解释、回溯和自我纠正。模型意识到自己犯了错误并自我纠正的时刻被称为“啊哈”时刻。</p>
+<h3 id="22-啊哈时刻"><a class="markdownIt-Anchor" href="#22-啊哈时刻"></a> 2.2 “啊哈”时刻</h3>
+<p>无论如何，仅基于输出奖励进行训练，如图7所示，足以让模型学会如何推理问题，这意味着它会学会写中间解释、回溯和自我纠正。模型意识到自己犯了错误并自我纠正的时刻被称为“啊哈”时刻。</p>
 <p>图7：一个“啊哈”时刻的例子，推理模型注意到中间推理中的错误，并在产生最终答案前纠正它。</p>
 <p>顺便说一句，虽然 DeepSeek-R1 无疑是更受欢迎的论文，也是围绕可验证奖励强化学习和推理模型开发引起兴奋的论文，但还有另一篇论文 Kimi K1.5，于 2025 年 1 月 22 日同一天发布在 arXiv 上。此外，术语 RLVR 已经在两个月前的 Tülu 3: Pushing Frontiers in Open Language Model Post-Training 中被创造出来。</p>
 <p>DeepSeek R1 最终更受欢迎的一个原因是，它证明了仅用纯强化学习（RL）就可以实现推理行为。</p>
@@ -2523,7 +2527,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>虽然 R1-Zero 更像概念验证模型，但请注意完整的 DeepSeek-R1 推理模型训练管线通常是多阶段的，并且如前所述更复杂一些。</p>
 <p>图9：更详细的推理模型训练管线。这个描绘了各种 DeepSeek-R1 模型。更多细节，请参阅我的另一篇文章：《理解推理 LLM》。</p>
 <p>顺便说一句，今天的大多数 LLM 实际上都是推理模型，意味着它们已经以类似 DeepSeek-R1 的方式使用某种形式的 RLVR 训练过。</p>
-<h3 id="2-3-推理扩展简述"><a href="#2-3-推理扩展简述" class="headerlink" title="2.3 推理扩展简述"></a>2.3 推理扩展简述</h3><p>除了通过训练改进推理行为之外，另一个提高模型性能的杠杆是推理计算扩展。简而言之，这意味着我们在训练模型之后，在使用期间花费更多计算来获得更好的答案。</p>
+<h3 id="23-推理扩展简述"><a class="markdownIt-Anchor" href="#23-推理扩展简述"></a> 2.3 推理扩展简述</h3>
+<p>除了通过训练改进推理行为之外，另一个提高模型性能的杠杆是推理计算扩展。简而言之，这意味着我们在训练模型之后，在使用期间花费更多计算来获得更好的答案。</p>
 <p>这本身就是一个完整的话题，你可以阅读我的《LLM 推理模型推理现状》以获得更详细的概述：</p>
 <p>我将尝试在下面总结作为背景信息最重要的内容。</p>
 <p>首先，用 RLVR 训练模型已经隐含地导致了一种推理扩展形式，因为推理模型在推理期间通常比传统 LLM 输出更多 token，这意味着我们在推理期间花费更多计算。</p>
@@ -2533,7 +2538,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>这可以应用于传统 LLM 以及推理模型。此外，这种方法可以按需使用，并且是在推理训练之外的补充。一个很好的例子是 DeepSeekMath-V2，研究人员在推理模型（专门用于数学）之上应用极端的推理扩展，以在具有挑战性的数学奥林匹克类问题上实现最先进的性能。</p>
 <p>图11：两种推理扩展（自洽性和自我改进）一起使用以提高数学性能。图改编自《DeepSeekMath-V2：迈向自可验证数学推理》。</p>
 <p>但再次，我将参考我的另一篇文章《LLM 推理模型推理现状》，以概述其他技术：</p>
-<h2 id="3-思考-token"><a href="#3-思考-token" class="headerlink" title="3. 思考 token"></a>3. 思考 token</h2><p>你可能在前面的“啊哈时刻”图中看到了 <code>&lt;think&gt;&lt;/think&gt;</code> token。我也在下面包含了相应的图，这样你就不必一直向上滚动。</p>
+<h2 id="3-思考-token"><a class="markdownIt-Anchor" href="#3-思考-token"></a> 3. 思考 token</h2>
+<p>你可能在前面的“啊哈时刻”图中看到了 <code>&lt;think&gt;&lt;/think&gt;</code> token。我也在下面包含了相应的图，这样你就不必一直向上滚动。</p>
 <p>图12：推理模型中常见的格式化 token。</p>
 <p>这些 <code>&lt;think&gt;</code> 和 <code>&lt;/think&gt;</code> 标签在推理能力方面是装饰性的。它们不会让模型推理，也不是实现良好推理性能所必需的。人们可以在没有这些分隔符的情况下训练同一个模型，并可能达到类似的基准性能。</p>
 <p>这些 <code>&lt;think&gt;</code> 标签或 token 的目的主要是标记推理轨迹开始和结束的位置，以便训练管线或用户界面可以将其与最终答案分开，并可选地对用户隐藏它。（像 ChatGPT 或 Codex 这样的 UI 通常会这样做。）</p>
@@ -2544,30 +2550,31 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p><code>R_total = R_accuracy + R_format</code></p>
 <p>其中格式奖励是一个简单的基于规则的检查，鼓励模型将其推理放在：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;think&gt;</span><br><span class="line"></span><br><span class="line">reasoning trace</span><br><span class="line"></span><br><span class="line">&lt;/think&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-推理模式开-关切换"><a href="#4-推理模式开-关切换" class="headerlink" title="4. 推理模式开&#x2F;关切换"></a>4. 推理模式开&#x2F;关切换</h2><p>第一代推理模型是专用推理模型。我的意思是，有一个 DeepSeek-V3 基础模型和一个单独的 DeepSeek-R1 推理模型。</p>
+<h2 id="4-推理模式开关切换"><a class="markdownIt-Anchor" href="#4-推理模式开关切换"></a> 4. 推理模式开/关切换</h2>
+<p>第一代推理模型是专用推理模型。我的意思是，有一个 DeepSeek-V3 基础模型和一个单独的 DeepSeek-R1 推理模型。</p>
 <p>无论提示是什么，R1 通常输出非常冗长的响应，使用大量 token，即使对于简单提示也是如此。它也缺乏内置选项来关闭推理模式。</p>
 <p>图13：推理模型非常冗长，即使对于最简单的提示也是如此。</p>
 <p>后来的模型，如 Qwen3 和其他模型，尝试了混合方法，同一个模型可以按需表现得像常规指令微调模型或推理模型。</p>
 <p>注意：一些模型开发者称之为“思考模式”，而其他人称之为“推理模式”。两个术语都指同一行为。</p>
 <p>在 Qwen3 中，这是通过 tokenizer 使用 <code>enable_thinking=True</code> 或 <code>enable_thinking=False</code> 处理的。底层上，设置 <code>enable_thinking=False</code> 本质上是在助手响应开头添加一个空的 <code>&lt;think&gt;&lt;/think&gt;</code> 部分，以关闭 Qwen3 的推理（“思考”）模式。</p>
-<p>图14：Qwen3 0.6B 推理模型在 thinking&#x3D;False 和 thinking&#x3D;True 下的响应。（空的 <code>&lt;think&gt;&lt;/think&gt;</code> 标签在左侧界面中被隐藏，因为它们是修改后的输入提示的一部分，而不是生成的答案。）</p>
+<p>图14：Qwen3 0.6B 推理模型在 thinking=False 和 thinking=True 下的响应。（空的 <code>&lt;think&gt;&lt;/think&gt;</code> 标签在左侧界面中被隐藏，因为它们是修改后的输入提示的一部分，而不是生成的答案。）</p>
 <p>这在训练期间是如何实现的，使得模型在推理时支持这种切换，如下图所示？</p>
-<p>简而言之，正如 Qwen3 技术报告所解释的，这种开&#x2F;关行为主要通过监督微调（SFT）引入，然后在其最大的旗舰模型中的通用 RL 期间得到强化。</p>
+<p>简而言之，正如 Qwen3 技术报告所解释的，这种开/关行为主要通过监督微调（SFT）引入，然后在其最大的旗舰模型中的通用 RL 期间得到强化。</p>
 <p>例如，在初始推理模型通过长链思维 SFT 和推理 RL 训练后，他们添加了一个“思考模式融合”阶段。在这个额外的 SFT 阶段，模型看到思考和未思考的示例：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/think: &lt;think&gt;&#123;reasoning&#125;&lt;/think&gt;&#123;answer&#125;</span><br><span class="line"></span><br><span class="line">/no_think: &lt;think&gt;&lt;/think&gt;&#123;answer&#125;</span><br></pre></td></tr></table></figure>
-
 <p>思考是默认行为，因此 <code>/think</code> 也可以省略。随后的通用 RL 阶段进一步强化了这种模式和格式遵循。</p>
 <p>这些 <code>/think</code> 和 <code>/no_think</code> 标志是一个“软”开关。然而，前面提到的 <code>enable_thinking=False</code> 设置，在 False 情况下强制添加空的 <code>&lt;think&gt;&lt;/think&gt;</code>，则充当“硬”开关。</p>
-<p>图15：Qwen3 训练管线中的“思考模式融合”，以实现推理模式开&#x2F;关切换。</p>
+<p>图15：Qwen3 训练管线中的“思考模式融合”，以实现推理模式开/关切换。</p>
 <p>换句话说，tokenizer 不会将 <code>/no_think</code> 添加到查询中。它直接在助手响应开头填充空的 <code>&lt;think&gt;&lt;/think&gt;</code> 部分。模型只看到结果 token，并直接继续答案。</p>
-<p>无论如何，这种开&#x2F;关切换本质上是 GPT-5.6 和其他模型中推理强度级别的简化版本，我将在下一节介绍。</p>
-<h2 id="5-“推理强度”设置如何工作"><a href="#5-“推理强度”设置如何工作" class="headerlink" title="5. “推理强度”设置如何工作"></a>5. “推理强度”设置如何工作</h2><p>在本节中，我想简要概述不同的推理强度切换可能如何实现，这些已在 GPT 5 等模型中引入，并且如今几乎出现在任何旗舰模型中。</p>
+<p>无论如何，这种开/关切换本质上是 GPT-5.6 和其他模型中推理强度级别的简化版本，我将在下一节介绍。</p>
+<h2 id="5-推理强度设置如何工作"><a class="markdownIt-Anchor" href="#5-推理强度设置如何工作"></a> 5. “推理强度”设置如何工作</h2>
+<p>在本节中，我想简要概述不同的推理强度切换可能如何实现，这些已在 GPT 5 等模型中引入，并且如今几乎出现在任何旗舰模型中。</p>
 <p>具体来说，在本文开头，我展示了一张来自 Codex GPT 5.6 界面的图，允许用户选择多个推理“强度”设置。</p>
 <p>图16：GPT-5.6 暴露了六种推理强度设置，从 Light 到 Ultra。</p>
 <p>以下小节将说明这些设置可能如何实现。然后，在下一节中，我将介绍一些与此主题相关的更有趣的研究论文。</p>
-<h3 id="5-1-推理强度与响应长度和质量"><a href="#5-1-推理强度与响应长度和质量" class="headerlink" title="5.1 推理强度与响应长度和质量"></a>5.1 推理强度与响应长度和质量</h3><p>不幸的是，OpenAI 没有分享其强度设置的实现细节，但有一些证据可用于有根据的猜测。</p>
-<p>例如，通过他们去年的开源 gpt-oss 模型（我在《从 GPT-2 到 gpt-oss：分析架构进展》中写过），我们知道 OpenAI 允许我们通过系统提示（“Reasoning effort: low&#x2F;medium&#x2F;high”）切换推理强度设置，该提示被前置到每个提示。</p>
+<h3 id="51-推理强度与响应长度和质量"><a class="markdownIt-Anchor" href="#51-推理强度与响应长度和质量"></a> 5.1 推理强度与响应长度和质量</h3>
+<p>不幸的是，OpenAI 没有分享其强度设置的实现细节，但有一些证据可用于有根据的猜测。</p>
+<p>例如，通过他们去年的开源 gpt-oss 模型（我在《从 GPT-2 到 gpt-oss：分析架构进展》中写过），我们知道 OpenAI 允许我们通过系统提示（“Reasoning effort: low/medium/high”）切换推理强度设置，该提示被前置到每个提示。</p>
 <p>图17：gpt-oss 聊天模板将选定的推理强度插入系统消息，然后将提示发送给同一模型。</p>
 <p>正如预期，推理强度直接影响响应长度和准确性，如下所示。</p>
 <p>图18：不同推理强度下 gpt-oss 模型的响应长度和质量（模型卡注释图）</p>
@@ -2577,14 +2584,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>另一个很好的、非常新的数据点显示了推理强度、token 使用量和基准性能之间的关系，是本周 Thinking Machine Labs 发布的新开放权重 Inkling。</p>
 <p>图20：增加 Inkling 强度水平通常会增加生成的 token 和基准性能，但在更高强度下收益递减或不均匀。图来自 Inkling 公告博客。</p>
 <p>如本节所讨论，在推理期间，推理强度水平可以简单地通过系统提示控制。（ChatGPT UI 大概只是将菜单选择映射到系统提示。）然而，这对任意模型都不起作用，需要对训练管线进行某些修改，接下来将讨论。</p>
-<h3 id="5-2-可能的强度级别实现"><a href="#5-2-可能的强度级别实现" class="headerlink" title="5.2 可能的强度级别实现"></a>5.2 可能的强度级别实现</h3><p>虽然训练细节不公开，无论是 GPT 5.6 还是开源 gpt-oss 模型，通常，推理强度标签在后训练期间被包含在提示中。</p>
+<h3 id="52-可能的强度级别实现"><a class="markdownIt-Anchor" href="#52-可能的强度级别实现"></a> 5.2 可能的强度级别实现</h3>
+<p>虽然训练细节不公开，无论是 GPT 5.6 还是开源 gpt-oss 模型，通常，推理强度标签在后训练期间被包含在提示中。</p>
 <p>通常有两种实现方式。</p>
 <p>首先，我们可以将其实现为 RLVR 过程的一部分，并在使用不同系统提示时应用不同的长度惩罚。例如，当“Reasoning effort: low”时使用高长度惩罚，当“Reasoning effort: high”时使用轻微或无惩罚。</p>
 <p>其次，我们可以在 RLVR 之后微调模型，通过监督微调（SFT）遵循不同的强度指令。</p>
 <p>例如，在核心 RLVR 阶段之后和 SFT 期间，训练数据集中的提示与表现出所需推理量的目标响应配对。（目标可能由人类编写、由另一模型生成，或生成后过滤。）</p>
 <p>图21：以强度为条件的 RLVR 和 SFT 图示。（这是一种可能的实现，不是对 OpenAI 训练管线的确认描述。）</p>
 <p>在这个 SFT 阶段，模型直接从训练示例中学习强度标签与目标推理长度之间的关联。基于 RL 的实现则会将强度标签和预算感知奖励放入 RLVR 阶段。这两种方法也可以结合，我怀疑 gpt-oss 和 GPT 5.6 都这样做了（注意 GPT 5.6 中的强度设置可能只是为给定用户查询更改系统提示）。</p>
-<h3 id="5-3-Inkling-案例研究"><a href="#5-3-Inkling-案例研究" class="headerlink" title="5.3 Inkling 案例研究"></a>5.3 Inkling 案例研究</h3><p>刚发布的 Inkling 技术报告给出了一个小的但有些具体的强度级别训练示例。</p>
+<h3 id="53-inkling-案例研究"><a class="markdownIt-Anchor" href="#53-inkling-案例研究"></a> 5.3 Inkling 案例研究</h3>
+<p>刚发布的 Inkling 技术报告给出了一个小的但有些具体的强度级别训练示例。</p>
 <p>图22：Inkling 在 0.2 到 0.99 之间扫描连续强度值；更高的强度通常产生更长的响应和更高的基准分数。</p>
 <p>在大规模 RL 期间，他们对每个样本做了两件事：</p>
 <ol>
@@ -2600,7 +2609,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>然后，在推理时，Inkling 接收诸如 <code>Thinking effort level: 0.8</code> 的系统消息，并相应地调整其 token 使用量。Inkling 与 gpt-oss 和 GPT-5.6 等模型的不同之处在于，强度标签是 0 到 1 之间的连续数字，而不是诸如 low、medium、high 之类的序数标签。</p>
 <p>这将 Inkling 的强度级别条件主要放在推理 RL 阶段，而不仅仅是后来的 SFT 阶段。</p>
 <p>他们没有披露确切的奖励公式、token 成本系数，或者强度条件是否也包含在 SFT 中。</p>
-<h3 id="5-4-关于推理扩展与训练扩展的简短说明"><a href="#5-4-关于推理扩展与训练扩展的简短说明" class="headerlink" title="5.4 关于推理扩展与训练扩展的简短说明"></a>5.4 关于推理扩展与训练扩展的简短说明</h3><p>在进入推理强度论文之前，我想简要地将本节与前面的“2.3 推理扩展简述”部分联系起来。</p>
+<h3 id="54-关于推理扩展与训练扩展的简短说明"><a class="markdownIt-Anchor" href="#54-关于推理扩展与训练扩展的简短说明"></a> 5.4 关于推理扩展与训练扩展的简短说明</h3>
+<p>在进入推理强度论文之前，我想简要地将本节与前面的“2.3 推理扩展简述”部分联系起来。</p>
 <p>前面，我将扩展分为训练计算扩展和推理时扩展。GPT-5.6 界面提供了一个很好的方式来展示差异，如下所示。</p>
 <p>左侧，选择 Luna、Terra 或 Sol 会改变模型本身。粗略类比，这对应于训练计算扩展。这些是单独训练的模型。在固定训练配方和数据集大小下，更大的模型需要更多训练计算。它通常也需要每个生成 token 更多计算。</p>
 <p>右侧，我们保持模型固定，只改变推理强度。这是推理时扩展。模型权重保持不变，但模型被允许花费更少或更多 token 来研究答案。</p>
@@ -2613,11 +2623,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>顺便说一句，此图中的 x 轴显示的是 API 成本而不是原始计算。API 成本是一个有用的实用指标，但它也取决于提供商的定价和生成的 token 数量。此外，这些曲线的确切形状是基准特定的。</p>
 <p>因此，模型大小和推理强度形成两个独立的旋钮。我们可以使用更大的模型、增加推理强度，或两者结合。哪种组合最好取决于所需的准确性、成本和延迟。</p>
 <p>到目前为止，本文应该让你对推理强度模式如何工作以及如何实现有了相当扎实的理解。如果你时间紧，这是一个很好的收尾点。否则，如果你想深入了解一些最近开放权重模型的具体细节，请继续阅读！</p>
-<h2 id="6-额外：在旗舰开放权重-LLM-中实现推理强度的不同方式"><a href="#6-额外：在旗舰开放权重-LLM-中实现推理强度的不同方式" class="headerlink" title="6. 额外：在旗舰开放权重 LLM 中实现推理强度的不同方式"></a>6. 额外：在旗舰开放权重 LLM 中实现推理强度的不同方式</h2><p>[除非你对一些额外细节感兴趣，否则可以跳过本节]</p>
+<h2 id="6-额外在旗舰开放权重-llm-中实现推理强度的不同方式"><a class="markdownIt-Anchor" href="#6-额外在旗舰开放权重-llm-中实现推理强度的不同方式"></a> 6. 额外：在旗舰开放权重 LLM 中实现推理强度的不同方式</h2>
+<p>[除非你对一些额外细节感兴趣，否则可以跳过本节]</p>
 <p>第5节描述了两种可能的训练推理强度控制的方法，即以强度为条件的监督微调和具有不同 token 成本的强化学习。最初，我想涵盖关于实现推理预算的替代方法的研究文章。然而，阅读大多数这些文章后，它们似乎更像概念验证，可能或可能在实际中效果不佳。</p>
 <p>因此，我决定稍微转向，涵盖那些最先进和值得注意的开放权重（旗舰）LLM 使用的配方。对于这些模型，至少有证据表明这些方法在实践中有效。</p>
 <p>这留下了六个例子。DeepSeek V4、Nemotron 3 Ultra、Kimi K2.5、GLM-5、Qwen3 和 Inkling。它们的报告详细程度不同，但每个都贡献了有用的变体。（我排除那些报告仅在用户界面中显示强度设置而没有解释该行为如何训练的模型。）</p>
-<h3 id="6-1-DeepSeek-V4-训练单独的强度专家"><a href="#6-1-DeepSeek-V4-训练单独的强度专家" class="headerlink" title="6.1 DeepSeek V4 训练单独的强度专家"></a>6.1 DeepSeek V4 训练单独的强度专家</h3><p>让我们从 DeepSeek V4 技术报告开始，它描述了三种模式的使用：</p>
+<h3 id="61-deepseek-v4-训练单独的强度专家"><a class="markdownIt-Anchor" href="#61-deepseek-v4-训练单独的强度专家"></a> 6.1 DeepSeek V4 训练单独的强度专家</h3>
+<p>让我们从 DeepSeek V4 技术报告开始，它描述了三种模式的使用：</p>
 <ul>
 <li><strong>Non-think</strong> 产生直接响应，没有推理轨迹。</li>
 <li><strong>Think High</strong> 是经典方法，模型将推理轨迹放在 <code>&lt;think&gt;</code> 和 <code>&lt;/think&gt;</code> 标签之间。这类似于本文开头第2节中讨论的 DeepSeek R1。</li>
@@ -2632,25 +2644,32 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>然而，报告指出，支持不同推理强度级别的最终模型是通过从上述教师进行在线策略蒸馏创建的。</p>
 <p>总结一下，DeepSeek V4 在后训练期间开发了三个推理专家。从基础模型开始，它应用监督微调，然后通过 GRPO 进行 RLVR。每种模式的 RL 配置不同。特别是，每个专家使用自己的上下文窗口和长度惩罚，而 Think Max 额外接收特殊系统指令。</p>
 <p>然后，包括领域专家，不同的推理模式专家被蒸馏到一个支持所有三种强度模式的单一检查点中。</p>
-<h3 id="6-2-Nemotron-3-Ultra-将学习模式与硬预算结合"><a href="#6-2-Nemotron-3-Ultra-将学习模式与硬预算结合" class="headerlink" title="6.2 Nemotron 3 Ultra 将学习模式与硬预算结合"></a>6.2 Nemotron 3 Ultra 将学习模式与硬预算结合</h3><p>Nemotron 3 Ultra 技术报告描述了三种设置，称为 reasoning-off、regular 和 medium-effort，类似于上一节中的 DeepSeek V4。Medium-effort 是与 regular 相比更便宜的推理模式。NVIDIA 在 SFT 期间使用 GPT-OSS-120B 在其 medium-effort 模式下生成的示例引入此模式，然后在 RLVR 期间进一步优化。大约 2.5% 的 RLVR 提示使用 medium-effort（这对应于应用于其奖励的基于长度的调整）。</p>
-<h4 id="6-2-1-在推理期间使用-Nemotron-推理预算"><a href="#6-2-1-在推理期间使用-Nemotron-推理预算" class="headerlink" title="6.2.1 在推理期间使用 Nemotron 推理预算"></a>6.2.1 在推理期间使用 Nemotron 推理预算</h4><p>在推理时，所有三种模式都通过聊天模板选择。</p>
+<h3 id="62-nemotron-3-ultra-将学习模式与硬预算结合"><a class="markdownIt-Anchor" href="#62-nemotron-3-ultra-将学习模式与硬预算结合"></a> 6.2 Nemotron 3 Ultra 将学习模式与硬预算结合</h3>
+<p>Nemotron 3 Ultra 技术报告描述了三种设置，称为 reasoning-off、regular 和 medium-effort，类似于上一节中的 DeepSeek V4。Medium-effort 是与 regular 相比更便宜的推理模式。NVIDIA 在 SFT 期间使用 GPT-OSS-120B 在其 medium-effort 模式下生成的示例引入此模式，然后在 RLVR 期间进一步优化。大约 2.5% 的 RLVR 提示使用 medium-effort（这对应于应用于其奖励的基于长度的调整）。</p>
+<h4 id="621-在推理期间使用-nemotron-推理预算"><a class="markdownIt-Anchor" href="#621-在推理期间使用-nemotron-推理预算"></a> 6.2.1 在推理期间使用 Nemotron 推理预算</h4>
+<p>在推理时，所有三种模式都通过聊天模板选择。</p>
 <p>图27：通过聊天模板的 Nemotron 3 Ultra 推理设置（来自官方模型卡的示例）</p>
 <ol>
-<li><p><strong>Regular</strong> 是默认值，使用 <code>enable_thinking=True</code>，它以打开 <code>&lt;think&gt;</code> 标签开始助手响应。</p>
+<li>
+<p><strong>Regular</strong> 是默认值，使用 <code>enable_thinking=True</code>，它以打开 <code>&lt;think&gt;</code> 标签开始助手响应。</p>
 </li>
-<li><p><strong>Medium-effort</strong> 使用 <code>enable_thinking=True</code> 和 <code>medium_effort=True</code>，后者设置还将 <code>&#123;reasoning effort: efficient&#125;</code> 附加到最新用户消息。</p>
+<li>
+<p><strong>Medium-effort</strong> 使用 <code>enable_thinking=True</code> 和 <code>medium_effort=True</code>，后者设置还将 <code>&#123;reasoning effort: efficient&#125;</code> 附加到最新用户消息。</p>
 </li>
 </ol>
 <p>顺便说一句，更复杂的是，regular 和 medium-effort 模式还可以与单独的推理时推理预算结合。此预算充当外部停止机制。在发布的实现中，聊天客户端要求模型在选定的 token 限制附近结束推理轨迹。如果模型没有发出 <code>&lt;/think&gt;</code>，客户端关闭推理块并继续生成以产生最终答案。学习到的强度模式决定模型如何使用其推理 token，而预算限制推理轨迹可以继续多长时间。这使得可以根据所需成本和准确性将任一模式与更紧或更松的预算配对。</p>
 <ol start="3">
 <li><strong>Reasoning-off</strong> 使用 <code>enable_thinking=False</code>，它预填充空的 <code>&lt;think&gt;&lt;/think&gt;</code> 块（类似于第4节中讨论的 Qwen3），以便模型直接进入最终响应。因此，这些是聊天模板控制而不是系统提示。</li>
 </ol>
-<h4 id="6-2-2-Nemotron-中的推理预算感知训练"><a href="#6-2-2-Nemotron-中的推理预算感知训练" class="headerlink" title="6.2.2 Nemotron 中的推理预算感知训练"></a>6.2.2 Nemotron 中的推理预算感知训练</h4><p>上述推理控制由两个相关的 SFT 组件支持。第一个使用 GPT-OSS-120B 轨迹引入 medium-effort 行为，如前所述。第二个为模型准备硬推理预算。</p>
+<h4 id="622-nemotron-中的推理预算感知训练"><a class="markdownIt-Anchor" href="#622-nemotron-中的推理预算感知训练"></a> 6.2.2 Nemotron 中的推理预算感知训练</h4>
+<p>上述推理控制由两个相关的 SFT 组件支持。第一个使用 GPT-OSS-120B 轨迹引入 medium-effort 行为，如前所述。第二个为模型准备硬推理预算。</p>
 <p>为了构建此训练数据，作者采用常规推理轨迹，在随机选择的 token 预算处截断它们，并保留原始最终答案。插入的 <code>&lt;/think&gt;</code> token 从 SFT 损失中屏蔽。结果，模型看到示例，其中它必须在推理块被外部关闭后，从不完整的推理轨迹转向答案。</p>
 <p>Medium-effort 训练随后在 RLVR 期间继续。大约 2.5% 的 RL 提示在数学、STEM 和编码任务中使用 medium-effort 设置。报告指出，该模式可以通过奖励超参数进行校准，其中基于长度的奖励调整提供了对成本-质量权衡的额外控制。</p>
 <p>图28：Nemotron 3 Ultra 通过教师生成的 SFT 数据、随机预算截断和 RLVR 期间的小型 medium-effort 子集引入中等强度。</p>
-<h3 id="6-3-Kimi-K2-5-交替使用预算和无约束-RL"><a href="#6-3-Kimi-K2-5-交替使用预算和无约束-RL" class="headerlink" title="6.3 Kimi K2.5 交替使用预算和无约束 RL"></a>6.3 Kimi K2.5 交替使用预算和无约束 RL</h3><p>Kimi K2.5 技术报告讨论了一种称为 Token Efficient RL 的训练方法，用于较低推理强度。（虽然本周有 K3 公告，但 K3 的推理强度方法未公开，但可能类似或与 K2.5 相关。）</p>
-<h4 id="6-3-1-Kimi-的-Toggle-方法"><a href="#6-3-1-Kimi-的-Toggle-方法" class="headerlink" title="6.3.1 Kimi 的 Toggle 方法"></a>6.3.1 Kimi 的 Toggle 方法</h4><p>报告提到，固定 token 预算可能使推理模型过度拟合短解决方案。这意味着模型变得更简洁（即更快、更便宜），但它可能失去从额外推理时计算中受益的能力，因此可能表现不佳。</p>
+<h3 id="63-kimi-k25-交替使用预算和无约束-rl"><a class="markdownIt-Anchor" href="#63-kimi-k25-交替使用预算和无约束-rl"></a> 6.3 Kimi K2.5 交替使用预算和无约束 RL</h3>
+<p>Kimi K2.5 技术报告讨论了一种称为 Token Efficient RL 的训练方法，用于较低推理强度。（虽然本周有 K3 公告，但 K3 的推理强度方法未公开，但可能类似或与 K2.5 相关。）</p>
+<h4 id="631-kimi-的-toggle-方法"><a class="markdownIt-Anchor" href="#631-kimi-的-toggle-方法"></a> 6.3.1 Kimi 的 Toggle 方法</h4>
+<p>报告提到，固定 token 预算可能使推理模型过度拟合短解决方案。这意味着模型变得更简洁（即更快、更便宜），但它可能失去从额外推理时计算中受益的能力，因此可能表现不佳。</p>
 <p>图29：提出的 Toggle 方法使 Kimi K2.5 的 token 效率大大提高，同时保持整体基准性能相似。注释图来自 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2602.02276">https://arxiv.org/abs/2602.02276</a></p>
 <p>Kimi K2.5 的方法称为 Toggle，每固定数量的训练迭代交替两个 RL 阶段：</p>
 <ol>
@@ -2661,33 +2680,39 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>图30：Toggle 方法两个阶段的概述。</p>
 <p>报告在 K2 Thinking 上评估 Toggle，发现它将生成的 token 减少约 25% 到 30%，而基准性能几乎没有变化。相同行为也从数学和编码 RL 任务转移到 GPQA 和 MMLU-Pro。</p>
 <p>Toggle 提供了一种具体的旗舰模型配方，用于训练更 token 高效的推理策略，同时保留其在测试时扩展的能力。</p>
-<h4 id="6-3-2-Toggle-在推理时改变了什么"><a href="#6-3-2-Toggle-在推理时改变了什么" class="headerlink" title="6.3.2 Toggle 在推理时改变了什么"></a>6.3.2 Toggle 在推理时改变了什么</h4><p>Toggle 完全在 RL 训练期间运行。两个交替阶段更新同一策略（即 LLM），最终（统一）检查点没有预算与无约束选择器。在推理时，得到的模型默认以思考模式运行。</p>
+<h4 id="632-toggle-在推理时改变了什么"><a class="markdownIt-Anchor" href="#632-toggle-在推理时改变了什么"></a> 6.3.2 Toggle 在推理时改变了什么</h4>
+<p>Toggle 完全在 RL 训练期间运行。两个交替阶段更新同一策略（即 LLM），最终（统一）检查点没有预算与无约束选择器。在推理时，得到的模型默认以思考模式运行。</p>
 <p>然而有趣的是，Kimi K2.5 本身在我检查的一些 API（如 vLLM 或 SGLang）中暴露了思考模式和即时模式之间的单独二元选择。思考模式默认启用。即时模式通过官方 API 中的 <code>thinking: &#123;”type”: “disabled”&#125;</code> 或通过 vLLM 或 SGLang 服务模型时的 <code>chat_template_kwargs=&#123;”thinking”: False&#125;</code> 禁用推理轨迹。然而，这些设置与 Toggle 分开。</p>
 <p>此外，官方 Kimi 报告没有为即时模式提供单独的训练配方。然而，K2.5 的 SFT 数据是使用较早的 K2 模型（产生没有长推理的直接响应）和 K2 Thinking（产生扩展推理轨迹）生成的。这可能使统一检查点暴露于两种响应格式，类似于上面 Nemotron 3 中所做。在推理时，聊天模板通过在思考模式下预填充打开 <code>&lt;think&gt;</code> 标签或在即时模式下预填充空 <code>&lt;think&gt;&lt;/think&gt;</code> 块来在它们之间选择。但再次，不幸的是，报告没有披露确切的数据混合或是否使用了额外的模式特定 RL。</p>
 <p>较新的 Kimi K3 提供了更直接的推理时强度接口。当前 Kimi Code 文档列出了三个设置，称为 low、high 和 max，其中 max 是默认值。这些通过 <code>reasoning_effort</code> 参数传递。然而，Moonshot 尚未解释这三个强度级别在训练期间是如何创建的。其发布帖子说这些细节将出现在未来的 K3 技术报告中，所以我会继续关注。</p>
-<h3 id="6-4-GLM-5-通过-SFT-引入轮次级和交错思考"><a href="#6-4-GLM-5-通过-SFT-引入轮次级和交错思考" class="headerlink" title="6.4 GLM-5 通过 SFT 引入轮次级和交错思考"></a>6.4 GLM-5 通过 SFT 引入轮次级和交错思考</h3><p>GLM-5 技术报告将 GLM-4.5 引入的二元开&#x2F;关思考开关扩展到多轮和工具使用场景。它描述了三种相关行为（而不是三个强度级别）：</p>
+<h3 id="64-glm-5-通过-sft-引入轮次级和交错思考"><a class="markdownIt-Anchor" href="#64-glm-5-通过-sft-引入轮次级和交错思考"></a> 6.4 GLM-5 通过 SFT 引入轮次级和交错思考</h3>
+<p>GLM-5 技术报告将 GLM-4.5 引入的二元开/关思考开关扩展到多轮和工具使用场景。它描述了三种相关行为（而不是三个强度级别）：</p>
 <ul>
 <li><strong>交错思考</strong>：在每次响应和工具调用之前插入一个推理块。</li>
 <li><strong>保留思考</strong>：聊天跨轮保留较早的推理块，以便模型以后可以重用它们。</li>
 <li><strong>轮次级思考</strong>：在对话中为每个请求单独启用或禁用推理。</li>
 </ul>
-<p>在推理时，轮次级思考是实际的开&#x2F;关开关。在 Z.ai API 中，思考默认启用，并且可以使用 <code>thinking: &#123;”type”: “disabled”&#125;</code> 为单个请求禁用。托管实现未披露，但开放的 GLM-5 聊天模板显示了当使用 Transformers、vLLM 或 SGLang 自托管时的等效机制。</p>
+<p>在推理时，轮次级思考是实际的开/关开关。在 <a target="_blank" rel="noopener" href="http://Z.ai">Z.ai</a> API 中，思考默认启用，并且可以使用 <code>thinking: &#123;”type”: “disabled”&#125;</code> 为单个请求禁用。托管实现未披露，但开放的 GLM-5 聊天模板显示了当使用 Transformers、vLLM 或 SGLang 自托管时的等效机制。</p>
 <p>当思考启用时，它以 <code>&lt;|assistant|&gt;&lt;think&gt;</code> 开始助手响应，当禁用时以 <code>&lt;|assistant|&gt;&lt;/think&gt;</code> 开始。后者立即关闭推理块，因此生成直接进入最终答案。</p>
 <p>报告称这些行为是在多任务 SFT 期间与更新的聊天模板一起引入的。</p>
 <p>在 SFT 之后，GLM-5 经历推理 RL、代理 RL 和通用 RL。最后的在线策略蒸馏步骤使用前述阶段的检查点作为教师。这有助于最终模型恢复在顺序 RL 阶段中可能减弱的能力。</p>
 <p>图31：GLM-5 训练管线。</p>
-<h3 id="6-5-Qwen3-使用模式融合和推理时截断"><a href="#6-5-Qwen3-使用模式融合和推理时截断" class="headerlink" title="6.5 Qwen3 使用模式融合和推理时截断"></a>6.5 Qwen3 使用模式融合和推理时截断</h3><p>Qwen3 已在第4节中介绍，因此我只总结与此比较相关的部分。根据 Qwen3 技术报告，其后训练管线有四个阶段。这些是长链思维 SFT、推理 RL、思考模式融合和通用 RL。</p>
-<p>思考模式融合是强度开&#x2F;关切换的关键阶段。在这里，模型通过 SFT 在思考和未思考示例的混合上训练。<code>/think</code> 示例包含推理轨迹，而 <code>/no_think</code> 示例以空的 <code>&lt;think&gt;&lt;/think&gt;</code> 块开头，并附有简短答案。随后的通用 RL 阶段强化了两种行为的指令和格式遵循。</p>
+<h3 id="65-qwen3-使用模式融合和推理时截断"><a class="markdownIt-Anchor" href="#65-qwen3-使用模式融合和推理时截断"></a> 6.5 Qwen3 使用模式融合和推理时截断</h3>
+<p>Qwen3 已在第4节中介绍，因此我只总结与此比较相关的部分。根据 Qwen3 技术报告，其后训练管线有四个阶段。这些是长链思维 SFT、推理 RL、思考模式融合和通用 RL。</p>
+<p>思考模式融合是强度开/关切换的关键阶段。在这里，模型通过 SFT 在思考和未思考示例的混合上训练。<code>/think</code> 示例包含推理轨迹，而 <code>/no_think</code> 示例以空的 <code>&lt;think&gt;&lt;/think&gt;</code> 块开头，并附有简短答案。随后的通用 RL 阶段强化了两种行为的指令和格式遵循。</p>
 <p>Qwen3 还支持硬思考预算。在请求的阈值处，推理跨度停止，并在模型继续最终答案之前插入停止思考指令。报告称，这种部分推理行为没有明确训练。它在思考模式融合之后出现。</p>
-<p>这给 Qwen3 提供了一个学习到的开&#x2F;关切换加上推理时预算。它类似但比 DeepSeek V4 和 Nemotron 配方更简单。</p>
-<h3 id="6-6-Inkling-以连续强度值为条件进行-RL"><a href="#6-6-Inkling-以连续强度值为条件进行-RL" class="headerlink" title="6.6 Inkling 以连续强度值为条件进行 RL"></a>6.6 Inkling 以连续强度值为条件进行 RL</h3><p>Inkling 已在第5.3节中讨论。简短版本是，其技术报告提到他们使用连续强度条件（0.0 到 1.0 之间的值）而不是固定强度标签。</p>
+<p>这给 Qwen3 提供了一个学习到的开/关切换加上推理时预算。它类似但比 DeepSeek V4 和 Nemotron 配方更简单。</p>
+<h3 id="66-inkling-以连续强度值为条件进行-rl"><a class="markdownIt-Anchor" href="#66-inkling-以连续强度值为条件进行-rl"></a> 6.6 Inkling 以连续强度值为条件进行 RL</h3>
+<p>Inkling 已在第5.3节中讨论。简短版本是，其技术报告提到他们使用连续强度条件（0.0 到 1.0 之间的值）而不是固定强度标签。</p>
 <p>在相对较小的初始 SFT 阶段之后，Inkling 的大部分后训练来自异步 RL，超过 3000 万次 rollout。所需强度包含在系统消息中，并且在 RL 期间根据该值调整 token 长度惩罚。如前所述，更高的 token 成本鼓励更短的响应。更低的 token 成本给模型更多空间进行推理。</p>
-<h3 id="6-7-已知配方概述"><a href="#6-7-已知配方概述" class="headerlink" title="6.7 已知配方概述"></a>6.7 已知配方概述</h3><p>下表总结了六个技术报告中实际记录的内容。</p>
+<h3 id="67-已知配方概述"><a class="markdownIt-Anchor" href="#67-已知配方概述"></a> 6.7 已知配方概述</h3>
+<p>下表总结了六个技术报告中实际记录的内容。</p>
 <p>图32：六个具有推理强度设置的开放权重模型的已披露训练机制和推理控制比较。</p>
 <p>因此，查看六个不同的开放权重模型，它们有一个共享框架。首先，它们通过 SFT 和聊天模板引入强度模式控制。Qwen3 明确混合思考和未思考示例，而 GLM-5 添加交错、保留和轮次级思考模式。</p>
 <p>第二个共享组件是模式条件 RL 阶段，其中上下文窗口和长度惩罚随请求的强度变化。DeepSeek V4、Nemotron 3 Ultra 和 Inkling 使用这种方法。</p>
 <p>第三个成分提高了在明确预算下的鲁棒性。Nemotron 在随机截断的轨迹上训练，Qwen3 可以从强制停止的推理跨度继续，Kimi 交替预算和无约束 RL。这些方法有助于在可用推理长度变化甚至被切断时保持答案质量。</p>
-<h2 id="7-结论"><a href="#7-结论" class="headerlink" title="7. 结论"></a>7. 结论</h2><p>本文中的开放权重示例通过几种不同机制实现推理强度。相似的标签可能由单独的专家、混合 SFT 数据、模式条件奖励、硬 token 预算或这些方法的组合支持。</p>
+<h2 id="7-结论"><a class="markdownIt-Anchor" href="#7-结论"></a> 7. 结论</h2>
+<p>本文中的开放权重示例通过几种不同机制实现推理强度。相似的标签可能由单独的专家、混合 SFT 数据、模式条件奖励、硬 token 预算或这些方法的组合支持。</p>
 <p>很难说哪种方法最好。模型在其基础检查点、训练数据、后训练计算、基准和服务目标方面不同。它们的报告也省略了许多进行受控比较所需的细节。（此外，可能没有一刀切的方法，对交互式助手有效的方法可能不适合长时间运行的编码代理。）</p>
 <p>holy grail当然是自动强度选择。我们之前看到 GPT 5 的 Auto 模式。这是一个棘手的问题，最终实现可能弊大于利，这就是为什么它从 UI 中移除。</p>
 <p>我仍然希望强度选择会变得更自动。类似于 GPT 5 的自动模式，一个廉价模型或路由器可以根据请求、工具状态以及剩余时间或 token 预算选择模式，同时仍允许用户覆盖。如果你想优化延迟或成本，或最大性能，覆盖很有用。</p>
@@ -2715,10 +2740,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-10-29T07:02:34+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-11-03T01:43:13+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2026年10月29日</p>
+    <p>更新于：2026年11月3日</p>
   </a>
 </div>
 
@@ -2821,7 +2846,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class='prev' href='/2026/10/13/Unlimited_OCR/'>
           <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>Unlimited OCR</p>
-          <p class='content'>摘要近期，以DeepSeek OCR为代表的端到端OCR模型再次将OCR推上风口浪尖。一种普遍观点认为，采用大型语言模型（LLM）作为解码器，能够充分利用语言的先验分布，从而提升OCR性能。然而...</p>
+          <p class='content'> 摘要
+近期，以DeepSeek OCR为代表的端到端OCR模型再次将OCR推上风口浪尖。一种普遍观点认为，采用大型语言模型（LLM）作为解码器，能够充分利用语言的先验分布，从而提升OCR性能。...</p>
         </a>
       
       
@@ -2830,7 +2856,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           <p class='content'>GitHub
 论文
 
-摘要构建具有空间一致性和实时交互性的世界模型，仍然是计算机视觉领域的一项根本性挑战。当前的视频生成范式往往面临空间持久性不足与视觉真实感欠缺的问题，难以支持流畅无缝的场景导...</p>
+ 摘要
+构建具有空间一致性和实时交互性的世界模型，仍然是计算机视觉领域的一项根本性挑战。当前的视频生成范式往往面临空间持久性不足与视觉真实感欠缺的问题，难以支持流畅无缝的场...</p>
         </a>
       
     </div>
@@ -2891,7 +2918,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E8%A6%81%E5%AE%9A%E4%B9%89"><span class="toc-text">1. 推理模型的简要定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%AE%AD%E7%BB%83%E5%92%8C%E6%8E%A8%E7%90%86%E6%89%A9%E5%B1%95%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0"><span class="toc-text">2. 训练和推理扩展推理模型的简要概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%AE%AD%E7%BB%83%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B"><span class="toc-text">2.1 训练推理模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E2%80%9C%E5%95%8A%E5%93%88%E2%80%9D%E6%97%B6%E5%88%BB"><span class="toc-text">2.2 “啊哈”时刻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%8E%A8%E7%90%86%E6%89%A9%E5%B1%95%E7%AE%80%E8%BF%B0"><span class="toc-text">2.3 推理扩展简述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%80%9D%E8%80%83-token"><span class="toc-text">3. 思考 token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%BC%8F%E5%BC%80-%E5%85%B3%E5%88%87%E6%8D%A2"><span class="toc-text">4. 推理模式开&#x2F;关切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E2%80%9C%E6%8E%A8%E7%90%86%E5%BC%BA%E5%BA%A6%E2%80%9D%E8%AE%BE%E7%BD%AE%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="toc-text">5. “推理强度”设置如何工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%8E%A8%E7%90%86%E5%BC%BA%E5%BA%A6%E4%B8%8E%E5%93%8D%E5%BA%94%E9%95%BF%E5%BA%A6%E5%92%8C%E8%B4%A8%E9%87%8F"><span class="toc-text">5.1 推理强度与响应长度和质量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%8F%AF%E8%83%BD%E7%9A%84%E5%BC%BA%E5%BA%A6%E7%BA%A7%E5%88%AB%E5%AE%9E%E7%8E%B0"><span class="toc-text">5.2 可能的强度级别实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-Inkling-%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6"><span class="toc-text">5.3 Inkling 案例研究</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E5%85%B3%E4%BA%8E%E6%8E%A8%E7%90%86%E6%89%A9%E5%B1%95%E4%B8%8E%E8%AE%AD%E7%BB%83%E6%89%A9%E5%B1%95%E7%9A%84%E7%AE%80%E7%9F%AD%E8%AF%B4%E6%98%8E"><span class="toc-text">5.4 关于推理扩展与训练扩展的简短说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%A2%9D%E5%A4%96%EF%BC%9A%E5%9C%A8%E6%97%97%E8%88%B0%E5%BC%80%E6%94%BE%E6%9D%83%E9%87%8D-LLM-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E6%8E%A8%E7%90%86%E5%BC%BA%E5%BA%A6%E7%9A%84%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F"><span class="toc-text">6. 额外：在旗舰开放权重 LLM 中实现推理强度的不同方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-DeepSeek-V4-%E8%AE%AD%E7%BB%83%E5%8D%95%E7%8B%AC%E7%9A%84%E5%BC%BA%E5%BA%A6%E4%B8%93%E5%AE%B6"><span class="toc-text">6.1 DeepSeek V4 训练单独的强度专家</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-Nemotron-3-Ultra-%E5%B0%86%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F%E4%B8%8E%E7%A1%AC%E9%A2%84%E7%AE%97%E7%BB%93%E5%90%88"><span class="toc-text">6.2 Nemotron 3 Ultra 将学习模式与硬预算结合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-1-%E5%9C%A8%E6%8E%A8%E7%90%86%E6%9C%9F%E9%97%B4%E4%BD%BF%E7%94%A8-Nemotron-%E6%8E%A8%E7%90%86%E9%A2%84%E7%AE%97"><span class="toc-text">6.2.1 在推理期间使用 Nemotron 推理预算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-2-Nemotron-%E4%B8%AD%E7%9A%84%E6%8E%A8%E7%90%86%E9%A2%84%E7%AE%97%E6%84%9F%E7%9F%A5%E8%AE%AD%E7%BB%83"><span class="toc-text">6.2.2 Nemotron 中的推理预算感知训练</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-Kimi-K2-5-%E4%BA%A4%E6%9B%BF%E4%BD%BF%E7%94%A8%E9%A2%84%E7%AE%97%E5%92%8C%E6%97%A0%E7%BA%A6%E6%9D%9F-RL"><span class="toc-text">6.3 Kimi K2.5 交替使用预算和无约束 RL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-1-Kimi-%E7%9A%84-Toggle-%E6%96%B9%E6%B3%95"><span class="toc-text">6.3.1 Kimi 的 Toggle 方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-2-Toggle-%E5%9C%A8%E6%8E%A8%E7%90%86%E6%97%B6%E6%94%B9%E5%8F%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-text">6.3.2 Toggle 在推理时改变了什么</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-GLM-5-%E9%80%9A%E8%BF%87-SFT-%E5%BC%95%E5%85%A5%E8%BD%AE%E6%AC%A1%E7%BA%A7%E5%92%8C%E4%BA%A4%E9%94%99%E6%80%9D%E8%80%83"><span class="toc-text">6.4 GLM-5 通过 SFT 引入轮次级和交错思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-Qwen3-%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%BC%8F%E8%9E%8D%E5%90%88%E5%92%8C%E6%8E%A8%E7%90%86%E6%97%B6%E6%88%AA%E6%96%AD"><span class="toc-text">6.5 Qwen3 使用模式融合和推理时截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-Inkling-%E4%BB%A5%E8%BF%9E%E7%BB%AD%E5%BC%BA%E5%BA%A6%E5%80%BC%E4%B8%BA%E6%9D%A1%E4%BB%B6%E8%BF%9B%E8%A1%8C-RL"><span class="toc-text">6.6 Inkling 以连续强度值为条件进行 RL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-7-%E5%B7%B2%E7%9F%A5%E9%85%8D%E6%96%B9%E6%A6%82%E8%BF%B0"><span class="toc-text">6.7 已知配方概述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%BB%93%E8%AE%BA"><span class="toc-text">7. 结论</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E8%A6%81%E5%AE%9A%E4%B9%89"><span class="toc-text"> 1. 推理模型的简要定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%AE%AD%E7%BB%83%E5%92%8C%E6%8E%A8%E7%90%86%E6%89%A9%E5%B1%95%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0"><span class="toc-text"> 2. 训练和推理扩展推理模型的简要概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E8%AE%AD%E7%BB%83%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B"><span class="toc-text"> 2.1 训练推理模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E5%95%8A%E5%93%88%E6%97%B6%E5%88%BB"><span class="toc-text"> 2.2 “啊哈”时刻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E6%8E%A8%E7%90%86%E6%89%A9%E5%B1%95%E7%AE%80%E8%BF%B0"><span class="toc-text"> 2.3 推理扩展简述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%80%9D%E8%80%83-token"><span class="toc-text"> 3. 思考 token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%BC%8F%E5%BC%80%E5%85%B3%E5%88%87%E6%8D%A2"><span class="toc-text"> 4. 推理模式开&#x2F;关切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%8E%A8%E7%90%86%E5%BC%BA%E5%BA%A6%E8%AE%BE%E7%BD%AE%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="toc-text"> 5. “推理强度”设置如何工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#51-%E6%8E%A8%E7%90%86%E5%BC%BA%E5%BA%A6%E4%B8%8E%E5%93%8D%E5%BA%94%E9%95%BF%E5%BA%A6%E5%92%8C%E8%B4%A8%E9%87%8F"><span class="toc-text"> 5.1 推理强度与响应长度和质量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#52-%E5%8F%AF%E8%83%BD%E7%9A%84%E5%BC%BA%E5%BA%A6%E7%BA%A7%E5%88%AB%E5%AE%9E%E7%8E%B0"><span class="toc-text"> 5.2 可能的强度级别实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#53-inkling-%E6%A1%88%E4%BE%8B%E7%A0%94%E7%A9%B6"><span class="toc-text"> 5.3 Inkling 案例研究</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#54-%E5%85%B3%E4%BA%8E%E6%8E%A8%E7%90%86%E6%89%A9%E5%B1%95%E4%B8%8E%E8%AE%AD%E7%BB%83%E6%89%A9%E5%B1%95%E7%9A%84%E7%AE%80%E7%9F%AD%E8%AF%B4%E6%98%8E"><span class="toc-text"> 5.4 关于推理扩展与训练扩展的简短说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%A2%9D%E5%A4%96%E5%9C%A8%E6%97%97%E8%88%B0%E5%BC%80%E6%94%BE%E6%9D%83%E9%87%8D-llm-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E6%8E%A8%E7%90%86%E5%BC%BA%E5%BA%A6%E7%9A%84%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F"><span class="toc-text"> 6. 额外：在旗舰开放权重 LLM 中实现推理强度的不同方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#61-deepseek-v4-%E8%AE%AD%E7%BB%83%E5%8D%95%E7%8B%AC%E7%9A%84%E5%BC%BA%E5%BA%A6%E4%B8%93%E5%AE%B6"><span class="toc-text"> 6.1 DeepSeek V4 训练单独的强度专家</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#62-nemotron-3-ultra-%E5%B0%86%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F%E4%B8%8E%E7%A1%AC%E9%A2%84%E7%AE%97%E7%BB%93%E5%90%88"><span class="toc-text"> 6.2 Nemotron 3 Ultra 将学习模式与硬预算结合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#621-%E5%9C%A8%E6%8E%A8%E7%90%86%E6%9C%9F%E9%97%B4%E4%BD%BF%E7%94%A8-nemotron-%E6%8E%A8%E7%90%86%E9%A2%84%E7%AE%97"><span class="toc-text"> 6.2.1 在推理期间使用 Nemotron 推理预算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#622-nemotron-%E4%B8%AD%E7%9A%84%E6%8E%A8%E7%90%86%E9%A2%84%E7%AE%97%E6%84%9F%E7%9F%A5%E8%AE%AD%E7%BB%83"><span class="toc-text"> 6.2.2 Nemotron 中的推理预算感知训练</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#63-kimi-k25-%E4%BA%A4%E6%9B%BF%E4%BD%BF%E7%94%A8%E9%A2%84%E7%AE%97%E5%92%8C%E6%97%A0%E7%BA%A6%E6%9D%9F-rl"><span class="toc-text"> 6.3 Kimi K2.5 交替使用预算和无约束 RL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#631-kimi-%E7%9A%84-toggle-%E6%96%B9%E6%B3%95"><span class="toc-text"> 6.3.1 Kimi 的 Toggle 方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#632-toggle-%E5%9C%A8%E6%8E%A8%E7%90%86%E6%97%B6%E6%94%B9%E5%8F%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-text"> 6.3.2 Toggle 在推理时改变了什么</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#64-glm-5-%E9%80%9A%E8%BF%87-sft-%E5%BC%95%E5%85%A5%E8%BD%AE%E6%AC%A1%E7%BA%A7%E5%92%8C%E4%BA%A4%E9%94%99%E6%80%9D%E8%80%83"><span class="toc-text"> 6.4 GLM-5 通过 SFT 引入轮次级和交错思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#65-qwen3-%E4%BD%BF%E7%94%A8%E6%A8%A1%E5%BC%8F%E8%9E%8D%E5%90%88%E5%92%8C%E6%8E%A8%E7%90%86%E6%97%B6%E6%88%AA%E6%96%AD"><span class="toc-text"> 6.5 Qwen3 使用模式融合和推理时截断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#66-inkling-%E4%BB%A5%E8%BF%9E%E7%BB%AD%E5%BC%BA%E5%BA%A6%E5%80%BC%E4%B8%BA%E6%9D%A1%E4%BB%B6%E8%BF%9B%E8%A1%8C-rl"><span class="toc-text"> 6.6 Inkling 以连续强度值为条件进行 RL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#67-%E5%B7%B2%E7%9F%A5%E9%85%8D%E6%96%B9%E6%A6%82%E8%BF%B0"><span class="toc-text"> 6.7 已知配方概述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%BB%93%E8%AE%BA"><span class="toc-text"> 7. 结论</span></a></li></ol>
   </div>
 </section>
 
@@ -3298,7 +3325,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3533,7 +3560,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/07/reasoning_effort/","name":"控制大语言模型中的推理强度"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"控制大语言模型中的推理强度","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/07/reasoning_effort/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/07/reasoning_effort/","wordCount":0,"datePublished":"2026-10-07T16:00:00.000Z","dateModified":"2026-10-29T07:02:34.468Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/07/reasoning_effort/","name":"控制大语言模型中的推理强度"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"控制大语言模型中的推理强度","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/07/reasoning_effort/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/07/reasoning_effort/","wordCount":0,"datePublished":"2026-10-07T16:00:00.000Z","dateModified":"2026-11-03T01:43:13.210Z","articleSection":"LLM","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 

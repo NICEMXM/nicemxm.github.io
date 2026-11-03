@@ -43,11 +43,11 @@
 <meta property="og:title" content="lora">
 <meta property="og:url" content="https://nicemxm.github.io/2026/10/28/lora/index.html">
 <meta property="og:site_name" content="hello deeplearning">
-<meta property="og:description" content="引言当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。 相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高效微调（P">
+<meta property="og:description" content="引言 当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。 相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高效微调">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2026-10-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-29T07:02:34.467Z">
+<meta property="article:modified_time" content="2026-11-03T01:43:13.209Z">
 <meta property="article:author" content="mxm">
 <meta property="article:tag" content="train">
 <meta name="twitter:card" content="summary">
@@ -1966,7 +1966,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1793257366490),
+    lastupdate: new Date(1793670205326),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2498,9 +2498,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。</p>
+    <h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<p>当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。</p>
 <p>相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高效微调（PEFT）方法的发展，该方法通过仅更新一小部分参数来调整大型网络。</p>
-<p>目前最具代表性的 PEFT 方法是低秩适应（LoRA）。LoRA 将原始模型中的每个权重矩阵 W 替换为其修改形式 W’ &#x3D; W + γBA，其中 B 和 A 为两个矩阵，其参数数量总和远小于 W，而 γ 是一个常数缩放因子。从效果上看，LoRA 实质上为微调引入的参数更新构建了一个低维表示。</p>
+<p>目前最具代表性的 PEFT 方法是低秩适应（LoRA）。LoRA 将原始模型中的每个权重矩阵 W 替换为其修改形式 W’ = W + γBA，其中 B 和 A 为两个矩阵，其参数数量总和远小于 W，而 γ 是一个常数缩放因子。从效果上看，LoRA 实质上为微调引入的参数更新构建了一个低维表示。</p>
 <p>LoRA 在后训练阶段的成本和速度方面可能具有优势。此外，在运维层面上还有若干理由使其较全参数微调（以下简称 FullFT）更具优势：</p>
 <p>多租户推理服务。 由于 LoRA 训练的是一个适配器模块（即 A 和 B 矩阵），并保持原始模型权重不发生改变，因此单个推理服务器可以在内存中加载多个适配器模块（对应不同的模型版本），并能够通过批处理方式在这些适配器间并行进行推理采样。（Chen, Ye 等，2023）目前的主流推理引擎（如 vLLM 和 SGLang）已实现该功能。</p>
 <p>训练时的内存布局。 微调整个模型时，优化器状态需要与原始权重一起存储，通常使用更高精度。因此，FullFT 通常需要比从同一模型采样多一个数量级的加速器，从而需要不同的硬件布局。对于训练而言，除了存储权重外，我们通常还需要存储所有权重的梯度和优化器状态矩；此外，这些变量通常以更高精度（float32）存储，而用于推理的权重存储精度较低（bfloat16 或更低）。由于 LoRA 训练的权重少得多，占用的内存也少得多，因此它可以在仅略大于采样所用布局的硬件上进行训练。这使得训练更加触手可及，并且通常也更加高效。</p>
@@ -2508,30 +2509,37 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>这些理由足以解释自 2021 年原始 LoRA 论文发表以来其日益增长的流行度。（Hu 等，2021）然而，文献中对于 LoRA 相对于 FullFT 的性能表现尚不明确。</p>
 <p>学界一致认为，LoRA 在类似预训练的场景中表现不佳，（Biderman 等，2024）即那些数据集非常大、超出 LoRA 参数存储能力的场景。但对于后训练中典型的数据集规模，LoRA 有足够的容量来存储关键信息。然而，这一事实并不能保证样本效率和计算效率。关键问题是LoRA 能否达到与全参数微调相当的性能？如果可以，需要在什么条件下？</p>
 <p>在我们的实验中，我们发现确实如此——当我们做对几个关键细节时，LoRA 能以与 FullFT 相同的样本效率进行学习，并达到相同的最终性能。</p>
-<h2 id="LoRA-的关键因素"><a href="#LoRA-的关键因素" class="headerlink" title="LoRA 的关键因素"></a>LoRA 的关键因素</h2><p>本文涵盖了一系列监督微调和强化学习实验，我们通过这些实验来确定 LoRA 在何种条件下能达到与 FullFT 相当的效率。为此，我们在以下几个方面与之前的 LoRA 实验有所不同：</p>
+<h2 id="lora-的关键因素"><a class="markdownIt-Anchor" href="#lora-的关键因素"></a> LoRA 的关键因素</h2>
+<p>本文涵盖了一系列监督微调和强化学习实验，我们通过这些实验来确定 LoRA 在何种条件下能达到与 FullFT 相当的效率。为此，我们在以下几个方面与之前的 LoRA 实验有所不同：</p>
 <p>我们研究了训练集规模与 LoRA 参数数量之间的一般关系，而不是专注于特定的数据集和任务。</p>
 <p>在监督学习中，我们测量的对数损失（log loss），而非采用基于采样的评估方式，同样是为了追求通用性。对数损失测量可以在训练步数和训练参数的不同范围内给出清晰的结果和缩放规律。</p>
 <p>我们发现：</p>
 <ul>
-<li><p>对于中小规模指令微调和推理数据集的监督微调，LoRA 的表现与全参数微调相同。</p>
+<li>
+<p>对于中小规模指令微调和推理数据集的监督微调，LoRA 的表现与全参数微调相同。</p>
 </li>
-<li><p>对于超出 LoRA 容量的数据集，LoRA 的表现劣于 FullFT。损失并非达到一个无法突破的下界，而是 LoRA 导致了更差的训练效率，这取决于模型容量与数据集规模之间的关系。</p>
+<li>
+<p>对于超出 LoRA 容量的数据集，LoRA 的表现劣于 FullFT。损失并非达到一个无法突破的下界，而是 LoRA 导致了更差的训练效率，这取决于模型容量与数据集规模之间的关系。</p>
 </li>
-<li><p>在某些场景下，LoRA 对大批量大小的容忍度低于全参数微调——当批量大小超过某个阈值后，损失会承受更大的惩罚。这种惩罚不会通过增加 LoRA 秩来缓解；它是矩阵乘积参数化的一种属性，其训练动力学与优化原始权重矩阵不同。</p>
+<li>
+<p>在某些场景下，LoRA 对大批量大小的容忍度低于全参数微调——当批量大小超过某个阈值后，损失会承受更大的惩罚。这种惩罚不会通过增加 LoRA 秩来缓解；它是矩阵乘积参数化的一种属性，其训练动力学与优化原始权重矩阵不同。</p>
 </li>
-<li><p>即使在小数据场景下，LoRA 应用于所有权重矩阵时表现更好，尤其是 MLP 和 MoE 层。仅注意力机制的 LoRA 表现更差，即使我们通过为仅注意力 LoRA 使用更高的秩来匹配可训练参数数量也是如此。</p>
+<li>
+<p>即使在小数据场景下，LoRA 应用于所有权重矩阵时表现更好，尤其是 MLP 和 MoE 层。仅注意力机制的 LoRA 表现更差，即使我们通过为仅注意力 LoRA 使用更高的秩来匹配可训练参数数量也是如此。</p>
 </li>
 </ul>
 <p>LoRA 在强化学习中即使使用较小的秩也能达到与 FullFT 相当的性能。我们发现强化学习所需的容量非常低，这是基于信息论论证所预期的结果。</p>
-<p>我们还研究了用于 LoRA 的超参数对其学习率相对于全参数微调的影响。我们考察了 init scales 和 multipliers 等超参数的一些不变性，并解释了为什么 1&#x2F;r 前缀因子使最优学习率（LR）近似独立于秩。我们还通过实验展示了 LoRA 的最优学习率与 FullFT 的最优学习率之间的关系。</p>
-<p>我们实验的成果是刻画了一个”low-regret区间”（low-regret regime），在该区间内，LoRA 在数据集规模和 LoRA 参数方面表现出与 FullFT 相似的性能。我们发现该区间覆盖了大多数后训练场景，为在许多应用中采用高效微调打开了大门。</p>
-<h2 id="实验方法与结果"><a href="#实验方法与结果" class="headerlink" title="实验方法与结果"></a>实验方法与结果</h2><p>我们设计实验以详细测量 LoRA 在不同条件下相对于 FullFT 的性能表现。以下是我们实验设置的一些细节：</p>
+<p>我们还研究了用于 LoRA 的超参数对其学习率相对于全参数微调的影响。我们考察了 init scales 和 multipliers 等超参数的一些不变性，并解释了为什么 1/r 前缀因子使最优学习率（LR）近似独立于秩。我们还通过实验展示了 LoRA 的最优学习率与 FullFT 的最优学习率之间的关系。</p>
+<p>我们实验的成果是刻画了一个&quot;low-regret区间&quot;（low-regret regime），在该区间内，LoRA 在数据集规模和 LoRA 参数方面表现出与 FullFT 相似的性能。我们发现该区间覆盖了大多数后训练场景，为在许多应用中采用高效微调打开了大门。</p>
+<h2 id="实验方法与结果"><a class="markdownIt-Anchor" href="#实验方法与结果"></a> 实验方法与结果</h2>
+<p>我们设计实验以详细测量 LoRA 在不同条件下相对于 FullFT 的性能表现。以下是我们实验设置的一些细节：</p>
 <p>我们将 LoRA 秩在三个数量级范围内变化，秩从 1 到 512，并将这些与全参数微调进行比较。</p>
 <p>为了消除使用次优学习率带来的潜在混淆因素，我们对每个实验条件进行了学习率扫描。我们使用恒定学习率调度（无 warmup 或 cooldown）。</p>
 <p>我们的实验使用了 Llama 3 系列模型（Dubey 等，2024）和 Qwen3 模型（Qwen Team，2025），包括混合专家（MoE）模型。</p>
 <p>主要的监督学习实验使用了 Tulu3（Ivison 等，2024）和 OpenThoughts3（Guha 等，2025）数据集，分别侧重于指令跟随和推理。这两组数据集在范围、结构和应用上存在显著差异，支持了我们结果的通用性。</p>
 <p>我们的强化学习实验使用了数学推理任务，以答案正确性作为奖励。</p>
-<h2 id="LoRA-秩"><a href="#LoRA-秩" class="headerlink" title="LoRA 秩"></a>LoRA 秩</h2><p>我们在 Tulu3 数据集和 OpenThoughts3 数据集的一个子集上进行了单轮训练。对于每个数据集和模型规模，我们遍历了 LoRA 秩和学习率。在下方的图表中，我们为每个秩绘制一条彩色线，该线是通过在每个训练步上取所有学习率的最小值获得的：</p>
+<h2 id="lora-秩"><a class="markdownIt-Anchor" href="#lora-秩"></a> LoRA 秩</h2>
+<p>我们在 Tulu3 数据集和 OpenThoughts3 数据集的一个子集上进行了单轮训练。对于每个数据集和模型规模，我们遍历了 LoRA 秩和学习率。在下方的图表中，我们为每个秩绘制一条彩色线，该线是通过在每个训练步上取所有学习率的最小值获得的：</p>
 <p>[图表：Tulu3 和 OpenThoughts3 数据集上不同秩的 LoRA 训练曲线]</p>
 <p>Tulu3 和 OpenThoughts3 数据集上不同秩的 LoRA 训练曲线。FullFT 和高秩 LoRA 具有相似的学习曲线，损失随步数对数线性下降。较低秩的 LoRA 在适配器容量耗尽时偏离最小损失曲线。在底部图表（1B 模型）中，高秩 LoRA 在一个数据集上表现优于 FullFT，在另一个数据集上表现较差。由于训练动力学或泛化行为的差异，LoRA 在不同数据集上的表现可能存在一些随机波动。</p>
 <p>我们看到 FullFT 和高秩 LoRA 具有相似的学习曲线，损失随步数对数线性下降。中等和低秩 LoRA 在某个与秩相关的步数阈值处偏离最小损失学习曲线。直观地说，当适配器容量耗尽时，学习速度会放缓，而这由秩决定。</p>
@@ -2539,14 +2547,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>[图表：Tulu3 上不同 LoRA 秩的学习率与最终损失]</p>
 <p>Tulu3 上不同 LoRA 秩的学习率与最终损失。高秩 LoRA 和 FullFT 的最小损失大致相同。LoRA 的最优学习率是 FullFT 的 10 倍。</p>
 <p>我们发现 FullFT 的最优学习率比高秩 LoRA 低一个数量级（10倍）。参见 Biderman 等（2024）的 Figure S1，该实验使用采样评估发现了类似的 10 倍比率。我们将在后面讨论 LoRA 超参数时回到这一点。</p>
-<p>最优学习率似乎在不同秩的所有 LoRA 运行中相似；我们在下面给出了这一发现的理论解释。然而，确实存在一些秩依赖性，rank&#x3D;1 的最优学习率低于较高秩的 LoRA。rank&#x3D;4 和 rank&#x3D;512 之间的最优学习率变化倍数小于 2。</p>
-<h2 id="批量大小效应"><a href="#批量大小效应" class="headerlink" title="批量大小效应"></a>批量大小效应</h2><p>我们发现，在某些设置下，LoRA 对大批量大小的容忍度低于 FullFT。性能差距随批量大小增大而扩大，且与秩无关。对于下一个实验，我们使用了 OpenThoughts3 的一个包含 10,000 个样本的小子集。</p>
+<p>最优学习率似乎在不同秩的所有 LoRA 运行中相似；我们在下面给出了这一发现的理论解释。然而，确实存在一些秩依赖性，rank=1 的最优学习率低于较高秩的 LoRA。rank=4 和 rank=512 之间的最优学习率变化倍数小于 2。</p>
+<h2 id="批量大小效应"><a class="markdownIt-Anchor" href="#批量大小效应"></a> 批量大小效应</h2>
+<p>我们发现，在某些设置下，LoRA 对大批量大小的容忍度低于 FullFT。性能差距随批量大小增大而扩大，且与秩无关。对于下一个实验，我们使用了 OpenThoughts3 的一个包含 10,000 个样本的小子集。</p>
 <p>[图表：批量大小对 LoRA 与 FullFT 性能的影响]</p>
 <p>批量大小对 LoRA 与 FullFT 性能的影响。左图：不同批量大小的学习曲线显示，在大批量下 LoRA（虚线）和 FullFT（实线）之间存在持续差距。右图：最终损失作为批量大小的函数显示，LoRA 对批量大小增加承受更大的惩罚。</p>
 <p>图 3 的左图显示了在大批量下 LoRA（虚线）和 FullFT（实线）学习曲线之间的持续差距。对于较小的批量大小 32，差距更小且随时间缩小。</p>
 <p>右图绘制了最终损失作为批量大小的函数。我们看到 LoRA 的损失差距随着批量大小增大而越来越偏离 FullFT。</p>
 <p>大批量下的学习差距似乎不依赖于秩，而更像是 LoRA 的一种属性。可能的原因是矩阵乘积参数化（BA）在该数据集上的优化动力学不如全矩阵（W）有利。然而，LoRA 和 FullFT 都在较小的批量大小下达到最佳损失，因此在实践中这种差距可能没有那么重要。</p>
-<h2 id="LoRA-应用的层"><a href="#LoRA-应用的层" class="headerlink" title="LoRA 应用的层"></a>LoRA 应用的层</h2><p>我们研究了将 LoRA 应用于网络不同层的效果。Hu 等人的原始论文建议仅将 LoRA 应用于注意力矩阵，许多后续论文也遵循了这一做法，尽管最近的趋势是将其应用于所有层。与我们的结果类似，QLoRA 论文也发现 LoRA 的表现劣于 MLP 或 MLP+注意力，尽管他们发现 MLP+注意力 &gt; MLP &gt; 注意力，而我们发现前两者大致相等。事实上，当我们将所有层（特别是 MLP（包括 MoE）层）应用 LoRA 时，取得了远更好的结果。事实上，将 LoRA 应用于注意力矩阵相比仅应用于 MLP 并未带来额外的收益。Biderman 等（2024）也得到了类似的结果，仅注意力 LoRA 在仅 MLP 的基础上没有提供额外的收益。</p>
+<h2 id="lora-应用的层"><a class="markdownIt-Anchor" href="#lora-应用的层"></a> LoRA 应用的层</h2>
+<p>我们研究了将 LoRA 应用于网络不同层的效果。Hu 等人的原始论文建议仅将 LoRA 应用于注意力矩阵，许多后续论文也遵循了这一做法，尽管最近的趋势是将其应用于所有层。与我们的结果类似，QLoRA 论文也发现 LoRA 的表现劣于 MLP 或 MLP+注意力，尽管他们发现 MLP+注意力 &gt; MLP &gt; 注意力，而我们发现前两者大致相等。事实上，当我们将所有层（特别是 MLP（包括 MoE）层）应用 LoRA 时，取得了远更好的结果。事实上，将 LoRA 应用于注意力矩阵相比仅应用于 MLP 并未带来额外的收益。Biderman 等（2024）也得到了类似的结果，仅注意力 LoRA 在仅 MLP 的基础上没有提供额外的收益。</p>
 <p>仅注意力 LoRA 的表现显著劣于仅 MLP LoRA，并且在 LoRA-on-MLP 的基础上不能进一步提升性能。这种效果在密集模型（Llama-3.1-8B）和稀疏 MoE（Qwen3-30B-A3B-Base）中都成立。</p>
 <p>仅注意力 LoRA 表现不佳不能用参数较少来解释。在这个特定案例中，秩 256 的仅注意力 LoRA 表现劣于秩 128 的仅 MLP LoRA，尽管它们的参数数量大致相同。（比较下表中的粗体数字。）</p>
 <table>
@@ -2557,33 +2567,36 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <th>参数量</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>mlp</td>
-<td>rank&#x3D;256</td>
+<td>rank=256</td>
 <td>0.49B</td>
 </tr>
 <tr>
 <td>attn</td>
-<td>rank&#x3D;256</td>
+<td>rank=256</td>
 <td>0.25B</td>
 </tr>
 <tr>
 <td>all</td>
-<td>rank&#x3D;256</td>
+<td>rank=256</td>
 <td>0.70B</td>
 </tr>
 <tr>
 <td>mlp</td>
-<td>rank&#x3D;128</td>
+<td>rank=128</td>
 <td>0.24B</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>Llama-3.1-8B 上 LoRA 的参数量统计</p>
 <p>对于 MoE 实验，我们在每个专家上训练一个独立的 LoRA，每个专家的秩等于总秩除以激活专家数（Qwen3 MoE 等于 8）。这种缩放方式使 MoE 层的 LoRA 参数与 FullFT 参数的比率与其他层保持一致。</p>
-<p>我们在另外两种设置下进行了类似的实验，比较不同的 LoRA 层：（1）在 rank&#x3D;256 的 OpenThoughts3 数据集小子集上进行监督学习，以及（2）在 MATH 数据集上进行强化学习。我们在下一节描述实验设置。在这些设置下，仅注意力 LoRA 的表现也劣于仅 MLP LoRA（其表现与 MLP+注意力相似）。</p>
+<p>我们在另外两种设置下进行了类似的实验，比较不同的 LoRA 层：（1）在 rank=256 的 OpenThoughts3 数据集小子集上进行监督学习，以及（2）在 MATH 数据集上进行强化学习。我们在下一节描述实验设置。在这些设置下，仅注意力 LoRA 的表现也劣于仅 MLP LoRA（其表现与 MLP+注意力相似）。</p>
 <p>[图表：变化 LoRA 应用层时的学习率与最终损失或奖励]</p>
-<h2 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h2><p>我们实验的一个关键发现是，LoRA 在运行强化学习的策略梯度算法时完全达到了与 FullFT 相同的学习性能，即使秩低至 1。</p>
-<p>对于这些实验，我们使用了一个带有重要性采样修正的基本策略梯度算法；目标函数 &#x3D; Σ_t (p_learner &#x2F; p_sampler) Adv_t。参见 [Your Efficient RL Framework Secretly Brings You Off-Policy RL Training]。我们使用了一种类似 GRPO 的中心化方案（Shao 等，2024），我们对每个问题采样多个补全并减去每组的平均奖励。</p>
+<h2 id="强化学习"><a class="markdownIt-Anchor" href="#强化学习"></a> 强化学习</h2>
+<p>我们实验的一个关键发现是，LoRA 在运行强化学习的策略梯度算法时完全达到了与 FullFT 相同的学习性能，即使秩低至 1。</p>
+<p>对于这些实验，我们使用了一个带有重要性采样修正的基本策略梯度算法；目标函数 = Σ_t (p_learner / p_sampler) Adv_t。参见 [Your Efficient RL Framework Secretly Brings You Off-Policy RL Training]。我们使用了一种类似 GRPO 的中心化方案（Shao 等，2024），我们对每个问题采样多个补全并减去每组的平均奖励。</p>
 <p>图 6（下方）展示了在 MATH（Hendrycks 等，2021）和 GSM（Cobbe 等，2021）数据集上的学习率扫描结果，使用了各自的典型超参数。我们使用了 Llama-3.1-8B 基础模型，因为已知 Qwen2.5 和 Qwen3 在预训练阶段使用了提升其数学性能的数据，正如 Qwen 技术报告所述（Qwen Team，2024），这使得更难衡量仅在 RL 期间学习的内容。</p>
 <p>LoRA 展示了更宽范围的有效学习率，并达到了与 FullFT（黑线）相同的峰值性能，至少在强化学习噪声所允许的精度范围内如此。</p>
 <p>[图表：在小学数学（GSM，左图）或 MATH（右图）数据集上进行强化学习时的学习率与最终奖励（准确率）]</p>
@@ -2596,30 +2609,37 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>[图表：DeepMath 数据集实验的附加图表]</p>
 <p>在 DeepMath 数据集上使用 Qwen3-8b-Base 实验的附加图表。左图显示了在 AIME 测试集上的基准分数，该测试集比训练集更具挑战性。右图显示了训练步数上的思维链（CoT）长度，可以看作是学习推理的标志。</p>
 <p>我们观察到，当为每个设置选择最优学习率时，不同规模的 LoRA 和全参数微调的训练进展几乎完全相同。此外，当我们在 AIME 2024 和 AIME 2025 的保留问题上评估模型时，我们也看到了类似的发现。此外，我们观察到 LoRA 和全参数微调运行表现出类似的定性行为：两者都发展出了高级推理行为，如回溯、自我验证和上下文探索，这体现在模型 CoT 长度的增长中。</p>
-<h2 id="设置-LoRA-超参数"><a href="#设置-LoRA-超参数" class="headerlink" title="设置 LoRA 超参数"></a>设置 LoRA 超参数</h2><p>LoRA 采用的一个障碍是需要选择最优超参数，这些超参数与为 FullFT 优化的超参数不同。在本节中，我们表明这个问题并不像乍看之下那么令人望而却步，并讨论我们与超参数选择相关的发现。</p>
-<h2 id="最优学习率与秩"><a href="#最优学习率与秩" class="headerlink" title="最优学习率与秩"></a>最优学习率与秩</h2><p>遵循 Hu 等人的方法，我们考虑以下 LoRA 参数化方式：</p>
-<p>W’ &#x3D; W + (α&#x2F;r)BA</p>
-<p>其中 r 是 LoRA 秩，α 是 LoRA 缩放因子，A、B 是 LoRA 权重矩阵（秩为 r）。我们使用 α&#x3D;32 进行本文的实验，遵循其他实现的标准做法。</p>
-<p>1&#x2F;r 缩放因子使最优学习率近似独立于秩。事实上，一个更强的条件成立——无论秩如何，训练开始时的学习曲线完全相同。这种效果非常显著，在我们的实验中，不同秩学习曲线的接近程度曾让我们担心是一个 bug 导致秩参数被忽略了。由此可以推断，在短期训练 regime 中，最优学习率也独立于秩。然而，正如我们在上面的学习率与损失图表（图 2）中所展示的，在长期训练 regime 中，最优学习率存在一定的秩依赖性。</p>
+<h2 id="设置-lora-超参数"><a class="markdownIt-Anchor" href="#设置-lora-超参数"></a> 设置 LoRA 超参数</h2>
+<p>LoRA 采用的一个障碍是需要选择最优超参数，这些超参数与为 FullFT 优化的超参数不同。在本节中，我们表明这个问题并不像乍看之下那么令人望而却步，并讨论我们与超参数选择相关的发现。</p>
+<h2 id="最优学习率与秩"><a class="markdownIt-Anchor" href="#最优学习率与秩"></a> 最优学习率与秩</h2>
+<p>遵循 Hu 等人的方法，我们考虑以下 LoRA 参数化方式：</p>
+<p>W’ = W + (α/r)BA</p>
+<p>其中 r 是 LoRA 秩，α 是 LoRA 缩放因子，A、B 是 LoRA 权重矩阵（秩为 r）。我们使用 α=32 进行本文的实验，遵循其他实现的标准做法。</p>
+<p>1/r 缩放因子使最优学习率近似独立于秩。事实上，一个更强的条件成立——无论秩如何，训练开始时的学习曲线完全相同。这种效果非常显著，在我们的实验中，不同秩学习曲线的接近程度曾让我们担心是一个 bug 导致秩参数被忽略了。由此可以推断，在短期训练 regime 中，最优学习率也独立于秩。然而，正如我们在上面的学习率与损失图表（图 2）中所展示的，在长期训练 regime 中，最优学习率存在一定的秩依赖性。</p>
 <p>[图表：相同学习率下不同秩在学习早期的学习曲线差异]</p>
 <p>这些图表展示了相同学习率下不同秩在学习早期的学习曲线差异。左图展示了学习曲线。右图展示了秩 16 和 256 之间的差异，该差异随时间增长。奇怪的是，在前几步中它为负值（虽然很小），所以图表中缺少了那部分曲线。</p>
-<p>我们可以通过查看第一次训练更新后 LoRA 矩阵的期望更新来部分解释这一结果。我们可以将 LoRA 乘积 BA 视为 r 个秩-1 外积的和：BA &#x3D; Σ_{i&#x3D;1}^r b_i a_i^T &#x3D; Σ_{i&#x3D;1}^r Δ_i，其中我们定义 Δ_i &#x3D; b_i a_i^T。这里，∂Loss&#x2F;∂Δ_i 对所有 i 都相同；然而梯度 ∂Loss&#x2F;∂b_i 和 ∂Loss&#x2F;∂a_i 将依赖于初始化（例如，∂Loss&#x2F;∂b_i 依赖于 a_i）。由于 a_i 和 b_i 的初始化不依赖于秩，因此 E[i] 对所有 i 都相同且不依赖于秩。在训练的第一步，每个项的期望更新是相等的且独立于秩。由此可以推断，(1&#x2F;r)Σ{i&#x3D;1}^r Δ_i 只是 r 个具有相同期望的项的样本平均值，因此平均值的期望，即适配器的变化 (1&#x2F;r)BA，不依赖于秩。</p>
+<p>我们可以通过查看第一次训练更新后 LoRA 矩阵的期望更新来部分解释这一结果。我们可以将 LoRA 乘积 BA 视为 r 个秩-1 外积的和：BA = Σ_{i=1}^r b_i a_i^T = Σ_{i=1}^r Δ_i，其中我们定义 Δ_i = b_i a_i^T。这里，∂Loss/∂Δ_i 对所有 i 都相同；然而梯度 ∂Loss/∂b_i 和 ∂Loss/∂a_i 将依赖于初始化（例如，∂Loss/∂b_i 依赖于 a_i）。由于 a_i 和 b_i 的初始化不依赖于秩，因此 E[i] 对所有 i 都相同且不依赖于秩。在训练的第一步，每个项的期望更新是相等的且独立于秩。由此可以推断，(1/r)Σ{i=1}^r Δ_i 只是 r 个具有相同期望的项的样本平均值，因此平均值的期望，即适配器的变化 (1/r)BA，不依赖于秩。</p>
 <p>参数化不变性</p>
 <p>有四个超参数可能适用于 LoRA：</p>
 <ul>
-<li>缩放因子 α，出现在 α&#x2F;r 中。</li>
+<li>缩放因子 α，出现在 α/r 中。</li>
 <li>下投影矩阵 A 的学习率，LR_A。</li>
 <li>上投影矩阵 B 的学习率，LR_B。</li>
 <li>矩阵 A 的初始化尺度，init_A。对于随机初始化，这是 A 初始元素的标准差。矩阵 B 初始化为零，因此无需定义 init_B。</li>
 </ul>
 <p>需要调整四个不同的参数可能看起来令人望而生畏，但我们下面将展示这些选择中许多要么无关紧要，要么有简单的关系。</p>
-<h1 id="LoRA-与-FullFT-的最优学习率对比"><a href="#LoRA-与-FullFT-的最优学习率对比" class="headerlink" title="LoRA 与 FullFT 的最优学习率对比"></a>LoRA 与 FullFT 的最优学习率对比</h1><p>我们的实验表明，在相同任务中，无论是监督学习还是强化学习，LoRA 的最优学习率始终是 FullFT 所用学习率的 10 倍。这一点在所有以学习率为横轴、性能（损失或奖励）为纵轴的 U 形图中都有所体现。这一发现应该能使学习超参数从全参数微调迁移到 LoRA 的过程更加简单直接。</p>
+<h1 id="lora-与-fullft-的最优学习率对比"><a class="markdownIt-Anchor" href="#lora-与-fullft-的最优学习率对比"></a> LoRA 与 FullFT 的最优学习率对比</h1>
+<p>我们的实验表明，在相同任务中，无论是监督学习还是强化学习，LoRA 的最优学习率始终是 FullFT 所用学习率的 10 倍。这一点在所有以学习率为横轴、性能（损失或奖励）为纵轴的 U 形图中都有所体现。这一发现应该能使学习超参数从全参数微调迁移到 LoRA 的过程更加简单直接。</p>
 <p>短期与长期训练中的学习率</p>
 <p>LoRA 的典型初始化在有效学习率中创建了隐式调度：</p>
-<p>训练开始时，B 初始化为零。<br>随着 B 增长，对 A 的更新开始对网络输出产生更大的影响。<br>有效学习率在训练过程中随 B 接近 A 的规模而增加。</p>
+<p>训练开始时，B 初始化为零。<br>
+随着 B 增长，对 A 的更新开始对网络输出产生更大的影响。<br>
+有效学习率在训练过程中随 B 接近 A 的规模而增加。</p>
 <p>这意味着短期训练应设置更高的学习率（约 FullFT 的 15 倍），而长期训练收敛到 10 倍乘数。我们通过拟合 14 个 Llama 和 Qwen 模型的扫描结果验证了这一点，并提出了基于模型隐层维度的最优学习率预测函数。</p>
-<h1 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h1><p>首先，让我们更深入地研究我们的主要结果，即 LoRA 表现与全量微调相似的两个条件：</p>
-<p>LoRA 被应用于网络的所有层，尤其是包含大部分参数的 MLP&#x2F;MoE 层。<br>当不受容量限制时，LoRA 的效果很好，也就是说，可训练参数的数量超过了需要学习的信息量，这可以根据数据集大小来估算。</p>
+<h1 id="讨论"><a class="markdownIt-Anchor" href="#讨论"></a> 讨论</h1>
+<p>首先，让我们更深入地研究我们的主要结果，即 LoRA 表现与全量微调相似的两个条件：</p>
+<p>LoRA 被应用于网络的所有层，尤其是包含大部分参数的 MLP/MoE 层。<br>
+当不受容量限制时，LoRA 的效果很好，也就是说，可训练参数的数量超过了需要学习的信息量，这可以根据数据集大小来估算。</p>
 <p>当（1）得到满足时，我们在训练刚开始时会获得与 FullFT 相似的学习动态。然后，根据（2），在达到容量限制之前，LoRA 会一直保持与 FullFT 相似的状态。</p>
 <p>为什么 LoRA 可能需要应用于所有层?</p>
 <p>正如我们之前所展示的，即使在小数据情况下，如果仅在注意力层上应用 LoRA，学习速度也会变慢。</p>
@@ -2627,10 +2647,12 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>监督学习与强化学习分别需要多大容量？</p>
 <p>研究表明，神经网络每个参数可以存储 2 位信息。这些结果涉及的是在长时间训练极限下吸收的最大信息量，而非计算效率或学习速率。</p>
 <p>每参数 2 比特的结果依赖于精心构建的合成数据集，这些数据集包含精确数量的信息。对于给定的实际学习问题，估算所需的信息含量并非如此简单。一个经典的观察结果是，在最小化对数损失时，训练第一个轮次期间测量的总对数损失提供了数据集描述长度的度量。也就是说，这是记忆该数据集所需比特数的上限。大型语言模型的数据集通常每个 token 的损失约为 1 比特（0.69 奈特），具体取决于数据集和模型大小。</p>
-<h2 id="LoRA-的计算效率优势"><a href="#LoRA-的计算效率优势" class="headerlink" title="LoRA 的计算效率优势"></a>LoRA 的计算效率优势</h2><p>LoRA 只更新低秩矩阵而非全权重矩阵，因此在计算上更加高效：前向+反向传播的 FLOPs 大约是 FullFT 的 2&#x2F;3。换句话说，LoRA 在相同的训练步骤下能用更少的计算量达到相似的效果。</p>
+<h2 id="lora-的计算效率优势"><a class="markdownIt-Anchor" href="#lora-的计算效率优势"></a> LoRA 的计算效率优势</h2>
+<p>LoRA 只更新低秩矩阵而非全权重矩阵，因此在计算上更加高效：前向+反向传播的 FLOPs 大约是 FullFT 的 2/3。换句话说，LoRA 在相同的训练步骤下能用更少的计算量达到相似的效果。</p>
 <p>开放问题</p>
 <p>仍有一些开放性问题有待探索，包括：如何从理论上刻画低后悔区间与容量受限区间之间的边界；如何最优地在不同层之间分配秩；以及 LoRA 在多任务和持续学习场景下的扩展性等。</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>《LoRA》研究表明，在绝大多数后训练场景下，LoRA 能以远低于全量微调的成本，获得几乎同等的效果。Thinking Machines 将这一现象形容为 LoRA 的”low-regret区间”（low-regret region）——即便不采用全量微调而选择 LoRA，也是一个不会让人后悔的决定。</p>
+<h2 id="结语"><a class="markdownIt-Anchor" href="#结语"></a> 结语</h2>
+<p>《LoRA》研究表明，在绝大多数后训练场景下，LoRA 能以远低于全量微调的成本，获得几乎同等的效果。Thinking Machines 将这一现象形容为 LoRA 的&quot;low-regret区间&quot;（low-regret region）——即便不采用全量微调而选择 LoRA，也是一个不会让人后悔的决定。</p>
 <p>这项工作不仅推动了 LoRA 在定制化场景中的广泛应用，也为机器学习基础问题的研究提供了新视角。</p>
 
   </div>
@@ -2656,10 +2678,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-10-29T07:02:34+00:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-11-03T01:43:13+00:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2026年10月29日</p>
+    <p>更新于：2026年11月3日</p>
   </a>
 </div>
 
@@ -2760,10 +2782,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     <div class="prev-next">
       
+        <a class='prev' href='/2026/11/02/moss/'>
+          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>MOSS图像技术报告</p>
+          <p class='content'> 摘要
+近期的闭源图像生成系统能够从简单构图到信息密集的图形，生成丰富多样的视觉内容；然而，开放权重的文生图模型在处理密集文本与复杂布局方面仍面临挑战。为缩小这一差距，我们提出了 MOSS-Im...</p>
+        </a>
+      
       
         <a class='next' href='/2026/10/21/deepseek-v4.1-flash/'>
           <p class='title'>deepseek-v4.1-flash：突破KV缓存压缩的极限<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>摘要长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据传输...</p>
+          <p class='content'> 摘要
+长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据...</p>
         </a>
       
     </div>
@@ -2824,7 +2853,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
   <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LoRA-%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0"><span class="toc-text">LoRA 的关键因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%96%B9%E6%B3%95%E4%B8%8E%E7%BB%93%E6%9E%9C"><span class="toc-text">实验方法与结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LoRA-%E7%A7%A9"><span class="toc-text">LoRA 秩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%A4%A7%E5%B0%8F%E6%95%88%E5%BA%94"><span class="toc-text">批量大小效应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LoRA-%E5%BA%94%E7%94%A8%E7%9A%84%E5%B1%82"><span class="toc-text">LoRA 应用的层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">强化学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-LoRA-%E8%B6%85%E5%8F%82%E6%95%B0"><span class="toc-text">设置 LoRA 超参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%AD%A6%E4%B9%A0%E7%8E%87%E4%B8%8E%E7%A7%A9"><span class="toc-text">最优学习率与秩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LoRA-%E7%9A%84%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87%E4%BC%98%E5%8A%BF"><span class="toc-text">LoRA 的计算效率优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lora-%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0"><span class="toc-text"> LoRA 的关键因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%96%B9%E6%B3%95%E4%B8%8E%E7%BB%93%E6%9E%9C"><span class="toc-text"> 实验方法与结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lora-%E7%A7%A9"><span class="toc-text"> LoRA 秩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%A4%A7%E5%B0%8F%E6%95%88%E5%BA%94"><span class="toc-text"> 批量大小效应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lora-%E5%BA%94%E7%94%A8%E7%9A%84%E5%B1%82"><span class="toc-text"> LoRA 应用的层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text"> 强化学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-lora-%E8%B6%85%E5%8F%82%E6%95%B0"><span class="toc-text"> 设置 LoRA 超参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%AD%A6%E4%B9%A0%E7%8E%87%E4%B8%8E%E7%A7%A9"><span class="toc-text"> 最优学习率与秩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lora-%E7%9A%84%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87%E4%BC%98%E5%8A%BF"><span class="toc-text"> LoRA 的计算效率优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text"> 结语</span></a></li></ol>
   </div>
 </section>
 
@@ -3231,7 +3260,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
   let index = 0;
   let IntervalParallax = null;
 
@@ -3466,7 +3495,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/28/lora/","name":"lora"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"lora","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/28/lora/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/28/lora/","wordCount":0,"datePublished":"2026-10-28T16:00:00.000Z","dateModified":"2026-10-29T07:02:34.467Z","articleSection":"LLM","keywords":"train","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/LLM/","name":"LLM"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/10/28/lora/","name":"lora"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"lora","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/10/28/lora/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/10/28/lora/","wordCount":0,"datePublished":"2026-10-28T16:00:00.000Z","dateModified":"2026-11-03T01:43:13.209Z","articleSection":"LLM","keywords":"train","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
