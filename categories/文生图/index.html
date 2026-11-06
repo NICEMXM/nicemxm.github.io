@@ -1961,7 +1961,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1793670205326),
+    lastupdate: new Date(1793955730584),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2391,6 +2391,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         
           
         
+          
+        
       
     
     
@@ -2424,8 +2426,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-         摘要
-近期的闭源图像生成系统能够从简单构图到信息密集的图形，生成丰富多样的视觉内容；然而，开放权重的文生图模型在处理密集文本与复杂布局方面仍面临挑战。为缩小这一差距，我们提出了 MOSS-Image，一个兼具高保真视觉合成与意图感知式构图的开放生成系统。首先，我们基于精心设计的训练方案，从零开始预训练了一种 50 亿参数的单流扩散 Transformer（DiT），实现了双语长文本渲染与精...
+        摘要近期的闭源图像生成系统能够从简单构图到信息密集的图形，生成丰富多样的视觉内容；然而，开放权重的文生图模型在处理密集文本与复杂布局方面仍面临挑战。为缩小这一差距，我们提出了 MOSS-Image，一个兼具高保真视觉合成与意图感知式构图的开放生成系统。首先，我们基于精心设计的训练方案，从零开始预训练了一种 50 亿参数的单流扩散 Transformer（DiT），实现了双语长文本渲染与精准的...
       
     
   </div>
@@ -2490,8 +2491,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         GitHub
 论文
- 摘要
-扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑战，我们提出了CoMat，这是一种具有图像到文本概念匹配机制的端到端扩散模型微调策略。首先，我们引入了一种新颖的图文转换概念激活模块，以指导扩散模型重新审视被忽视的概念。此外，该文还提出了一种属性集中...
+摘要扩散模型在文本到图像生成领域已经取得了巨大的成功。然而，缓解文本提示和图像之间的错位仍然具有挑战性。我们将问题分解为两个原因：概念无知和概念映射错误。为了应对这两个挑战，我们提出了CoMat，这是一种具有图像到文本概念匹配机制的端到端扩散模型微调策略。首先，我们引入了一种新颖的图文转换概念激活模块，以指导扩散模型重新审视被忽视的概念。此外，该文还提出了一种属性集中模块...
       
     
   </div>
@@ -2513,6 +2513,69 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <div>
           <a class='readmore' href='/2025/03/31/CoMat_sdxl/' itemprop="url">
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="https://schema.org.cn/Article" >
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2024/08/06/HiDream-O1-image/">
+  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
+    <meta itemprop="name" content="hello deeplearning">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
+    <meta itemprop="name" content="hello deeplearning">
+    <meta itemprop="description" content="">
+  </span>
+  
+  
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  
+    
+    <h2 class="article-title"  itemprop="name headline">
+      <a href="/2024/08/06/HiDream-O1-image/"  itemprop="url">
+        HiDream-O1-图像
+      </a>
+    </h2>
+  
+  <div class='md article-desc' itemprop="articleBody">
+    
+      
+        摘要视觉生成模型的发展长期以来受到碎片化架构的制约，这些架构依赖于相互独立的文本编码器和外部变分自编码器（VAE）。在本报告中，我们提出了 HiDream-O1-Image，这是一种基于像素空间扩散 Transformer 的原生统一生成基础模型，开创性地实现了从模块化架构到端到端上下文内视觉生成引擎的范式转变。通过将原始图像像素、文本 token 以及特定任务条件映射到单一共享的 toke...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time itemprop="dateCreated datePublished" datetime="2024-08-07T00:00:00+08:00">2024-08-07</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/">文生图</a>
+          
+            <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+              <a href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" itemprop="url"><span itemprop="name">文生图</span></a>
+            </span>
+          
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2024/08/06/HiDream-O1-image/' itemprop="url">
             阅读全文
           </a>
         </div>
@@ -2554,11 +2617,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-         sd3
-arxiv论文：Scaling Rectified Flow Transformers for High-Resolution Image Synthesis
-
- 摘要
-扩散模型通过将数据的前向路径反转为噪声来从噪声中创建数据，并已成为一种强大的生成建模技术，适用于图像和视频等高维感知数据。Rectified flow是最近的生成模型公式，它将数据和噪声连接成一条直线。尽管它具有更...
+        sd3arxiv论文：Scaling Rectified Flow Transformers for High-Resolution Image Synthesis
+摘要扩散模型通过将数据的前向路径反转为噪声来从噪声中创建数据，并已成为一种强大的生成建模技术，适用于图像和视频等高维感知数据。Rectified flow是最近的生成模型公式，它将数据和噪声连接成一条直线。尽管它具有更好的理论特...
       
     
   </div>
@@ -2765,7 +2825,7 @@ arxiv论文：Scaling Rectified Flow Transformers for High-Resolution Image Synt
           <li><a class="flat-box"
             title="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/"
             active-action="action-categoriesE69687E7949FE59BBE"
-            ><div class='name'>文生图</div><div class='badge'>(3)</div></a></li>
+            ><div class='name'>文生图</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"
@@ -3213,7 +3273,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
   let index = 0;
   let IntervalParallax = null;
 

@@ -1,0 +1,3480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1'>
+  <meta name="generator" content="Hexo 7.2.0">
+  <meta name="Volantis" content="6.0.0-alpha.1">
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+  <link rel="canonical" href="https://nicemxm.github.io/2024/08/06/hidream-o1-image/"/>
+  <!-- 渲染优化 -->
+    <meta http-equiv='x-dns-prefetch-control' content='on' />
+      <link rel='dns-prefetch' href='https://unpkg.com'>
+      <link rel="preconnect" href="https://unpkg.com" crossorigin>
+      <link rel='dns-prefetch' href='https://cdn.bootcdn.net'>
+      <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content=" default-src 'self' https:; block-all-mixed-content; base-uri 'self' https:; form-action 'self' https:; worker-src 'self' https:; connect-src 'self' https: *; img-src 'self' data: https: *; media-src 'self' https: *; font-src 'self' data: https: *; frame-src 'self' https: *; manifest-src 'self' https: *; child-src https:; script-src 'self' https: 'unsafe-inline' *; style-src 'self' https: 'unsafe-inline' *; ">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <!-- import head_begin begin -->
+  <!-- import head_begin end -->
+  <!-- Custom Files headBegin begin-->
+  
+  <!-- Custom Files headBegin end-->
+    <link rel="shortcut icon" type='image/x-icon' href="https://gcore.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  <link rel="preload" href="/css/style.css" as="style">
+  <link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- feed -->
+      <link rel="alternate" href="/atom.xml" title="hello deeplearning" type="application/atom+xml">
+  <!-- 页面元数据 -->
+  <title>HiDream-O1-图像 - hello deeplearning</title>
+  <meta name="keywords" content="generate,null">
+  <meta desc name="description" content="hello deeplearning - mxm - hello deeplearning">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="HiDream-O1-图像">
+<meta property="og:url" content="https://nicemxm.github.io/2024/08/06/HiDream-O1-image/index.html">
+<meta property="og:site_name" content="hello deeplearning">
+<meta property="og:description" content="摘要视觉生成模型的发展长期以来受到碎片化架构的制约，这些架构依赖于相互独立的文本编码器和外部变分自编码器（VAE）。在本报告中，我们提出了 HiDream-O1-Image，这是一种基于像素空间扩散 Transformer 的原生统一生成基础模型，开创性地实现了从模块化架构到端到端上下文内视觉生成引擎的范式转变。通过将原始图像像素、文本 token 以及特定任务条件映射到单一共享的 token 空">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2024-08-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-06T09:01:53.653Z">
+<meta property="article:author" content="mxm">
+<meta property="article:tag" content="generate">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+  <style>
+    /* 首屏样式 */
+    #safearea {
+  display: none;
+}
+:root {
+  --color-site-body: #f4f4f4;
+  --color-site-bg: #f4f4f4;
+  --color-site-inner: #fff;
+  --color-site-footer: #666;
+  --color-card: #fff;
+  --color-text: #444;
+  --color-block: #f6f6f6;
+  --color-inlinecode: #c74f00;
+  --color-codeblock: #fff7ea;
+  --color-h1: #3a3a3a;
+  --color-h2: #3a3a3a;
+  --color-h3: #333;
+  --color-h4: #444;
+  --color-h5: #555;
+  --color-h6: #666;
+  --color-p: #444;
+  --color-list: #666;
+  --color-list-hl: #30ad91;
+  --color-meta: #888;
+  --color-read-bkg: #e0d8c8;
+  --color-read-post: #f8f1e2;
+  --color-copyright-bkg: #f5f5f5;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+html {
+  color: var(--color-text);
+  width: 100%;
+  height: 100%;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  font-size: 16px;
+}
+html >::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+html >::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+html >::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+html >::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+body {
+  background-color: var(--color-site-body);
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body.modal-active {
+  overflow: hidden;
+}
+@media screen and (max-width: 680px) {
+  body.modal-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+a {
+  color: #2092ec;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+a:hover {
+  color: #ff5722;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ul,
+ol {
+  padding-left: 0;
+}
+ul li,
+ol li {
+  list-style: none;
+}
+header {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+img {
+  border: 0;
+  background: none;
+  max-width: 100%;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height: 0;
+  border: 0;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-bottom: 1px solid rgba(68,68,68,0.1);
+}
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+@supports (backdrop-filter: blur(20px)) {
+  .blur {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+.shadow {
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.shadow.floatable {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.shadow.floatable:hover {
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+}
+#l_cover {
+  min-height: 64px;
+}
+.cover-wrapper {
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: 100vh;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  color: var(--color-site-inner);
+  padding: 0 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -100px;
+}
+.cover-wrapper .cover-body {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cover-wrapper#full {
+  height: calc(100vh + 100px);
+  padding-bottom: 100px;
+}
+.cover-wrapper#half {
+  max-height: 640px;
+  min-height: 400px;
+  height: calc(36vh - 64px + 200px);
+}
+.cover-wrapper #scroll-down {
+  width: 100%;
+  height: 64px;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+.cover-wrapper #scroll-down .scroll-down-effects {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  position: absolute;
+  width: 24px;
+  left: calc(50% - 12px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: scroll-down-effect 1.5s infinite;
+  -webkit-animation: scroll-down-effect 1.5s infinite;
+  -khtml-animation: scroll-down-effect 1.5s infinite;
+  -moz-animation: scroll-down-effect 1.5s infinite;
+  -o-animation: scroll-down-effect 1.5s infinite;
+  -ms-animation: scroll-down-effect 1.5s infinite;
+}
+@-moz-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  margin-top: 64px;
+  margin-bottom: 100px;
+}
+.cover-wrapper .cover-body,
+.cover-wrapper .cover-body .top,
+.cover-wrapper .cover-body .bottom {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  max-width: 100%;
+}
+.cover-wrapper .cover-body .bottom {
+  margin-top: 32px;
+}
+.cover-wrapper .cover-body .title {
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-size: 3.125rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.cover-wrapper .cover-body .subtitle {
+  font-size: 20px;
+}
+.cover-wrapper .cover-body .logo {
+  max-height: 120px;
+  max-width: calc(100% - 4 * 16px);
+}
+@media screen and (min-height: 1024px) {
+  .cover-wrapper .cover-body .title {
+    font-size: 3rem;
+  }
+  .cover-wrapper .cover-body .subtitle {
+    font-size: 1.05rem;
+  }
+  .cover-wrapper .cover-body .logo {
+    max-height: 150px;
+  }
+}
+.cover-wrapper .cover-body .m_search {
+  position: relative;
+  max-width: calc(100% - 16px);
+  width: 320px;
+  vertical-align: middle;
+}
+.cover-wrapper .cover-body .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  width: 100%;
+}
+.cover-wrapper .cover-body .m_search .icon,
+.cover-wrapper .cover-body .m_search .input {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.cover-wrapper .cover-body .m_search .icon {
+  position: absolute;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  line-height: 2.5rem;
+  width: 32px;
+  top: 0;
+  left: 5px;
+  color: rgba(68,68,68,0.75);
+}
+.cover-wrapper .cover-body .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  padding-left: 36px;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: var(--color-text);
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .cover-body .m_search .input {
+    padding-left: 36px;
+  }
+}
+.cover-wrapper .cover-body .m_search .input:hover {
+  background: rgba(255,255,255,0.8);
+}
+.cover-wrapper .cover-body .m_search .input:focus {
+  background: #fff;
+}
+.cover-wrapper .list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -khtml-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  align-items: stretch;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.cover-wrapper .list-h a {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  font-weight: 600;
+}
+.cover-wrapper .list-h a img {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  margin: 4px;
+  min-width: 40px;
+  max-width: 44px;
+}
+@media screen and (max-width: 768px) {
+  .cover-wrapper .list-h a img {
+    min-width: 36px;
+    max-width: 40px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .list-h a img {
+    margin: 2px 4px;
+    min-width: 32px;
+    max-width: 36px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .cover-wrapper .list-h a img {
+    min-width: 28px;
+    max-width: 32px;
+  }
+}
+.cover-wrapper {
+  max-width: 100%;
+}
+.cover-wrapper.search .bottom .menu {
+  margin-top: 16px;
+}
+.cover-wrapper.search .bottom .menu .list-h a {
+  white-space: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 2px;
+  margin: 4px;
+  color: var(--color-site-inner);
+  opacity: 0.75;
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom: 2px solid transparent;
+}
+.cover-wrapper.search .bottom .menu .list-h a i {
+  margin-right: 4px;
+}
+.cover-wrapper.search .bottom .menu .list-h a p {
+  font-size: 0.9375rem;
+}
+.cover-wrapper.search .bottom .menu .list-h a:hover,
+.cover-wrapper.search .bottom .menu .list-h a.active,
+.cover-wrapper.search .bottom .menu .list-h a:active {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  border-bottom: 2px solid var(--color-site-inner);
+}
+.cover-wrapper #parallax-window {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.parallax-mirror {
+  animation-delay: 0s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@font-face {
+  font-family: 'UbuntuMono';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Varela Round';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+.l_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.l_header.auto {
+  transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  -khtml-transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -ms-transition: opacity 0.4s ease;
+  visibility: hidden;
+}
+.l_header.auto.show {
+  opacity: 1 !important;
+  -webkit-opacity: 1 !important;
+  -moz-opacity: 1 !important;
+  visibility: visible;
+}
+.l_header .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.l_header #wrapper {
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.l_header #wrapper .nav-main,
+.l_header #wrapper .nav-sub {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -khtml-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+}
+.l_header #wrapper .nav-main {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.l_header #wrapper.sub .nav-main {
+  transform: translateY(-64px);
+  -webkit-transform: translateY(-64px);
+  -khtml-transform: translateY(-64px);
+  -moz-transform: translateY(-64px);
+  -o-transform: translateY(-64px);
+  -ms-transform: translateY(-64px);
+}
+.l_header #wrapper .nav-sub {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  height: 64px;
+  width: calc(100% - 2 * 16px);
+  position: absolute;
+}
+.l_header #wrapper .nav-sub ::-webkit-scrollbar {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (min-width: 2048px) {
+  .l_header #wrapper .nav-sub {
+    max-width: 55vw;
+    margin: auto;
+  }
+}
+.l_header #wrapper.sub .nav-sub {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+}
+.l_header #wrapper .title {
+  position: relative;
+  color: var(--color-text);
+  padding-left: 24px;
+  max-height: 64px;
+}
+.l_header #wrapper .nav-main .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+}
+.l_header #wrapper .nav-main .title img {
+  height: 64px;
+}
+.l_header .nav-sub {
+  max-width: 1080px;
+  margin: auto;
+}
+.l_header .nav-sub .title {
+  font-weight: bold;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  line-height: 1.2;
+  max-height: 64px;
+  white-space: normal;
+  flex-shrink: 1;
+}
+.l_header .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  line-height: 64px;
+  align-items: center;
+}
+.l_header .switcher .s-toc {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .l_header .switcher .s-toc {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+  }
+}
+.l_header .switcher >li {
+  height: 48px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  margin: 2px;
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li {
+    margin: 0 1px;
+    height: 48px;
+  }
+}
+.l_header .switcher >li >a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0.85em 1.1em;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  color: #3dd9b6;
+}
+.l_header .switcher >li >a:hover {
+  border: none;
+}
+.l_header .switcher >li >a.active,
+.l_header .switcher >li >a:active {
+  border: none;
+  background: var(--color-site-bg);
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li >a {
+    width: 36px;
+    height: 48px;
+  }
+}
+.l_header .nav-sub .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+}
+.l_header .m_search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  height: 64px;
+  width: 240px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (max-width: 1024px) {
+  .l_header .m_search {
+    width: 44px;
+    min-width: 44px;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+  }
+  .l_header .m_search:hover {
+    width: 240px;
+  }
+  .l_header .m_search:hover input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search:hover .input {
+    width: 100%;
+  }
+  .l_header .m_search:hover .input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search {
+    min-width: 0;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.l_header .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.l_header .m_search .icon {
+  position: absolute;
+  width: 36px;
+  left: 5px;
+  color: var(--color-meta);
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .icon {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+.l_header .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+  width: 100%;
+  color: var(--color-text);
+  background: #fafafa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 40px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search .input:focus {
+    box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .input {
+    background: var(--color-block);
+    padding-left: 8px;
+    border: none;
+  }
+  .l_header .m_search .input:hover,
+  .l_header .m_search .input:focus {
+    border: none;
+  }
+}
+@media (max-width: 500px) {
+  .l_header .m_search {
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    transition: all 0.28s ease;
+    -webkit-transition: all 0.28s ease;
+    -khtml-transition: all 0.28s ease;
+    -moz-transition: all 0.28s ease;
+    -o-transition: all 0.28s ease;
+    -ms-transition: all 0.28s ease;
+  }
+  .l_header .m_search .input {
+    border-radius: 32px;
+    -webkit-border-radius: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+  }
+  .l_header.z_search-open .m_search {
+    width: 100%;
+  }
+  .l_header.z_search-open .m_search .input {
+    width: calc(100% - 120px);
+  }
+}
+ul.m-pc >li>a {
+  color: inherit;
+  border-bottom: 2px solid transparent;
+}
+ul.m-pc >li>a:active,
+ul.m-pc >li>a.active {
+  border-bottom: 2px solid #3dd9b6;
+}
+ul.m-pc li:hover >ul.list-v,
+ul.list-v li:hover >ul.list-v {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.nav-list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  align-items: stretch;
+}
+ul.nav-list-h>li {
+  position: relative;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  height: 100%;
+  line-height: 2.4;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+ul.nav-list-h>li >a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+}
+ul.list-v {
+  z-index: 1;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: absolute;
+  background: var(--color-card);
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  margin-top: -6px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 8px 0;
+}
+ul.list-v.show {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.list-v hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+ul.list-v >li {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+ul.list-v >li.header {
+  font-size: 0.78125rem;
+  font-weight: bold;
+  line-height: 2em;
+  color: var(--color-meta);
+  margin: 8px 16px 4px;
+}
+ul.list-v >li.header i {
+  margin-right: 8px;
+}
+ul.list-v >li ul {
+  margin-left: 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: -40px;
+}
+ul.list-v .aplayer-container {
+  min-height: 64px;
+  padding: 6px 16px;
+}
+ul.list-v >li>a {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  color: var(--color-list);
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px 0 16px;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+@media screen and (max-width: 1024px) {
+  ul.list-v >li>a {
+    line-height: 40px;
+  }
+}
+ul.list-v >li>a >i {
+  margin-right: 8px;
+}
+ul.list-v >li>a:active,
+ul.list-v >li>a.active {
+  color: var(--color-list-hl);
+}
+ul.list-v >li>a:hover {
+  color: var(--color-list-hl);
+  background: var(--color-site-bg);
+}
+.l_header .menu >ul>li>a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding: 0 8px;
+}
+.l_header .menu >ul>li>a >i {
+  margin-right: 4px;
+}
+.l_header ul.nav-list-h>li {
+  color: var(--color-list);
+  line-height: 64px;
+}
+.l_header ul.nav-list-h>li >a {
+  max-height: 64px;
+  overflow: hidden;
+  color: inherit;
+}
+.l_header ul.nav-list-h>li >a:active,
+.l_header ul.nav-list-h>li >a.active {
+  color: #3dd9b6;
+}
+.l_header ul.nav-list-h>li:hover>a {
+  color: var(--color-list-hl);
+}
+.l_header ul.nav-list-h>li i.music {
+  animation: rotate-effect 1.5s linear infinite;
+  -webkit-animation: rotate-effect 1.5s linear infinite;
+  -khtml-animation: rotate-effect 1.5s linear infinite;
+  -moz-animation: rotate-effect 1.5s linear infinite;
+  -o-animation: rotate-effect 1.5s linear infinite;
+  -ms-animation: rotate-effect 1.5s linear infinite;
+}
+@-moz-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+.menu-phone li ul.list-v {
+  right: calc(100% - 0.5 * 16px);
+}
+.menu-phone li ul.list-v ul {
+  right: calc(100% - 0.5 * 16px);
+}
+#wrapper {
+  max-width: 1080px;
+  margin: auto;
+}
+@media screen and (min-width: 2048px) {
+  #wrapper {
+    max-width: 55vw;
+  }
+}
+#wrapper .menu {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  margin: 0 16px 0 0;
+}
+#wrapper .menu .list-v ul {
+  left: calc(100% - 0.5 * 16px);
+}
+.menu-phone {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: 16px;
+  right: 8px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.menu-phone ul {
+  right: calc(100% - 0.5 * 16px);
+}
+@media screen and (max-width: 500px) {
+  .menu-phone {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: block;
+  }
+}
+.l_header {
+  max-width: 65vw;
+  left: calc((100% - 65vw) * 0.5);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 2048px) {
+  .l_header {
+    max-width: 1112px;
+    left: calc((100% - 1112px) * 0.5);
+  }
+}
+@media screen and (max-width: 1112px) {
+  .l_header {
+    left: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .l_header #wrapper .nav-main .title {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .l_header #wrapper .nav-sub {
+    width: 100%;
+  }
+  .l_header #wrapper .nav-sub .title {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding: 8px 16px;
+  }
+  .l_header #wrapper .switcher {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+    margin-right: 8px;
+  }
+  .l_header .menu {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .list-v li {
+    max-width: 270px;
+  }
+}
+#u-search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px;
+  z-index: 1001;
+}
+@media screen and (max-width: 680px) {
+  #u-search {
+    padding: 0px;
+  }
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+    '.kill-t{'+
+      'font-size: 2rem;'+
+    '}'+
+    '.kill-c{'+
+      'font-size: 1.2rem;'+
+    '}'+
+		'#l_header,#l_body{'+
+			'display: none;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        `<span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>`+
+        `<span class="kill-c">微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</span><br/>`+
+        `<a target="_blank" rel="noopener" href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/"><strong>了解详情 ></strong></a>`+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+    .kill-t{
+      font-size: 2rem;
+    }
+    .kill-c{
+      font-size: 1.2rem;
+    }
+		#l_header,#l_body{
+			display: none;
+		}
+	</style>
+    <div class="kill-noscript">
+        <span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>
+        <span class="kill-c">本页面需要浏览器支持（启用）JavaScript</span><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+
+  <script>
+  /************这个文件存放不需要重载的全局变量和全局函数*********/
+  window.volantis = {}; // volantis 全局变量
+  volantis.debug = "env"; // 调试模式
+  volantis.dom = {}; // 页面Dom see: /source/js/app.js etc.
+  /******************** volantis.dom.$ ********************************/
+  // 注：这里没有选择器，也没有forEach一次只处理一个dom，这里重新封装主题常用的dom方法，返回的是dom对象，对象包含了以下方法，同时保留dom的原生API
+  function volantisDom(ele) {
+    if (!ele) ele = document.createElement("div")
+    this.ele = ele;
+    // ==============================================================
+    this.ele.find = (c) => {
+      let q = this.ele.querySelector(c)
+      if (q)
+        return new volantisDom(q)
+    }
+    // ==============================================================
+    this.ele.hasClass = (c) => {
+      return this.ele.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+    }
+    this.ele.addClass = (c) => {
+      this.ele.classList.add(c);
+      return this.ele
+    }
+    this.ele.removeClass = (c) => {
+      this.ele.classList.remove(c);
+      return this.ele
+    }
+    this.ele.toggleClass = (c) => {
+      if (this.ele.hasClass(c)) {
+        this.ele.removeClass(c)
+      } else {
+        this.ele.addClass(c)
+      }
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.on = (c, f) => {
+      this.ele.addEventListener(c, f, false)
+      return this.ele
+    }
+    this.ele.click = (f, r) => {
+      this.ele.on("click", f, r)
+      return this.ele
+    }
+    this.ele.scroll = (f, r) => {
+      this.ele.on("scroll", f, r)
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.html = (c) => {
+      // if(c=== undefined){
+      //   return this.ele.innerHTML
+      // }else{
+      this.ele.innerHTML = c
+      return this.ele
+      // }
+    }
+    // ==============================================================
+    this.ele.hide = (c) => {
+      this.ele.style.display = "none"
+      return this.ele
+    }
+    this.ele.show = (c) => {
+      this.ele.style.display = "block"
+      return this.ele
+    }
+    // ==============================================================
+    return this.ele
+  }
+  volantis.dom.$ = (ele) => {
+    return !!ele ? new volantisDom(ele) : null;
+  }
+  /******************** RunItem ********************************/
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          volantis.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+  /******************** RightMenu ********************************/
+  // volantis.rightmenu.handle(callBack[,"callBackName"]) 外部菜单项控制
+  // 可在 volantis.mouseEvent 处获取右键事件
+  volantis.rightmenu = {};
+  volantis.rightmenu.method = {
+    handle: new RunItem(),
+  }
+  volantis.rightmenu = Object.assign(volantis.rightmenu, {
+    handle: volantis.rightmenu.method.handle.push,
+  });
+  /********************  Dark Mode  ********************************/
+  // /layout/_partial/scripts/darkmode.ejs
+  // volantis.dark.mode 当前模式 dark or light
+  // volantis.dark.toggle() 暗黑模式触发器
+  // volantis.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  volantis.dark = {};
+  volantis.dark.method = {
+    toggle: new RunItem(),
+  };
+  volantis.dark = Object.assign(volantis.dark, {
+    push: volantis.dark.method.toggle.push,
+  });
+  /********************  Message  ********************************/
+  // VolantisApp.message
+  /********************  isMobile  ********************************/
+  // /source/js/app.js
+  // volantis.isMobile
+  // volantis.isMobileOld
+  /********************脚本动态加载函数********************************/
+  // volantis.js(src, cb)  cb 可以传入onload回调函数 或者 JSON对象 例如: volantis.js("src", ()=>{}) 或 volantis.js("src", {defer:true,onload:()=>{}})
+  // volantis.css(src)
+
+  // 返回Promise对象，如下方法同步加载资源，这利于处理文件资源之间的依赖关系，例如：APlayer 需要在 MetingJS 之前加载
+  // (async () => {
+  //     await volantis.js("...theme.plugins.aplayer.js.aplayer...")
+  //     await volantis.js("...theme.plugins.aplayer.js.meting...")
+  // })();
+
+  // 已经加入了setTimeout
+  volantis.js = (src, cb) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+  volantis.css = (src) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  }
+  /********************按需加载的插件********************************/
+  // volantis.import.jQuery().then(()=>{})
+  volantis.import = {
+    jQuery: () => {
+      if (typeof jQuery == "undefined") {
+        return volantis.js("https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js")
+      } else {
+        return new Promise(resolve => {
+          resolve()
+        });
+      }
+    }
+  }
+  /********************** requestAnimationFrame ********************************/
+  // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+  // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+  volantis.requestAnimationFrame = (fn) => {
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+    }
+    window.requestAnimationFrame(fn)
+  }
+  /************************ layoutHelper *****************************************/
+  volantis.layoutHelper = (helper, html, opt) => {
+    opt = Object.assign({ clean: false}, opt)
+    function myhelper(helper, html, clean) {
+      volantis.tempDiv = document.createElement("div");
+      volantis.tempDiv.innerHTML = html;
+      let layoutHelper = document.querySelector("#layoutHelper-" + helper)
+      if (layoutHelper) {
+        if (clean) {
+          layoutHelper.innerHTML = ""
+        }
+        layoutHelper.append(volantis.tempDiv);
+      }
+    }
+    myhelper(helper, html, opt.clean)
+  }
+  /****************************** 滚动事件处理 ****************************************/
+  volantis.scroll = {
+    engine: new RunItem(),
+    unengine: new RunItem(),
+  };
+  volantis.scroll = Object.assign(volantis.scroll, {
+    push: volantis.scroll.engine.push,
+  });
+  // 滚动条距离顶部的距离
+  volantis.scroll.getScrollTop = () => {
+    let scrollPos;
+    if (window.pageYOffset) {
+      scrollPos = window.pageYOffset;
+    } else if (document.compatMode && document.compatMode != 'BackCompat') {
+      scrollPos = document.documentElement.scrollTop;
+    } else if (document.body) {
+      scrollPos = document.body.scrollTop;
+    }
+    return scrollPos;
+  }
+  volantis.scroll.scrollHeight = function () {
+    return Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+    )
+  }
+  volantis.scroll.offsetHeight = function () {
+    return Math.max(
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    )
+  }
+  volantis.scroll.progress = function () {
+    return volantis.scroll.getScrollTop() / (volantis.scroll.scrollHeight() - volantis.scroll.offsetHeight())
+  }
+  // 使用 requestAnimationFrame 处理滚动事件
+  // `volantis.scroll.del` 中存储了一个数值, 该数值检测一定时间间隔内滚动条滚动的位移, 数值的检测频率是浏览器的刷新频率. 数值为正数时, 表示向下滚动. 数值为负数时, 表示向上滚动.
+  volantis.scroll.handleScrollEvents = () => {
+    volantis.scroll.lastScrollTop = volantis.scroll.getScrollTop()
+    function loop() {
+      const scrollTop = volantis.scroll.getScrollTop();
+      if (volantis.scroll.lastScrollTop !== scrollTop) {
+        volantis.scroll.del = scrollTop - volantis.scroll.lastScrollTop;
+        volantis.scroll.lastScrollTop = scrollTop;
+        // if (volantis.scroll.del > 0) {
+        //   console.log("向下滚动");
+        // } else {
+        //   console.log("向上滚动");
+        // }
+        // 注销过期的unengine未滚动事件
+        volantis.scroll.unengine.list = []
+        volantis.scroll.engine.start();
+      } else {
+        volantis.scroll.unengine.start();
+      }
+      volantis.requestAnimationFrame(loop)
+    }
+    volantis.requestAnimationFrame(loop)
+  }
+  volantis.scroll.handleScrollEvents()
+  volantis.scroll.ele = null;
+  // 触发页面滚动至目标元素位置
+  volantis.scroll.to = (ele, option = {}) => {
+    if (!ele) return;
+    volantis.scroll.ele = ele;
+    // 默认配置
+    opt = {
+      top: ele.getBoundingClientRect().top + document.documentElement.scrollTop,
+      behavior: "smooth"
+    }
+    // 定义配置
+    if ("top" in option) {
+      opt.top = option.top
+    }
+    if ("behavior" in option) {
+      opt.behavior = option.behavior
+    }
+    if ("addTop" in option) {
+      opt.top += option.addTop
+    }
+    if (!("observerDic" in option)) {
+      option.observerDic = 100
+    }
+    // 滚动
+    window.scrollTo(opt);
+    // 监视器
+    // 监视并矫正元素滚动到指定位置
+    // 用于处理 lazyload 引起的 cls 导致的定位失败问题
+    // option.observer = false
+    if (option.observer) {
+      setTimeout(() => {
+        if (volantis.scroll.ele != ele) {
+          return
+        }
+        volantis.scroll.unengine.push(() => {
+          let me = ele.getBoundingClientRect().top
+          if (!(me >= -option.observerDic && me <= option.observerDic)) {
+            volantis.scroll.to(ele, option)
+          }
+          volantis.scroll.unengine.remove("unengineObserver")
+        }, "unengineObserver")
+      }, 1000)
+    }
+  }
+  /********************** Content Visibility ********************************/
+  // 见 source/css/first.styl 如果遇到任何问题 删除 .post-story 即可
+  // 一个元素被声明 content-visibility 属性后 如果元素不在 viewport 中 浏览器不会计算其后代元素样式和属性 从而节省 Style & Layout 耗时
+  // content-visibility 的副作用: 锚点失效 等等(实验初期 暂不明确), 使用此方法清除样式
+  volantis.cleanContentVisibility = () => {
+    if (document.querySelector(".post-story")) {
+      console.log("cleanContentVisibility");
+      document.querySelectorAll(".post-story").forEach(e => {
+        e.classList.remove("post-story")
+      })
+    }
+  }
+  /******************************************************************************/
+  /******************************************************************************/
+  /******************************************************************************/
+  //图像加载出错时的处理
+  function errorImgAvatar(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg";
+    img.onerror = null;
+  }
+  function errorImgCover(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg";
+    img.onerror = null;
+  }
+  /******************************************************************************/
+</script>
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  pdata.commentConfig={};
+  volantis.GLOBAL_CONFIG ={
+    root: '/',
+    debug: "env",
+    default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
+    lastupdate: new Date(1793955730584),
+    cdn: {
+      izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
+      izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
+      fancybox_css: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css',
+      fancybox_js: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js'
+    },
+    sidebar: {
+      for_page: ["blogger","category","tagcloud","donate"],
+      for_post: ["toc"],
+      webinfo: {
+        lastupd: {
+          enable: true,
+          friendlyShow: true
+        },
+        runtime: {
+          data: "2024/05/14",
+          unit: "天"
+        }
+      }
+    },
+    plugins: {
+      message: {"enable":true,"icon":{"default":"fa-solid fa-info-circle light-blue","quection":"fa-solid fa-question-circle light-blue"},"time":{"default":5000,"quection":20000},"position":"topRight","transitionIn":"bounceInLeft","transitionOut":"fadeOutRight","titleColor":"var(--color-text)","messageColor":"var(--color-text)","backgroundColor":"var(--color-card)","zindex":2147483647,"copyright":{"enable":true,"title":"知识共享许可协议","message":"请遵守 CC BY-NC-SA 4.0 协议。","icon":"far fa-copyright light-blue"},"aplayer":{"enable":true,"play":"fa-solid fa-play","pause":"fa-solid fa-pause"},"rightmenu":{"enable":true,"notice":true}},
+      
+      aplayer: {
+        id: 494561791,
+        enable:true
+      },
+      
+      
+    },
+    search: {
+      
+
+      
+        dataPath: (("/" || "/").endsWith("/") ? "/" || "/" : "//" || "/") + "content.json",
+      
+
+      
+    },
+    languages: {
+      
+        search: {
+          hits_empty: "找不到您查询的内容：${query}",
+          hits_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒",
+        }
+      
+    }
+  }
+</script>
+  <!-- import head_end begin -->
+  <!-- import head_end end -->
+  <!-- Custom Files headEnd begin-->
+  
+  <!-- Custom Files headEnd end-->
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://unpkg.com/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://unpkg.com/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  <body itemscope itemtype="https://schema.org.cn/WebPage">
+    <!-- import body_begin begin-->
+    <!-- import body_begin end-->
+    <!-- Custom Files bodyBegin begin-->
+    
+    <!-- Custom Files bodyBegin end-->
+    <header itemscope itemtype="https://schema.org.cn/WPHeader" id="l_header" class="l_header auto shadow floatable blur " style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone'>
+        <li><a id="s-comment" class="fa-solid fa-comments fa-fw" target="_self" title="comment"></a></li>
+        
+          <li><a id="s-toc" class="s-toc fa-solid fa-list fa-fw" target="_self" title="toc"></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+      
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fa-solid fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+      
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fa-solid fa-search fa-fw" target="_self" title="search"></a></li>
+				
+				<li>
+          <a class="s-menu fa-solid fa-bars fa-fw" target="_self" title="menu"></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+
+      <!-- Custom Files header begin -->
+      
+      <!-- Custom Files header end -->
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+      <div class="cover-wrapper post search" id='half'>
+        
+  <div id="parallax-window"></div>
+
+<div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">OpenHarness</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="A Wonderful journey" />
+          <i class="icon fa-solid fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              active-action="action-home">
+              <p>文档</p>
+            </a>
+          
+            <a href="/faqs/"
+              
+              
+              active-action="action-faqs">
+              <p>帮助</p>
+            </a>
+          
+            <a href="/examples/"
+              
+              
+              active-action="action-examples">
+              <p>示例</p>
+            </a>
+          
+            <a href="/contributors/"
+              
+              
+              active-action="action-contributors">
+              <p>社区</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              active-action="action-archives">
+              <p>博客</p>
+            </a>
+          
+            <a target="_blank" rel="noopener" href="https://github.com/"
+              
+              
+              active-action="action-https:githubcom">
+              <p>源码</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    
+  
+</div>
+
+      <div id="safearea">
+        <div class="body-wrapper">
+          
+<div id="l_main" class=''>
+  <article itemscope itemtype="https://schema.org.cn/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2024/08/06/HiDream-O1-image/">
+  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
+    <meta itemprop="name" content="hello deeplearning">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
+    <meta itemprop="name" content="hello deeplearning">
+    <meta itemprop="description" content="">
+  </span>
+  
+
+
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title" itemprop="name headline">
+        HiDream-O1-图像
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="https://schema.org.cn/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/apple-touch-icon.png">
+    <p itemprop="name">mxm</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  
+  
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/">文生图</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+        <a href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" itemprop="url"><span itemprop="name">文生图</span></a>
+      </span>
+    
+  </div>
+  
+
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2024-08-06T16:00:00+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2024年8月7日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+<div class="new-meta-item browse">
+  <a class='notlink'>
+    <p>
+      <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="busuanzi_value_page_pv">
+        <i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i>
+      </span>
+        
+      <span>次浏览</span>
+    </p>
+  </a>
+</div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fa-solid fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：11.5k 字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fa-solid fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：40 分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>视觉生成模型的发展长期以来受到碎片化架构的制约，这些架构依赖于相互独立的文本编码器和外部变分自编码器（VAE）。在本报告中，我们提出了 HiDream-O1-Image，这是一种基于像素空间扩散 Transformer 的原生统一生成基础模型，开创性地实现了从模块化架构到端到端上下文内视觉生成引擎的范式转变。通过将原始图像像素、文本 token 以及特定任务条件映射到单一共享的 token 空间，HiDream-O1-Image 在统一 Transformer（UiT）架构中实现了多模态输入的结构统一。这种原生编码范式消除了对独立 VAE 或分离预训练文本编码器的需求，使模型能够将多样化的生成与编辑任务视为一致的上下文推理过程。大量实验表明，HiDream-O1-Image 在多种生成任务上表现出色，包括文图生成、指令驱动的编辑以及主体驱动的个性化定制。值得注意的是，仅拥有 80 亿参数的 HiDream-O1-Image (8B) 在性能上已达到甚至超越了参数规模显著更大的现有 SOTA 模型（如 270 亿参数的 Qwen-Image）。更为关键的是，为验证这一范式的巨大可扩展性，我们将该架构成功扩展至超过 2000 亿参数。实验结果表明，这一大规模版本 HiDream-O1-Image-Pro (200B+) 开启了前所未有的生成能力与卓越性能，树立了新的 SOTA 基准。归根结底，HiDream-O1-Image 突显了原生统一架构的巨大潜力，并为下一代多模态 AI 铺就了一条高度可扩展的道路。GitHub：<a target="_blank" rel="noopener" href="https://github.com/HiDream-ai/HiDream-01-Image">https://github.com/HiDream-ai/HiDream-01-Image</a><br>Hugging Face：<a target="_blank" rel="noopener" href="https://huggingface.co/HiDream-ai/HiDream-01-Image">https://huggingface.co/HiDream-ai/HiDream-01-Image</a></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_1_6_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_2_17_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_3_15_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_4_16_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_5_13_.png" alt="image"></p>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>视觉内容生成领域已因扩散模型的快速演进而发生了根本性重塑（12, 17, 22, 32, 34, 53, 58, 65）。近期，生成模型架构经历了从传统 U-Net（42）到扩散 Transformer（DiT）（37, 67）的重大转变，不断拓展图像与视频合成的边界（9, 56）。在此背景下，主流范式仍以潜在扩散模型（LDMs）为核心（42）。LDMs 采用模块化且碎片化的流水线：利用预训练的变分自编码器（VAEs）（20）将原始图像压缩至潜在空间，并搭配独立的预训练语言模型（如 CLIP（40）或 T5（41））对文本提示进行编码（图 5(a)）。尽管计算效率较高，但这种分离式编码方式不可避免地引入了信息瓶颈，例如在潜在空间压缩过程中会丢失高频视觉细节，从而限制了生成结果的保真度上限。</p>
+<p>为突破潜在空间压缩带来的结构限制，近期一些开创性工作探索了像素空间的扩散 Transformer（18, 28）。这些方法通过直接在原始图像像素上建模扩散过程，已在视觉保真度和细节保留方面展现出良好性能（例如，在文本到图像（T2I）生成任务中能够精细地保留复杂细节）。然而，尽管摒弃了变分自编码器（VAE）图像编码器，大多数现有的像素空间 Diffusion Transformer（图 5(b)）仍严重依赖独立且现成的文本编码器。这种视觉与文本编码空间的分离本质上会导致语义对齐问题，因为两种模态并未从底层进行联合优化。此外，这类模型通常仍局限于单一任务的合成（主要是 T2I），难以推广到更广泛、更复杂的场景，如基于指令的图像编辑和主体驱动的个性化定制。</p>
+<p>在自然语言处理领域，将多种任务统一到单一的共享 token 空间，为具备强大上下文推理能力的大规模语言模型（LLM）奠定了基础。这一成功自然而然地引发了一个关于视觉生成基础模型的关键问题：我们能否将基于像素空间的扩散模型从专用生成器扩展为一种通用、具备泛化推理能力的框架？为此，我们必须打破不同编码模块之间的界限，在基础层面实现多模态输入的结构化统一，从而由模块化的流水线转向端到端的架构。</p>
+<p>在本工作中，我们提出了 HiDream-O1-Image，这是一种原生统一的生成式基础模型，由一种全新的像素级统一 Transformer 驱动。HiDream-O1-Image 彻底摒弃了传统的碎片化编码范式。它不再依赖于独立的 VAE 或<br>通过使用独立的预训练文本编码器，我们的模型将原始图像像素、离散文本标记以及特定辅助任务的条件直接映射到一个单一的连续共享标记空间中（图5(c)）。这种结构上的统一使得所有多模态输入能够在统一 Transformer 架构内以端到端的方式进行协同处理。由此，这种原生编码范式使 HiDream-O1-Image 能够将多样化的生成与编辑任务视为一个连贯的上下文内视觉推理过程，而非需要专用模块的孤立问题，从而促进输入之间更深入、更灵活的多模态交互。</p>
+<p>尽管架构统一为视觉推理提供了强大的驱动力，但如何将高度复杂且抽象的用户意图转化为模型偏好的输入，仍然是一个现实挑战。为了弥合这一语义鸿沟，我们进一步引入了一个具备“思考”机制的推理驱动提示代理。该代理会在将复杂用户指令送入生成流水线之前，对其进行显式推理与细化。这一机制显著提升了模型的泛化能力与指令遵循能力，尤其在需要深度逻辑推演的复杂视觉生成任务中表现尤为突出。</p>
+<p>据我们所知，HiDream-O1-Image 是首批探索像素级统一 Transformer 架构的研究之一，该架构能够同时支持：(i) 多种多模态原始输入（图像、文本、附加条件&#x2F;参考序列）；以及 (ii) 一套统一的系统，用于文生图生成、指令驱动编辑和主体驱动个性化，并且能够有效扩展至高分辨率 2,048×2,048 的输出。</p>
+<p>综上所述，本工作的主要贡献如下：</p>
+<ul>
+<li><p>原生统一生成架构：我们提出了 HiDream-O1-Image，这是一种端到端的像素级统一 Transformer，完全摒弃了传统的模块化流水线（即外部 VAE 和独立的文本编码器）。通过将原始图像像素、文本 token 和任务条件映射到同一个共享 token 空间，我们将多样化的视觉生成与编辑任务重新构建为一致的上下文内视觉推理过程。</p>
+</li>
+<li><p>推理驱动的提示代理：为弥合用户原始意图与模型偏好输入之间的语义鸿沟，我们提出并开源了一种配备“思考”机制的提示代理。通过显式地对复杂用户指令进行推理与精炼，该代理显著提升了模型遵循指令的能力，尤其在涉及复杂、重推理的视觉生成任务中表现尤为突出。</p>
+</li>
+<li><p>在8B规模下实现卓越的效率与通用性：我们证明，所提出的统一范式能够在保持高效率的同时，达到最先进的性能水平，全面覆盖多种生成场景。具体而言，HiDream-O1-Image能够无缝应对多样化的电影镜头、多样的艺术风格、复杂的长文本渲染、基于指令的图像编辑、主体驱动的个性化定制，以及用于分镜制作的多面板图像生成等任务。在这些丰富的应用场景中，我们的模型不仅达到了与参数量显著更大的成熟开源潜在空间DiT模型（如27B规模的Qwen-Image）相当甚至超越的性能，同时也优于领先的闭源商业模型（如Nano Banana 2.0）。</p>
+</li>
+<li><p>巨大的可扩展性，参数量突破2000亿：我们通过将HiDream-O1-Image架构成功扩展至超过2000亿参数，验证了我们原生统一范式的缩放法则。在这一超大规模下的实验结果展现出卓越的生成能力、出色的视觉保真度以及精细的推理水平，在广泛的生成任务中树立了新的最先进基准。</p>
+</li>
+</ul>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_6_0_.png" alt="image"></p>
+<h2 id="2-数据整理与提示词构建"><a href="#2-数据整理与提示词构建" class="headerlink" title="2. 数据整理与提示词构建"></a>2. 数据整理与提示词构建</h2><p>高质量、大规模的训练数据对于扩展通用图像生成能力至关重要。为单一模型同时实现文图合成、指令驱动编辑以及主体驱动个性化，还需要超出标准图文对之外的额外监督。为此，我们构建了一套专用的数据引擎，用于将异构原始数据源转换为高质量的图文对、编辑三元组和主体参考样本。如图6所示，该流程包括源数据采集、数据去重、数据质量和安全过滤，以及基于视觉语言模型（VLM）的提示词构造。</p>
+<h3 id="2-1-源数据收集"><a href="#2-1-源数据收集" class="headerlink" title="2.1. 源数据收集"></a>2.1. 源数据收集</h3><p>我们首先从公开网络语料库和内部授权数据集中构建了一个庞大的候选池。除了标准的图文对之外，我们还特意扩大了数据来源范围，以覆盖 HiDream-O1-Image 所需的所有主要训练场景。在文本到图像生成方面，我们纳入了演示文稿幻灯片、海报、文档以及长文本图像等复杂的版式数据，这些数据能够为密集排版、结构化构图以及图文混合布局提供有效的监督信号。此外，我们还增加了风格导向样本的比例，涵盖摄影风格、插画风格、设计模板、渲染美学以及特定领域的视觉识别系统。</p>
+<p>除文生图任务外，我们还针对指令式编辑和主体驱动的个性化需求收集特定任务数据。编辑训练数据由公开的编辑数据集、内部合成的前后对比样本以及视频衍生样本构成；其中，不同帧间可为对象变化、背景过渡、动作差异及局部属性修改提供天然的监督信号。在面向知识产权（IP）的个性化方面，我们同时构建了以人为中心和以物为中心的参考集合。人像IP数据包含同一人物在不同姿态、表情、视角、光照条件及场景下的多张照片；物像IP数据则涵盖同一物品在不同背景与构型下的多次出现。最后，我们从两个互补来源收集多幅面板数据：一是从互联网爬取的网格图像，二是基于同一视频的不同片段构建的构图样本。这些多幅面板数据使模型能够接触序列化变化、面板间的连贯性，以及超越单幅图像构图的更丰富的空间组织形式。</p>
+<h3 id="2-2-数据去重"><a href="#2-2-数据去重" class="headerlink" title="2.2. 数据去重"></a>2.2. 数据去重</h3><p>由于大规模网络级数据集不可避免地包含重复或高度相似的图像，我们采用去重流程以提高训练效率并降低记忆风险(45)。在如此规模下，对整个语料库进行直接两两比较是不可行的，因此我们将去重过程分为两个步骤：</p>
+<ol>
+<li><p>视觉特征分组。我们使用 SSCD 模型（38）提取图像表示。随后，从其中选取 200 万个样本作为代表性子集，用于拟合 k-means 聚类中心，将特征空间划分为 16,000 个簇，从而将可能的重复项引导至同一局部搜索空间。</p>
+</li>
+<li><p>聚类级相似性搜索。在每个聚类内，我们使用GPU加速的Faiss进行近邻检索（10）。对于相似度得分超过预定义阈值的样本，将其视为近似重复项，并仅保留一张代表性图像。</p>
+</li>
+</ol>
+<p>这一冗余控制阶段在保留所收集数据语义覆盖范围的同时，剔除了约20%的初始候选对象。</p>
+<h3 id="2-3-数据质量与安全过滤"><a href="#2-3-数据质量与安全过滤" class="headerlink" title="2.3. 数据质量与安全过滤"></a>2.3. 数据质量与安全过滤</h3><p>在去重之后，我们还利用一组互补模型对剩余数据进行进一步筛选。其目的不仅在于去除有害或低质量的图像，还在于保留那些在视觉上具有信息量、且有助于高分辨率像素空间建模的训练样本：</p>
+<ul>
+<li><p>安全评估。通过预先训练的 NSFW 分类器检测并移除潜在不当图像（26）。</p>
+</li>
+<li><p>美学评估。我们采用美学评分模型（25），以过滤掉视觉效果不佳的图像，同时在写实、艺术和设计导向等不同风格领域间保持多样性。</p>
+</li>
+<li><p>水印检测。含有明显水印的图像由专用水印检测器（27）进行过滤。</p>
+</li>
+<li><p>任务一致性评估。对于编辑类和知识产权（IP）相关数据，我们进一步采用视觉语言模型（VLM）来验证样本是否构成有效的任务实例。对于编辑数据，VLM 判断源图与目标图是否构成具有可解释性视觉变化的有意义的前后对比对；对于IP相关数据，则检查参考图是否对应同一人物或同一物体，从而过滤掉身份不匹配或关联度较弱的样本组。</p>
+</li>
+<li><p>技术质量评估。我们剔除 Top-IQ 得分较低的样本（3）。此外，每张图像都会被临时编码为 JPEG 格式，以估算每像素字节数比；对于该比值异常低的图像，我们将予以舍弃，因为这类图像通常存在严重的压缩伪影或视觉细节不足的问题。</p>
+</li>
+</ul>
+<h3 id="2-4-提示工程"><a href="#2-4-提示工程" class="headerlink" title="2.4. 提示工程"></a>2.4. 提示工程</h3><p>对于大规模的提示词生成，我们采用 Qwen3-VL (1) 将每个过滤后的样本的元数据及提取的视觉-文本信号转换为训练用的提示词。该模型会利用用户标签、来源描述、OCR 文本、布局线索和风格标签等可用的附加信息，生成更符合预期指令格式的描述性提示词。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_7_8_.png" alt="image"></p>
+<p>生成模型。此外，当自动提示失败，或生成的文本与预设的敏感词列表匹配时，我们还会舍弃一小部分样本。</p>
+<p>提示构造过程旨在强调事实性、视觉特异性和在不同任务格式下的可控多样性。对于自然图像，生成的提示描述了显著物体、属性、空间关系、场景上下文和风格。对于图形布局和长文本样本，提示还额外保留了关键文本内容、阅读顺序和布局结构。对于编辑样本，Qwen3-VL 被指示比较源图和目标图，并生成简洁的编辑指令，说明预期的视觉变换，同时避免对保留区域进行不必要的更改。对于面向知识产权的样本，它总结了参考人物或对象的身份特征属性，并构建将主体置于新场景中且明确保留其外观的提示。对于多面板样本，Qwen3-VL 同时描述全局布局和面板级差异，使模型能够学习网格构图和时间帧一致性。我们还在简短、中等和详细描述之间调整提示粒度，从而使最终训练语料库更好地反映真实用户输入的多样性。</p>
+<h2 id="3-模型架构：HiDream-O1-Image"><a href="#3-模型架构：HiDream-O1-Image" class="headerlink" title="3. 模型架构：HiDream-O1-Image"></a>3. 模型架构：HiDream-O1-Image</h2><p>在本节中，我们介绍了 HiDream-O1-Image，这是一种像素级统一 Transformer，它弥合了高保真像素空间合成与通用图像生成的上下文推理之间的鸿沟。需要注意的是，为了展示我们统一的 Pixel Diffusion Transformer 范式的结构可扩展性和多功能性，我们将 HiDream-O1-Image 实例化为两种不同的规模：一个用于灵活部署的高效 80 亿参数版本，以及一个用于突破生成质量极限的超大规模 2000 亿+ 参数版本。</p>
+<p>具体而言，为将复杂的用户意图有效转化为模型偏好的输入，我们首先在第3.1节中介绍了我们的推理驱动提示代理。随后，在第3.2节中概述了我们的统一多模态标记化方法。接着，在第3.3节中详细阐述了HiDream-O1-Image的统一Transformer（UiT）架构，包括主干网络设计及混合统一注意力机制。最后，在第3.4节中介绍了整体目标。</p>
+<h3 id="3-1-推理驱动的提示代理"><a href="#3-1-推理驱动的提示代理" class="headerlink" title="3.1. 推理驱动的提示代理"></a>3.1. 推理驱动的提示代理</h3><p>当前图像生成模型面临的一个重要瓶颈，在于原始且往往模糊的用户指令与生成流水线所需的详尽描述性提示之间存在语义鸿沟。为解决这一问题，我们提出了一种基于“思考”机制的推理驱动提示代理，并在Gemma（16）的基础上进行了构建。当接收到复杂的用户查询时，该代理并非简单地传递文本，而是对任务所隐含的空间布局、主体属性、物理逻辑及上下文关系进行明确的推理分析。通过在输出最终提示之前显式生成思维链，代理能够有效提炼并丰富原始输入。这一推理过程确保了后续HiDream-O1-Image获得高度明确且结构一致的文本条件，从而显著提升了模型处理复杂且依赖推理的视觉生成与编辑任务的能力。</p>
+<h3 id="3-2-统一多模态分词"><a href="#3-2-统一多模态分词" class="headerlink" title="3.2. 统一多模态分词"></a>3.2. 统一多模态分词</h3><p>HiDream-O1-Image的核心在于将异构模态在结构上统一到一个共享的token空间中。如图7所示，在训练过程中，我们定义了一种全面的多模态统一token化方案，用于将各类输入（即精炼后的文本提示y、任务特定条件c以及目标图像x）编码到该共享token空间中。具体而言，我们将输入流分解为三种基本的token类型：</p>
+<ul>
+<li><p>文本标记（y）：由我们的推理驱动提示代理生成的精炼文本提示 y，通过主干网络的原生词表被转换为离散标记（1），随后这些标记进一步映射到共享空间中。</p>
+</li>
+<li><p>条件标记（c）：对于需要视觉关联的生成任务（例如，编辑1-:or 主体驱动的个性化），输入上下文图像 c（例如，编辑源或参考主体）通过视觉编码器（SigLip-2 (49)）被映射为语义丰富的标记。我们进一步通过可学习的投影将这些语义丰富的标记对齐到共享空间。</p>
+</li>
+<li><p>生成标记 (x)：对于每个目标图像 x，我们通过在干净图像 x 与高斯噪声 e~N(0,I) 之间进行线性插值来构建生成标记 xt（即带噪样本）：x&#x3D;tx+(1-t)e，其中 t 表示扩散时间步。随后，将该生成标记划分为互不重叠的 patch，并进一步投影到共享的</p>
+</li>
+</ul>
+<p><strong>通过一个可学习的补丁嵌入层来表示空间</strong></p>
+<p>通过将这三类标记拼接在一起，我们随后利用统一的 Transformer 块堆叠对其进行上下文编码，从而原生地实现跨所有模态的联合上下文推理。最后，一个线性预测头将每个输出标记映射回对应的干净图像补丁，进而生成重建后的图像估计。</p>
+<h3 id="3-3-统一-Transformer（UiT）架构"><a href="#3-3-统一-Transformer（UiT）架构" class="headerlink" title="3.3. 统一 Transformer（UiT）架构"></a>3.3. 统一 Transformer（UiT）架构</h3><p>骨干网络。我们的骨干网络基于解码器-only Transformer 架构（即统一的 Transformer 块堆叠），该架构源自大语言模型。为适应多样化的应用场景，我们设计了 HiDream-O1-Image 的两个版本：一个 80 亿参数模型和一个 2000 多亿参数模型。具体而言，80 亿参数版本从一个多模态理解骨干网络（Qwen3-VL-8B-Instruct (1)）进行初始化，以高效利用其强大的多模态预对齐能力。与此同时，2000 多亿参数版本通过将参数规模扩展至超过 2000 亿，突破了像素级 Unified Transformer 架构的极限，从而释放出更强的复杂视觉推理与高分辨率合成能力。</p>
+<p>两种变体均采用 RMSNorm（62）进行归一化，以 SwiGLU（44）作为激活函数，并使用 RoPE（46）进行位置编码。为更好地继承预训练的自回归能力，我们将扩散步数编码为一种额外的专用 token。此外，为了支持像素空间的扩散过程，我们在主干网络中进一步引入了可学习的输入和输出 patch 嵌入，如图 7 所示。这种方法使得在不同尺度下无需修改 Transformer 的核心结构即可直接在像素空间中进行建模。</p>
+<p>混合统一注意力机制。因果注意力范式是自回归语言建模的核心，它确保每个标记仅关注其之前的标记，从而保持自回归特性。相比之下，用于图像生成的扩散 Transformer 通常采用全自注意力范式，允许每个视觉标记关注所有其他标记，以捕获全局空间依赖关系。</p>
+<p>在 HiDream-O1-Image 中，我们通过一种专为异构模态定制的混合统一注意力机制，实现了这两种范式的协调统一。具体而言，条件 token 和文本 token 采用因果掩码，仅关注序列中位于其之前的多模态 token；而生成 token 则采用全注意力机制，能够关注所有 token，从而在扩散过程中实现全局上下文聚合。这一设计既优雅地保留了用于语言建模的自回归结构，又在统一的 Transformer 框架内促进了空间上连贯的图像合成。</p>
+<h3 id="3-4-总体目标"><a href="#3-4-总体目标" class="headerlink" title="3.4. 总体目标"></a>3.4. 总体目标</h3><p>为了在原始像素空间中实现高保真图像合成，我们采用了一种联合优化目标，该目标兼顾结构回归与感知对齐。尽管像素空间中的扩散过程能够捕捉精细的空间细节，但往往难以建模长距离的语义连贯性。我们的策略通过将用于图像预测的流匹配损失与感知监督约束（LPIPS (63) 损失和感知 DINO 损失）相结合，有效解决了这一问题。 </p>
+<h2 id="4-模型训练"><a href="#4-模型训练" class="headerlink" title="4. 模型训练"></a>4. 模型训练</h2><h3 id="4-1-渐进式通才预训练"><a href="#4-1-渐进式通才预训练" class="headerlink" title="4.1. 渐进式通才预训练"></a>4.1. 渐进式通才预训练</h3><p>在此，我们采用三阶段渐进式训练策略对 HiDream-O1-Image 进行缩放，使其从基础对齐逐步过渡到高分辨率通用合成。请注意，训练数据由粗到细逐级筛选，图像分辨率也随之逐步提升。在所有阶段中，我们均保持图像的原始宽高比，以支持灵活的多分辨率生成。</p>
+<p>第一阶段：基础对齐（512×512）。在第一阶段，我们针对文本到图像生成（T2I）、语言建模（LM）和多模态理解（MMU）三项任务，对 HiDream-O1-Image 进行联合优化。该联合优化基于图文对与纯文本语料的混合数据集展开。因此，模型不仅学会了将原始像素块与语言概念进行语义关联，还保留了强大的语言能力。值得注意的是，在这一阶段我们采用了相对较低的图像分辨率（512×512）和较大的批量大小，从而使模型能够扩展至数十亿对图文数据。</p>
+<p>阶段 II：通才式上下文学习（1,024×1,024）。在第二阶段，我们将图像分辨率提升至 1,024×1,024，旨在增强图像合成中的空间保真度和细粒度细节生成能力。更重要的是，我们将训练任务（T2I、LM 和 MMU）扩展为包含上下文内生成与编辑任务（例如图像编辑和主体驱动的个性化定制）。该阶段将 Prompt Agent 的显式推理过程与多样化的合成场景无缝集成，从而强化了基于推理的条件生成能力，并实现了统一的上下文学习。</p>
+<p>阶段 III：高保真精修（2,048×2,048）。在此阶段，HiDream-O1-Image 的训练仅限于图像分辨率超过 2,048×2,048 的超高清子集。本阶段专门针对超高清分辨率下的精细细节与感知质量进行优化。</p>
+<h3 id="4-2-后训练"><a href="#4-2-后训练" class="headerlink" title="4.2. 后训练"></a>4.2. 后训练</h3><p>接下来，我们采用两阶段范式对模型进行训练后优化，即监督微调（SFT）和基于人类反馈的强化学习（RLHF），二者协同作用，逐步提升模型的推理能力和生成质量。</p>
+<p>第一阶段：SFT。本阶段旨在通过以数据为中心的优化策略，提升视觉美感、照片级真实感以及提示词推理能力。具体而言，我们构建了一个包含数十万条样本的混合训练语料库，这些样本在不同艺术领域中均体现出高质量的构图连贯性、光照一致性、摄影级真实感，甚至风格保真度。尤为重要的是，我们还纳入了高质量的推理轨迹，用于微调 Prompt Agent，确保其能够持续生成结构一致且无歧义的提示词。此外，我们将预训练阶段采用的 Logit-Normal 采样策略替换为均匀采样，从而保证时间步覆盖的均衡性，并强化对捕捉精细视觉细节的后期去噪步骤的有效训练侧重。</p>
+<p>第二阶段：RLHF。在这一阶段，我们采用 GRPO（30）方法，通过强化学习进一步使模型与人类偏好保持一致。具体而言，我们通过聚合由奖励模型生成的多种奖励信号来构建一个综合优势函数，这些信号包括 OCR 准确率、美学评估、指令遵循程度以及推理质量。这一聚合目标能够有针对性地提升图像的真实感、美学品质和文本渲染准确性，</p>
+<p>一款新的匿名模型在人工智能文本到图像领域排行榜上位列第8！预计Peanut的权重将很快发布，届时它将成为领先的开源文本到图像模型。</p>
+<p>Peanut有望成为新一代领先的开源图文生成模型，性能超越 Z-Image Turbo、Qwen-lmage 和 FLUX.2 [dev]。</p>
+<p>更多详情（及重量）即将公布。</p>
+<p>请参阅下方“人工分析图像竞技场”中生成的示例图片。</p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_8_12_.png" alt="image"></p>
+<p>图8 | HiDream-O1-Image（代号：Peanut）在人工分析文本到图像竞技场中位列第8，有望成为新的领先开源权重文本到图像模型（日期：2026年5月5日）。</p>
+<p>语义一致性与逻辑推理，同时有效抑制伪影。</p>
+<h2 id="5-用于快速推理的对抗扩散蒸馏"><a href="#5-用于快速推理的对抗扩散蒸馏" class="headerlink" title="5. 用于快速推理的对抗扩散蒸馏"></a>5. 用于快速推理的对抗扩散蒸馏</h2><p>HiDream-O1-Image的完整版在推理时通常采用约50步的去噪过程。虽然这种采样配置能够确保出色的视觉质量，但其迭代式的处理方式可能会限制模型在对延迟敏感场景中的实际部署。为提升推理效率，我们进一步将完整模型蒸馏为一种加速版本，该版本具有更短的采样轨迹（61步）。具体而言，我们将HiDream-O1-Image构建为高效变体HiDream-O1-Image-Dev，该变体采用28步采样器以实现更快的生成速度。</p>
+<p>蒸馏过程旨在使学生模型在减少步数的情况下，近似模仿教师模型的生成行为。我们采用 DMD (61) 作为核心目标，并将其记为 LDMD，以使学生模型预测的轨迹分布与……的轨迹分布保持一致。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_1_1_.png" alt="image"></p>
+<p>fullHiDream-O1-Image模型。该目标使HiDream-O1-Image-Dev能够继承教师模型的主要生成动力学，同时采用更短的采样步骤。此外，我们保留了标准的扩散损失作为辅助监督项，这有助于提高训练稳定性，并缓解蒸馏过程中的优化震荡。</p>
+<p>为了在HiDream-O1-Image-Dev中进一步保持感知保真度和图像锐度，我们将对抗学习引入蒸馏框架。学生模型被视为生成器，并与判别器网络共同优化。判别器将真实图像与由学生模型的像素空间预测重建的图像进行比较，其分类任务由从冻结的教师主干网络中提取的多层级特征指导。这种基于GAN的蒸馏的最终目标被表述为DMD、标准扩散损失和对抗损失的加权组合：Ltotal&#x3D; LDMD +入diffLdiff+]advLadv。</p>
+<h2 id="6-文本到图像生成的性能比较"><a href="#6-文本到图像生成的性能比较" class="headerlink" title="6. 文本到图像生成的性能比较"></a>6. 文本到图像生成的性能比较</h2><p>在此，我们系统地评估了 HiDream-O1-Image 的文生图生成能力，涵盖从通用视觉合成到细粒度文本渲染的各个方面。</p>
+<h3 id="6-1-通用文本到图像合成"><a href="#6-1-通用文本到图像合成" class="headerlink" title="6.1. 通用文本到图像合成"></a>6.1. 通用文本到图像合成</h3><p>我们首先在 GenEval (14)、DPG (19) 和 HPSv3 (33) 数据集上对通用 T2I 生成性能进行了基准测试。如表 1、表 2 和表 3 中的定量结果所示，我们参数量为 8B 的 HiDream-O1-Image 模型显著优于同类规模的现有开源模型（例如 Z-Image-Turbo、SD3.5 Large、Janus-Pro-7B）。此外，我们进一步扩展至 200B+ 参数量的模型在保真度方面达到了当前最优水平，超越了 GPT 等领先的闭源模型。 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_2_3_.png" alt="image"></p>
+<p>表3 | HPSv3 的定量结果。最佳结果以粗体标出，次佳结果以下划线标出。</p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_3_9_.png" alt="image"></p>
+<p>图2与Seedream-4.0。结果总体表明，我们的结构统一设计在HiDream-O1-Image中具有显著优势。通过将视觉和语言同时投射到原生共享的token空间，HiDream-O1-Image规避了传统范式中采用独立文本编码器和图像生成器所固有的语义鸿沟，从而实现了更优的跨模态对齐。</p>
+<h3 id="6-2-高保真文本渲染"><a href="#6-2-高保真文本渲染" class="headerlink" title="6.2. 高保真文本渲染"></a>6.2. 高保真文本渲染</h3><p>我们进一步在 CVTG-2K (11) 和 LongText-Bench (13) 数据集上严格评估了该模型的文本渲染能力。如表 4 和表 5 所示，HiDream-O1-Image 在 CVTG-2K 上的大部分指标上均取得了最高分。此外，在 LongText-Bench 上，我们的 8B 模型表现与参数量更大的最佳竞品 Qwen-Image 相当。</p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_4_7_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_5_2_.png" alt="image"></p>
+<p>(27B)，而我们超过2000亿参数的模型则进一步突破了超长文本生成的极限，树立了新的行业标杆。这种在字符级准确率上的显著提升直接源于</p>
+<p>得益于我们端到端的像素空间生成框架：通过规避离散模态编码中固有的文本到视觉翻译瓶颈，并绕过有损VAE压缩，我们的模型实现了精准的图文对齐，同时有效缓解了视觉文本渲染中的结构失真。</p>
+<h3 id="6-3-在多种生成场景中的通用性"><a href="#6-3-在多种生成场景中的通用性" class="headerlink" title="6.3. 在多种生成场景中的通用性"></a>6.3. 在多种生成场景中的通用性</h3><p>除标准量化指标外，HiDream-O1-Image 在各类实际文生图场景中也展现出强大的通用性。如图9所示，该模型能够无缝应对多样化的电影镜头、多样的艺术风格、复杂的长文本渲染以及用于分镜制作的多幅画面生成任务。</p>
+<p>至关重要的是，我们认识到，高质量的静态图像生成往往作为下游视频生成的基础入口（即初始关键帧）。为此，HiDream-O1-Image 特别注重掌握电影化的镜头语言和结构化的故事板布局。通过在初始图像生成阶段确保对空间构图和相机视角的严格可控性，我们的模型提供了一个可控的视觉锚点，从而显著促进并简化后续的视频合成任务。</p>
+<p>具体而言，为便于实现专业的电影级控制，HiDream-O1-Image 原生支持对 15 种不同的电影镜头和摄像机视角进行精细化操控。这些功能全面覆盖：</p>
+<ul>
+<li><p>镜头尺度：极远景、远景、全貌、中景、近景、特写和大特写。</p>
+</li>
+<li><p>摄像机角度：俯视、仰视、平视和鸟瞰。</p>
+</li>
+<li><p>拍摄角度：正面、侧面、背面及四分之三侧身。</p>
+</li>
+</ul>
+<p>此外，其强大的多面板图像生成能力能够在一次推理过程中连贯地构建分镜脚本。这种全面的场景覆盖确保了 HiDream-O1-Image 不仅是一个静态图像生成器，更是一个专为电影前期制作和视频生成工作流量身定制的多功能视觉引擎。</p>
+<h2 id="7-图像编辑性能对比"><a href="#7-图像编辑性能对比" class="headerlink" title="7. 图像编辑性能对比"></a>7. 图像编辑性能对比</h2><p>我们针对两个多样化的基准测试集（GEdit(31) 和 ImgEdit(60)）全面评估了 HiDream-O1-Image 的编辑性能。表 6 和表 7 中的定量结果表明，我们的模型在保持高生成保真度的同时，具备强大的指令遵循能力。值得注意的是，尽管参数量仅为 8B，我们的 HiDream-O1-Image 在多项指标上已达到与多个规模显著更大的竞品（如 16.8B 的 FLUX.1 Kontext 和 27B 的 Qwen-Image-Edit）相当的水平。此外，经过扩展至 200B+ 参数量的版本更是刷新了当前最佳记录，在处理高度复杂、细粒度的图像操作任务时，其性能超越了顶尖的专有模型。这基本验证了我们核心方法选择的有效性：通过在原生共享的 token 空间中统一视觉与语言输入，能够从根本上消除模态障碍，并促进语义概念与其对应空间区域之间的精准对齐，从而触发高效的上下文内生成过程。同时，在预训练阶段所施加的联合语言建模与多模态理解目标，使模型既能准确理解用户意图，又能保留对原始视觉上下文的语义感知，以确保细节保真度。综上所述，这些能力共同推动了我们的框架<br>全身影像，平视角度，四分之三侧脸。一位年轻男孩站在一艘饱经风霜的木船甲板上，夕阳西下，他凝望着平静海面的地平线，远处可见其他渔船与连绵群山。前景中，一名约8至10岁的东亚裔男孩立于木船甲板之上，黑色短发，身着蓝白竖条纹长袖纽扣衬衫、深色长裤及棕色套脚鞋。他的双手搭在木质舷缘与一根立柱上。船体甲板由风化的木板铺成，蓝色油漆剥落，地板上横放着一大卷粗绳。背景里，太阳正沉入地平线，将温暖的金色光辉洒向水面。海面上可见数艘渔船，右侧远处则显现出多山的海岸线。天空点缀着柔和散漫的云彩，泛着橙黄光泽。</p>
+<p>广告宣传的是XP Boost游戏补水饮料，画面中一位年轻男性玩家手持该产品罐装，在高科技的游戏场景下拍摄。前景是一位棕发卷发的年轻男子，看起来二十岁出头，戴着黑绿配色的游戏耳机，身穿一件带有绿色点缀的黑色T恤。他手中握着一罐印有“XP BOOST HYPER LIME”字样的黑绿双色罐装饮料，正朝向镜头伸出。罐身饰有闪电图案，并标有“ZERO CRASH FORMULA”（零崩溃配方）和“16 FL OZ(473mL)”（16液量盎司&#x2F;473毫升）字样。背景是光线昏暗的游戏环境，一台电脑显示器上显示着蓝色圆形图案，旁边摆放着键盘和一把印有XP Boost标志的游戏椅。画面左侧以白色和绿色呈现大号文字“QUEUE UP. POWER ON.”（排队，开玩），下方配有较小的文字说明：“GAMING HYDRATION DRINK ZERO CRASH FORMULA”（游戏补水饮料，零崩溃配方）以及“Caffeine+ electrolytes+ B12, crafted for ranked nights and tournament weekends.”（咖啡因+电解质+B12，专为排位之夜与赛事周末打造）。其下方是一个绿色按钮状图形，写着“LEVEL UP YOUR FOCUS.”（提升专注力）。底部排列着四个图标，分别代表产品的四大功效：“CLEAN ENERGY”（纯净能量）、“ELECTROLYTES HYDRATION”（电解质补水）、“B12 FOCUS”（B12助益专注）和“ZERO CRASH.”（零崩溃）。整个画面底部环绕着霓虹绿的闪电特效作为边框。 </p>
+<p>输入提示：一个直播带货场景，一名女性主播正在展示一款护肤品，画面中包含促销信息和观众互动元素。前景中，一位亚洲女性主播，约二十多岁，黑色长发，身穿米白色吊带连衣裙，佩戴金色项链，右手持一瓶透明瓶身、金色瓶盖的护肤品，左手食指向上指。她面带微笑，嘴唇微张。背景为深色室内环境，有模糊的灯光装饰。画面左侧显示直播信息，包括 LIVE标识、观看人数 12.8万人 、点赞数 88.6K及主播昵称小美美：时尚·穿搭 。右侧有 FLASH SALE闪购！促销文字，下方为产品信息栏，显示产品名称时光焕亮修护精华液 ，价格 ¥199 ，原价 ¥399 ，并标注仅剩12件 。画面中还有弹幕评论、礼物图标、VIP标识及立即抢购按钮。右下角有分享 送礼  12.8万等交互元素。</p>
+<p>输入提示：一幅由九个画面组成的连环图，描绘了一个热闹的夜市交易场景，一位顾客正在与一名售卖纺织品的摊主互动。第一幅画面中，一位黑发向后束起、身着绿色衬衫和棕色围裙的女子站在摊位后方，摊位上摆满了卷起的布料和叠放的陶器。桌上有一块手写的告示牌，上面写着“40 DK&#x2F;米”。第二幅画面中，一位白发须髯的老年男子身穿棕色夹克和蓝色牛仔裤，正走向该摊位。第三幅画面中，该男子一边说话一边用右手比划示意。第四幅画面中，女子将一块红色纺织品递给他。第五幅画面中，从高角度拍摄，女子抬头仰望着男子。第六幅画面中，采用肩后视角，男子在考虑是否购买时注视着女子。第七幅画面中，男子伸手入袋取出钱币。第八幅画面中，女子收下货款，并将布料交给男子。第九幅画面中，女子转身回到自己的摊位，整理着展品，周围飘着细雪。背景是一座挂满彩灯的集市，还有其他摊位以及模糊的人影。</p>
+<p>输入提示：一组由九个分格组成的连环画，描绘了一场发生在未来高科技环境中的 stealth 任务。画面中，一名身着战术装备的角色穿行于走廊，与各类科技设备互动，并与一架无人机发生接触。在第1格中，一位二十多岁的男子，留着黑色短发，身穿深色战术服并佩戴头盔，正蹲伏在一条铺有金属格栅的走廊地面上，周围被霓虹蓝光与粉红灯光照亮。第2格中，同一角色正跃身穿过一扇门洞。第3格中，他站在一台服务器机架旁，伸手触碰一块发光面板。第4格中，一架带有红色警示灯的小型无人机悬浮于空中，视角位于角色身后。第5格中，角色俯卧在地，试图够向那架无人机。第6格为特写镜头，显示他戴着手套的手从腰带上的工具袋中取出一件装置。第7格中，角色站立起来，朝无人机做出手势。第8格中，无人机倒在地上，冒出浓烟并迸射火花。第9格为特写，展示他戴着手套的手将一枚芯片插入腕部佩戴的设备中。场景中遍布金属表面、计算机设备和发光面板。背景为狭窄的走廊，带有工业风设计元素与氛围照明。</p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Figure_9_14_.png" alt="image"></p>
+<p>图9|Qwen-Image与HiDream-O1-Image在文本到图像能力方面的对比，涵盖多样化的电影镜头、复杂文本渲染及多面板图像场景。</p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_6_5_.png" alt="image"></p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_7_10_.png" alt="image"></p>
+<p>以捕捉细微的编辑意图，执行高度精确的操作，并在两种模型尺度下确保未编辑区域得到忠实保留。</p>
+<h2 id="8-面向主题的个性化性能比较"><a href="#8-面向主题的个性化性能比较" class="headerlink" title="8. 面向主题的个性化性能比较"></a>8. 面向主题的个性化性能比较</h2><p>主体驱动的定制化生成旨在将用户提供的参考对象自然地重组为新颖的场景。在此，我们构建了 UniSubject 这一全新测试集，用于评估模型在多主体保留与组合方面的能力。UniSubject 包含 300 个测试用例，共计 1.8K 个主体。每个用例将 1 个人物主体与 1 至 10 个参考对象（如衣物、汽车、家具）进行配对，并附带一个组合指令。参照 VIEScore (21) 的评估方法，我们采用 Qwen-VL2.5-72B 对以下三项指标进行打分：指令遵循度（Q-PF）（即指令与生成图像的一致性）、主体一致性（Q-SC）（即每对参考图像与生成图像之间的主体保留情况），以及综合得分（O）（Q-PF 与 Q-SC 的平均值）。此外，我们还采用 HPSv3 (33) 来衡量人类偏好。</p>
+<p>表8详细列出了对UniSubject的定量评估结果。如该表所示，我们的 </p>
+<p><img src="https://damo-moshicloud-test.oss-cn-hangzhou.aliyuncs.com/document/testcase/dingding/zhiwen_cases/1568298054717317120/1568298054717317120_cut_Table_8_4_.png" alt="image"></p>
+<p>HiDream-O1-Image 在不同参考主体数量的配置下均能持续取得优异表现。具体而言，Scone 通过晚期融合利用两位协同专家：理解专家为生成专家提供语义指导，从而实现对主体的忠实保留。Echo-4o 进一步提升性能，通过从先进闭源模型 GPT-4o 中蒸馏知识来应对多参考盲区问题。与这些基线相比，我们的 HiDream-O1-Image (8B) 凭借所提出的结构统一方法实现了显著增益：在 4–8 个主体场景下，Q-O 从 7.19 提升至 7.50；在 9–11 个主体场景下，Q-O 从 6.73 提升至 7.48。此外，我们的旗舰 200B+ 模型更是将这一边界进一步拓展，在极端场景下仍展现出卓越的多主体组合能力和身份保真度。促成这两个尺度上性能跃升的核心驱动力在于我们共享的 token 空间，该空间天然地连通了语言与视觉的特征表示。在此统一空间中，文本 prompt 中的语义概念被精准锚定到对应的细粒度视觉 prompt（映射后的视觉 token），从而生成连贯的融合主体表示。随着参考主体数量的增加，这种表示能够有效缓解典型分离式编码器设计中固有的指令与参考图像之间的干扰问题。这使得 HiDream-O1-Image 在极具挑战性的 4–8 个主体和 9–11 个主体设置下仍能保持稳定的性能提升。图 10 进一步展示了 HiDream-O1-Image 的三项主体驱动个性化结果，其对多主体的保留效果优于 Qwen-Image。</p>
+<h2 id="9-结论"><a href="#9-结论" class="headerlink" title="9. 结论"></a>9. 结论</h2><p>在本报告中，我们提出了 HiDream-O1-Image，这是一种原生统一的生成模型，采用像素级统一 Transformer 架构，突破了传统分离式潜在空间 VAE 压缩与文本编码范式的局限。通过打破 VAE 与独立文本编码器之间的界限，HiDream-O1-Image 将原始像素、文本及任务条件映射到单一共享的 token 空间。这种结构上的统一实现了连贯的上下文内生成流程，使模型从专用的 T2I 生成器转变为适用于多种合成任务的通用框架。我们在多个基准测试（如 GenEval、CVTG-2K、GEdit 和 UniSubject）上开展的大量实验表明，我们的框架在不同规模下均表现出色。值得注意的是，我们高效的 8B 参数模型在多项生成任务中取得了与参数量显著更大的 SOTA 潜在空间 DiT 模型相当甚至更优的性能；而扩展至 200B+ 参数的更大规模模型则进一步突破了视觉合成的边界，创下了新的 SOTA 记录。</p>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+      <!-- 打赏组件 -->
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-11-06T09:01:53+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2026年11月6日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/generate/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>generate</p></a></div>
+  <span hidden itemprop="keywords">generate</span>
+  
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nicemxm.github.io/2024/08/06/HiDream-O1-image/&title=HiDream-O1-图像 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://nicemxm.github.io/2024/08/06/HiDream-O1-image/&title=HiDream-O1-图像 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://nicemxm.github.io/2024/08/06/HiDream-O1-image/&title=HiDream-O1-图像 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrUlEQVR42u3aS45bMQwEQN//0sk+QCCRzWfTRmk3P1ksbThsvf5YrfVCAA4cOHAWOHBL4F7N9e/fHz+wuM/p96ufN1YvOHDgwIEDBw7cMrjqgW6/fyrkBHdb8O1503rBgQMHDhw4cOC2wnUb3tM+3e93L6x7zuMFggMHDhw4cODA/Qhc9+DpgPJ233RgCg4cOHDgwIED9+tw3eD3qQb3axpgcODAgQMHDhy4IbhyQDsU+FYHm9V91iX54MCBAwcOHDhwQ3DV1YXc8nW7XnDgwIEDBw4cuCVw6aoOJp9qvNP9r88BDhw4cODAgQO3BK56gNuHgdXGswpQDaSrjW48AQYHDhw4cODAgXszXBoEdw/YDainP+8ICQ4cOHDgwIEDtwzudlA41cimDwDTAL3aWIMDBw4cOHDgwG2Dmw58qwev/t7UILPagIMDBw4cOHDgwG2HSwPoNPjtBtDdgWt5oAoOHDhw4MCBA7cUrvtB3QeF44HxEFA8yAQHDhw4cODAgVsG14WZupj0vOmFggMHDhw4cODAbYGbGixWG860YZ0KpstBPDhw4MCBAwcO3FK47oCwWnD7YV+xwU0fPIIDBw4cOHDgwG2FSx/2pcDdBvypB4TgwIEDBw4cOHDfAtcNmtMB5i1ktdFOA+fjvuDAgQMHDhw4cEvguuu2wBT29oLfBQsOHDhw4MCBA7cVbroRru7X3SeFub5gcODAgQMHDhy4JXDdAV93MNm9kOp505+DAwcOHDhw4MBth5saJHaD7bRhnhqMtv9zAAcOHDhw4MCBWwLXLfCpwtuN6lDADQ4cOHDgwIEDtxXutgFNIdIC04FqtZH/b/3gwIEDBw4cOHBL4W4P2H3olza81YLTi7lugMGBAwcOHDhw4N4MNxXYpo1lGnyXG9nuBYMDBw4cOHDgwC2He3oQ+RpeKeD1vuDAgQMHDhw4cEvgug8K00azejHdwWn6YPIYSIMDBw4cOHDgwH0IbqoBHjtYs0GtDkwfC6TBgQMHDhw4cODeBJcODrtQaaM8fTHgwIEDBw4cOHDfCpcG0GnhaYCcBubX+4EDBw4cOHDgwC2FmxpEdgu+/XkK0274wYEDBw4cOHDgfgRuatDYfThY/dw00AYHDhw4cODAgftVuLSg24a3OsgcG3yCAwcOHDhw4MAthesG0lMDxzTArgbn5YsEBw4cOHDgwIFbBtcOaMMHhdWCuhdx+/flQBocOHDgwIEDB+5DcFZtgQMHDhw4Cxy4D6+/3WL+NWM0kCgAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://nicemxm.github.io/2024/08/06/HiDream-O1-image/&text=HiDream-O1-图像 - hello deeplearning"
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2024/08/06/Assisted_Generation/'>
+          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>辅助生成：低延迟文本生成的新方向</p>
+          <p class='content'>引言大型语言模型如今风靡一时，许多公司投入大量资源来扩展它们规模并解锁新功能。然而，作为注意力持续时间不断缩短的人类，我们并不喜欢大模型缓慢的响应时间。由于延迟对于良好的用户体验至关重要，人们通...</p>
+        </a>
+      
+      
+        <a class='next' href='/2024/08/06/grpo/'>
+          <p class='title'>深入了解 GRPO 方法<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>引言GRPO 是一种在线学习算法，这意味着它通过使用训练模型本身在训练期间生成的数据进行迭代改进。GRPO 目标背后的直觉是最大限度地利用生成的完成，同时确保模型始终接近参考策略。要了解 GRP...</p>
+        </a>
+      
+    </div>
+  
+  <!-- 文章推荐 -->
+  
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/2024/08/06/HiDream-O1-image/index.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside id='l_side' itemscope itemtype="https://schema.org.cn/WPSideBar">
+  
+
+  
+    
+    
+      
+    
+  
+
+
+<div class="widget-sticky">
+
+  
+  
+
+
+<section class="widget toc-wrapper desktop mobile" id="toc-div" >
+  
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-text">1. 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E6%95%B4%E7%90%86%E4%B8%8E%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%9E%84%E5%BB%BA"><span class="toc-text">2. 数据整理与提示词构建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%BA%90%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86"><span class="toc-text">2.1. 源数据收集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E5%8E%BB%E9%87%8D"><span class="toc-text">2.2. 数据去重</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E4%B8%8E%E5%AE%89%E5%85%A8%E8%BF%87%E6%BB%A4"><span class="toc-text">2.3. 数据质量与安全过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B"><span class="toc-text">2.4. 提示工程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84%EF%BC%9AHiDream-O1-Image"><span class="toc-text">3. 模型架构：HiDream-O1-Image</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%8E%A8%E7%90%86%E9%A9%B1%E5%8A%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E4%BB%A3%E7%90%86"><span class="toc-text">3.1. 推理驱动的提示代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E7%BB%9F%E4%B8%80%E5%A4%9A%E6%A8%A1%E6%80%81%E5%88%86%E8%AF%8D"><span class="toc-text">3.2. 统一多模态分词</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E7%BB%9F%E4%B8%80-Transformer%EF%BC%88UiT%EF%BC%89%E6%9E%B6%E6%9E%84"><span class="toc-text">3.3. 统一 Transformer（UiT）架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%80%BB%E4%BD%93%E7%9B%AE%E6%A0%87"><span class="toc-text">3.4. 总体目标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83"><span class="toc-text">4. 模型训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%B8%90%E8%BF%9B%E5%BC%8F%E9%80%9A%E6%89%8D%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="toc-text">4.1. 渐进式通才预训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%90%8E%E8%AE%AD%E7%BB%83"><span class="toc-text">4.2. 后训练</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%94%A8%E4%BA%8E%E5%BF%AB%E9%80%9F%E6%8E%A8%E7%90%86%E7%9A%84%E5%AF%B9%E6%8A%97%E6%89%A9%E6%95%A3%E8%92%B8%E9%A6%8F"><span class="toc-text">5. 用于快速推理的对抗扩散蒸馏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%96%87%E6%9C%AC%E5%88%B0%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90%E7%9A%84%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83"><span class="toc-text">6. 文本到图像生成的性能比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E9%80%9A%E7%94%A8%E6%96%87%E6%9C%AC%E5%88%B0%E5%9B%BE%E5%83%8F%E5%90%88%E6%88%90"><span class="toc-text">6.1. 通用文本到图像合成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E9%AB%98%E4%BF%9D%E7%9C%9F%E6%96%87%E6%9C%AC%E6%B8%B2%E6%9F%93"><span class="toc-text">6.2. 高保真文本渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E5%9C%A8%E5%A4%9A%E7%A7%8D%E7%94%9F%E6%88%90%E5%9C%BA%E6%99%AF%E4%B8%AD%E7%9A%84%E9%80%9A%E7%94%A8%E6%80%A7"><span class="toc-text">6.3. 在多种生成场景中的通用性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%9B%BE%E5%83%8F%E7%BC%96%E8%BE%91%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="toc-text">7. 图像编辑性能对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%9D%A2%E5%90%91%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%AA%E6%80%A7%E5%8C%96%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83"><span class="toc-text">8. 面向主题的个性化性能比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E7%BB%93%E8%AE%BA"><span class="toc-text">9. 结论</span></a></li></ol>
+  </div>
+</section>
+
+  
+
+</div>
+
+  <!-- Custom Files side begin -->
+  
+  <!-- Custom Files side end -->
+</aside>
+
+
+
+        </div>
+        
+  
+  <footer class="footer clearfix"  itemscope itemtype="https://schema.org.cn/WPFooter">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    
+      <meting-js
+        theme='#1BCDFC'
+        autoplay='false'
+        volume='0.7'
+        loop='all'
+        order='list'
+        fixed='false'
+        list-max-height='320px'
+        server='tencent'
+        type='playlist'
+        id='494561791'
+        list-folded='true'>
+      </meting-js>
+    
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper" itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1" target="_blank" class="codename">Volantis</a>
+        作为主题，总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © since 2024 05</a></p>
+
+        </div>
+      
+    
+    <!-- Custom Files footer begin-->
+    
+    <!-- Custom Files footer end-->
+  </footer>
+
+
+        <a id="s-top" class="fa-solid fa-arrow-up fa-fw" title="top"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+  /******************** volantis.dom ********************************/
+  // 页面选择器 将dom对象缓存起来 see: /source/js/app.js etc.
+  volantis.dom.bodyAnchor = volantis.dom.$(document.getElementById("safearea")); // 页面主体
+  volantis.dom.topBtn = volantis.dom.$(document.getElementById('s-top')); // 向上
+  volantis.dom.wrapper = volantis.dom.$(document.getElementById('wrapper')); // 整个导航栏
+  volantis.dom.coverAnchor = volantis.dom.$(document.querySelector('#l_cover .cover-wrapper')); // 1个
+  volantis.dom.switcher = volantis.dom.$(document.querySelector('#l_header .switcher .s-search')); // 搜索按钮   移动端 1个
+  volantis.dom.header = volantis.dom.$(document.getElementById('l_header')); // 移动端导航栏
+  volantis.dom.search = volantis.dom.$(document.querySelector('#l_header .m_search')); // 搜索框 桌面端 移动端 1个
+  volantis.dom.mPhoneList = volantis.dom.$(document.querySelectorAll('#l_header .m-phone .list-v')); //  手机端 子菜单 多个
+</script>
+
+<script>
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css");
+  
+  
+  volantis.css("https://unpkg.com/font-awesome-animation@1.1.1/css/font-awesome-animation.min.css");
+  
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.css");
+  
+</script>
+
+<!-- required -->
+
+
+<!-- internal -->
+
+<script src="/js/app.js"></script>
+
+
+
+
+<!-- rightmenu要在darkmode之前（ToggleButton） darkmode要在comments之前（volantis.dark.push）-->
+
+
+
+<script>
+  function loadIssuesJS() {
+    
+      const sites_api = document.getElementById('sites-api');
+      if (sites_api != undefined && typeof SitesJS === 'undefined') {
+        volantis.js("/js/plugins/tags/sites.js")
+      }
+    
+    
+      const friends_api = document.getElementById('friends-api');
+      if (friends_api != undefined && typeof FriendsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/friends.js")
+      }
+    
+    
+      const contributors_api = document.getElementById('contributors-api');
+      if (contributors_api != undefined && typeof ContributorsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/contributors.js")
+      }
+    
+  };
+  loadIssuesJS()
+</script>
+
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: ["#"],
+	maxRPS: 6,
+	hoverDelay: 0
+  };
+</script>
+<script defer src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/flying-pages/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css");
+
+  
+    (async () => {
+      // APlayer 需要在  MetingJS 之前加载
+      await volantis.js("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js")
+      await volantis.js("https://unpkg.com/meting@2.0.1/dist/Meting.min.js")
+    
+    })();
+
+    function SetAPlayerPlugin(){
+      let Metings = document.querySelectorAll('meting-js');
+      if (Metings.length === 0) {return;};
+      if (Metings[0].aplayer && Metings[0].aplayer.on) {
+        // improve the accessibility https://web.dev/button-name/
+        document.querySelectorAll(".aplayer-icon-menu").forEach(e=>{
+          e.setAttribute("aria-label","Aplayer Menu")
+        })
+        // message see: /layout/_plugins/message/script.ejs
+        
+          try {
+            setTimeout(() => {
+              Metings.forEach((item, index) => {
+                const aplayerItem = item.aplayer; if(!aplayerItem) return;
+                const rightAplayerCheck = 'true' === 'true'
+                  && item.meta.id === '494561791';
+                if(rightAplayerCheck && typeof RightMenuAplayer !="undefined") RightMenuAplayer.checkAPlayer();
+                if(aplayerItem.events.events.play.every(item => {return item.name !== 'messagePlay'})) {
+                  aplayerItem.on('play', function messagePlay() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                        icon: 'fa-solid fa-play',
+                        transitionIn: 'flipInX',
+                        transitionOut: 'flipOutX'
+                      });
+                    }, 100)
+                  });
+                }
+                if(aplayerItem.events.events.pause.every(item => {return item.name !== 'messagePause'})) {
+                  aplayerItem.on('pause', function messagePause() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      // 歌曲播放结束也会触发 pause 事件，为了避免错误提示，等待一会儿
+                      if(aplayerItem.paused) {
+                        VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                          icon: 'fa-solid fa-pause',
+                          transitionIn: 'flipInX',
+                          transitionOut: 'flipOutX'
+                        });
+                      }
+                    }, 100)
+                  });
+                }
+              });
+            }, 500)
+          } catch (error) { console.error(error); }
+        
+      }else{
+        volantis.requestAnimationFrame(SetAPlayerPlugin)
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+      SetAPlayerPlugin();
+    });
+  
+</script>
+
+
+
+
+      <script>
+  volantis.layoutHelper("comments",`<div id="giscus_container"></div>`)
+
+  volantis.giscus = {};
+
+  function check_giscus() {
+    if (volantis.dark.mode === "dark") {
+      volantis.giscus.Theme = 'dark';
+    } else {
+      volantis.giscus.Theme = 'light';
+    }
+
+    return document.getElementById("giscus_container");
+  }
+
+  function p_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+    let cfg = Object.assign({"theme":{"light":"light","dark":"dark"}},pdata.commentConfig)
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://giscus.app/client.js');
+    Object.keys(cfg).forEach(k=>{
+      if (k != "theme") {
+        script.setAttribute('data-'+k, cfg[k]);
+      }
+    })
+    script.setAttribute('data-theme', volantis.giscus.Theme);
+    script.setAttribute('crossorigin', "anonymous");
+    HEAD.appendChild(script);
+  }
+
+  function dark_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+
+    const message = {
+      setConfig: {
+        theme: volantis.giscus.Theme
+      }
+    };
+    const giscusIframe = document.querySelector('iframe.giscus-frame');
+    giscusIframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  p_giscus();
+  volantis.dark.push(dark_giscus);
+</script>
+
+    
+
+
+
+
+  <script defer src="https://npm.elemecdn.com/penndu@1.0.0/bsz.js"></script>
+
+
+<!-- optional -->
+
+  <script>
+  async function loadSearchScript() {
+    
+        
+    
+    return volantis.js("/js/search/hexo.js");
+  }
+
+  function loadSearchService() {
+    loadSearchScript();
+    document.querySelectorAll(".input.u-search-input").forEach((e) => {
+      e.removeEventListener("focus", loadSearchService, false);
+    });
+
+    document.querySelectorAll(".u-search-form").forEach((e) => {
+      e.addEventListener("submit", (event) => {
+        event.preventDefault();
+      }, false);
+    });
+  }
+
+  // 打开并搜索 字符串 s
+  function OpenSearch(s) {
+    if (typeof SearchService === 'undefined')
+      loadSearchScript().then(() => {
+        SearchService.setQueryText(s);
+        SearchService.search();
+      });
+    else {
+      SearchService.setQueryText(s);
+      SearchService.search();
+    }
+  }
+
+  // 访问含有 ?s=xxx  的链接时打开搜索 // 与搜索引擎 structured data 相关: /scripts/helpers/structured-data/lib/config.js
+  if (window.location.search && /^\?s=/g.test(window.location.search)) {
+    let queryText = decodeURI(window.location.search)
+      .replace(/\ /g, "-")
+      .replace(/^\?s=/g, "");
+    OpenSearch(queryText);
+  }
+
+  // 搜索输入框获取焦点时加载搜索
+  document.querySelectorAll(".input.u-search-input").forEach((e) => {
+    e.addEventListener("focus", loadSearchService, false);
+  });
+</script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.js"></script>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+  Waves.attach('.flat-btn', ['waves-button']);
+  Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+  Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+  Waves.attach('.flat-box', ['waves-block']);
+  Waves.attach('.float-box', ['waves-block', 'waves-float']);
+  Waves.attach('.waves-image');
+  Waves.init();
+});
+</script>
+
+
+
+  
+<script src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/comment_typing/comment_typing.js"></script>
+
+
+
+
+  <script>
+
+
+
+  function p_highlightjs_copyCode(){
+    if (!(document.querySelector(".highlight .code pre") ||
+      document.querySelector(".article pre code"))) {
+      return;
+    }
+    VolantisApp.utilCopyCode(".highlight .code pre, .article pre code")
+  }
+  volantis.requestAnimationFrame(p_highlightjs_copyCode)
+
+</script>
+
+
+
+
+
+
+
+
+  <script>
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
+  let index = 0;
+  let IntervalParallax = null;
+
+  function parallax(){
+    let ParallaxWindow = document.querySelector("#parallax-window");
+    
+    Parallax.window = ParallaxWindow;
+    Parallax.options.fade = 1500;
+    Parallax.cache = 1;
+    next_parallax();
+    Parallax.init();
+    if (imgs.length>1) {
+      IntervalParallax = setInterval(function () {
+        next_parallax();
+      }, '10000');
+    }
+  }
+
+  function next_parallax() {
+    if (typeof Parallax == "undefined") {
+      return
+    }
+    
+      if (!document.querySelector("#full")&&!document.querySelector("#half")) {
+        return
+      }
+    
+    if (imgs.length>=1) {
+      Parallax.options.src = imgs[index % imgs.length];
+      Parallax.start();
+      index++;
+      if (Parallax.cache) {
+        fetch(imgs[index % imgs.length] +"?t=" + new Date().getTime());
+        if (index == imgs.length) {
+          Parallax.cache = 0;
+        }
+      }
+    }
+  }
+  var runningOnBrowser = typeof window !== "undefined";
+  var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+  if (!isBot) {
+    volantis.js('/js/plugins/parallax.js').then(()=>{
+      parallax()
+    })
+  }
+</script>
+
+
+
+
+  <script>
+  function load_swiper() {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    volantis.css("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.css");
+    volantis.js("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.js").then(() => {
+      p_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function p_swiper() {
+    volantis.swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+</script>
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.min.css");
+  volantis.js("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js").then(() => {
+    Pace.options.restartOnPushState = false;
+    // 阅读进度
+    volantis.scroll.push(() => {
+      Pace.stop();
+      Pace.trigger('start');
+      Pace.bar.update(volantis.scroll.progress() * 100);
+      document.body.className = document.body.className.replaceAll("pace-running ","");
+    },"阅读进度")
+    // todo：配置项开关, 哪些页面添加阅读进度
+  })
+</script>
+
+
+
+
+<script>
+  function listenSidebarTOC() {
+    const navItems = document.querySelectorAll(".toc li");
+    if (!navItems.length) return;
+    const targets = []
+    const sections = Array.from(navItems).forEach((element) => {
+      const link = element.querySelector(".toc-link");
+      const target = document.getElementById(
+        link.getAttribute("href") ? decodeURI(link.getAttribute("href")).replace("#", "") : link.getAttribute("toc-action").split("toc-")[1] // 兼容 hexo-blog-encrypt
+      );
+      targets.push(target)
+      // 解除 a 标签 href 的 锚点定位, a 标签 href 的 锚点定位 会随机启用?? 产生错位???
+      if (link.getAttribute("href")) {
+        link.setAttribute("toc-action", "toc-" + decodeURI(link.getAttribute("href")).replace("#", ""))
+        link.removeAttribute("href")
+      }
+      // 配置 点击 触发新的锚点定位
+      if (target && target.id) {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          // 这里的 addTop 是通过错位使得 toc 自动展开.
+          volantis.scroll.to(target, { addTop: 5, observer: true })
+          // Anchor id
+          history.pushState(null, document.title, "#" + target.id);
+        });
+      }
+      return target;
+    });
+
+    function activateNavByIndex(target) {
+      if (target.classList.contains("active-current")) return;
+
+      document.querySelectorAll(".toc .active").forEach((element) => {
+        element.classList.remove("active", "active-current");
+      });
+      target.classList.add("active", "active-current");
+      let parent = target.parentNode;
+      while (!parent.matches(".toc")) {
+        if (parent.matches("li")) parent.classList.add("active");
+        parent = parent.parentNode;
+      }
+    }
+
+    // 方案一：
+    volantis.activateNavIndex = 0
+    activateNavByIndex(navItems[volantis.activateNavIndex])
+    if (targets[0]) {
+      volantis.scroll.push(() => {
+        if (targets[0].getBoundingClientRect().top >= 0) {
+          volantis.activateNavIndex = 0
+        } else if (targets[targets.length - 1].getBoundingClientRect().top < 0) {
+          volantis.activateNavIndex = targets.length - 1
+        } else {
+          for (let index = 0; index < targets.length; index++) {
+            const target0 = targets[index];
+            const target1 = targets[(index + 1) % targets.length];
+            if (target0.getBoundingClientRect().top < 0 && target1.getBoundingClientRect().top >= 0) {
+              volantis.activateNavIndex = index
+              break;
+            }
+          }
+        }
+        activateNavByIndex(navItems[volantis.activateNavIndex])
+      })
+    }
+
+    // 方案二：
+    // IntersectionObserver 不是完美精确到像素级别 也不是低延时性的
+    // function findIndex(entries) {
+    //   let index = 0;
+    //   let entry = entries[index];
+    //   if (entry.boundingClientRect.top > 0) {
+    //     index = sections.indexOf(entry.target);
+    //     return index === 0 ? 0 : index - 1;
+    //   }
+    //   for (; index < entries.length; index++) {
+    //     if (entries[index].boundingClientRect.top <= 0) {
+    //       entry = entries[index];
+    //     } else {
+    //       return sections.indexOf(entry.target);
+    //     }
+    //   }
+    //   return sections.indexOf(entry.target);
+    // }
+    // function createIntersectionObserver(marginTop) {
+    //   marginTop = Math.floor(marginTop + 10000);
+    //   let intersectionObserver = new IntersectionObserver(
+    //     (entries, observe) => {
+    //       let scrollHeight = document.documentElement.scrollHeight;
+    //       if (scrollHeight > marginTop) {
+    //         observe.disconnect();
+    //         createIntersectionObserver(scrollHeight);
+    //         return;
+    //       }
+    //       let index = findIndex(entries);
+    //       activateNavByIndex(navItems[index]);
+    //     }, {
+    //       rootMargin: marginTop + "px 0px -100% 0px",
+    //       threshold: 0,
+    //     }
+    //   );
+    //   sections.forEach((element) => {
+    //     element && intersectionObserver.observe(element);
+    //   });
+    // }
+    // createIntersectionObserver(document.documentElement.scrollHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    volantis.requestAnimationFrame(listenSidebarTOC)
+  });
+</script>
+
+
+
+
+
+<script>
+  document.onreadystatechange = function () {
+    if (document.readyState == 'complete') {
+      // 页面加载完毕 样式加载失败，或是当前网速慢，或是开启了省流模式
+      const { saveData, effectiveType } = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {}
+      if (getComputedStyle(document.querySelector("#safearea"), null)["display"] == "none" || saveData || /2g/.test(effectiveType)) {
+        document.querySelectorAll(".reveal").forEach(function (e) {
+          e.style["opacity"] = "1";
+        });
+        document.querySelector("#safearea").style["display"] = "block";
+      }
+    }
+  }
+</script>
+
+
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/文生图/","name":"文生图"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2024/08/06/HiDream-O1-image/","name":"HiDream-O1-图像"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"HiDream-O1-图像","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2024/08/06/HiDream-O1-image/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2024/08/06/HiDream-O1-image/","wordCount":0,"datePublished":"2024-08-06T16:00:00.000Z","dateModified":"2026-11-06T09:01:53.653Z","articleSection":"文生图","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+
+
+
+
+    </div>
+    <!-- import body_end begin-->
+    <!-- import body_end end-->
+    <!-- Custom Files bodyEnd begin-->
+    
+    <!-- Custom Files bodyEnd end-->
+  </body>
+</html>

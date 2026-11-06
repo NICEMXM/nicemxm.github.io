@@ -1961,7 +1961,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     root: '/',
     debug: "env",
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1793670205326),
+    lastupdate: new Date(1793955730584),
     cdn: {
       izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
       izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
@@ -2438,9 +2438,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-         引言
-当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。
-相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高...
+        引言当今最先进的语言模型包含数以万亿计的参数，并在数十万亿个 token 上进行了预训练。随着模型规模的扩大，基础模型的性能持续提升，因为这些万亿级参数对于学习并表征书面人类知识中的模式结构至关重要。
+相比之下，后训练阶段通常使用较小的数据集，并主要集中在更有限的知识领域和行为范围。使用 TB 级的权重去表征仅源自 GB 或 MB 级训练数据的更新，显得相当低效。这一直观认识推动了参数高效微...
       
     
   </div>
@@ -2503,8 +2502,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-         摘要
-长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据传输带宽。这些对计算、存储和带宽的多重需求共同构成了进一步降低部署成本的主要瓶颈。为应对这一挑战，我们推出了DeepSeek-V4.1-Flash——一款具有5520亿个骨干参数、支持长达百万toke...
+        摘要长时序智能体的广泛部署使得模型工作负载愈发依赖输入数据。尽管已有研究大幅降低了长上下文计算的成本，但预填充阶段的计算开销依然高昂，而庞大的KV缓存则持续挤压HBM与SSD的存储容量及数据传输带宽。这些对计算、存储和带宽的多重需求共同构成了进一步降低部署成本的主要瓶颈。为应对这一挑战，我们推出了DeepSeek-V4.1-Flash——一款具有5520亿个骨干参数、支持长达百万token上...
       
     
   </div>
@@ -2567,10 +2565,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class='md article-desc' itemprop="articleBody">
     
       
-         transformer中的传统embedding层是什么？
-transformer中的传统embedding层是通常称为Token Embedding
+        transformer中的传统embedding层是什么？transformer中的传统embedding层是通常称为Token Embedding
 Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，第一个 Transformer Block 之前。它不属于任何一个 Transformer Block 内部，而是整个模型的“入口层”。
- 📍 整...
+📍 整体流程...
       
     
   </div>
@@ -2699,8 +2696,7 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-         摘要
-人工智能的发展可以被视为一种以数据驱动的学习范式的演进，其中数据组织与利用方式的不断迭代持续推动着模型能力的提升。尽管取得了显著进展，当前的大语言模型（LLM）研究仍主要依赖于单向的数据规模扩张范式，而在数据获取的可得性、采集成本以及训练效率等方面正日益面临瓶颈。在本工作中，我们提出，通用人工智能（AGI）的发展正进入一个数据—模型协同演化的全新阶段：模型主动引导数据管理，而高质量数...
+        摘要人工智能的发展可以被视为一种以数据驱动的学习范式的演进，其中数据组织与利用方式的不断迭代持续推动着模型能力的提升。尽管取得了显著进展，当前的大语言模型（LLM）研究仍主要依赖于单向的数据规模扩张范式，而在数据获取的可得性、采集成本以及训练效率等方面正日益面临瓶颈。在本工作中，我们提出，通用人工智能（AGI）的发展正进入一个数据—模型协同演化的全新阶段：模型主动引导数据管理，而高质量数据又...
       
     
   </div>
@@ -2763,8 +2759,7 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-         摘要
-我们隆重推出GLM-5，这是一款新一代基础模型，旨在推动从情绪编码范式向智能体工程的转型。GLM-5继承了其前代模型的智能体、推理与编码（ARC）能力，并引入了DSA技术，大幅降低了训练与推理成本，同时保持了长上下文的高精度。为提升模型对齐与自主性，我们开发了一套全新的异步强化学习基础设施，通过将生成过程与训练过程解耦，显著提高了模型训练后的效率。此外，我们还提出了一系列创新的异步智...
+        摘要我们隆重推出GLM-5，这是一款新一代基础模型，旨在推动从情绪编码范式向智能体工程的转型。GLM-5继承了其前代模型的智能体、推理与编码（ARC）能力，并引入了DSA技术，大幅降低了训练与推理成本，同时保持了长上下文的高精度。为提升模型对齐与自主性，我们开发了一套全新的异步强化学习基础设施，通过将生成过程与训练过程解耦，显著提高了模型训练后的效率。此外，我们还提出了一系列创新的异步智能体...
       
     
   </div>
@@ -2828,8 +2823,7 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
     
       
         论文
- 摘要
-我们推出了DeepSeek-V4系列的预览版，其中包括两款强大的混合专家（MoE）语言模型——参数量为1.6T（激活49B）的DeepSeek-V4-Pro和参数量为284B（激活13B）的DeepSeek-V4-Flash——这两款模型均支持长达百万token的上下文长度。DeepSeek-V4系列在架构和优化方面进行了多项关键升级：(1) 采用混合注意力机制，结合压缩稀疏注...
+摘要我们推出了DeepSeek-V4系列的预览版，其中包括两款强大的混合专家（MoE）语言模型——参数量为1.6T（激活49B）的DeepSeek-V4-Pro和参数量为284B（激活13B）的DeepSeek-V4-Flash——这两款模型均支持长达百万token的上下文长度。DeepSeek-V4系列在架构和优化方面进行了多项关键升级：(1) 采用混合注意力机制，结合压缩稀疏注意力...
       
     
   </div>
@@ -2892,11 +2886,9 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-         引言
-不建议使用这些技术来推理 gpt-5 和 o 系列模型等模型。
+        引言不建议使用这些技术来推理 gpt-5 和 o 系列模型等模型。
 提示构造可能很困难。 在实践中，提示动作有助于模型完成所需的任务，但它比科学更像一种艺术，通常需要经验和直觉来制作成功的提示。 本文的目的是帮助你开始学习此学习过程。 它会尝试探讨适用于所有 GPT 模型的一般概念和模式。 但是，必须了解每个模型的行为方式不同，因此学习可能不适用于所有模型。
- 基础
-本部分介绍 GPT ...
+基础本部分介绍 GPT 提示的基...
       
     
   </div>
@@ -2959,12 +2951,11 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-         介绍
-当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它已经计算过的内容，从而使文本生成更快、更高效。
+        介绍当人工智能模型生成文本时，它们通常会重复许多相同的计算，这可能会减慢速度。KV缓存是一种通过记住前面步骤中的重要信息来帮助加快此过程的技术。该模型不是从头开始重新计算所有内容，而是重用它已经计算过的内容，从而使文本生成更快、更高效。
 在这篇博文中，我们将以易于理解的方式分解 KV 缓存，解释它为什么有用，并展示它如何帮助 AI 模型更快地工作。
 
-##　先决条件
-要充分掌握内容，读者...
+
+先决条件要充分掌握内容，读者应该熟悉：...
       
     
   </div>
@@ -3027,12 +3018,9 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
   <div class='md article-desc' itemprop="articleBody">
     
       
-         介绍
-视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉和文本信息以生成连贯的输出。
-作为本博文中的模型参考，我们将使用 HuggingFaceTB/SmolVLM-256M-Instruct。
- 处理器
- 图像处理器
-处理器将文本和图像数据准备成适合...
+        介绍视觉语言模型 （VLM） 是自回归 AI 模型，可将文本和图像处理为输入。在这篇文章中，我们将仔细研究 Idefics3 和 SmolVLM 等 VLM 如何在幕后运行，探索它们如何合并视觉和文本信息以生成连贯的输出。
+作为本博文中的模型参考，我们将使用 HuggingFaceTB&#x2F;SmolVLM-256M-Instruct。
+处理器图像处理器处理器将文本和图像数据准备成适合模...
       
     
   </div>
@@ -3254,7 +3242,7 @@ Token Embedding 在 Transformer 里的位置非常明确：模型的最前端，
           <li><a class="flat-box"
             title="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/"
             active-action="action-categoriesE69687E7949FE59BBE"
-            ><div class='name'>文生图</div><div class='badge'>(3)</div></a></li>
+            ><div class='name'>文生图</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"
@@ -3702,7 +3690,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   <script>
-  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp"];
   let index = 0;
   let IntervalParallax = null;
 
