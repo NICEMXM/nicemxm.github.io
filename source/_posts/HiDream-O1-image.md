@@ -1,6 +1,6 @@
 ---
 title: HiDream-O1-图像
-date: 2024-08-07
+date: 2026-11-06
 author: mxm
 categories:
   - 文生图
