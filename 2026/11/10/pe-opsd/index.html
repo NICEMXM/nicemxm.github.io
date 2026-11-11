@@ -1,0 +1,5090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1'>
+  <meta name="generator" content="Hexo 7.2.0">
+  <meta name="Volantis" content="6.0.0-alpha.1">
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+  <link rel="canonical" href="https://nicemxm.github.io/2026/11/10/pe-opsd/"/>
+  <!-- 渲染优化 -->
+    <meta http-equiv='x-dns-prefetch-control' content='on' />
+      <link rel='dns-prefetch' href='https://unpkg.com'>
+      <link rel="preconnect" href="https://unpkg.com" crossorigin>
+      <link rel='dns-prefetch' href='https://cdn.bootcdn.net'>
+      <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content=" default-src 'self' https:; block-all-mixed-content; base-uri 'self' https:; form-action 'self' https:; worker-src 'self' https:; connect-src 'self' https: *; img-src 'self' data: https: *; media-src 'self' https: *; font-src 'self' data: https: *; frame-src 'self' https: *; manifest-src 'self' https: *; child-src https:; script-src 'self' https: 'unsafe-inline' *; style-src 'self' https: 'unsafe-inline' *; ">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <!-- import head_begin begin -->
+  <!-- import head_begin end -->
+  <!-- Custom Files headBegin begin-->
+  
+  <!-- Custom Files headBegin end-->
+    <link rel="shortcut icon" type='image/x-icon' href="https://gcore.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  <link rel="preload" href="/css/style.css" as="style">
+  <link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- feed -->
+      <link rel="alternate" href="/atom.xml" title="hello deeplearning" type="application/atom+xml">
+  <!-- 页面元数据 -->
+  <title>PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中 - hello deeplearning</title>
+  <meta name="keywords" content="generate,null">
+  <meta desc name="description" content="hello deeplearning - mxm - hello deeplearning">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中">
+<meta property="og:url" content="https://nicemxm.github.io/2026/11/10/pe-opsd/index.html">
+<meta property="og:site_name" content="hello deeplearning">
+<meta property="og:description" content="论文 摘要文生图用户通常提供简洁且欠指定的提示词，而生成模型则受益于详细的文本条件以实现可靠的指令遵循。现有系统通过提示增强器（PE）在推理时重写原始提示词来弥合这一差距，但引入了额外延迟，且提示细化仍外在于生成器。我们转而将增强提示词视为特权训练信息，并追问其收益能否被内化。我们提出提示增强在线策略自蒸馏（PE-OPSD），用于文生图流匹配模型。训练期间，原始提示词学生遵循自己的生成轨迹，而增强">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2026-11-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-11T07:14:42.531Z">
+<meta property="article:author" content="mxm">
+<meta property="article:tag" content="generate">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+  <style>
+    /* 首屏样式 */
+    #safearea {
+  display: none;
+}
+:root {
+  --color-site-body: #f4f4f4;
+  --color-site-bg: #f4f4f4;
+  --color-site-inner: #fff;
+  --color-site-footer: #666;
+  --color-card: #fff;
+  --color-text: #444;
+  --color-block: #f6f6f6;
+  --color-inlinecode: #c74f00;
+  --color-codeblock: #fff7ea;
+  --color-h1: #3a3a3a;
+  --color-h2: #3a3a3a;
+  --color-h3: #333;
+  --color-h4: #444;
+  --color-h5: #555;
+  --color-h6: #666;
+  --color-p: #444;
+  --color-list: #666;
+  --color-list-hl: #30ad91;
+  --color-meta: #888;
+  --color-read-bkg: #e0d8c8;
+  --color-read-post: #f8f1e2;
+  --color-copyright-bkg: #f5f5f5;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+html {
+  color: var(--color-text);
+  width: 100%;
+  height: 100%;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  font-size: 16px;
+}
+html >::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+html >::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+html >::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+html >::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+body {
+  background-color: var(--color-site-body);
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body.modal-active {
+  overflow: hidden;
+}
+@media screen and (max-width: 680px) {
+  body.modal-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+a {
+  color: #2092ec;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+a:hover {
+  color: #ff5722;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ul,
+ol {
+  padding-left: 0;
+}
+ul li,
+ol li {
+  list-style: none;
+}
+header {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+img {
+  border: 0;
+  background: none;
+  max-width: 100%;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height: 0;
+  border: 0;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-bottom: 1px solid rgba(68,68,68,0.1);
+}
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+@supports (backdrop-filter: blur(20px)) {
+  .blur {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+.shadow {
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.shadow.floatable {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.shadow.floatable:hover {
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+}
+#l_cover {
+  min-height: 64px;
+}
+.cover-wrapper {
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: 100vh;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  color: var(--color-site-inner);
+  padding: 0 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -100px;
+}
+.cover-wrapper .cover-body {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cover-wrapper#full {
+  height: calc(100vh + 100px);
+  padding-bottom: 100px;
+}
+.cover-wrapper#half {
+  max-height: 640px;
+  min-height: 400px;
+  height: calc(36vh - 64px + 200px);
+}
+.cover-wrapper #scroll-down {
+  width: 100%;
+  height: 64px;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+.cover-wrapper #scroll-down .scroll-down-effects {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  position: absolute;
+  width: 24px;
+  left: calc(50% - 12px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: scroll-down-effect 1.5s infinite;
+  -webkit-animation: scroll-down-effect 1.5s infinite;
+  -khtml-animation: scroll-down-effect 1.5s infinite;
+  -moz-animation: scroll-down-effect 1.5s infinite;
+  -o-animation: scroll-down-effect 1.5s infinite;
+  -ms-animation: scroll-down-effect 1.5s infinite;
+}
+@-moz-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  margin-top: 64px;
+  margin-bottom: 100px;
+}
+.cover-wrapper .cover-body,
+.cover-wrapper .cover-body .top,
+.cover-wrapper .cover-body .bottom {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  max-width: 100%;
+}
+.cover-wrapper .cover-body .bottom {
+  margin-top: 32px;
+}
+.cover-wrapper .cover-body .title {
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-size: 3.125rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.cover-wrapper .cover-body .subtitle {
+  font-size: 20px;
+}
+.cover-wrapper .cover-body .logo {
+  max-height: 120px;
+  max-width: calc(100% - 4 * 16px);
+}
+@media screen and (min-height: 1024px) {
+  .cover-wrapper .cover-body .title {
+    font-size: 3rem;
+  }
+  .cover-wrapper .cover-body .subtitle {
+    font-size: 1.05rem;
+  }
+  .cover-wrapper .cover-body .logo {
+    max-height: 150px;
+  }
+}
+.cover-wrapper .cover-body .m_search {
+  position: relative;
+  max-width: calc(100% - 16px);
+  width: 320px;
+  vertical-align: middle;
+}
+.cover-wrapper .cover-body .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  width: 100%;
+}
+.cover-wrapper .cover-body .m_search .icon,
+.cover-wrapper .cover-body .m_search .input {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.cover-wrapper .cover-body .m_search .icon {
+  position: absolute;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  line-height: 2.5rem;
+  width: 32px;
+  top: 0;
+  left: 5px;
+  color: rgba(68,68,68,0.75);
+}
+.cover-wrapper .cover-body .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  padding-left: 36px;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: var(--color-text);
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .cover-body .m_search .input {
+    padding-left: 36px;
+  }
+}
+.cover-wrapper .cover-body .m_search .input:hover {
+  background: rgba(255,255,255,0.8);
+}
+.cover-wrapper .cover-body .m_search .input:focus {
+  background: #fff;
+}
+.cover-wrapper .list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -khtml-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  align-items: stretch;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.cover-wrapper .list-h a {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  font-weight: 600;
+}
+.cover-wrapper .list-h a img {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  margin: 4px;
+  min-width: 40px;
+  max-width: 44px;
+}
+@media screen and (max-width: 768px) {
+  .cover-wrapper .list-h a img {
+    min-width: 36px;
+    max-width: 40px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .list-h a img {
+    margin: 2px 4px;
+    min-width: 32px;
+    max-width: 36px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .cover-wrapper .list-h a img {
+    min-width: 28px;
+    max-width: 32px;
+  }
+}
+.cover-wrapper {
+  max-width: 100%;
+}
+.cover-wrapper.search .bottom .menu {
+  margin-top: 16px;
+}
+.cover-wrapper.search .bottom .menu .list-h a {
+  white-space: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 2px;
+  margin: 4px;
+  color: var(--color-site-inner);
+  opacity: 0.75;
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom: 2px solid transparent;
+}
+.cover-wrapper.search .bottom .menu .list-h a i {
+  margin-right: 4px;
+}
+.cover-wrapper.search .bottom .menu .list-h a p {
+  font-size: 0.9375rem;
+}
+.cover-wrapper.search .bottom .menu .list-h a:hover,
+.cover-wrapper.search .bottom .menu .list-h a.active,
+.cover-wrapper.search .bottom .menu .list-h a:active {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  border-bottom: 2px solid var(--color-site-inner);
+}
+.cover-wrapper #parallax-window {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.parallax-mirror {
+  animation-delay: 0s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@font-face {
+  font-family: 'UbuntuMono';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Varela Round';
+  src: url("https://unpkg.com/volantis-static@0.0.1660614606622/media/fonts/VarelaRound/VarelaRound-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+.l_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.l_header.auto {
+  transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  -khtml-transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -ms-transition: opacity 0.4s ease;
+  visibility: hidden;
+}
+.l_header.auto.show {
+  opacity: 1 !important;
+  -webkit-opacity: 1 !important;
+  -moz-opacity: 1 !important;
+  visibility: visible;
+}
+.l_header .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.l_header #wrapper {
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.l_header #wrapper .nav-main,
+.l_header #wrapper .nav-sub {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -khtml-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+}
+.l_header #wrapper .nav-main {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.l_header #wrapper.sub .nav-main {
+  transform: translateY(-64px);
+  -webkit-transform: translateY(-64px);
+  -khtml-transform: translateY(-64px);
+  -moz-transform: translateY(-64px);
+  -o-transform: translateY(-64px);
+  -ms-transform: translateY(-64px);
+}
+.l_header #wrapper .nav-sub {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  height: 64px;
+  width: calc(100% - 2 * 16px);
+  position: absolute;
+}
+.l_header #wrapper .nav-sub ::-webkit-scrollbar {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (min-width: 2048px) {
+  .l_header #wrapper .nav-sub {
+    max-width: 55vw;
+    margin: auto;
+  }
+}
+.l_header #wrapper.sub .nav-sub {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+}
+.l_header #wrapper .title {
+  position: relative;
+  color: var(--color-text);
+  padding-left: 24px;
+  max-height: 64px;
+}
+.l_header #wrapper .nav-main .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+}
+.l_header #wrapper .nav-main .title img {
+  height: 64px;
+}
+.l_header .nav-sub {
+  max-width: 1080px;
+  margin: auto;
+}
+.l_header .nav-sub .title {
+  font-weight: bold;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  line-height: 1.2;
+  max-height: 64px;
+  white-space: normal;
+  flex-shrink: 1;
+}
+.l_header .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  line-height: 64px;
+  align-items: center;
+}
+.l_header .switcher .s-toc {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .l_header .switcher .s-toc {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+  }
+}
+.l_header .switcher >li {
+  height: 48px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  margin: 2px;
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li {
+    margin: 0 1px;
+    height: 48px;
+  }
+}
+.l_header .switcher >li >a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0.85em 1.1em;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  color: #3dd9b6;
+}
+.l_header .switcher >li >a:hover {
+  border: none;
+}
+.l_header .switcher >li >a.active,
+.l_header .switcher >li >a:active {
+  border: none;
+  background: var(--color-site-bg);
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li >a {
+    width: 36px;
+    height: 48px;
+  }
+}
+.l_header .nav-sub .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+}
+.l_header .m_search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  height: 64px;
+  width: 240px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (max-width: 1024px) {
+  .l_header .m_search {
+    width: 44px;
+    min-width: 44px;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+  }
+  .l_header .m_search:hover {
+    width: 240px;
+  }
+  .l_header .m_search:hover input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search:hover .input {
+    width: 100%;
+  }
+  .l_header .m_search:hover .input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search {
+    min-width: 0;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.l_header .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.l_header .m_search .icon {
+  position: absolute;
+  width: 36px;
+  left: 5px;
+  color: var(--color-meta);
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .icon {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+.l_header .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+  width: 100%;
+  color: var(--color-text);
+  background: #fafafa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 40px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search .input:focus {
+    box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .input {
+    background: var(--color-block);
+    padding-left: 8px;
+    border: none;
+  }
+  .l_header .m_search .input:hover,
+  .l_header .m_search .input:focus {
+    border: none;
+  }
+}
+@media (max-width: 500px) {
+  .l_header .m_search {
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    transition: all 0.28s ease;
+    -webkit-transition: all 0.28s ease;
+    -khtml-transition: all 0.28s ease;
+    -moz-transition: all 0.28s ease;
+    -o-transition: all 0.28s ease;
+    -ms-transition: all 0.28s ease;
+  }
+  .l_header .m_search .input {
+    border-radius: 32px;
+    -webkit-border-radius: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+  }
+  .l_header.z_search-open .m_search {
+    width: 100%;
+  }
+  .l_header.z_search-open .m_search .input {
+    width: calc(100% - 120px);
+  }
+}
+ul.m-pc >li>a {
+  color: inherit;
+  border-bottom: 2px solid transparent;
+}
+ul.m-pc >li>a:active,
+ul.m-pc >li>a.active {
+  border-bottom: 2px solid #3dd9b6;
+}
+ul.m-pc li:hover >ul.list-v,
+ul.list-v li:hover >ul.list-v {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.nav-list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  align-items: stretch;
+}
+ul.nav-list-h>li {
+  position: relative;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  height: 100%;
+  line-height: 2.4;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+ul.nav-list-h>li >a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+}
+ul.list-v {
+  z-index: 1;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: absolute;
+  background: var(--color-card);
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  margin-top: -6px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 8px 0;
+}
+ul.list-v.show {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.list-v hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+ul.list-v >li {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+ul.list-v >li.header {
+  font-size: 0.78125rem;
+  font-weight: bold;
+  line-height: 2em;
+  color: var(--color-meta);
+  margin: 8px 16px 4px;
+}
+ul.list-v >li.header i {
+  margin-right: 8px;
+}
+ul.list-v >li ul {
+  margin-left: 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: -40px;
+}
+ul.list-v .aplayer-container {
+  min-height: 64px;
+  padding: 6px 16px;
+}
+ul.list-v >li>a {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  color: var(--color-list);
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px 0 16px;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+@media screen and (max-width: 1024px) {
+  ul.list-v >li>a {
+    line-height: 40px;
+  }
+}
+ul.list-v >li>a >i {
+  margin-right: 8px;
+}
+ul.list-v >li>a:active,
+ul.list-v >li>a.active {
+  color: var(--color-list-hl);
+}
+ul.list-v >li>a:hover {
+  color: var(--color-list-hl);
+  background: var(--color-site-bg);
+}
+.l_header .menu >ul>li>a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding: 0 8px;
+}
+.l_header .menu >ul>li>a >i {
+  margin-right: 4px;
+}
+.l_header ul.nav-list-h>li {
+  color: var(--color-list);
+  line-height: 64px;
+}
+.l_header ul.nav-list-h>li >a {
+  max-height: 64px;
+  overflow: hidden;
+  color: inherit;
+}
+.l_header ul.nav-list-h>li >a:active,
+.l_header ul.nav-list-h>li >a.active {
+  color: #3dd9b6;
+}
+.l_header ul.nav-list-h>li:hover>a {
+  color: var(--color-list-hl);
+}
+.l_header ul.nav-list-h>li i.music {
+  animation: rotate-effect 1.5s linear infinite;
+  -webkit-animation: rotate-effect 1.5s linear infinite;
+  -khtml-animation: rotate-effect 1.5s linear infinite;
+  -moz-animation: rotate-effect 1.5s linear infinite;
+  -o-animation: rotate-effect 1.5s linear infinite;
+  -ms-animation: rotate-effect 1.5s linear infinite;
+}
+@-moz-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+.menu-phone li ul.list-v {
+  right: calc(100% - 0.5 * 16px);
+}
+.menu-phone li ul.list-v ul {
+  right: calc(100% - 0.5 * 16px);
+}
+#wrapper {
+  max-width: 1080px;
+  margin: auto;
+}
+@media screen and (min-width: 2048px) {
+  #wrapper {
+    max-width: 55vw;
+  }
+}
+#wrapper .menu {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  margin: 0 16px 0 0;
+}
+#wrapper .menu .list-v ul {
+  left: calc(100% - 0.5 * 16px);
+}
+.menu-phone {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: 16px;
+  right: 8px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.menu-phone ul {
+  right: calc(100% - 0.5 * 16px);
+}
+@media screen and (max-width: 500px) {
+  .menu-phone {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: block;
+  }
+}
+.l_header {
+  max-width: 65vw;
+  left: calc((100% - 65vw) * 0.5);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 2048px) {
+  .l_header {
+    max-width: 1112px;
+    left: calc((100% - 1112px) * 0.5);
+  }
+}
+@media screen and (max-width: 1112px) {
+  .l_header {
+    left: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .l_header #wrapper .nav-main .title {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .l_header #wrapper .nav-sub {
+    width: 100%;
+  }
+  .l_header #wrapper .nav-sub .title {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding: 8px 16px;
+  }
+  .l_header #wrapper .switcher {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+    margin-right: 8px;
+  }
+  .l_header .menu {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .list-v li {
+    max-width: 270px;
+  }
+}
+#u-search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px;
+  z-index: 1001;
+}
+@media screen and (max-width: 680px) {
+  #u-search {
+    padding: 0px;
+  }
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+    '.kill-t{'+
+      'font-size: 2rem;'+
+    '}'+
+    '.kill-c{'+
+      'font-size: 1.2rem;'+
+    '}'+
+		'#l_header,#l_body{'+
+			'display: none;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        `<span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>`+
+        `<span class="kill-c">微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</span><br/>`+
+        `<a target="_blank" rel="noopener" href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/"><strong>了解详情 ></strong></a>`+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+    .kill-t{
+      font-size: 2rem;
+    }
+    .kill-c{
+      font-size: 1.2rem;
+    }
+		#l_header,#l_body{
+			display: none;
+		}
+	</style>
+    <div class="kill-noscript">
+        <span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>
+        <span class="kill-c">本页面需要浏览器支持（启用）JavaScript</span><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+
+  <script>
+  /************这个文件存放不需要重载的全局变量和全局函数*********/
+  window.volantis = {}; // volantis 全局变量
+  volantis.debug = "env"; // 调试模式
+  volantis.dom = {}; // 页面Dom see: /source/js/app.js etc.
+  /******************** volantis.dom.$ ********************************/
+  // 注：这里没有选择器，也没有forEach一次只处理一个dom，这里重新封装主题常用的dom方法，返回的是dom对象，对象包含了以下方法，同时保留dom的原生API
+  function volantisDom(ele) {
+    if (!ele) ele = document.createElement("div")
+    this.ele = ele;
+    // ==============================================================
+    this.ele.find = (c) => {
+      let q = this.ele.querySelector(c)
+      if (q)
+        return new volantisDom(q)
+    }
+    // ==============================================================
+    this.ele.hasClass = (c) => {
+      return this.ele.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+    }
+    this.ele.addClass = (c) => {
+      this.ele.classList.add(c);
+      return this.ele
+    }
+    this.ele.removeClass = (c) => {
+      this.ele.classList.remove(c);
+      return this.ele
+    }
+    this.ele.toggleClass = (c) => {
+      if (this.ele.hasClass(c)) {
+        this.ele.removeClass(c)
+      } else {
+        this.ele.addClass(c)
+      }
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.on = (c, f) => {
+      this.ele.addEventListener(c, f, false)
+      return this.ele
+    }
+    this.ele.click = (f, r) => {
+      this.ele.on("click", f, r)
+      return this.ele
+    }
+    this.ele.scroll = (f, r) => {
+      this.ele.on("scroll", f, r)
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.html = (c) => {
+      // if(c=== undefined){
+      //   return this.ele.innerHTML
+      // }else{
+      this.ele.innerHTML = c
+      return this.ele
+      // }
+    }
+    // ==============================================================
+    this.ele.hide = (c) => {
+      this.ele.style.display = "none"
+      return this.ele
+    }
+    this.ele.show = (c) => {
+      this.ele.style.display = "block"
+      return this.ele
+    }
+    // ==============================================================
+    return this.ele
+  }
+  volantis.dom.$ = (ele) => {
+    return !!ele ? new volantisDom(ele) : null;
+  }
+  /******************** RunItem ********************************/
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          volantis.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+  /******************** RightMenu ********************************/
+  // volantis.rightmenu.handle(callBack[,"callBackName"]) 外部菜单项控制
+  // 可在 volantis.mouseEvent 处获取右键事件
+  volantis.rightmenu = {};
+  volantis.rightmenu.method = {
+    handle: new RunItem(),
+  }
+  volantis.rightmenu = Object.assign(volantis.rightmenu, {
+    handle: volantis.rightmenu.method.handle.push,
+  });
+  /********************  Dark Mode  ********************************/
+  // /layout/_partial/scripts/darkmode.ejs
+  // volantis.dark.mode 当前模式 dark or light
+  // volantis.dark.toggle() 暗黑模式触发器
+  // volantis.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  volantis.dark = {};
+  volantis.dark.method = {
+    toggle: new RunItem(),
+  };
+  volantis.dark = Object.assign(volantis.dark, {
+    push: volantis.dark.method.toggle.push,
+  });
+  /********************  Message  ********************************/
+  // VolantisApp.message
+  /********************  isMobile  ********************************/
+  // /source/js/app.js
+  // volantis.isMobile
+  // volantis.isMobileOld
+  /********************脚本动态加载函数********************************/
+  // volantis.js(src, cb)  cb 可以传入onload回调函数 或者 JSON对象 例如: volantis.js("src", ()=>{}) 或 volantis.js("src", {defer:true,onload:()=>{}})
+  // volantis.css(src)
+
+  // 返回Promise对象，如下方法同步加载资源，这利于处理文件资源之间的依赖关系，例如：APlayer 需要在 MetingJS 之前加载
+  // (async () => {
+  //     await volantis.js("...theme.plugins.aplayer.js.aplayer...")
+  //     await volantis.js("...theme.plugins.aplayer.js.meting...")
+  // })();
+
+  // 已经加入了setTimeout
+  volantis.js = (src, cb) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+  volantis.css = (src) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  }
+  /********************按需加载的插件********************************/
+  // volantis.import.jQuery().then(()=>{})
+  volantis.import = {
+    jQuery: () => {
+      if (typeof jQuery == "undefined") {
+        return volantis.js("https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js")
+      } else {
+        return new Promise(resolve => {
+          resolve()
+        });
+      }
+    }
+  }
+  /********************** requestAnimationFrame ********************************/
+  // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+  // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+  volantis.requestAnimationFrame = (fn) => {
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+    }
+    window.requestAnimationFrame(fn)
+  }
+  /************************ layoutHelper *****************************************/
+  volantis.layoutHelper = (helper, html, opt) => {
+    opt = Object.assign({ clean: false}, opt)
+    function myhelper(helper, html, clean) {
+      volantis.tempDiv = document.createElement("div");
+      volantis.tempDiv.innerHTML = html;
+      let layoutHelper = document.querySelector("#layoutHelper-" + helper)
+      if (layoutHelper) {
+        if (clean) {
+          layoutHelper.innerHTML = ""
+        }
+        layoutHelper.append(volantis.tempDiv);
+      }
+    }
+    myhelper(helper, html, opt.clean)
+  }
+  /****************************** 滚动事件处理 ****************************************/
+  volantis.scroll = {
+    engine: new RunItem(),
+    unengine: new RunItem(),
+  };
+  volantis.scroll = Object.assign(volantis.scroll, {
+    push: volantis.scroll.engine.push,
+  });
+  // 滚动条距离顶部的距离
+  volantis.scroll.getScrollTop = () => {
+    let scrollPos;
+    if (window.pageYOffset) {
+      scrollPos = window.pageYOffset;
+    } else if (document.compatMode && document.compatMode != 'BackCompat') {
+      scrollPos = document.documentElement.scrollTop;
+    } else if (document.body) {
+      scrollPos = document.body.scrollTop;
+    }
+    return scrollPos;
+  }
+  volantis.scroll.scrollHeight = function () {
+    return Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+    )
+  }
+  volantis.scroll.offsetHeight = function () {
+    return Math.max(
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    )
+  }
+  volantis.scroll.progress = function () {
+    return volantis.scroll.getScrollTop() / (volantis.scroll.scrollHeight() - volantis.scroll.offsetHeight())
+  }
+  // 使用 requestAnimationFrame 处理滚动事件
+  // `volantis.scroll.del` 中存储了一个数值, 该数值检测一定时间间隔内滚动条滚动的位移, 数值的检测频率是浏览器的刷新频率. 数值为正数时, 表示向下滚动. 数值为负数时, 表示向上滚动.
+  volantis.scroll.handleScrollEvents = () => {
+    volantis.scroll.lastScrollTop = volantis.scroll.getScrollTop()
+    function loop() {
+      const scrollTop = volantis.scroll.getScrollTop();
+      if (volantis.scroll.lastScrollTop !== scrollTop) {
+        volantis.scroll.del = scrollTop - volantis.scroll.lastScrollTop;
+        volantis.scroll.lastScrollTop = scrollTop;
+        // if (volantis.scroll.del > 0) {
+        //   console.log("向下滚动");
+        // } else {
+        //   console.log("向上滚动");
+        // }
+        // 注销过期的unengine未滚动事件
+        volantis.scroll.unengine.list = []
+        volantis.scroll.engine.start();
+      } else {
+        volantis.scroll.unengine.start();
+      }
+      volantis.requestAnimationFrame(loop)
+    }
+    volantis.requestAnimationFrame(loop)
+  }
+  volantis.scroll.handleScrollEvents()
+  volantis.scroll.ele = null;
+  // 触发页面滚动至目标元素位置
+  volantis.scroll.to = (ele, option = {}) => {
+    if (!ele) return;
+    volantis.scroll.ele = ele;
+    // 默认配置
+    opt = {
+      top: ele.getBoundingClientRect().top + document.documentElement.scrollTop,
+      behavior: "smooth"
+    }
+    // 定义配置
+    if ("top" in option) {
+      opt.top = option.top
+    }
+    if ("behavior" in option) {
+      opt.behavior = option.behavior
+    }
+    if ("addTop" in option) {
+      opt.top += option.addTop
+    }
+    if (!("observerDic" in option)) {
+      option.observerDic = 100
+    }
+    // 滚动
+    window.scrollTo(opt);
+    // 监视器
+    // 监视并矫正元素滚动到指定位置
+    // 用于处理 lazyload 引起的 cls 导致的定位失败问题
+    // option.observer = false
+    if (option.observer) {
+      setTimeout(() => {
+        if (volantis.scroll.ele != ele) {
+          return
+        }
+        volantis.scroll.unengine.push(() => {
+          let me = ele.getBoundingClientRect().top
+          if (!(me >= -option.observerDic && me <= option.observerDic)) {
+            volantis.scroll.to(ele, option)
+          }
+          volantis.scroll.unengine.remove("unengineObserver")
+        }, "unengineObserver")
+      }, 1000)
+    }
+  }
+  /********************** Content Visibility ********************************/
+  // 见 source/css/first.styl 如果遇到任何问题 删除 .post-story 即可
+  // 一个元素被声明 content-visibility 属性后 如果元素不在 viewport 中 浏览器不会计算其后代元素样式和属性 从而节省 Style & Layout 耗时
+  // content-visibility 的副作用: 锚点失效 等等(实验初期 暂不明确), 使用此方法清除样式
+  volantis.cleanContentVisibility = () => {
+    if (document.querySelector(".post-story")) {
+      console.log("cleanContentVisibility");
+      document.querySelectorAll(".post-story").forEach(e => {
+        e.classList.remove("post-story")
+      })
+    }
+  }
+  /******************************************************************************/
+  /******************************************************************************/
+  /******************************************************************************/
+  //图像加载出错时的处理
+  function errorImgAvatar(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg";
+    img.onerror = null;
+  }
+  function errorImgCover(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg";
+    img.onerror = null;
+  }
+  /******************************************************************************/
+</script>
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  pdata.commentConfig={};
+  volantis.GLOBAL_CONFIG ={
+    root: '/',
+    debug: "env",
+    default: {"avatar":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1660614606622/media/placeholder/image/2659360.svg"},
+    lastupdate: new Date(1794381297194),
+    cdn: {
+      izitoast_css: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css',
+      izitoast_js: 'https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js',
+      fancybox_css: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css',
+      fancybox_js: 'https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js'
+    },
+    sidebar: {
+      for_page: ["blogger","category","tagcloud","donate"],
+      for_post: ["toc"],
+      webinfo: {
+        lastupd: {
+          enable: true,
+          friendlyShow: true
+        },
+        runtime: {
+          data: "2024/05/14",
+          unit: "天"
+        }
+      }
+    },
+    plugins: {
+      message: {"enable":true,"icon":{"default":"fa-solid fa-info-circle light-blue","quection":"fa-solid fa-question-circle light-blue"},"time":{"default":5000,"quection":20000},"position":"topRight","transitionIn":"bounceInLeft","transitionOut":"fadeOutRight","titleColor":"var(--color-text)","messageColor":"var(--color-text)","backgroundColor":"var(--color-card)","zindex":2147483647,"copyright":{"enable":true,"title":"知识共享许可协议","message":"请遵守 CC BY-NC-SA 4.0 协议。","icon":"far fa-copyright light-blue"},"aplayer":{"enable":true,"play":"fa-solid fa-play","pause":"fa-solid fa-pause"},"rightmenu":{"enable":true,"notice":true}},
+      
+      aplayer: {
+        id: 494561791,
+        enable:true
+      },
+      
+      
+    },
+    search: {
+      
+
+      
+        dataPath: (("/" || "/").endsWith("/") ? "/" || "/" : "//" || "/") + "content.json",
+      
+
+      
+    },
+    languages: {
+      
+        search: {
+          hits_empty: "找不到您查询的内容：${query}",
+          hits_stats: "找到 ${hits} 条结果，用时 ${time} 毫秒",
+        }
+      
+    }
+  }
+</script>
+  <!-- import head_end begin -->
+  <!-- import head_end end -->
+  <!-- Custom Files headEnd begin-->
+  
+  <!-- Custom Files headEnd end-->
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://unpkg.com/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://unpkg.com/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  <body itemscope itemtype="https://schema.org.cn/WebPage">
+    <!-- import body_begin begin-->
+    <!-- import body_begin end-->
+    <!-- Custom Files bodyBegin begin-->
+    
+    <!-- Custom Files bodyBegin end-->
+    <header itemscope itemtype="https://schema.org.cn/WPHeader" id="l_header" class="l_header auto shadow floatable blur " style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone'>
+        <li><a id="s-comment" class="fa-solid fa-comments fa-fw" target="_self" title="comment"></a></li>
+        
+          <li><a id="s-toc" class="s-toc fa-solid fa-list fa-fw" target="_self" title="toc"></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+      
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fa-solid fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+      
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fa-solid fa-search fa-fw" target="_self" title="search"></a></li>
+				
+				<li>
+          <a class="s-menu fa-solid fa-bars fa-fw" target="_self" title="menu"></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="博客"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+
+      <!-- Custom Files header begin -->
+      
+      <!-- Custom Files header end -->
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+      <div class="cover-wrapper post search" id='half'>
+        
+  <div id="parallax-window"></div>
+
+<div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">OpenHarness</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="A Wonderful journey" />
+          <i class="icon fa-solid fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              active-action="action-home">
+              <p>文档</p>
+            </a>
+          
+            <a href="/faqs/"
+              
+              
+              active-action="action-faqs">
+              <p>帮助</p>
+            </a>
+          
+            <a href="/examples/"
+              
+              
+              active-action="action-examples">
+              <p>示例</p>
+            </a>
+          
+            <a href="/contributors/"
+              
+              
+              active-action="action-contributors">
+              <p>社区</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              active-action="action-archives">
+              <p>博客</p>
+            </a>
+          
+            <a target="_blank" rel="noopener" href="https://github.com/"
+              
+              
+              active-action="action-https:githubcom">
+              <p>源码</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    
+  
+</div>
+
+      <div id="safearea">
+        <div class="body-wrapper">
+          
+<div id="l_main" class=''>
+  <article itemscope itemtype="https://schema.org.cn/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://nicemxm.github.io/2026/11/10/pe-opsd/">
+  <span hidden itemprop="publisher" itemscope itemtype="https://schema.org.cn/Organization">
+    <meta itemprop="name" content="hello deeplearning">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="https://schema.org.cn/Post">
+    <meta itemprop="name" content="hello deeplearning">
+    <meta itemprop="description" content="">
+  </span>
+  
+
+
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title" itemprop="name headline">
+        PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="https://schema.org.cn/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/apple-touch-icon.png">
+    <p itemprop="name">mxm</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  
+  
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/">文生图</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+        <a href="/categories/%E6%96%87%E7%94%9F%E5%9B%BE/" itemprop="url"><span itemprop="name">文生图</span></a>
+      </span>
+    
+  </div>
+  
+
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2026-11-10T16:00:00+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2026年11月11日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+<div class="new-meta-item browse">
+  <a class='notlink'>
+    <p>
+      <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="busuanzi_value_page_pv">
+        <i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i>
+      </span>
+        
+      <span>次浏览</span>
+    </p>
+  </a>
+</div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fa-solid fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：15k 字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fa-solid fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：62 分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2609.36638">论文</a></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>文生图用户通常提供简洁且欠指定的提示词，而生成模型则受益于详细的文本条件以实现可靠的指令遵循。现有系统通过提示增强器（PE）在推理时重写原始提示词来弥合这一差距，但引入了额外延迟，且提示细化仍外在于生成器。我们转而将增强提示词视为特权训练信息，并追问其收益能否被内化。我们提出提示增强在线策略自蒸馏（PE-OPSD），用于文生图流匹配模型。训练期间，原始提示词学生遵循自己的生成轨迹，而增强提示词教师在学生访问的状态上提供向量场目标。这种在线策略监督将增强提示词所诱导的行为蒸馏到原始提示词学生中，且无需额外的文本-图像对。推理时，PE和教师均被移除，学生直接从原始提示词生成。在多个模型家族、PE和基准上，PE-OPSD在所评估基线中取得了最强的综合提示忠实度，产生了正向的综合视觉吸引力增益，并保留了基座模型的推理效率。</p>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h2><p>用户提示词通常是简洁的描述，而非完全指定的生成指令（Xie et al., 2023; Hahn et al., 2024）。诸如“一个女孩在树下读书”这样的提示词指定了主要主体和场景，但将姿势、光照、构图和视觉风格留为开放。尽管这些未指定的选择允许多种有效实现，但显式地实例化它们可以帮助生成模型产生视觉上连贯的输出，并更可靠地遵循所述约束。尽管在视觉保真度和采样效率方面取得了实质性进展（Zhang et al., 2023; Yin et al., 2024; Jiang et al., 2026b），但当提示词简短且欠指定时，可靠的意图理解仍然困难（Huang et al., 2026）。这在简洁的用户提示词与生成模型偏好的详细文本条件之间造成了根本性错配。</p>
+<p>为弥合这一差距，许多工业文生图系统在图像生成之前采用提示增强器（PE）（Team, 2025; Zhao et al., 2026a）。给定原始提示词，PE将其重写为更长的描述，使隐含的主体属性、场景布局和物体关系显式化。Promptist（Hao et al., 2023）、BeautifulPrompt（Cao et al., 2023）和PromptEnhancer（Wang et al., 2025）等先前工作已表明，提示词重写可以改善人类偏好、文本-图像相关性、属性绑定和组合关系（Ghosh et al., 2023）。然而，PE是通过修改输入而非改进生成器本身来改善生成的：提示增强仍然被委托给一个额外的推理时模块。</p>
+<p>这种部署范式存在实践和概念上的局限性。实践上，提示词重写引入了额外延迟和计算，而更长的提示词增加了文本处理和条件开销（Wang et al., 2023）。概念上，理想的生成器不应在每次生成时都需要外部重写器。因此，生成器最好能将PE所诱导的生成行为内化，并直接从简洁提示词生成高质量图像。</p>
+<p>这引出了一个自然的问题：生成器能否在推理时仅接收原始提示词的情况下，捕获提示增强所引发的生成收益？现有方法主要以两种方式利用更丰富的文本条件。一些方法在训练期间用扩展描述替换原始文本条件（Betker et al., 2023），这提高了训练数据质量，但并未直接教会模型从原始提示词中恢复增强提示词的行为。另一些方法保持生成器固定，在推理时持续调用PE（Cao et al., 2023; Mañas et al., 2024; Wang et al., 2025），这有效但保留了部署成本。因此，将提示增强的收益内化到生成器本身这一问题受到的关注较少。</p>
+<p>在本工作中，我们将提示增强重新解释为一种特权信息形式。与来自额外模态的传统特权信息不同，增强提示词在保留原始提示词显式语义约束的同时对其进行了细化。关键在于，我们不将此特权文本馈送给学生。相反，它仅用于定义信息更丰富的教师条件，而学生必须学会仅从原始提示词再现相应的生成行为。</p>
+<p>基于这一视角，我们提出用于文生图流匹配模型的提示增强在线策略自蒸馏（PE-OPSD）。给定原始提示词(p)，PE产生增强提示词(p^{+})。学生仅以(p)为条件，而教师接收(p^{+})作为特权信息。训练期间，学生遵循自己的向量场生成在线策略流轨迹。在学生访问的状态上，教师提供以(p^{+})为条件的目标向量场。通过在原始提示词条件下匹配这些目标，学生学习逼近增强提示词所诱导的生成行为。与监督微调（SFT）不同，PE-OPSD不需要构建额外的文本-图像对。与基于教师轨迹的离线策略蒸馏不同，它在学生自己的原始提示词轨迹上监督学生，使训练信号更好地与原始提示词生成时遇到的状态对齐。通过这种方式，PE-OPSD将PE从推理时模块转换为流动力学上的训练时监督信号。训练后，PE和教师均被移除，从而能够直接从原始提示词生成，无需推理时提示词重写。</p>
+<p>我们的贡献总结为三点：</p>
+<ul>
+<li>我们将提示增强重新解释为文生图生成的特权信息，研究如何将增强提示词的收益迁移到推理时仅观察原始提示词的模型。</li>
+<li>我们提出用于文生图流匹配模型的提示增强在线策略自蒸馏（PE-OPSD），其中增强提示词教师在原始提示词学生访问的状态上提供稠密向量场监督，从而将增强提示词生成行为蒸馏到仅以原始提示词为条件的模型中。</li>
+<li>我们表明，PE-OPSD在所有三个主要骨干上在综合提示忠实度方面优于推理时PE、SFT和离线策略蒸馏，同时保持正向的综合视觉吸引力变化和基座模型推理延迟。</li>
+</ul>
+<h2 id="2-相关工作"><a href="#2-相关工作" class="headerlink" title="2 相关工作"></a>2 相关工作</h2><p><strong>文生图生成中的提示增强。</strong> 提示增强旨在弥合欠指定用户提示词与详细文本条件之间的差距，文生图模型在详细文本条件下更可靠地满足显式提示词约束并产生视觉上连贯的输出。Promptist（Hao et al., 2023）通过强化学习学习模型偏好的提示词，BeautifulPrompt（Cao et al., 2023）从低质量和高质量提示词对中利用视觉反馈训练PE，PromptEnhancer（Wang et al., 2025）进一步通过思维链推理和细粒度奖励信号改进PE。然而，这些改进主要通过在生成器外部训练一个外部PE来实现。相比之下，我们的工作仅将增强提示词用作训练时特权信息，并将其效果蒸馏到生成器中，从而能够直接从原始提示词进行推理。</p>
+<p><strong>在线策略蒸馏。</strong> 在线策略蒸馏（OPD）（Agarwal et al., 2024; Gu et al., 2024）通过在学生自身当前策略生成的样本而非固定离线分布上监督学生，缓解训练-推理错配。在线策略自蒸馏（OPSD）（Zhao et al., 2026b）通过从同一基座模型构建非对称的教师和学生视图来扩展这一思想，减少了对单独更强教师的需求。在近期视觉和多模态方法中（Bi et al., 2026; Liu et al., 2026b; Yuan et al., 2026），这种非对称性通常由仅在训练期间教师可用的特权信息诱导，例如裁剪区域、更高分辨率输入或视觉推理轨迹。D-OPSD（Jiang et al., 2026a）进一步将该范式引入步数蒸馏扩散模型，但依赖于配对的图像-文本数据和能够接受图像条件输入的生成器。PE-OPSD与这些方法的不同之处在于，仅将增强提示词用作训练时特权信息，从而将其效果迁移到原始提示词流匹配模型，而无需在推理时进行外部提示增强。</p>
+<h2 id="3-方法"><a href="#3-方法" class="headerlink" title="3 方法"></a>3 方法</h2><h3 id="3-1-预备知识"><a href="#3-1-预备知识" class="headerlink" title="3.1 预备知识"></a>3.1 预备知识</h3><p><strong>在线策略蒸馏。</strong> 设(f_{\theta})表示学生模型，(f_{\phi})表示教师模型。传统知识蒸馏（Hinton et al., 2015; Beyer et al., 2022）在从固定数据分布抽取的样本上监督学生，这可能与学生推理时遇到的状态不同。在线策略蒸馏则改为在当前学生分布生成的样本上评估教师。一般形式下，目标可写为</p>
+<p>[\mathcal{L}<em>{\mathrm{OPD}}(\theta) &#x3D; \mathbb{E}</em>{z\sim q_{\theta}(\cdot |c)}\left[D_{\mathrm{KL}}\left(f_{\theta}(z,c),f_{\phi}(z,c)\right)\right],]</p>
+<p>其中(c)表示条件输入，(q_{\theta}(\cdot |c))是当前学生诱导的分布。</p>
+<p><strong>在线策略自蒸馏。</strong> 在线策略自蒸馏通过从同一基座模型的非对称视图推导教师和学生信号，进一步消除了对单独教师模型的需求。设(c_{s})表示学生条件，(c_{t})表示更强的教师条件，其中(c_{t})是仅在训练期间可用的特权信息。相应目标为</p>
+<p>[\mathcal{L}<em>{\mathrm{OPSD}}(\theta) &#x3D; \mathbb{E}</em>{z\sim q_{\theta}(\cdot |c_{s})}\left[D_{\mathrm{KL}}\left(f_{\theta}(z,c_{s}),f_{\theta}(z,c_{t})\right)\right],]</p>
+<p>其中(f_{\theta})表示教师模型，可以是基座模型的停止梯度版本或学生模型的指数移动平均（EMA）（Morales-Brotons et al., 2024）副本。</p>
+<h3 id="3-2-从提示增强到特权信息"><a href="#3-2-从提示增强到特权信息" class="headerlink" title="3.2 从提示增强到特权信息"></a>3.2 从提示增强到特权信息</h3><p><strong>提示增强引发条件能力。</strong> 设(p)表示原始用户提示词，(E)为产生增强提示词(p^{+} &#x3D; E(p))的提示增强器。图3和表1使用相同的冻结Z-Image-Turbo生成器（Cai et al., 2025）比较了这些条件。在所测试的PE中，增强提示词提高了所报告的组合分数，同时大幅增加了提示词长度。通过在保留(p)显式约束的同时为(p)添加描述性细节，PE为生成提供了更丰富的条件。</p>
+<p>我们将(p^{+})视为PE为(p)选择的细化，旨在保留(p)的显式语义，同时为未指定的属性、构图和场景细节添加一种合理的实现。由于提示增强仅改变条件输入而保持生成器固定（Hao et al., 2023; Wang et al., 2025），(p)与(p^{+})之间的性能差距表明，预训练生成器在以更详细描述为条件时能更好地实现所请求的内容。这并不意味着生成器能够仅从(p)恢复缺失的细节。相反，它表明改进的生成行为在增强提示词下是可实现的。因此，我们寻求将这种增强提示词行为内化到仅以(p)为条件的模型中。</p>
+<p><strong>增强提示词作为原生文本特权信息。</strong> 我们通过特权信息学习的视角来构建这一目标。训练期间，(p^{+})为教师提供与同一原始提示词相关联的更丰富的PE生成条件，而学生仍仅以(p)为条件；部署时，(p^{+})不可用。重要的是，教师的优势源于非对称条件而非更大的模型容量。因此，提示增强构成了一种原生文本特权信息形式：(p)和(p^{+})均由同一架构通过其现有文本条件路径处理，不引入辅助模态。</p>
+<p>这与D-OPSD（Jiang et al., 2026a）等图像特权公式不同，后者通过使用多模态编码器联合编码提示词和配对目标图像来构建教师条件。PE-OPSD则仅从提示增强推导特权条件，既不需要配对目标图像，也不需要修改模型的条件接口。关键在于，我们的目标不是重建(p^{+})或模仿PE本身，而是将(p^{+})所引发的生成动力学蒸馏到仅观察(p)的学生中。我们接下来为流匹配生成器形式化这一原则。</p>
+<h3 id="3-3-PE-OPSD：提示增强在线策略自蒸馏"><a href="#3-3-PE-OPSD：提示增强在线策略自蒸馏" class="headerlink" title="3.3 PE-OPSD：提示增强在线策略自蒸馏"></a>3.3 PE-OPSD：提示增强在线策略自蒸馏</h3><p><strong>概述。</strong> 图4展示了PE-OPSD的训练和推理流程。设(\mathcal{D} &#x3D; {(p,p^{+})})表示训练提示词对集合，其中(p^{+} &#x3D; E(p))通过PE获得。学生和教师共享相同架构，并从相同预训练参数初始化，(\theta &#x3D; \bar{\theta} &#x3D; \theta_{\mathrm{pre}})。训练期间，学生仅以(p)为条件生成轨迹，而教师在学生访问的状态上提供增强提示词监督。训练后，增强提示词所诱导的行为被内化到生成器中，从而能够在推理时无需调用PE即可直接从原始提示词生成。</p>
+<p><strong>原始提示词下的在线策略采样。</strong> 我们从当前学生自身的生成过程中收集训练状态。设(1 &#x3D; t_{K} &gt; t_{K - 1} &gt; \dots &gt;t_{0} &#x3D; 0)表示离散去噪调度，(\Delta t_{k} &#x3D; t_{k} - t_{k - 1} &gt; 0)。从(x_{t_{K}} \sim \mathcal{N}(0, I))开始，学生遵循欧拉更新</p>
+<p>[x_{t_{k - 1}} &#x3D; x_{t_{k}} - \Delta t_{k}v_{\theta}(x_{t_{k}},t_{k},p),\qquad k &#x3D; K,\ldots ,1. \quad (1)]</p>
+<p>我们在访问状态(\tau &#x3D; {x_{t_{k}}}_{k &#x3D; 1}^{K})上监督学生。由于这些状态由当前学生在原始条件(p)下生成，(\tau)遵循当前学生在训练采样器下诱导的状态。相比之下，教师在(p^{+})下生成的轨迹将遵循不同的状态分布，从而为原始提示词学生提供离线策略监督。</p>
+<p><strong>从增强提示词监督中蒸馏。</strong> 在每个学生访问状态(x_{t_{k}})处，学生和教师在同一状态和时间但不同提示词下评估：</p>
+<p>[v_{k}^{S} &#x3D; v_{\theta}(x_{t_{k}},t_{k},p),\qquad v_{k}^{T} &#x3D; v_{\theta}(x_{t_{k}},t_{k},p^{+}). \quad (2)]</p>
+<p>由于PE-OPSD使用确定性流轨迹，我们直接回归教师的向量场，而不引入随机转移核。我们考虑匹配速度(v)、一步转移(\mu)或预测干净潜变量(\hat{x}<em>{0})。在线性流插值(x</em>{t} &#x3D; (1 - t)x_{0} + t\epsilon)（Lipman et al., 2022）下，其中(\epsilon \sim \mathcal{N}(0, I))，后两个目标为</p>
+<p>[\mu_{k}^{b} &#x3D; x_{t_{k}} - \Delta t_{k}v_{k}^{b},\qquad \hat{x}<em>{0,k}^{b} &#x3D; x</em>{t_{k}} - t_{k}v_{k}^{b},\qquad b\in {S,T} . \quad (3)]</p>
+<p>由于(\mu_{k})和(\hat{x}<em>{0,k})共享相同状态(x</em>{t_{k}})，它们的平方误差目标归结为加权速度失配。因此我们用统一目标表达所有三个变体：</p>
+<p>[\mathcal{L}<em>{\mathrm{PE - OPSD}}(\theta ;\bar{\theta}) &#x3D; \mathbb{E}</em>{(p,p^{+})\sim \mathcal{D}}\left[\frac{1}{K}\sum_{k &#x3D; 1}^{K}\omega (t_{k})\left| v_{k}^{S} - \mathrm{sg}[v_{k}^{T}]\right|_{2}^{2}\right], \quad (4)]</p>
+<p>其中(\omega_{v}(t_{k}) &#x3D; 1)，(\omega_{x_{0}}(t_{k}) &#x3D; t_{k}^{2})，(\omega_{\mu}(t_{k}) &#x3D; (t_{k - 1} - t_{k})^{2} &#x3D; (\Delta t_{k})^{2})。(\mathrm{sg}[\cdot ])表示停止梯度。我们称这些变体为(v)-损失、(x_{0})-损失和(\mu)-损失。三个变体在速度空间中共享相同的逐点最优解，但在时间步加权上不同。附录A提供了轨迹级KL解释及其与我们的确定性匹配目标的联系。</p>
+<p>在优化过程中，教师预测被分离，梯度仅通过公式2中的学生预测回传。将学生从(\theta_{n})更新到(\theta_{n + 1})后，我们通过EMA更新教师：</p>
+<p>[\bar{\theta}<em>{n + 1}\leftarrow \gamma \bar{\theta}</em>{n} + (1 - \gamma)\theta_{n + 1},\qquad 0\leq \gamma &lt; 1, \quad (5)]</p>
+<p>其中(\gamma)是EMA衰减率。这提供了一个时间上平滑的教师，它与学生共同进化，同时保留增强提示词条件。</p>
+<p><strong>训练配方。</strong> 算法1总结了训练过程。我们首先通过离线应用现成PE构建提示词对集合(\mathcal{D} &#x3D; {(p,p^{+})})，避免训练期间调用PE。每次迭代使用原始提示词(p)展开学生，并在访问状态上评估增强提示词教师。学生被优化以匹配停止梯度教师速度，之后教师通过EMA更新。训练后，仅保留学生，生成直接从原始提示词进行，无需调用PE或教师。</p>
+<p><strong>算法1 PE-OPSD训练</strong></p>
+<p><strong>要求：</strong> 提示词对集合(\mathcal{D} &#x3D; {(p,p^{+})})；预训练模型(\theta_{\mathrm{pre}})；调度({t_0,\dots ,t_K})；EMA衰减率(\gamma)</p>
+<p>1: (\theta \leftarrow \theta_{\mathrm{pre}}) (\bar{\theta}\leftarrow \theta_{\mathrm{pre}})<br>2: <strong>for</strong> 每个训练迭代 <strong>do</strong><br>3: 采样小批量((p,p^{+})\sim \mathcal{D})和(x_{t_K}\sim \mathcal{N}(0,I))<br>4: 初始化(\mathcal{L}\gets 0)<br>5: <strong>for</strong> 每个(k &#x3D; K,\ldots ,1) <strong>do</strong><br>6: (\mathcal{L}\leftarrow \mathcal{L} + \frac{\omega(t_k)}{K}| v_\theta (x_{t_k},t_k,p) - \mathrm{sg}[v_\theta (x_{t_k},t_k,p^{+})]| <em>2^2) 默认(\mu)-损失<br>7: <strong>if</strong> (k &gt; 1) <strong>then</strong><br>8: (x</em>{t_{k - 1}}\leftarrow \mathrm{sg}[x_{t_k} - \Delta t_k v_\theta (x_{t_k},t_k,p)]) 单步展开<br>9: <strong>end if</strong><br>10: <strong>end for</strong><br>11: (\theta \leftarrow \mathrm{OptimizerStep}(\theta ,\nabla_{\theta}\mathcal{L}))<br>12: (\bar{\theta}\leftarrow \gamma \bar{\theta} +(1 - \gamma)\theta) EMA更新<br>13: <strong>end for</strong><br>14: <strong>return</strong> (\theta)</p>
+<h2 id="4-实验"><a href="#4-实验" class="headerlink" title="4 实验"></a>4 实验</h2><h3 id="4-1-实验设置"><a href="#4-1-实验设置" class="headerlink" title="4.1 实验设置"></a>4.1 实验设置</h3><p><strong>模型和基线。</strong> 我们的主要实验使用SD3.5-M（Esser et al., 2024）、Z-Image和Z-Image-Turbo，将PE-OPSD与未修改模型（Base）、推理时提示增强（Base+PE）、监督微调（SFT）和离线策略蒸馏进行比较。对于SFT，我们首先离线生成以增强提示词为条件的教师图像，然后在图像上微调学生。离线策略蒸馏使用与PE-OPSD相同的教师和蒸馏目标，但从增强提示词教师轨迹而非原始提示词学生轨迹收集训练状态。为公平起见，所有可训练方法使用相同的初始化、训练数据、优化配置和训练步数。我们进一步评估FLUX.2-klein-base、FLUX.2-klein（Black Forest Labs, 2026）和QwenImage-2512（Zhao et al., 2026a）以评估可扩展性。我们使用GPT-5.6 Sol作为默认PE，并在Z-Image上使用PromptEnhancer-7B&#x2F;32B（Wang et al., 2025）评估PE泛化性。</p>
+<p><strong>基准和指标。</strong> 我们在GenEval（GE, Ghosh et al. (2023)）和GenEval2（GE2, Kamath et al. (2025)）上评估组合生成，报告GE和(\mathrm{GE}_{2\mathrm{GM &#x2F; AM}})，以及两个基准上的CLIP分数（Hessel et al., 2021）、PickScore（Kirstain et al., 2023）和美学分数（Schuhmann, 2022）。我们将相对于Base的改进总结为</p>
+<p>[\mathbb{I}<em>c &#x3D; \frac{100%}{|\mathcal{M}<em>c|}\sum</em>{m\in \mathcal{M}<em>c}\left(\frac{\mathrm{Score}</em>{\mathrm{method}} - \mathrm{Score}</em>{\mathrm{Base}}}{\mathrm{Score}_{\mathrm{Base}}}\right),\quad c &#x3D; {\mathrm{PF},\mathrm{VA}} \quad (6)]</p>
+<p>其中(\mathcal{M}<em>{\mathrm{PF}})包含两个基准上的GE、(\mathrm{GE}</em>{2\mathrm{M}})、(\mathrm{GE}<em>{2\mathrm{M}})和CLIP分数，而(\mathcal{M}</em>{\mathrm{VA}})包含两个基准上的PickScore和美学分数。这些指数分别衡量提示忠实度和视觉吸引力的改进。域外评估使用DPG-bench（Hu et al., 2024）、T2I-CompBench++（Huang et al., 2025）和EvalMuse（Han et al., 2026）。</p>
+<p><strong>配置。</strong> 对于GenEval，我们采用FlowGRPO（Liu et al., 2026c）发布的训练和评估划分。对于GenEval2，我们在官方20K合成提示词上训练，并在800个官方发布提示词上评估。所有模型在GenEval和GenEval2训练集的相同混合上训练。为确保公平比较，我们对所有模型和方法使用统一训练配方。完整配置细节和实验设置在附录B中提供。</p>
+<h3 id="4-2-主要实验"><a href="#4-2-主要实验" class="headerlink" title="4.2 主要实验"></a>4.2 主要实验</h3><p><strong>主要结果。</strong> 表2显示PE-OPSD在所有三个骨干上始终取得最佳提示忠实度。它获得最高的GE、GE2GM和(\mathbb{I}<em>{\mathrm{PF}})，优于SFT、离线策略蒸馏，甚至优于在推理时保留PE的Base+PE。相对于Base，PE-OPSD在SD3.5-M、Z-Image和Z-Image-Turbo上分别将综合提示忠实度提高了(13.35%)、(16.07%)和(15.22%)。同时，(\mathbb{I}</em>{\mathrm{VA}})在每个骨干上保持为正，表明PE-OPSD在提高提示忠实度的同时不降低综合视觉吸引力。</p>
+<p><strong>对后训练模型的适用性。</strong> PE-OPSD在已经后训练的Z-Image-Turbo（通过Decoupled DMD（Liu et al., 2026a）和DMDR（Jiang et al., 2026b）后训练）上仍然有效。SFT产生较小的忠实度增益和(1.40%)的视觉吸引力下降，而PE-OPSD两者均改善。这些结果支持其对已经经历后训练的模型的适用性。</p>
+<p>表3比较了Z-Image上的提示忠实度和延迟。在两个评估的PE下，PE-OPSD在所有三个忠实度指标上均优于推理时PE，同时保持Base的实测延迟。它分别比部署PromptEnhancer-7B和PromptEnhancer-32B快(1.96 \times)和(4.51 \times)。因此，PE-OPSD将提示增强的收益迁移到生成器，而无需为每个推理请求使用PE。关于训练成本的更多结果见附录D.2。</p>
+<p><strong>定性结果和人类偏好研究。</strong> 图5展示了视觉示例和人类偏好研究结果。在与Base的成对比较中，人类评估者在(66%)的比较中偏好PE-OPSD的提示忠实度，在(58%)中偏好其视觉吸引力。这些是所评估方法中观察到的最高偏好率，补充了定量结果。人类研究细节见附录C。</p>
+<h3 id="4-3-泛化性"><a href="#4-3-泛化性" class="headerlink" title="4.3 泛化性"></a>4.3 泛化性</h3><p><strong>不同PE。</strong> 在Z-Image上，PE-OPSD在三个测试PE的每一个下均取得最高的(\mathbb{I}<em>{\mathrm{PF}})和(\mathbb{I}</em>{\mathrm{VA}})（表4），表明其收益超越默认PE。最大的综合忠实度增益在PromptEnhancer-32B下获得，而GPT-5.6 Sol再次产生最大的视觉吸引力，表明PE选择影响这些目标之间的平衡。</p>
+<p><strong>域外泛化。</strong> 表5显示所有三个骨干在T2I-CompBench++和EvalMuse上的Overall分数均有提高，并在各项上有一致增益。</p>
+<p><strong>可扩展性。</strong> 我们进一步在更大的9B FLUX.2-klein变体（Black Forest Labs, 2026）和20B QwenImage-2512（Zhao et al., 2026a）上评估PE-OPSD，总结于图6（完整结果见附录D.4）。在三个模型上，PE-OPSD在综合提示忠实度上优于基座模型和推理时PE。它在综合视觉吸引力上也相对于Base保持竞争力。这些结果表明PE-OPSD可有效扩展到更大模型。</p>
+<h3 id="4-4-消融研究"><a href="#4-4-消融研究" class="headerlink" title="4.4 消融研究"></a>4.4 消融研究</h3><p><strong>损失。</strong> 在仅时间步加权不同的损失中，(\mu)-损失取得最高的GE2分数，同时在GE上接近(v)-损失（表6），这促使其作为默认选择。</p>
+<p><strong>CFG。</strong> 省略CFG大约将训练时间减半并提高GE，但降低GE2分数（表7）。分离无条件分支部分减少了计算开销。我们默认在训练中省略CFG以提高效率。</p>
+<p><strong>在线策略训练步数。</strong> 我们在Z-Image-Turbo中进行此消融研究。如表8所示，4个展开步在约一半迭代时间下取得最高的GE2分数，且在测试设置下GE几乎相同。因此我们默认使用四步。</p>
+<p><strong>训练数据。</strong> 如图7所示，在单一数据集上训练导致数据集特定的专业化。仅GenEval训练在GenEval上表现良好但向GenEval2迁移较差，而仅GenEval2训练则损害GenEval性能。相比之下，MixDataset在两个基准上取得最佳平衡，因此被用作我们的默认训练集。</p>
+<h2 id="5-结论"><a href="#5-结论" class="headerlink" title="5 结论"></a>5 结论</h2><p>我们提出了PE-OPSD，一种在线策略自蒸馏框架，将增强提示词视为特权训练信息。PE-OPSD通过在学生生成轨迹上的监督，将增强提示词所诱导的生成行为迁移到原始提示词生成器。在三个主要骨干上，它相对于Base将综合提示忠实度提高了(13.35% - 16.07%)，并超过推理时PE、SFT和离线策略蒸馏，同时保持基座模型延迟。替代PE、更大模型和域外基准的结果进一步支持其适用性。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>（参考文献列表保持不变，按原文格式）</p>
+<h2 id="A-从轨迹KL到确定性匹配"><a href="#A-从轨迹KL到确定性匹配" class="headerlink" title="A 从轨迹KL到确定性匹配"></a>A 从轨迹KL到确定性匹配</h2><p>正文直接给出了训练中使用的确定性目标。这里，我们通过轨迹级蒸馏提供概率解释，并展示它如何激励在学生访问状态上的确定性匹配代理。</p>
+<p><strong>轨迹级在线策略蒸馏。</strong> 对于提示词对((p,p^{+}))，设学生和教师轨迹分布为</p>
+<p>[\begin{array}{r}\Pi_{\theta}^{S}(\tau \mid p) &#x3D; p(x_{t_{K}})\prod_{k &#x3D; 1}^{K}\pi_{\theta ,k}^{S}(x_{t_{k - 1}}\mid x_{t_{k}},p),\ \Pi_{\theta}^{T}(\tau \mid p^{+}) &#x3D; p(x_{t_{K}})\prod_{k &#x3D; 1}^{K}\pi_{\theta ,k}^{T}(x_{t_{k - 1}}\mid x_{t_{k}},p^{+}), \end{array} \quad (8)]</p>
+<p>其中两个分布共享相同的初始噪声先验。轨迹级蒸馏目标为</p>
+<p>[\mathcal{L}<em>{\mathrm{traj}} &#x3D; \mathbb{E}</em>{(p,p^{+})\sim \mathcal{D}}\left[D_{\mathrm{KL}}(\Pi_{\theta}^{S}(\cdot |p)| \Pi_{\theta}^{T}(\cdot |p^{+}))\right]. \quad (9)]</p>
+<p>根据KL散度的链式法则，该目标分解为</p>
+<p>[\mathcal{L}<em>{\mathrm{traj}} &#x3D; \mathbb{E}</em>{(p,p^{+})\sim \mathcal{D}}\left[\sum_{k &#x3D; 1}^{K}\mathbb{E}<em>{x</em>{t_{k}}\sim d_{\theta ,k}(\cdot |p)}\left[D_{\mathrm{KL}}\left(\pi_{\theta ,k}^{S}\left| \pi_{\theta ,k}^{T}\right)\right]\right], \quad (10)]</p>
+<p>其中(d_{\theta ,k}(\cdot |p))是当前原始提示词学生诱导的状态分布。因此，教师在学生访问的状态上被查询，而非其自身增强提示词轨迹的状态。</p>
+<p><strong>条件高斯转移。</strong> 在固定学生访问状态((x_{t_{k}},t_{k}))处，考虑共享协方差的高斯转移（Liu et al., 2026c; Li et al., 2026; Lin et al., 2026）：</p>
+<p>[\pi_{k}^{b} &#x3D; \mathcal{N}(\mu_{k}^{b},\Sigma_{k}),\qquad \mu_{k}^{b} &#x3D; x_{t_{k}} - \Delta t_{k}v_{k}^{b},\qquad b\in {S,T} , \quad (11)]</p>
+<p>其中(\Sigma_{k} \succ 0)由学生和教师共享。它们的条件KL散度为</p>
+<p>[D_{\mathrm{KL}}(\pi_k^S | \pi_k^T) &#x3D; \frac{1}{2} | \mu_k^S - \mu_k^T|<em>{\Sigma</em>{k}^{-1}}^2 &#x3D; \frac{(\Delta t_k)^2}{2} | v_k^S - v_k^T|<em>{\Sigma</em>{k}^{-1}}^2. \quad (12)]</p>
+<p>对于任何正定共享协方差，唯一的逐点最小化器是(v_{k}^{S} &#x3D; v_{k}^{T})，等价地(\mu_{k}^{S} &#x3D; \mu_{k}^{T})。协方差影响回归目标的加权，但不影响其逐点最优解。</p>
+<p><strong>从随机转移到确定性匹配。</strong> 对于具有不同端点的两个确定性转移，对应的狄拉克测度相互奇异，因此其KL散度为无穷大（Gray, 2011）。因此，我们不是通过直接取零方差KL极限来获得确定性目标。相反，我们保留共享协方差高斯目标的逐点优化器，并通过确定性(L2)-匹配来实现它。</p>
+<p>[\mathcal{L}<em>{\mu} &#x3D; \mathbb{E}\left[\frac{1}{K}\sum</em>{k &#x3D; 1}^{K}\left| \mu_{k}^{S} - \mathrm{sg}[\mu_{k}^{T}]\right|<em>{2}^{2}\right] &#x3D; \mathbb{E}\left[\frac{1}{K}\sum</em>{k &#x3D; 1}^{K}(\Delta t_{k})^{2}\left| v_{k}^{S} - \mathrm{sg}[v_{k}^{T}]\right|_{2}^{2}\right]. \quad (13)]</p>
+<p>在每个优化步骤中，展开状态和教师预测被分离。这种确定性目标保留了高斯公式的逐点教师匹配目标，同时避免了在训练期间引入转移噪声。</p>
+<p><strong>替代确定性参数化。</strong> 除了匹配欧拉转移目标，我们考虑直接速度匹配和干净潜变量匹配。在线性流插值</p>
+<p>[x_{t} &#x3D; (1 - t)x_{0} + t\epsilon ,\qquad v &#x3D; \epsilon -x_{0}, \quad (14)]</p>
+<p>下，预测的干净潜变量为</p>
+<p>[\hat{x}<em>{0,k}^{b} &#x3D; x</em>{t_{k}} - t_{k}v_{k}^{b},\qquad b\in {S,T} . \quad (15)]</p>
+<p>因此，</p>
+<p>[\begin{array}{r}\left| \mu_k^S -\mathrm{sg}[\mu_k^T ]\right| <em>2^2 &#x3D; (\Delta t_k)^2\left| v_k^S -\mathrm{sg}[v_k^T ]\right| <em>2^2,\ \left| \hat{x}</em>{0,k}^S -\mathrm{sg}[\hat{x}</em>{0,k}^T ]\right| _2^2 &#x3D; t_k^2\left| v_k^S -\mathrm{sg}[v_k^T ]\right| _2^2. \end{array} \quad (16)]</p>
+<p>因此三个确定性目标可写为</p>
+<p>[\mathcal{L} &#x3D; \mathbb{E}\left[\frac{1}{K}\sum_{k &#x3D; 1}^{K}\omega (t_k)\left| v_k^S -\mathrm{sg}[v_k^T ]\right| _2^2\right], \quad (17)]</p>
+<p>其中</p>
+<p>[\omega_{v}(t_{k}) &#x3D; 1,\qquad \omega_{\mu}(t_{k}) &#x3D; (\Delta t_{k})^{2},\qquad \omega_{x_{0}}(t_{k}) &#x3D; t_{k}^{2}. \quad (18)]</p>
+<p>所有三个目标共享逐点最优解(v_{k}^{S} &#x3D; v_{k}^{T})，但它们对去噪时间步分配不同权重，因此不必产生相同的优化动力学。</p>
+<h2 id="B-实验细节"><a href="#B-实验细节" class="headerlink" title="B 实验细节"></a>B 实验细节</h2><h3 id="B-1-训练数据"><a href="#B-1-训练数据" class="headerlink" title="B.1 训练数据"></a>B.1 训练数据</h3><p>对于GenEval（Ghosh et al., 2023），我们采用Flow-GRPO（Liu et al., 2026c）发布的数据划分，包含50K训练提示词和2,212个评估实例。对于GenEval2（Kamath et al., 2025），我们使用官方发布的20K合成提示词训练，使用官方800个提示词集评估。除非另有说明，所有可训练方法使用MixDataset，由GenEval和GenEval2训练集组合而成。评估提示词从不用于训练。</p>
+<p>我们通过使用附录F.2中的系统提示词对原始训练提示词应用每个PE，离线构建提示词对数据集(\mathcal{D} &#x3D; {(p,p^{+})})。由于GPT-5.6 Sol是通用模型而非专门为提示词重写训练的PE，其输出偶尔可能改变或省略主体身份或属性。因此我们使用附录F.1中的系统提示词进行自动一致性检查。这里，我们使用GPT-5.6 Sol作为评判模型。被拒绝的提示词会重新生成，直到通过此检查。此预处理在训练前执行一次，因此优化期间无需加载PE。</p>
+<h3 id="B-2-训练配置"><a href="#B-2-训练配置" class="headerlink" title="B.2 训练配置"></a>B.2 训练配置</h3><p>所有实验在一到四个节点、每个节点8块NVIDIA A100 GPU上进行。我们对模型家族和可训练基线使用统一训练配方。在每个骨干内，所有方法使用相同的初始化、训练数据和超参数。</p>
+<p>为提高训练效率，我们使用比推理更少的去噪步数收集学生展开，遵循先前工作（Liu et al., 2026c; Ping et al., 2026）中建立的去噪缩减实践。具体而言，我们对Z-Image-Turbo和FLUX.2-klein使用4个训练展开步，SD3.5-M使用10步，Z-Image、FLUX.2-klein-base和QwenImage-2512使用14步。这里的在线策略指的是训练状态的来源：它们由当前学生在原始提示词下生成。在每个访问的训练状态处，学生和教师在同一潜变量和时间步上评估。这不要求训练展开和推理过程使用相同的时间步离散化。</p>
+<p>对于评估，我们根据官方设置将推理步数设为：FLUX.2-klein为4步，Z-Image-Turbo为8步，SD3.5M为40步，Z-Image、FLUX.2-klein-base和QwenImage-2512为50步。对于评估CFG设置，Z-Image-Turbo和FLUX.2-klein设为1.0（禁用），Z-Image、FLUX.2-klein-base和QwenImage-2512设为4.0，SD3.5M设为4.5。其他超参数设置见表9。</p>
+<p>不同损失、数据集和训练步数的消融研究在Z-Image-Turbo上使用GPT-5.6 Sol作为PE进行。CFG消融在Z-Image上使用相同PE进行。除非明确变化，所有其余设置遵循默认配置。</p>
+<p><strong>表9：PE-OPSD的默认训练超参数。</strong> 除非另有说明，所有模型遵循相同配方。</p>
+<table>
+<thead>
+<tr>
+<th align="left">配置</th>
+<th align="left">设置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">优化器</td>
+<td align="left">AdamW</td>
+</tr>
+<tr>
+<td align="left">学习率</td>
+<td align="left">(1 \times 10^{-4})，常数，无预热</td>
+</tr>
+<tr>
+<td align="left">优化器动量</td>
+<td align="left">((\beta_1, \beta_2) &#x3D; (0.9, 0.999))</td>
+</tr>
+<tr>
+<td align="left">Adam (\epsilon) &#x2F; 权重衰减</td>
+<td align="left">(10^{-8}) &#x2F; 0</td>
+</tr>
+<tr>
+<td align="left">梯度裁剪</td>
+<td align="left">1.0</td>
+</tr>
+<tr>
+<td align="left">全局批大小</td>
+<td align="left">64</td>
+</tr>
+<tr>
+<td align="left">优化步数</td>
+<td align="left">1,000</td>
+</tr>
+<tr>
+<td align="left">LoRA秩 &#x2F; 缩放因子</td>
+<td align="left">64 &#x2F; 128</td>
+</tr>
+<tr>
+<td align="left">EMA衰减(\gamma)</td>
+<td align="left">0.999</td>
+</tr>
+<tr>
+<td align="left">训练分辨率</td>
+<td align="left">全部(512 \times 512)</td>
+</tr>
+<tr>
+<td align="left">训练CFG</td>
+<td align="left">禁用</td>
+</tr>
+<tr>
+<td align="left">评估分辨率</td>
+<td align="left">全部(512 \times 512)</td>
+</tr>
+<tr>
+<td align="left">最大文本序列长度</td>
+<td align="left">512</td>
+</tr>
+<tr>
+<td align="left">分布式优化</td>
+<td align="left">DeepSpeed ZeRO-2</td>
+</tr>
+</tbody></table>
+<p><strong>表10：实验中使用的模型和检查点。</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="left">检查点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SD3.5-Medium</td>
+<td align="left">stabilityai&#x2F;stable-diffusion-3.5-medium</td>
+</tr>
+<tr>
+<td align="left">SD3.5-Large</td>
+<td align="left">stabilityai&#x2F;stable-diffusion-3.5-large</td>
+</tr>
+<tr>
+<td align="left">Z-Image</td>
+<td align="left">Tongyi-MAI&#x2F;Z-Image</td>
+</tr>
+<tr>
+<td align="left">Z-Image-Turbo</td>
+<td align="left">Tongyi-MAI&#x2F;Z-Image-Turbo</td>
+</tr>
+<tr>
+<td align="left">FLUX.1-dev</td>
+<td align="left">black-forest-labs&#x2F;FLUX.1-dev</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein-base-9B</td>
+<td align="left">black-forest-labs&#x2F;FLUX.2-klein-base-9B</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein-9B</td>
+<td align="left">black-forest-labs&#x2F;FLUX.2-klein-9B</td>
+</tr>
+<tr>
+<td align="left">QwenImage-2512</td>
+<td align="left">Qwen&#x2F;Qwen-Image-2512</td>
+</tr>
+<tr>
+<td align="left">PromptEnhancer-7B</td>
+<td align="left">tencent&#x2F;HunyuanImage-2.1&#x2F;reprompt</td>
+</tr>
+<tr>
+<td align="left">PromptEnhancer-32B</td>
+<td align="left">PromptEnhancer&#x2F;PromptEnhancer-32B</td>
+</tr>
+</tbody></table>
+<h3 id="B-3-模型"><a href="#B-3-模型" class="headerlink" title="B.3 模型"></a>B.3 模型</h3><p>表10列出了我们实验中使用的检查点。</p>
+<h3 id="B-4-基线"><a href="#B-4-基线" class="headerlink" title="B.4 基线"></a>B.4 基线</h3><p><strong>推理时PE。</strong> Base直接从原始提示词(p)生成，而Base+PE在推理时应用PE并以(p^{+})为条件于冻结生成器。</p>
+<p><strong>监督微调。</strong> 对于SFT，我们首先使用每个冻结基座模型在其对应推理配置下从增强提示词生成伪目标图像。然后我们使用标准流匹配目标在原始提示词&#x2F;图像对((p, x^{+}))上微调模型。因此，SFT通过离线生成的图像而非在线向量场监督来迁移增强提示词行为。</p>
+<p><strong>离线策略蒸馏。</strong> 离线策略蒸馏使用与PE-OPSD相同的配置。唯一区别是展开分布：离线策略状态由以(p^{+})为条件的教师生成，而PE-OPSD在以(p)为条件的学生访问状态上评估教师。</p>
+<h2 id="B-5-基准"><a href="#B-5-基准" class="headerlink" title="B.5 基准"></a>B.5 基准</h2><p><strong>域内评估。</strong> GenEval（Ghosh et al., 2023）使用其基于检测器的协议评估物体存在、计数、颜色、空间关系和属性绑定。GenEval2（Kamath et al., 2025）包含800个提示词，具有更广泛的视觉概念和更高的组合复杂度。我们遵循其官方Soft-TIFA评估，报告提示词级正确性的几何平均（GE2GM）和原子级正确性的算术平均（GE2AM）。在两个基准上，我们还报告CLIP分数（Hessel et al., 2021）、按26归一化的PickScore（Kirstain et al., 2023）和美学分数（Schuhmann, 2022）。</p>
+<p><strong>域外评估。</strong> DPG-Bench（Hu et al., 2024）评估Global、Entity、Attribute、Relation和Other类别上的稠密提示词遵循。T2I-CompBench++（Huang et al., 2025）评估属性绑定、数值、空间和非空间关系以及复杂组合。对于EvalMuse（Han et al., 2026），我们遵循原始协议，使用其200个代表性提示词和FGA-BLIP2整体对齐分数。所有Overall分数使用相应官方评估程序计算。</p>
+<h2 id="C-人类评估协议"><a href="#C-人类评估协议" class="headerlink" title="C 人类评估协议"></a>C 人类评估协议</h2><p><strong>评估数据和比较。</strong> 我们使用Z-Image-Turbo作为生成器和GPT-5.6 Sol作为PE，对GenEval2测试集的所有800个提示词进行人类评估。对于每个提示词，我们将Base与Base+PE、SFT、离线策略蒸馏和PE-OPSD进行比较。</p>
+<p><strong>评估界面和聚合。</strong> 每个比较并排呈现两张生成图像，系统分配到左右位置对每一对独立随机化。模型身份和方法名称对评估者隐藏，而相应原始提示词显示在图像上方。评估者提供两个独立判断（左更好或右更好）：（1）提示忠实度，指示哪张图像更忠实地满足原始提示词指定的物体、属性、计数和关系；（2）视觉吸引力，指示哪张图像具有更好的整体感知质量和美学。对于每个标准，评估者选择左图或右图。对于结果聚合，每个图像对由所有三位评估者对两个标准独立评估。我们通过多数投票确定每对的偏好。</p>
+<p><strong>评估者和质量控制。</strong> 我们招募三位专业评估者，他们正式签约并按当地有竞争力的费率获得报酬。在参与研究之前，所有评估者被告知任务和可能接触生成内容。他们接受详细的标准特定指示，并完成涵盖代表性评估案例的资格测试。</p>
+<h2 id="D-额外实验结果"><a href="#D-额外实验结果" class="headerlink" title="D 额外实验结果"></a>D 额外实验结果</h2><h3 id="D-1-训练效率"><a href="#D-1-训练效率" class="headerlink" title="D.1 训练效率"></a>D.1 训练效率</h3><p>表11报告了方法特定的后训练成本。尽管SFT的每步成本显著较低，但它需要为整个训练集生成伪目标图像。此预处理主导了SD3.5-M和Z-Image的总成本，对于这些模型，PE-OPSD将训练时间分别从7.0小时降至3.1小时和从28.4小时降至13.6小时。对于Z-Image-Turbo，少步采样使伪目标生成成本低廉，SFT总体略快。然而，SFT的性能低于离线策略蒸馏和PE-OPSD（见表2）。</p>
+<p>PE-OPSD和离线策略蒸馏具有相同的训练成本，因为它们使用相同数量的展开和教师评估，仅在于状态是从学生还是教师轨迹收集上不同。总体而言，PE-OPSD避免了SFT的额外图像生成和存储需求，同时承担在线展开监督的预期成本。离线增强提示词构建由所有可训练方法共享，因此被排除在方法特定比较之外。</p>
+<p><strong>表11：实验中的训练效率。</strong> One-step表示默认配置下每优化步的挂钟时间，Full表示1,000优化步的成本。对于SFT，Full报告为训练时间+离线伪目标生成时间。</p>
+<table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="left">SFT One-step</th>
+<th align="left">SFT Full†</th>
+<th align="left">Off-policy One-step</th>
+<th align="left">Off-policy Full</th>
+<th align="left">PE-OPSD One-step</th>
+<th align="left">PE-OPSD Full</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SD3.5-M</td>
+<td align="left">1.47s</td>
+<td align="left">0.4+6.6h</td>
+<td align="left">11.02s</td>
+<td align="left">3.1h</td>
+<td align="left">11.02s</td>
+<td align="left">3.1h</td>
+</tr>
+<tr>
+<td align="left">Z-Image</td>
+<td align="left">3.14s</td>
+<td align="left">0.9+27.5h</td>
+<td align="left">49.15s</td>
+<td align="left">13.6h</td>
+<td align="left">49.15s</td>
+<td align="left">13.6h</td>
+</tr>
+<tr>
+<td align="left">Z-Image-Turbo</td>
+<td align="left">3.14s</td>
+<td align="left">0.9+2.5h</td>
+<td align="left">14.31s</td>
+<td align="left">4.0h</td>
+<td align="left">14.31s</td>
+<td align="left">4.0h</td>
+</tr>
+</tbody></table>
+<h3 id="D-2-推理延迟"><a href="#D-2-推理延迟" class="headerlink" title="D.2 推理延迟"></a>D.2 推理延迟</h3><p>表12比较了有和没有推理时PE的部署延迟。由于PE-OPSD使用原始推理流水线直接从原始提示词生成，它在所有评估骨干上保持Base的延迟。相比之下，推理时PE引入了大量固定开销，特别是对于高效少步生成器。相对于PromptEnhancer-7B，PE-OPSD提供(1.52\times - 12.21\times)加速；使用PromptEnhancer-32B，加速比增至(3.31\times - 50.67\times)。最大增益出现在Z-Image-Turbo和FLUX.2-klein上，其中提示词重写比图像生成本身昂贵得多。这些结果表明PE-OPSD保留了增强提示词的收益，而不增加每请求部署延迟。</p>
+<p><strong>表12：不同设置下的推理延迟和加速比。</strong> 延迟是每张图像的平均生成时间（秒）。+PE包括提示词重写和图像生成，而+Our直接从原始提示词生成，不调用PE。</p>
+<table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="left">Base</th>
+<th align="left">+PE</th>
+<th align="left">+Ours</th>
+<th align="left">Speedup</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>PromptEnhancer-7B as PE</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">SD3.5-M</td>
+<td align="left">2.70</td>
+<td align="left">10.36</td>
+<td align="left">2.70</td>
+<td align="left">3.84×</td>
+</tr>
+<tr>
+<td align="left">Z-Image</td>
+<td align="left">9.69</td>
+<td align="left">19.00</td>
+<td align="left">9.69</td>
+<td align="left">1.96×</td>
+</tr>
+<tr>
+<td align="left">Z-Image-Turbo</td>
+<td align="left">0.88</td>
+<td align="left">8.53</td>
+<td align="left">0.88</td>
+<td align="left">9.69×</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein</td>
+<td align="left">0.67</td>
+<td align="left">8.18</td>
+<td align="left">0.67</td>
+<td align="left">12.21×</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein-base</td>
+<td align="left">14.45</td>
+<td align="left">21.97</td>
+<td align="left">14.45</td>
+<td align="left">1.52×</td>
+</tr>
+<tr>
+<td align="left">QwenImage-2512</td>
+<td align="left">13.38</td>
+<td align="left">22.09</td>
+<td align="left">13.38</td>
+<td align="left">1.65×</td>
+</tr>
+<tr>
+<td align="left"><strong>PromptEnhancer-32B as PE</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">SD3.5-M</td>
+<td align="left">2.70</td>
+<td align="left">35.91</td>
+<td align="left">2.70</td>
+<td align="left">13.30×</td>
+</tr>
+<tr>
+<td align="left">Z-Image</td>
+<td align="left">9.69</td>
+<td align="left">43.74</td>
+<td align="left">9.69</td>
+<td align="left">4.51×</td>
+</tr>
+<tr>
+<td align="left">Z-Image-Turbo</td>
+<td align="left">0.88</td>
+<td align="left">34.21</td>
+<td align="left">0.88</td>
+<td align="left">38.88×</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein</td>
+<td align="left">0.67</td>
+<td align="left">33.95</td>
+<td align="left">0.67</td>
+<td align="left">50.67×</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein-base</td>
+<td align="left">14.45</td>
+<td align="left">47.77</td>
+<td align="left">14.45</td>
+<td align="left">3.31×</td>
+</tr>
+<tr>
+<td align="left">QwenImage-2512</td>
+<td align="left">13.38</td>
+<td align="left">47.33</td>
+<td align="left">13.38</td>
+<td align="left">3.54×</td>
+</tr>
+</tbody></table>
+<h3 id="D-3-EMA教师的影响"><a href="#D-3-EMA教师的影响" class="headerlink" title="D.3 EMA教师的影响"></a>D.3 EMA教师的影响</h3><p>如图8和图9所示，我们使用四种设置研究EMA教师的效果：无EMA更新的冻结Base教师（No EMA）、(\gamma &#x3D; 0.99)、(\gamma &#x3D; 0.9)和我们的默认(\gamma &#x3D; 0.999)。我们使用Z-Image-Turbo进行500训练步的实验。</p>
+<p>冻结教师在早期训练中表现与默认设置相似，但达到较低的性能上限，表明允许教师与学生共同进化为后期阶段提供了更强的监督。使用(\gamma &#x3D; 0.99)时生成图像保持视觉连贯，尽管性能略低于(\gamma &#x3D; 0.999)。</p>
+<p>使用(\gamma &#x3D; 0.9)的更激进更新显著降低生成质量。尽管其训练损失快速下降，生成图像包含明显伪影，评估分数低于Base。这表明过于响应的教师变得与学生耦合过紧，提供了不够稳定的目标。因此我们使用(\gamma &#x3D; 0.999)，它在教师适应性和时间稳定性之间取得平衡。</p>
+<h3 id="D-4-可扩展性的详细结果"><a href="#D-4-可扩展性的详细结果" class="headerlink" title="D.4 可扩展性的详细结果"></a>D.4 可扩展性的详细结果</h3><p>表13报告了更大模型上的完整结果。PE-OPSD在所有三个骨干上取得最高的综合提示忠实度改进，并在GE和(\mathrm{GE2_{GM}})上持续领先。它也在Base上提高了综合视觉吸引力，尽管Base+PE在两个FLUX变体上略好。在QwenImage-2512上，PE-OPSD在两个目标上均获得最佳综合结果，进一步支持其对更大模型的适用性。</p>
+<p><strong>表13：扩展到大型模型的结果。</strong> 我们使用GPT-5.6 Sol作为PE。PickScore按26归一化；Aes.表示美学；粗体：最佳；下划线：次佳。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">GE PickScore</th>
+<th align="left">GE CLIP</th>
+<th align="left">GE Aes.</th>
+<th align="left">GE2GM</th>
+<th align="left">GE2AM</th>
+<th align="left">GE2 PickScore</th>
+<th align="left">GE2 CLIP</th>
+<th align="left">GE2 Aes.</th>
+<th align="left">IFP</th>
+<th align="left">IVA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>FLUX 2-klein-base (9B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.775</td>
+<td align="left">0.892</td>
+<td align="left">0.303</td>
+<td align="left">5.140</td>
+<td align="left">0.359</td>
+<td align="left">0.773</td>
+<td align="left">0.880</td>
+<td align="left">0.328</td>
+<td align="left">5.310</td>
+<td align="left">0.00%</td>
+</tr>
+<tr>
+<td align="left">+PE</td>
+<td align="left">0.862</td>
+<td align="left">0.910</td>
+<td align="left">0.302</td>
+<td align="left">5.467</td>
+<td align="left">0.442</td>
+<td align="left">0.838</td>
+<td align="left">0.901</td>
+<td align="left">0.330</td>
+<td align="left">5.658</td>
+<td align="left">8.61%</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.873</td>
+<td align="left">0.913</td>
+<td align="left">0.305</td>
+<td align="left">5.421</td>
+<td align="left">0.444</td>
+<td align="left">0.831</td>
+<td align="left">0.905</td>
+<td align="left">0.333</td>
+<td align="left">5.628</td>
+<td align="left">9.20%</td>
+</tr>
+<tr>
+<td align="left">Δ (vs Base)</td>
+<td align="left">+0.098</td>
+<td align="left">+0.021</td>
+<td align="left">+0.002</td>
+<td align="left">+0.281</td>
+<td align="left">+0.085</td>
+<td align="left">+0.058</td>
+<td align="left">+0.025</td>
+<td align="left">+0.005</td>
+<td align="left">+0.318</td>
+<td align="left">+9.20%</td>
+</tr>
+<tr>
+<td align="left"><strong>FLUX 2-klein (9B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.856</td>
+<td align="left">0.911</td>
+<td align="left">0.299</td>
+<td align="left">5.288</td>
+<td align="left">0.348</td>
+<td align="left">0.797</td>
+<td align="left">0.901</td>
+<td align="left">0.329</td>
+<td align="left">5.430</td>
+<td align="left">0.00%</td>
+</tr>
+<tr>
+<td align="left">+PE</td>
+<td align="left">0.859</td>
+<td align="left">0.915</td>
+<td align="left">0.300</td>
+<td align="left">5.474</td>
+<td align="left">0.381</td>
+<td align="left">0.827</td>
+<td align="left">0.905</td>
+<td align="left">0.327</td>
+<td align="left">5.682</td>
+<td align="left">2.66%</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.867</td>
+<td align="left">0.912</td>
+<td align="left">0.301</td>
+<td align="left">5.433</td>
+<td align="left">0.434</td>
+<td align="left">0.825</td>
+<td align="left">0.907</td>
+<td align="left">0.328</td>
+<td align="left">5.700</td>
+<td align="left">5.98%</td>
+</tr>
+<tr>
+<td align="left">Δ (vs Base)</td>
+<td align="left">+0.011</td>
+<td align="left">+0.001</td>
+<td align="left">+0.002</td>
+<td align="left">+0.145</td>
+<td align="left">+0.086</td>
+<td align="left">+0.028</td>
+<td align="left">+0.006</td>
+<td align="left">-0.001</td>
+<td align="left">+0.270</td>
+<td align="left">+5.98%</td>
+</tr>
+<tr>
+<td align="left"><strong>QwenImage-2512 (20B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.620</td>
+<td align="left">0.895</td>
+<td align="left">0.283</td>
+<td align="left">5.377</td>
+<td align="left">0.163</td>
+<td align="left">0.671</td>
+<td align="left">0.894</td>
+<td align="left">0.303</td>
+<td align="left">5.822</td>
+<td align="left">0.00%</td>
+</tr>
+<tr>
+<td align="left">+PE</td>
+<td align="left">0.839</td>
+<td align="left">0.916</td>
+<td align="left">0.297</td>
+<td align="left">5.462</td>
+<td align="left">0.380</td>
+<td align="left">0.813</td>
+<td align="left">0.908</td>
+<td align="left">0.321</td>
+<td align="left">5.782</td>
+<td align="left">40.1%</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.857</td>
+<td align="left">0.920</td>
+<td align="left">0.302</td>
+<td align="left">5.421</td>
+<td align="left">0.399</td>
+<td align="left">0.820</td>
+<td align="left">0.916</td>
+<td align="left">0.324</td>
+<td align="left">5.857</td>
+<td align="left">43.8%</td>
+</tr>
+<tr>
+<td align="left">Δ (vs Base)</td>
+<td align="left">+0.237</td>
+<td align="left">+0.025</td>
+<td align="left">+0.019</td>
+<td align="left">+0.044</td>
+<td align="left">+0.236</td>
+<td align="left">+0.149</td>
+<td align="left">+0.022</td>
+<td align="left">+0.021</td>
+<td align="left">+0.035</td>
+<td align="left">+43.8%</td>
+</tr>
+</tbody></table>
+<h2 id="D-5-表4中的更多分析"><a href="#D-5-表4中的更多分析" class="headerlink" title="D.5 表4中的更多分析"></a>D.5 表4中的更多分析</h2><p><strong>跨PE的鲁棒性。</strong> 表4显示SFT、推理时PE和离线策略蒸馏的性能随所选PE变化，而PE-OPSD始终提供最强的综合结果。特别地，PE-OPSD在三个PE上相对于离线策略蒸馏将(\mathbb{I}<em>{\mathrm{PF}})提高1.80-3.78个百分点，将(\mathbb{I}</em>{\mathrm{VA}})提高0.18-0.33点。由于两种蒸馏方法共享教师条件、目标和优化预算，这一一致优势支持了在学生自身原始提示词轨迹访问状态上监督学生的重要性。</p>
+<p><strong>教师条件的影响。</strong> PE-OPSD在两个综合指数上也超过推理时PE，而部署时仅需原始提示词。值得注意的是，其相对于Base+PE的最大忠实度优势出现在PromptEnhancer-7B下，其直接推理时改进在所测试PE中最弱。这表明迁移的收益不完全由PE的一次性推理性能决定。同时，PromptEnhancer-32B产生最强的忠实度监督，而GPT-5.6 Sol产生最大的视觉吸引力改进。总体而言，PE-OPSD在容量和增强行为显著不同的PE上均保持有效。</p>
+<h3 id="D-6-不同PE"><a href="#D-6-不同PE" class="headerlink" title="D.6 不同PE"></a>D.6 不同PE</h3><p><strong>不同PE的额外实验结果。</strong> 我们进一步可视化实验中的三个PE在SD3.5-M、Z-Image和Z-Image-Turbo上的训练动力学。如图10所示，PE-OPSD损失在所有PE和模型的1,000训练步内持续下降并稳定。这些相似的优化趋势表明PE-OPSD在不同PE上保持稳定，不依赖于特定PE。</p>
+<p><strong>提示词示例。</strong> 图11-13展示了不同PE产生的原始提示词及其增强版本的示例。</p>
+<p><strong>原始提示词</strong></p>
+<p>五只熊和一个甜甜圈。</p>
+<p><strong>增强提示词</strong></p>
+<p>五只熊松散地围成一个半圆，围绕着一个放在地上的超大釉面甜甜圈。每只熊都有厚实、有纹理的棕色毛发、圆耳朵、宽大的爪子和独特的好奇表情，其中两只坐在前面，两只站在后面，第五只向前倾身检查糕点。甜甜圈表面呈金棕色，有光泽的粉色糖霜和散落的彩虹糖粒，与熊的土色调形成鲜明对比。柔和的森林植被、长满苔藓的石头和高大的树木填充背景，而温暖的过滤阳光创造出柔和的阴影，突出了毛发和闪亮的釉面。奇思妙想、高度详细的童话书插图，具有自然主义的解剖结构和电影级光照。</p>
+<p>图11：原始提示词和增强提示词的比较。这里，我们使用GPT-5.6 Sol作为PE。</p>
+<p>图12：原始提示词和增强提示词的比较。这里，我们使用PromptEnhancer-7B作为PE。</p>
+<p><strong>原始提示词</strong></p>
+<p>五只熊和一个甜甜圈。</p>
+<p><strong>增强提示词</strong></p>
+<p>五只卡通熊和一个甜甜圈以欢快的排列呈现在 plain、浅色背景上。熊排成一排，三只站着，两只坐着。最左边的熊是一个高瘦的浅棕色熊，用后腿站立，挥着爪子。旁边是一只更高的巧克力棕色熊，头好奇地倾斜着。中间，一只大的圆棕色熊舒适地坐着，带着友好的表情直视前方。在它的右边，一只较矮的蜂蜜色熊坐在甜甜圈旁边，抬头看着它。最右边，第五只熊是一只带有深色毛发的小灰熊风格熊，爪子放在膝盖上。在中央坐着的熊面前放着一个大的经典环形甜甜圈，涂有鲜艳的粉色糖霜，装饰着散落的多色糖粒。图像以干净的数字插画风格呈现，具有大胆的轮廓和柔和的阴影。</p>
+<p>图12：原始提示词和增强提示词的比较。这里，我们使用PromptEnhancer-7B作为PE。</p>
+<p>图13：原始提示词和增强提示词的比较。这里，我们使用PromptEnhancer-32B作为PE。</p>
+<p><strong>原始提示词</strong></p>
+<p>五只熊和一个甜甜圈。</p>
+<p><strong>增强提示词</strong></p>
+<p>五只小而毛绒的熊围成一圈，排列在 plain、浅色表面上，中间放着一个大甜甜圈。甜甜圈位于中心，完美圆形，表面呈金棕色油炸状，覆盖着厚厚的彩虹色釉面和彩色糖粒。甜甜圈周围是五只熊，每只都有独特的颜色和纹理；一只棕色熊拿着甜甜圈，而一只黑熊、一只米色熊和另外两只棕色熊看向它。熊由毛绒、长毛绒材料制成，具有简单的缝制鼻子和纽扣眼睛。此图像呈现摄影风格，具有浅景深，强调主体。</p>
+<p>图13：原始提示词和增强提示词的比较。这里，我们使用PromptEnhancer-32B作为PE。</p>
+<h2 id="E-额外基准结果"><a href="#E-额外基准结果" class="headerlink" title="E 额外基准结果"></a>E 额外基准结果</h2><h3 id="E-1-GenEval细节"><a href="#E-1-GenEval细节" class="headerlink" title="E.1 GenEval细节"></a>E.1 GenEval细节</h3><p>在表14和表15中，我们提供了不同模型和PE的详细GenEval性能分解。特别地，我们报告Single Object、Two Object、Counting、Colors、Position和Attribute Binding的细粒度性能。我们还报告Overall分数。</p>
+<h3 id="E-2-GenEval2细节"><a href="#E-2-GenEval2细节" class="headerlink" title="E.2 GenEval2细节"></a>E.2 GenEval2细节</h3><p>在表16和表17中，我们提供了不同模型和PE的详细GenEval2性能分解。特别地，我们报告Object、Attribute、Count、Position和Verb的细粒度性能。我们还报告GenEval2AM和GenEval2GM中的整体soft-tifa分数。</p>
+<p><strong>表14：详细GenEval性能分解。</strong> 我们报告Single Object、Two Object、Counting、Colors、Position和Attribute Binding的细粒度性能。我们还报告Overall分数。这里，我们使用GPT-5.6 Sol作为PE。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">Single Obj</th>
+<th align="left">Two Obj</th>
+<th align="left">Counting</th>
+<th align="left">Color</th>
+<th align="left">Position</th>
+<th align="left">Attr Binding</th>
+<th align="left">Overall</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>SD3.5-M (2.5B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.975</td>
+<td align="left">0.778</td>
+<td align="left">0.613</td>
+<td align="left">0.787</td>
+<td align="left">0.223</td>
+<td align="left">0.472</td>
+<td align="left">0.628</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.959</td>
+<td align="left">0.838</td>
+<td align="left">0.634</td>
+<td align="left">0.838</td>
+<td align="left">0.603</td>
+<td align="left">0.635</td>
+<td align="left">0.743</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.972</td>
+<td align="left">0.856</td>
+<td align="left">0.691</td>
+<td align="left">0.832</td>
+<td align="left">0.512</td>
+<td align="left">0.500</td>
+<td align="left">0.718</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.981</td>
+<td align="left">0.846</td>
+<td align="left">0.628</td>
+<td align="left">0.838</td>
+<td align="left">0.698</td>
+<td align="left">0.650</td>
+<td align="left">0.770</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.988</td>
+<td align="left">0.886</td>
+<td align="left">0.631</td>
+<td align="left">0.878</td>
+<td align="left">0.698</td>
+<td align="left">0.710</td>
+<td align="left">0.797</td>
+</tr>
+<tr>
+<td align="left"><strong>Z-Image (6B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.959</td>
+<td align="left">0.801</td>
+<td align="left">0.569</td>
+<td align="left">0.809</td>
+<td align="left">0.338</td>
+<td align="left">0.480</td>
+<td align="left">0.650</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.978</td>
+<td align="left">0.879</td>
+<td align="left">0.619</td>
+<td align="left">0.888</td>
+<td align="left">0.755</td>
+<td align="left">0.743</td>
+<td align="left">0.810</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.972</td>
+<td align="left">0.884</td>
+<td align="left">0.697</td>
+<td align="left">0.902</td>
+<td align="left">0.780</td>
+<td align="left">0.698</td>
+<td align="left">0.821</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.988</td>
+<td align="left">0.886</td>
+<td align="left">0.641</td>
+<td align="left">0.899</td>
+<td align="left">0.762</td>
+<td align="left">0.767</td>
+<td align="left">0.824</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.988</td>
+<td align="left">0.884</td>
+<td align="left">0.656</td>
+<td align="left">0.918</td>
+<td align="left">0.823</td>
+<td align="left">0.805</td>
+<td align="left">0.846</td>
+</tr>
+<tr>
+<td align="left"><strong>Z-Image-Turbo (6B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.988</td>
+<td align="left">0.833</td>
+<td align="left">0.759</td>
+<td align="left">0.859</td>
+<td align="left">0.460</td>
+<td align="left">0.588</td>
+<td align="left">0.737</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.975</td>
+<td align="left">0.864</td>
+<td align="left">0.803</td>
+<td align="left">0.923</td>
+<td align="left">0.770</td>
+<td align="left">0.787</td>
+<td align="left">0.850</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.981</td>
+<td align="left">0.732</td>
+<td align="left">0.625</td>
+<td align="left">0.894</td>
+<td align="left">0.708</td>
+<td align="left">0.677</td>
+<td align="left">0.766</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.984</td>
+<td align="left">0.866</td>
+<td align="left">0.778</td>
+<td align="left">0.907</td>
+<td align="left">0.805</td>
+<td align="left">0.777</td>
+<td align="left">0.851</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.969</td>
+<td align="left">0.879</td>
+<td align="left">0.794</td>
+<td align="left">0.915</td>
+<td align="left">0.797</td>
+<td align="left">0.835</td>
+<td align="left">0.863</td>
+</tr>
+<tr>
+<td align="left"><strong>FLUX.2-klein-base (9B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.994</td>
+<td align="left">0.851</td>
+<td align="left">0.706</td>
+<td align="left">0.904</td>
+<td align="left">0.632</td>
+<td align="left">0.603</td>
+<td align="left">0.775</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.984</td>
+<td align="left">0.904</td>
+<td align="left">0.797</td>
+<td align="left">0.928</td>
+<td align="left">0.820</td>
+<td align="left">0.757</td>
+<td align="left">0.862</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.991</td>
+<td align="left">0.904</td>
+<td align="left">0.819</td>
+<td align="left">0.912</td>
+<td align="left">0.840</td>
+<td align="left">0.785</td>
+<td align="left">0.873</td>
+</tr>
+<tr>
+<td align="left"><strong>FLUX.2-klein (9B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.994</td>
+<td align="left">0.912</td>
+<td align="left">0.847</td>
+<td align="left">0.894</td>
+<td align="left">0.733</td>
+<td align="left">0.787</td>
+<td align="left">0.856</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.991</td>
+<td align="left">0.896</td>
+<td align="left">0.775</td>
+<td align="left">0.912</td>
+<td align="left">0.835</td>
+<td align="left">0.757</td>
+<td align="left">0.859</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.988</td>
+<td align="left">0.874</td>
+<td align="left">0.747</td>
+<td align="left">0.931</td>
+<td align="left">0.845</td>
+<td align="left">0.823</td>
+<td align="left">0.867</td>
+</tr>
+<tr>
+<td align="left"><strong>QwenImage-2512 (20B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.984</td>
+<td align="left">0.798</td>
+<td align="left">0.331</td>
+<td align="left">0.832</td>
+<td align="left">0.302</td>
+<td align="left">0.500</td>
+<td align="left">0.620</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.975</td>
+<td align="left">0.904</td>
+<td align="left">0.694</td>
+<td align="left">0.891</td>
+<td align="left">0.755</td>
+<td align="left">0.818</td>
+<td align="left">0.839</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.981</td>
+<td align="left">0.899</td>
+<td align="left">0.706</td>
+<td align="left">0.910</td>
+<td align="left">0.810</td>
+<td align="left">0.833</td>
+<td align="left">0.857</td>
+</tr>
+</tbody></table>
+<p><strong>表15：Z-Image上其他PE的详细GenEval性能分解。</strong> 我们报告Single Object、Two Object、Counting、Colors、Position和Attribute Binding的细粒度性能。我们还报告Overall分数。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">Single Obj</th>
+<th align="left">Two Obj</th>
+<th align="left">Counting</th>
+<th align="left">Color</th>
+<th align="left">Position</th>
+<th align="left">Attr Binding</th>
+<th align="left">Overall</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>PromptEnhancer-7B as PE</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.959</td>
+<td align="left">0.801</td>
+<td align="left">0.569</td>
+<td align="left">0.809</td>
+<td align="left">0.338</td>
+<td align="left">0.480</td>
+<td align="left">0.650</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.947</td>
+<td align="left">0.801</td>
+<td align="left">0.588</td>
+<td align="left">0.750</td>
+<td align="left">0.505</td>
+<td align="left">0.555</td>
+<td align="left">0.684</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.966</td>
+<td align="left">0.871</td>
+<td align="left">0.762</td>
+<td align="left">0.835</td>
+<td align="left">0.627</td>
+<td align="left">0.560</td>
+<td align="left">0.763</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.978</td>
+<td align="left">0.856</td>
+<td align="left">0.716</td>
+<td align="left">0.856</td>
+<td align="left">0.613</td>
+<td align="left">0.623</td>
+<td align="left">0.767</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.978</td>
+<td align="left">0.864</td>
+<td align="left">0.647</td>
+<td align="left">0.872</td>
+<td align="left">0.610</td>
+<td align="left">0.740</td>
+<td align="left">0.782</td>
+</tr>
+<tr>
+<td align="left"><strong>PromptEnhancer-32B as PE</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.959</td>
+<td align="left">0.801</td>
+<td align="left">0.569</td>
+<td align="left">0.809</td>
+<td align="left">0.338</td>
+<td align="left">0.480</td>
+<td align="left">0.650</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.984</td>
+<td align="left">0.854</td>
+<td align="left">0.675</td>
+<td align="left">0.902</td>
+<td align="left">0.797</td>
+<td align="left">0.690</td>
+<td align="left">0.815</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.972</td>
+<td align="left">0.884</td>
+<td align="left">0.741</td>
+<td align="left">0.888</td>
+<td align="left">0.825</td>
+<td align="left">0.680</td>
+<td align="left">0.829</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.981</td>
+<td align="left">0.889</td>
+<td align="left">0.725</td>
+<td align="left">0.896</td>
+<td align="left">0.853</td>
+<td align="left">0.718</td>
+<td align="left">0.842</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.991</td>
+<td align="left">0.904</td>
+<td align="left">0.666</td>
+<td align="left">0.941</td>
+<td align="left">0.882</td>
+<td align="left">0.810</td>
+<td align="left">0.868</td>
+</tr>
+</tbody></table>
+<p><strong>表16：详细GenEval2性能分解。</strong> 我们报告Object、Attribute、Count、Position和Verb的细粒度性能。我们还报告GenEval2M和GenEval2GM中的整体soft-tifa分数。这里，我们使用GPT-5.6 Sol作为PE。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">Object</th>
+<th align="left">Attribute</th>
+<th align="left">Count</th>
+<th align="left">Position</th>
+<th align="left">Verb</th>
+<th align="left">GenEval2M</th>
+<th align="left">GenEval2GM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>SD3.5-M (2.5B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.859</td>
+<td align="left">0.672</td>
+<td align="left">0.431</td>
+<td align="left">0.397</td>
+<td align="left">0.161</td>
+<td align="left">0.633</td>
+<td align="left">0.176</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.868</td>
+<td align="left">0.751</td>
+<td align="left">0.476</td>
+<td align="left">0.521</td>
+<td align="left">0.207</td>
+<td align="left">0.680</td>
+<td align="left">0.220</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.835</td>
+<td align="left">0.703</td>
+<td align="left">0.478</td>
+<td align="left">0.438</td>
+<td align="left">0.124</td>
+<td align="left">0.656</td>
+<td align="left">0.207</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.850</td>
+<td align="left">0.715</td>
+<td align="left">0.461</td>
+<td align="left">0.483</td>
+<td align="left">0.195</td>
+<td align="left">0.671</td>
+<td align="left">0.223</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.868</td>
+<td align="left">0.758</td>
+<td align="left">0.477</td>
+<td align="left">0.489</td>
+<td align="left">0.179</td>
+<td align="left">0.682</td>
+<td align="left">0.226</td>
+</tr>
+<tr>
+<td align="left"><strong>Z-Image (6B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.927</td>
+<td align="left">0.844</td>
+<td align="left">0.599</td>
+<td align="left">0.607</td>
+<td align="left">0.294</td>
+<td align="left">0.761</td>
+<td align="left">0.306</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.973</td>
+<td align="left">0.923</td>
+<td align="left">0.637</td>
+<td align="left">0.826</td>
+<td align="left">0.459</td>
+<td align="left">0.827</td>
+<td align="left">0.404</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.981</td>
+<td align="left">0.906</td>
+<td align="left">0.643</td>
+<td align="left">0.816</td>
+<td align="left">0.323</td>
+<td align="left">0.834</td>
+<td align="left">0.403</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.975</td>
+<td align="left">0.931</td>
+<td align="left">0.625</td>
+<td align="left">0.814</td>
+<td align="left">0.320</td>
+<td align="left">0.828</td>
+<td align="left">0.395</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.975</td>
+<td align="left">0.938</td>
+<td align="left">0.634</td>
+<td align="left">0.816</td>
+<td align="left">0.381</td>
+<td align="left">0.831</td>
+<td align="left">0.406</td>
+</tr>
+<tr>
+<td align="left"><strong>Z-Image-Turbo (6B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.970</td>
+<td align="left">0.763</td>
+<td align="left">0.665</td>
+<td align="left">0.624</td>
+<td align="left">0.196</td>
+<td align="left">0.783</td>
+<td align="left">0.341</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.973</td>
+<td align="left">0.887</td>
+<td align="left">0.688</td>
+<td align="left">0.845</td>
+<td align="left">0.285</td>
+<td align="left">0.843</td>
+<td align="left">0.479</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.929</td>
+<td align="left">0.866</td>
+<td align="left">0.601</td>
+<td align="left">0.799</td>
+<td align="left">0.205</td>
+<td align="left">0.788</td>
+<td align="left">0.413</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.968</td>
+<td align="left">0.892</td>
+<td align="left">0.640</td>
+<td align="left">0.821</td>
+<td align="left">0.297</td>
+<td align="left">0.821</td>
+<td align="left">0.437</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.975</td>
+<td align="left">0.894</td>
+<td align="left">0.686</td>
+<td align="left">0.851</td>
+<td align="left">0.353</td>
+<td align="left">0.844</td>
+<td align="left">0.501</td>
+</tr>
+<tr>
+<td align="left"><strong>FLUX.2-klein-base (9B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.929</td>
+<td align="left">0.863</td>
+<td align="left">0.567</td>
+<td align="left">0.710</td>
+<td align="left">0.340</td>
+<td align="left">0.773</td>
+<td align="left">0.359</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.962</td>
+<td align="left">0.950</td>
+<td align="left">0.647</td>
+<td align="left">0.838</td>
+<td align="left">0.477</td>
+<td align="left">0.838</td>
+<td align="left">0.442</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.956</td>
+<td align="left">0.945</td>
+<td align="left">0.641</td>
+<td align="left">0.830</td>
+<td align="left">0.399</td>
+<td align="left">0.831</td>
+<td align="left">0.444</td>
+</tr>
+<tr>
+<td align="left"><strong>FLUX.2-klein (9B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.954</td>
+<td align="left">0.889</td>
+<td align="left">0.593</td>
+<td align="left">0.742</td>
+<td align="left">0.315</td>
+<td align="left">0.797</td>
+<td align="left">0.348</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.961</td>
+<td align="left">0.952</td>
+<td align="left">0.609</td>
+<td align="left">0.843</td>
+<td align="left">0.421</td>
+<td align="left">0.827</td>
+<td align="left">0.381</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.960</td>
+<td align="left">0.947</td>
+<td align="left">0.616</td>
+<td align="left">0.846</td>
+<td align="left">0.362</td>
+<td align="left">0.825</td>
+<td align="left">0.434</td>
+</tr>
+<tr>
+<td align="left"><strong>QwenImage-2512 (20B)</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.930</td>
+<td align="left">0.593</td>
+<td align="left">0.526</td>
+<td align="left">0.510</td>
+<td align="left">0.270</td>
+<td align="left">0.671</td>
+<td align="left">0.163</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.977</td>
+<td align="left">0.848</td>
+<td align="left">0.620</td>
+<td align="left">0.843</td>
+<td align="left">0.423</td>
+<td align="left">0.813</td>
+<td align="left">0.380</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.978</td>
+<td align="left">0.882</td>
+<td align="left">0.625</td>
+<td align="left">0.851</td>
+<td align="left">0.397</td>
+<td align="left">0.820</td>
+<td align="left">0.399</td>
+</tr>
+</tbody></table>
+<p><strong>表17：Z-Image上其他PE的详细GenEval2性能分解。</strong> 我们报告Object、Attribute、Count、Position和Verb的细粒度性能。我们还报告GenEval2M和GenEval2GM中的整体soft-tifa分数。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">Object</th>
+<th align="left">Attribute</th>
+<th align="left">Count</th>
+<th align="left">Position</th>
+<th align="left">Verb</th>
+<th align="left">GenEval2M</th>
+<th align="left">GenEval2GM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>PromptEnhancer-7B as PE</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.927</td>
+<td align="left">0.844</td>
+<td align="left">0.599</td>
+<td align="left">0.607</td>
+<td align="left">0.294</td>
+<td align="left">0.761</td>
+<td align="left">0.306</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.962</td>
+<td align="left">0.818</td>
+<td align="left">0.653</td>
+<td align="left">0.723</td>
+<td align="left">0.471</td>
+<td align="left">0.801</td>
+<td align="left">0.375</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.975</td>
+<td align="left">0.865</td>
+<td align="left">0.660</td>
+<td align="left">0.765</td>
+<td align="left">0.340</td>
+<td align="left">0.819</td>
+<td align="left">0.400</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.975</td>
+<td align="left">0.832</td>
+<td align="left">0.649</td>
+<td align="left">0.720</td>
+<td align="left">0.274</td>
+<td align="left">0.804</td>
+<td align="left">0.380</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.979</td>
+<td align="left">0.875</td>
+<td align="left">0.636</td>
+<td align="left">0.784</td>
+<td align="left">0.388</td>
+<td align="left">0.819</td>
+<td align="left">0.422</td>
+</tr>
+<tr>
+<td align="left"><strong>PromptEnhancer-32B as PE</strong></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Base</td>
+<td align="left">0.927</td>
+<td align="left">0.844</td>
+<td align="left">0.599</td>
+<td align="left">0.607</td>
+<td align="left">0.294</td>
+<td align="left">0.761</td>
+<td align="left">0.306</td>
+</tr>
+<tr>
+<td align="left">Base+PE</td>
+<td align="left">0.966</td>
+<td align="left">0.924</td>
+<td align="left">0.664</td>
+<td align="left">0.864</td>
+<td align="left">0.543</td>
+<td align="left">0.844</td>
+<td align="left">0.470</td>
+</tr>
+<tr>
+<td align="left">SFT</td>
+<td align="left">0.981</td>
+<td align="left">0.925</td>
+<td align="left">0.672</td>
+<td align="left">0.848</td>
+<td align="left">0.339</td>
+<td align="left">0.845</td>
+<td align="left">0.440</td>
+</tr>
+<tr>
+<td align="left">Off-Policy Distillation</td>
+<td align="left">0.970</td>
+<td align="left">0.940</td>
+<td align="left">0.662</td>
+<td align="left">0.832</td>
+<td align="left">0.382</td>
+<td align="left">0.843</td>
+<td align="left">0.459</td>
+</tr>
+<tr>
+<td align="left">PE-OPSD (Ours)</td>
+<td align="left">0.982</td>
+<td align="left">0.952</td>
+<td align="left">0.655</td>
+<td align="left">0.845</td>
+<td align="left">0.430</td>
+<td align="left">0.846</td>
+<td align="left">0.476</td>
+</tr>
+</tbody></table>
+<h3 id="E-3-EvalMuse细节"><a href="#E-3-EvalMuse细节" class="headerlink" title="E.3 EvalMuse细节"></a>E.3 EvalMuse细节</h3><p>在表18中，我们提供了不同模型的详细性能分解。特别地，我们报告Attribute、Location、Color、Object、Material、A&#x2F;H（Animal&#x2F;Human）、Food、Shape、Activity、Spatial和Counting的细粒度性能。我们还遵循官方指南报告整体分数（Han et al., 2026）。</p>
+<p><strong>表18：详细EvalMuse性能分解。</strong> 我们报告Attribute、Location、Color、Object、Material、A&#x2F;H（Animal&#x2F;Human）、Food、Shape、Activity、Spatial和Counting的细粒度性能。我们还报告整体分数。粗体：Overall最佳。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">Attribute</th>
+<th align="left">Location</th>
+<th align="left">Color</th>
+<th align="left">Object</th>
+<th align="left">Material</th>
+<th align="left">A&#x2F;H</th>
+<th align="left">Food</th>
+<th align="left">Shape</th>
+<th align="left">Activity</th>
+<th align="left">Spatial</th>
+<th align="left">Counting</th>
+<th align="left">Overall</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SD3.5-M</td>
+<td align="left">0.801</td>
+<td align="left">0.724</td>
+<td align="left">0.570</td>
+<td align="left">0.675</td>
+<td align="left">0.542</td>
+<td align="left">0.524</td>
+<td align="left">0.654</td>
+<td align="left">0.826</td>
+<td align="left">0.539</td>
+<td align="left">0.459</td>
+<td align="left">0.234</td>
+<td align="left">3.199</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.820</td>
+<td align="left">0.763</td>
+<td align="left">0.634</td>
+<td align="left">0.710</td>
+<td align="left">0.587</td>
+<td align="left">0.562</td>
+<td align="left">0.697</td>
+<td align="left">0.832</td>
+<td align="left">0.551</td>
+<td align="left">0.588</td>
+<td align="left">0.283</td>
+<td align="left">3.368</td>
+</tr>
+<tr>
+<td align="left">Z-Image</td>
+<td align="left">0.797</td>
+<td align="left">0.723</td>
+<td align="left">0.618</td>
+<td align="left">0.709</td>
+<td align="left">0.620</td>
+<td align="left">0.608</td>
+<td align="left">0.656</td>
+<td align="left">0.806</td>
+<td align="left">0.582</td>
+<td align="left">0.655</td>
+<td align="left">0.314</td>
+<td align="left">3.340</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.809</td>
+<td align="left">0.768</td>
+<td align="left">0.694</td>
+<td align="left">0.738</td>
+<td align="left">0.681</td>
+<td align="left">0.654</td>
+<td align="left">0.716</td>
+<td align="left">0.811</td>
+<td align="left">0.596</td>
+<td align="left">0.643</td>
+<td align="left">0.384</td>
+<td align="left">3.561</td>
+</tr>
+<tr>
+<td align="left">Z-Image-Turbo</td>
+<td align="left">0.800</td>
+<td align="left">0.762</td>
+<td align="left">0.711</td>
+<td align="left">0.727</td>
+<td align="left">0.707</td>
+<td align="left">0.620</td>
+<td align="left">0.699</td>
+<td align="left">0.798</td>
+<td align="left">0.589</td>
+<td align="left">0.641</td>
+<td align="left">0.340</td>
+<td align="left">3.515</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.807</td>
+<td align="left">0.753</td>
+<td align="left">0.626</td>
+<td align="left">0.729</td>
+<td align="left">0.639</td>
+<td align="left">0.632</td>
+<td align="left">0.735</td>
+<td align="left">0.806</td>
+<td align="left">0.620</td>
+<td align="left">0.584</td>
+<td align="left">0.337</td>
+<td align="left">3.534</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein-base</td>
+<td align="left">0.834</td>
+<td align="left">0.784</td>
+<td align="left">0.707</td>
+<td align="left">0.749</td>
+<td align="left">0.680</td>
+<td align="left">0.659</td>
+<td align="left">0.708</td>
+<td align="left">0.765</td>
+<td align="left">0.644</td>
+<td align="left">0.661</td>
+<td align="left">0.311</td>
+<td align="left">3.638</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.829</td>
+<td align="left">0.797</td>
+<td align="left">0.728</td>
+<td align="left">0.755</td>
+<td align="left">0.691</td>
+<td align="left">0.700</td>
+<td align="left">0.733</td>
+<td align="left">0.798</td>
+<td align="left">0.664</td>
+<td align="left">0.680</td>
+<td align="left">0.367</td>
+<td align="left">3.733</td>
+</tr>
+<tr>
+<td align="left">FLUX.2-klein</td>
+<td align="left">0.832</td>
+<td align="left">0.778</td>
+<td align="left">0.716</td>
+<td align="left">0.761</td>
+<td align="left">0.686</td>
+<td align="left">0.691</td>
+<td align="left">0.728</td>
+<td align="left">0.834</td>
+<td align="left">0.661</td>
+<td align="left">0.675</td>
+<td align="left">0.337</td>
+<td align="left">3.724</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.832</td>
+<td align="left">0.788</td>
+<td align="left">0.725</td>
+<td align="left">0.760</td>
+<td align="left">0.691</td>
+<td align="left">0.687</td>
+<td align="left">0.726</td>
+<td align="left">0.810</td>
+<td align="left">0.660</td>
+<td align="left">0.686</td>
+<td align="left">0.333</td>
+<td align="left">3.710</td>
+</tr>
+<tr>
+<td align="left">QwenImage-2512</td>
+<td align="left">0.817</td>
+<td align="left">0.757</td>
+<td align="left">0.616</td>
+<td align="left">0.720</td>
+<td align="left">0.662</td>
+<td align="left">0.685</td>
+<td align="left">0.708</td>
+<td align="left">0.835</td>
+<td align="left">0.618</td>
+<td align="left">0.605</td>
+<td align="left">0.280</td>
+<td align="left">3.485</td>
+</tr>
+<tr>
+<td align="left">+Ours</td>
+<td align="left">0.829</td>
+<td align="left">0.798</td>
+<td align="left">0.749</td>
+<td align="left">0.772</td>
+<td align="left">0.750</td>
+<td align="left">0.693</td>
+<td align="left">0.736</td>
+<td align="left">0.837</td>
+<td align="left">0.643</td>
+<td align="left">0.725</td>
+<td align="left">0.397</td>
+<td align="left">3.756</td>
+</tr>
+</tbody></table>
+<h2 id="F-系统提示词"><a href="#F-系统提示词" class="headerlink" title="F 系统提示词"></a>F 系统提示词</h2><h3 id="F-1-一致性过滤的系统提示词"><a href="#F-1-一致性过滤的系统提示词" class="headerlink" title="F.1 一致性过滤的系统提示词"></a>F.1 一致性过滤的系统提示词</h3><p>对于GPT生成的增强提示词，我们采用一致性评判器来识别改变或省略原始提示词关键语义的扩展。评判器验证确切计数、物体身份、属性、动作和空间关系，并以结构化JSON格式返回二元决策。确切的系统提示词如下。</p>
+<p><strong>一致性过滤的系统提示词</strong></p>
+<p>你是一个严格的增强文生图提示词一致性评判器。</p>
+<p>原始提示词是事实来源。候选增强提示词只有在显式保留每个关键事实时才是一致的：</p>
+<p>确切计数和物体身份；颜色、视觉材料外观、纹理和其他属性；动作和主体&#x2F;客体角色；空间关系和顺序。</p>
+<p>不要将仅被暗示的事实视为已保留。同义词和语法数词在其含义明确时可接受。额外的构图、光照、风格和背景细节仅在它们不改变或矛盾原始事实时可接受。对交换角色、改变计数、合并物体组、冲突属性和缺失关系要特别严格。</p>
+<p>不要放宽颜色、计数、身份、动作或关系。特别是，当物体被明确描述为不同基色时，斑点、反射或小的局部细节不满足整体颜色要求。</p>
+<p>只返回一个JSON对象，不带Markdown：</p>
+<p>{“consistent”: true, “issues”: []} 或 {“consistent”: false, “issues”: [“specific issue”, “…”]}</p>
+<p>只评判。不要重写、完成或建议替代提示词。</p>
+<h3 id="F-2-生成增强提示词的系统提示词"><a href="#F-2-生成增强提示词的系统提示词" class="headerlink" title="F.2 生成增强提示词的系统提示词"></a>F.2 生成增强提示词的系统提示词</h3><p>我们提供GPT-5.6 Sol用于生成增强提示词的系统提示词。给定原始提示词，增强器被指示仅产生扩展描述，不带辅助解释或Markdown格式。该指示鼓励分层描述，同时显式保留原始提示词中指定的物体、属性、空间关系、渲染文本和知识产权主体。</p>
+<p><strong>GPT-5.6 Sol的系统提示词</strong></p>
+<p>你是撰写图像生成提示词的专家。我将给你一个句子，你要将这个句子扩展为用于生成图像的详细描述。描述必须遵循以下规则。</p>
+<p><strong>I. 句子结构</strong> 描述遵循一致的分层结构，从总体概述到具体细节。1. 开头陈述：总体概述 2. 主体：系统化和空间组织的描述 3. 分层物体描述：从整体到部分 4. 结尾陈述：风格识别</p>
+<p><strong>II. 语法规则</strong> 语法精确、描述性强，并保持客观语气。1. 时态：一致现在时 2. 语态：主动和被动混合 3. 介词短语用于精确 4. 分词短语用于高效细节 5. 丰富具体的形容词 6. 精确和模糊限制语言 7. 复杂句和复合句</p>
+<p><strong>关键约束：</strong></p>
+<ol>
+<li>只提供最终描述，不要使用Markdown格式。</li>
+<li>扩展描述必须遵循上述规则。</li>
+<li>扩展描述应遵守原始句子，特别是主语和主语属性，包括颜色、大小、空间关系等。</li>
+<li>你可以使用世界知识将一些专业术语扩展为适合图像生成模型的恰当解释。</li>
+<li>如果原始句子未提及风格，你应假设为摄影风格。如果摄影风格不合适，你可以从句子上下文中推断风格。</li>
+<li>直接描述场景或主体，不要在描述开头使用“The image”、“The composition”、“The scene”等类似词语。</li>
+<li>如果原始句子有知识产权主体，你应在扩展描述中保留该知识产权主体，并在扩展描述中描述该知识产权的背景。</li>
+<li>如果原始句子有需要渲染的文本，你应在扩展描述中保留该文本，并将文本格式化为“rendered text”。</li>
+</ol>
+<p>接下来，我将给你我的句子。请提供扩展描述：</p>
+<h2 id="G-额外定性示例"><a href="#G-额外定性示例" class="headerlink" title="G 额外定性示例"></a>G 额外定性示例</h2><p>我们在图14-图16中提供了不同模型和方法的更多视觉示例。</p>
+<h2 id="H-局限性和未来工作"><a href="#H-局限性和未来工作" class="headerlink" title="H 局限性和未来工作"></a>H 局限性和未来工作</h2><p>PE-OPSD使用增强提示词作为特权监督，因此其学习信号受所选PE的质量和语义忠实度影响。尽管我们的一致性过滤和多PE实验证明了鲁棒改进，但不准确或过于具体的重写仍可能引入不良监督。未来工作可以研究置信度感知过滤、多PE一致性以及强调可靠提示词元素的自适应监督。</p>
+<p>PE-OPSD将计算从每请求推理转移到离线提示词构建和后训练。通过选择性时间步监督和更少教师评估来降低这一成本是一个有前景的方向。更广泛地，将特权条件蒸馏扩展到流匹配文生图模型之外，可能进一步确立其跨生成范式的适用性。</p>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+      <!-- 打赏组件 -->
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2026-11-11T07:14:42+00:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2026年11月11日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/generate/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>generate</p></a></div>
+  <span hidden itemprop="keywords">generate</span>
+  
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nicemxm.github.io/2026/11/10/pe-opsd/&title=PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://nicemxm.github.io/2026/11/10/pe-opsd/&title=PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://nicemxm.github.io/2026/11/10/pe-opsd/&title=PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中 - hello deeplearning&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/UlEQVR42u3aQXIbMQwEQP3/0/E9lRSJAWQv5ObNLmlF9F5QGLz+OP88LwRgwIABAwbMGphXeK5/6K/Pn75/+r3TPbr1gAEDBgwYMGD2waSFni6WPqcLG784MGDAgAEDBsxamNsG6wRx+/1biBS8XA8YMGDAgAED5tfBlIOty+dMvzgwYMCAAQMGDJhqwJUGarfBGhgwYMCAAQMGTLcxmy40bQB/PIkEAwYMGDBgwHwbTLww/NC/43rAgAEDBgwYMGtguqfakE0Fb+86YMCAAQMGDJg9MN0A7bbw2wHVVEOZ3h8MGDBgwIABswfmuwdEt4DdAO50v2PgBgYMGDBgwIBZA1MdJKULQd1GsTswKzd4YMCAAQMGDJjHwkwNiMqN1JsGXu3GEQwYMGDAgAGzDmaq4OrAKH1uCtJeHAIDBgwYMGDAPAame6pB2vQArDuwigM3MGDAgAEDBszjYKoB2u1zbiGm7hUP2sCAAQMGDBgw62DKA51iAza1aFQ95YYUDBgwYMCAAbMWphpwdS9YDdy6wd6xPjBgwIABAwbMx8GkDVM1uJsK3OKFJTBgwIABAwbMGphqY3X9A82ArbqolN7rv4MqMGDAgAEDBszjYbrB2lRht6DdxaRj4wgGDBgwYMCAWQNTbbyqQVraqE19r7wQBQYMGDBgwIBZDzMNMNWATcMeAzcwYMCAAQMGzONh4geFA6N3DbLShSEwYMCAAQMGzH6YNPCagu42dO0XCQYMGDBgwIBZC/PuBZ50kFUt9PZe5c4XDBgwYMCAAfMYmO6ZHlClwd/YYAsMGDBgwIABswbmFZ7uYCldUKo2buVBGhgwYMCAAQNmHUy1obsdRFUbxO7grA0LBgwYMGDAgFkLkzZQ3YtXB2BTgRsYMGDAgAEDBky3kesWljaGYMCAAQMGDBgw6f/TwqqLTO3ADQwYMGDAgAHzeJh0IajbWKWBWTrYAgMGDBgwYMB8Dkw3uJqG6y4CxUEfGDBgwIABA2YNjAMGDBgwYMCAWXa+AFMfYrsMq4P7AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://nicemxm.github.io/2026/11/10/pe-opsd/&text=PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中 - hello deeplearning"
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2026/11/05/HiDream-O1-image/'>
+          <p class='title'>HiDream-O1-图像<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>摘要视觉生成模型的发展长期以来受到碎片化架构的制约，这些架构依赖于相互独立的文本编码器和外部变分自编码器（VAE）。在本报告中，我们提出了 HiDream-O1-Image，这是一种基于像素空间...</p>
+        </a>
+      
+    </div>
+  
+  <!-- 文章推荐 -->
+  
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/2026/11/10/pe-opsd/index.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside id='l_side' itemscope itemtype="https://schema.org.cn/WPSideBar">
+  
+
+  
+    
+    
+      
+    
+  
+
+
+<div class="widget-sticky">
+
+  
+  
+
+
+<section class="widget toc-wrapper desktop mobile" id="toc-div" >
+  
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-text">1 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-text">2 相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%B9%E6%B3%95"><span class="toc-text">3 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">3.1 预备知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%8E%E6%8F%90%E7%A4%BA%E5%A2%9E%E5%BC%BA%E5%88%B0%E7%89%B9%E6%9D%83%E4%BF%A1%E6%81%AF"><span class="toc-text">3.2 从提示增强到特权信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-PE-OPSD%EF%BC%9A%E6%8F%90%E7%A4%BA%E5%A2%9E%E5%BC%BA%E5%9C%A8%E7%BA%BF%E7%AD%96%E7%95%A5%E8%87%AA%E8%92%B8%E9%A6%8F"><span class="toc-text">3.3 PE-OPSD：提示增强在线策略自蒸馏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%9E%E9%AA%8C"><span class="toc-text">4 实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="toc-text">4.1 实验设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E4%B8%BB%E8%A6%81%E5%AE%9E%E9%AA%8C"><span class="toc-text">4.2 主要实验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%B3%9B%E5%8C%96%E6%80%A7"><span class="toc-text">4.3 泛化性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E6%B6%88%E8%9E%8D%E7%A0%94%E7%A9%B6"><span class="toc-text">4.4 消融研究</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%BB%93%E8%AE%BA"><span class="toc-text">5 结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-text">参考文献</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-%E4%BB%8E%E8%BD%A8%E8%BF%B9KL%E5%88%B0%E7%A1%AE%E5%AE%9A%E6%80%A7%E5%8C%B9%E9%85%8D"><span class="toc-text">A 从轨迹KL到确定性匹配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-%E5%AE%9E%E9%AA%8C%E7%BB%86%E8%8A%82"><span class="toc-text">B 实验细节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#B-1-%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-text">B.1 训练数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-2-%E8%AE%AD%E7%BB%83%E9%85%8D%E7%BD%AE"><span class="toc-text">B.2 训练配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-3-%E6%A8%A1%E5%9E%8B"><span class="toc-text">B.3 模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-4-%E5%9F%BA%E7%BA%BF"><span class="toc-text">B.4 基线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-5-%E5%9F%BA%E5%87%86"><span class="toc-text">B.5 基准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E4%BA%BA%E7%B1%BB%E8%AF%84%E4%BC%B0%E5%8D%8F%E8%AE%AE"><span class="toc-text">C 人类评估协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D-%E9%A2%9D%E5%A4%96%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">D 额外实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#D-1-%E8%AE%AD%E7%BB%83%E6%95%88%E7%8E%87"><span class="toc-text">D.1 训练效率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-2-%E6%8E%A8%E7%90%86%E5%BB%B6%E8%BF%9F"><span class="toc-text">D.2 推理延迟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-3-EMA%E6%95%99%E5%B8%88%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">D.3 EMA教师的影响</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D-4-%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%E7%9A%84%E8%AF%A6%E7%BB%86%E7%BB%93%E6%9E%9C"><span class="toc-text">D.4 可扩展性的详细结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D-5-%E8%A1%A84%E4%B8%AD%E7%9A%84%E6%9B%B4%E5%A4%9A%E5%88%86%E6%9E%90"><span class="toc-text">D.5 表4中的更多分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#D-6-%E4%B8%8D%E5%90%8CPE"><span class="toc-text">D.6 不同PE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-%E9%A2%9D%E5%A4%96%E5%9F%BA%E5%87%86%E7%BB%93%E6%9E%9C"><span class="toc-text">E 额外基准结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#E-1-GenEval%E7%BB%86%E8%8A%82"><span class="toc-text">E.1 GenEval细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-2-GenEval2%E7%BB%86%E8%8A%82"><span class="toc-text">E.2 GenEval2细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-3-EvalMuse%E7%BB%86%E8%8A%82"><span class="toc-text">E.3 EvalMuse细节</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F-%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA%E8%AF%8D"><span class="toc-text">F 系统提示词</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#F-1-%E4%B8%80%E8%87%B4%E6%80%A7%E8%BF%87%E6%BB%A4%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA%E8%AF%8D"><span class="toc-text">F.1 一致性过滤的系统提示词</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#F-2-%E7%94%9F%E6%88%90%E5%A2%9E%E5%BC%BA%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA%E8%AF%8D"><span class="toc-text">F.2 生成增强提示词的系统提示词</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G-%E9%A2%9D%E5%A4%96%E5%AE%9A%E6%80%A7%E7%A4%BA%E4%BE%8B"><span class="toc-text">G 额外定性示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H-%E5%B1%80%E9%99%90%E6%80%A7%E5%92%8C%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C"><span class="toc-text">H 局限性和未来工作</span></a></li></ol>
+  </div>
+</section>
+
+  
+
+</div>
+
+  <!-- Custom Files side begin -->
+  
+  <!-- Custom Files side end -->
+</aside>
+
+
+
+        </div>
+        
+  
+  <footer class="footer clearfix"  itemscope itemtype="https://schema.org.cn/WPFooter">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    
+      <meting-js
+        theme='#1BCDFC'
+        autoplay='false'
+        volume='0.7'
+        loop='all'
+        order='list'
+        fixed='false'
+        list-max-height='320px'
+        server='tencent'
+        type='playlist'
+        id='494561791'
+        list-folded='true'>
+      </meting-js>
+    
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper" itemprop="about" itemscope itemtype="https://schema.org.cn/Thing">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/#6.0.0-alpha.1" target="_blank" class="codename">Volantis</a>
+        作为主题，总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © since 2024 05</a></p>
+
+        </div>
+      
+    
+    <!-- Custom Files footer begin-->
+    
+    <!-- Custom Files footer end-->
+  </footer>
+
+
+        <a id="s-top" class="fa-solid fa-arrow-up fa-fw" title="top"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+  /******************** volantis.dom ********************************/
+  // 页面选择器 将dom对象缓存起来 see: /source/js/app.js etc.
+  volantis.dom.bodyAnchor = volantis.dom.$(document.getElementById("safearea")); // 页面主体
+  volantis.dom.topBtn = volantis.dom.$(document.getElementById('s-top')); // 向上
+  volantis.dom.wrapper = volantis.dom.$(document.getElementById('wrapper')); // 整个导航栏
+  volantis.dom.coverAnchor = volantis.dom.$(document.querySelector('#l_cover .cover-wrapper')); // 1个
+  volantis.dom.switcher = volantis.dom.$(document.querySelector('#l_header .switcher .s-search')); // 搜索按钮   移动端 1个
+  volantis.dom.header = volantis.dom.$(document.getElementById('l_header')); // 移动端导航栏
+  volantis.dom.search = volantis.dom.$(document.querySelector('#l_header .m_search')); // 搜索框 桌面端 移动端 1个
+  volantis.dom.mPhoneList = volantis.dom.$(document.querySelectorAll('#l_header .m-phone .list-v')); //  手机端 子菜单 多个
+</script>
+
+<script>
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css");
+  
+  
+  volantis.css("https://unpkg.com/font-awesome-animation@1.1.1/css/font-awesome-animation.min.css");
+  
+  
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.css");
+  
+</script>
+
+<!-- required -->
+
+
+<!-- internal -->
+
+<script src="/js/app.js"></script>
+
+
+
+
+<!-- rightmenu要在darkmode之前（ToggleButton） darkmode要在comments之前（volantis.dark.push）-->
+
+
+
+<script>
+  function loadIssuesJS() {
+    
+      const sites_api = document.getElementById('sites-api');
+      if (sites_api != undefined && typeof SitesJS === 'undefined') {
+        volantis.js("/js/plugins/tags/sites.js")
+      }
+    
+    
+      const friends_api = document.getElementById('friends-api');
+      if (friends_api != undefined && typeof FriendsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/friends.js")
+      }
+    
+    
+      const contributors_api = document.getElementById('contributors-api');
+      if (contributors_api != undefined && typeof ContributorsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/contributors.js")
+      }
+    
+  };
+  loadIssuesJS()
+</script>
+
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: ["#"],
+	maxRPS: 6,
+	hoverDelay: 0
+  };
+</script>
+<script defer src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/flying-pages/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css");
+
+  
+    (async () => {
+      // APlayer 需要在  MetingJS 之前加载
+      await volantis.js("https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.js")
+      await volantis.js("https://unpkg.com/meting@2.0.1/dist/Meting.min.js")
+    
+    })();
+
+    function SetAPlayerPlugin(){
+      let Metings = document.querySelectorAll('meting-js');
+      if (Metings.length === 0) {return;};
+      if (Metings[0].aplayer && Metings[0].aplayer.on) {
+        // improve the accessibility https://web.dev/button-name/
+        document.querySelectorAll(".aplayer-icon-menu").forEach(e=>{
+          e.setAttribute("aria-label","Aplayer Menu")
+        })
+        // message see: /layout/_plugins/message/script.ejs
+        
+          try {
+            setTimeout(() => {
+              Metings.forEach((item, index) => {
+                const aplayerItem = item.aplayer; if(!aplayerItem) return;
+                const rightAplayerCheck = 'true' === 'true'
+                  && item.meta.id === '494561791';
+                if(rightAplayerCheck && typeof RightMenuAplayer !="undefined") RightMenuAplayer.checkAPlayer();
+                if(aplayerItem.events.events.play.every(item => {return item.name !== 'messagePlay'})) {
+                  aplayerItem.on('play', function messagePlay() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                        icon: 'fa-solid fa-play',
+                        transitionIn: 'flipInX',
+                        transitionOut: 'flipOutX'
+                      });
+                    }, 100)
+                  });
+                }
+                if(aplayerItem.events.events.pause.every(item => {return item.name !== 'messagePause'})) {
+                  aplayerItem.on('pause', function messagePause() {
+                    let index = aplayerItem.list.index;
+                    let title = aplayerItem.list.audios[index].title;
+                    let artist = aplayerItem.list.audios[index].artist;
+                    setTimeout(() => {
+                      // 歌曲播放结束也会触发 pause 事件，为了避免错误提示，等待一会儿
+                      if(aplayerItem.paused) {
+                        VolantisApp.message('音乐通知', title + ' - ' + artist, {
+                          icon: 'fa-solid fa-pause',
+                          transitionIn: 'flipInX',
+                          transitionOut: 'flipOutX'
+                        });
+                      }
+                    }, 100)
+                  });
+                }
+              });
+            }, 500)
+          } catch (error) { console.error(error); }
+        
+      }else{
+        volantis.requestAnimationFrame(SetAPlayerPlugin)
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+      SetAPlayerPlugin();
+    });
+  
+</script>
+
+
+
+
+      <script>
+  volantis.layoutHelper("comments",`<div id="giscus_container"></div>`)
+
+  volantis.giscus = {};
+
+  function check_giscus() {
+    if (volantis.dark.mode === "dark") {
+      volantis.giscus.Theme = 'dark';
+    } else {
+      volantis.giscus.Theme = 'light';
+    }
+
+    return document.getElementById("giscus_container");
+  }
+
+  function p_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+    let cfg = Object.assign({"theme":{"light":"light","dark":"dark"}},pdata.commentConfig)
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://giscus.app/client.js');
+    Object.keys(cfg).forEach(k=>{
+      if (k != "theme") {
+        script.setAttribute('data-'+k, cfg[k]);
+      }
+    })
+    script.setAttribute('data-theme', volantis.giscus.Theme);
+    script.setAttribute('crossorigin', "anonymous");
+    HEAD.appendChild(script);
+  }
+
+  function dark_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+
+    const message = {
+      setConfig: {
+        theme: volantis.giscus.Theme
+      }
+    };
+    const giscusIframe = document.querySelector('iframe.giscus-frame');
+    giscusIframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  p_giscus();
+  volantis.dark.push(dark_giscus);
+</script>
+
+    
+
+
+
+
+  <script defer src="https://npm.elemecdn.com/penndu@1.0.0/bsz.js"></script>
+
+
+<!-- optional -->
+
+  <script>
+  async function loadSearchScript() {
+    
+        
+    
+    return volantis.js("/js/search/hexo.js");
+  }
+
+  function loadSearchService() {
+    loadSearchScript();
+    document.querySelectorAll(".input.u-search-input").forEach((e) => {
+      e.removeEventListener("focus", loadSearchService, false);
+    });
+
+    document.querySelectorAll(".u-search-form").forEach((e) => {
+      e.addEventListener("submit", (event) => {
+        event.preventDefault();
+      }, false);
+    });
+  }
+
+  // 打开并搜索 字符串 s
+  function OpenSearch(s) {
+    if (typeof SearchService === 'undefined')
+      loadSearchScript().then(() => {
+        SearchService.setQueryText(s);
+        SearchService.search();
+      });
+    else {
+      SearchService.setQueryText(s);
+      SearchService.search();
+    }
+  }
+
+  // 访问含有 ?s=xxx  的链接时打开搜索 // 与搜索引擎 structured data 相关: /scripts/helpers/structured-data/lib/config.js
+  if (window.location.search && /^\?s=/g.test(window.location.search)) {
+    let queryText = decodeURI(window.location.search)
+      .replace(/\ /g, "-")
+      .replace(/^\?s=/g, "");
+    OpenSearch(queryText);
+  }
+
+  // 搜索输入框获取焦点时加载搜索
+  document.querySelectorAll(".input.u-search-input").forEach((e) => {
+    e.addEventListener("focus", loadSearchService, false);
+  });
+</script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.js"></script>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+  Waves.attach('.flat-btn', ['waves-button']);
+  Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+  Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+  Waves.attach('.flat-box', ['waves-block']);
+  Waves.attach('.float-box', ['waves-block', 'waves-float']);
+  Waves.attach('.waves-image');
+  Waves.init();
+});
+</script>
+
+
+
+  
+<script src="https://unpkg.com/volantis-static@0.0.1660614606622/libs/comment_typing/comment_typing.js"></script>
+
+
+
+
+  <script>
+
+
+
+  function p_highlightjs_copyCode(){
+    if (!(document.querySelector(".highlight .code pre") ||
+      document.querySelector(".article pre code"))) {
+      return;
+    }
+    VolantisApp.utilCopyCode(".highlight .code pre, .article pre code")
+  }
+  volantis.requestAnimationFrame(p_highlightjs_copyCode)
+
+</script>
+
+
+
+
+
+
+
+
+  <script>
+  let imgs = ["https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/033.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/004.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/019.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/012.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/056.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/025.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/042.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/002.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/006.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/035.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/005.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/016.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/054.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/039.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/052.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/051.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/034.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/003.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/001.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/038.webp","https://unpkg.com/volantis-static@0.0.1660614606622/media/wallpaper/minimalist/2020/046.webp"];
+  let index = 0;
+  let IntervalParallax = null;
+
+  function parallax(){
+    let ParallaxWindow = document.querySelector("#parallax-window");
+    
+    Parallax.window = ParallaxWindow;
+    Parallax.options.fade = 1500;
+    Parallax.cache = 1;
+    next_parallax();
+    Parallax.init();
+    if (imgs.length>1) {
+      IntervalParallax = setInterval(function () {
+        next_parallax();
+      }, '10000');
+    }
+  }
+
+  function next_parallax() {
+    if (typeof Parallax == "undefined") {
+      return
+    }
+    
+      if (!document.querySelector("#full")&&!document.querySelector("#half")) {
+        return
+      }
+    
+    if (imgs.length>=1) {
+      Parallax.options.src = imgs[index % imgs.length];
+      Parallax.start();
+      index++;
+      if (Parallax.cache) {
+        fetch(imgs[index % imgs.length] +"?t=" + new Date().getTime());
+        if (index == imgs.length) {
+          Parallax.cache = 0;
+        }
+      }
+    }
+  }
+  var runningOnBrowser = typeof window !== "undefined";
+  var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+  if (!isBot) {
+    volantis.js('/js/plugins/parallax.js').then(()=>{
+      parallax()
+    })
+  }
+</script>
+
+
+
+
+  <script>
+  function load_swiper() {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    volantis.css("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.css");
+    volantis.js("https://cdn.bootcdn.net/ajax/libs/Swiper/11.0.6/swiper-bundle.min.js").then(() => {
+      p_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function p_swiper() {
+    volantis.swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+</script>
+
+
+
+  <script>
+  volantis.css("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.min.css");
+  volantis.js("https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js").then(() => {
+    Pace.options.restartOnPushState = false;
+    // 阅读进度
+    volantis.scroll.push(() => {
+      Pace.stop();
+      Pace.trigger('start');
+      Pace.bar.update(volantis.scroll.progress() * 100);
+      document.body.className = document.body.className.replaceAll("pace-running ","");
+    },"阅读进度")
+    // todo：配置项开关, 哪些页面添加阅读进度
+  })
+</script>
+
+
+
+
+<script>
+  function listenSidebarTOC() {
+    const navItems = document.querySelectorAll(".toc li");
+    if (!navItems.length) return;
+    const targets = []
+    const sections = Array.from(navItems).forEach((element) => {
+      const link = element.querySelector(".toc-link");
+      const target = document.getElementById(
+        link.getAttribute("href") ? decodeURI(link.getAttribute("href")).replace("#", "") : link.getAttribute("toc-action").split("toc-")[1] // 兼容 hexo-blog-encrypt
+      );
+      targets.push(target)
+      // 解除 a 标签 href 的 锚点定位, a 标签 href 的 锚点定位 会随机启用?? 产生错位???
+      if (link.getAttribute("href")) {
+        link.setAttribute("toc-action", "toc-" + decodeURI(link.getAttribute("href")).replace("#", ""))
+        link.removeAttribute("href")
+      }
+      // 配置 点击 触发新的锚点定位
+      if (target && target.id) {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          // 这里的 addTop 是通过错位使得 toc 自动展开.
+          volantis.scroll.to(target, { addTop: 5, observer: true })
+          // Anchor id
+          history.pushState(null, document.title, "#" + target.id);
+        });
+      }
+      return target;
+    });
+
+    function activateNavByIndex(target) {
+      if (target.classList.contains("active-current")) return;
+
+      document.querySelectorAll(".toc .active").forEach((element) => {
+        element.classList.remove("active", "active-current");
+      });
+      target.classList.add("active", "active-current");
+      let parent = target.parentNode;
+      while (!parent.matches(".toc")) {
+        if (parent.matches("li")) parent.classList.add("active");
+        parent = parent.parentNode;
+      }
+    }
+
+    // 方案一：
+    volantis.activateNavIndex = 0
+    activateNavByIndex(navItems[volantis.activateNavIndex])
+    if (targets[0]) {
+      volantis.scroll.push(() => {
+        if (targets[0].getBoundingClientRect().top >= 0) {
+          volantis.activateNavIndex = 0
+        } else if (targets[targets.length - 1].getBoundingClientRect().top < 0) {
+          volantis.activateNavIndex = targets.length - 1
+        } else {
+          for (let index = 0; index < targets.length; index++) {
+            const target0 = targets[index];
+            const target1 = targets[(index + 1) % targets.length];
+            if (target0.getBoundingClientRect().top < 0 && target1.getBoundingClientRect().top >= 0) {
+              volantis.activateNavIndex = index
+              break;
+            }
+          }
+        }
+        activateNavByIndex(navItems[volantis.activateNavIndex])
+      })
+    }
+
+    // 方案二：
+    // IntersectionObserver 不是完美精确到像素级别 也不是低延时性的
+    // function findIndex(entries) {
+    //   let index = 0;
+    //   let entry = entries[index];
+    //   if (entry.boundingClientRect.top > 0) {
+    //     index = sections.indexOf(entry.target);
+    //     return index === 0 ? 0 : index - 1;
+    //   }
+    //   for (; index < entries.length; index++) {
+    //     if (entries[index].boundingClientRect.top <= 0) {
+    //       entry = entries[index];
+    //     } else {
+    //       return sections.indexOf(entry.target);
+    //     }
+    //   }
+    //   return sections.indexOf(entry.target);
+    // }
+    // function createIntersectionObserver(marginTop) {
+    //   marginTop = Math.floor(marginTop + 10000);
+    //   let intersectionObserver = new IntersectionObserver(
+    //     (entries, observe) => {
+    //       let scrollHeight = document.documentElement.scrollHeight;
+    //       if (scrollHeight > marginTop) {
+    //         observe.disconnect();
+    //         createIntersectionObserver(scrollHeight);
+    //         return;
+    //       }
+    //       let index = findIndex(entries);
+    //       activateNavByIndex(navItems[index]);
+    //     }, {
+    //       rootMargin: marginTop + "px 0px -100% 0px",
+    //       threshold: 0,
+    //     }
+    //   );
+    //   sections.forEach((element) => {
+    //     element && intersectionObserver.observe(element);
+    //   });
+    // }
+    // createIntersectionObserver(document.documentElement.scrollHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    volantis.requestAnimationFrame(listenSidebarTOC)
+  });
+</script>
+
+
+
+
+
+<script>
+  document.onreadystatechange = function () {
+    if (document.readyState == 'complete') {
+      // 页面加载完毕 样式加载失败，或是当前网速慢，或是开启了省流模式
+      const { saveData, effectiveType } = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {}
+      if (getComputedStyle(document.querySelector("#safearea"), null)["display"] == "none" || saveData || /2g/.test(effectiveType)) {
+        document.querySelectorAll(".reveal").forEach(function (e) {
+          e.style["opacity"] = "1";
+        });
+        document.querySelector("#safearea").style["display"] = "block";
+      }
+    }
+  }
+</script>
+
+
+  <script type="application/ld+json">[{"@context":"https://schema.org.cn","@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"https://schema.org.cn","@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","sameAs":["https://github.com/"],"description":""},{"@context":"https://schema.org.cn","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://nicemxm.github.io/","name":"hello deeplearning"}},{"@type":"ListItem","position":2,"item":{"@id":"https://nicemxm.github.io/categories/文生图/","name":"文生图"}},{"@type":"ListItem","position":3,"item":{"@id":"https://nicemxm.github.io/2026/11/10/pe-opsd/","name":"PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中"}}]},{"@context":"https://schema.org.cn","@type":"WebSite","name":"hello deeplearning","url":"https://nicemxm.github.io/","keywords":null,"description":"","author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/","description":""},"publisher":{"@type":"Organization","name":"hello deeplearning","url":"https://nicemxm.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://nicemxm.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"https://schema.org.cn","@type":"BlogPosting","headline":"PE-OPSD：通过在线策略自蒸馏将提示增强内化到流匹配模型中","description":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://nicemxm.github.io/2026/11/10/pe-opsd/"},"author":{"@type":"Person","name":"mxm","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://nicemxm.github.io/"},"publisher":{"@type":"Organization","name":"hello deeplearning","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://nicemxm.github.io/2026/11/10/pe-opsd/","wordCount":0,"datePublished":"2026-11-10T16:00:00.000Z","dateModified":"2026-11-11T07:14:42.531Z","articleSection":"文生图","keywords":"generate","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1660614606622/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+
+
+
+
+    </div>
+    <!-- import body_end begin-->
+    <!-- import body_end end-->
+    <!-- Custom Files bodyEnd begin-->
+    
+    <!-- Custom Files bodyEnd end-->
+  </body>
+</html>
